@@ -37,7 +37,10 @@ async function fetchRepoMeta(ownerRepo: string): Promise<RepoMeta | null> {
       headers,
       signal: AbortSignal.timeout(10_000),
     });
-    if (!res.ok) return null;
+    if (!res.ok) {
+      console.warn(`[github] ${ownerRepo}: HTTP ${res.status}; the project card shows its YAML fields only`);
+      return null;
+    }
     const j = await res.json();
     return {
       stars: j.stargazers_count ?? 0,
@@ -46,7 +49,8 @@ async function fetchRepoMeta(ownerRepo: string): Promise<RepoMeta | null> {
       language: j.language ?? null,
       htmlUrl: j.html_url ?? `https://github.com/${ownerRepo}`,
     };
-  } catch {
+  } catch (err) {
+    console.warn(`[github] ${ownerRepo}: ${err instanceof Error ? err.message : String(err)}; the project card shows its YAML fields only`);
     return null;
   }
 }

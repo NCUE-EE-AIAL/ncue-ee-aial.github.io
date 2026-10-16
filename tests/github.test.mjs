@@ -78,3 +78,22 @@ test('fetches each repo at most once per build', async () => {
     assert.equal(f.calls.length, 1);
   } finally { f.restore(); }
 });
+
+test('warns with the repo and the reason when metadata is unavailable', async () => {
+  const warnings = [];
+  const originalWarn = console.warn;
+  console.warn = (...args) => { warnings.push(args.join(' ')); };
+  const f = stubFetch((url) => (String(url).endsWith('/acme/gone') ? json({ message: 'Not Found' }, 404) : Promise.reject(new TypeError('fetch failed'))));
+  try {
+    await getRepoMeta('acme/gone');
+    await getRepoMeta('acme/unreachable');
+    assert.equal(warnings.length, 2);
+    assert.match(warnings[0], /acme\/gone/);
+    assert.match(warnings[0], /404/);
+    assert.match(warnings[1], /acme\/unreachable/);
+    assert.match(warnings[1], /fetch failed/);
+  } finally {
+    f.restore();
+    console.warn = originalWarn;
+  }
+});

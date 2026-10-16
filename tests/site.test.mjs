@@ -102,7 +102,8 @@ test('home hero art exists and motion is switched off under prefers-reduced-moti
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
 });
 
-test('project cards show GitHub stars fetched at build time', () => {
+// Needs the GitHub API during the build: without a token, 60 requests/hour (about 8 local builds). CI passes GITHUB_TOKEN.
+test('project cards show GitHub stars fetched at build time', { skip: !process.env.GITHUB_TOKEN && 'set GITHUB_TOKEN to check live repo stats' }, () => {
   for (const r of ['/projects/', zh('/projects/')]) {
     assert.ok((html(r).match(/class="stars"/g) ?? []).length >= 1, `no stars on ${r}`);
   }
@@ -166,6 +167,10 @@ test('research area pages list their related projects and publications', () => {
 
 test('removed content stays removed', () => {
   for (const f of allHtml()) assert.doesNotMatch(readFileSync(f, 'utf8'), /ShuffleSRNet|Gorden/, f.slice(DIST.length));
+});
+
+test('editor TODO comments in Markdown never reach the built HTML', () => {
+  for (const f of allHtml()) assert.doesNotMatch(readFileSync(f, 'utf8'), /<!--[\s\S]*?TODO/, f.slice(DIST.length));
 });
 
 test('the 404 page is bilingual', () => {

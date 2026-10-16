@@ -321,7 +321,7 @@ ul.chips { list-style: none; padding: 0; }
   color: var(--muted); font-size: 0.78rem; text-align: center; font-variant-numeric: tabular-nums;
 }
 fieldset.filters { border: 0; padding: 0; min-width: 0; }
-.filters input:checked + label .count { background: rgba(255, 255, 255, 0.22); color: #fff; }
+.filters input:checked + label .count { background: rgba(0, 0, 0, 0.25); color: #fff; }
 .back { display: inline-flex; gap: 6px; font-size: 0.9rem; color: var(--muted); margin-bottom: 18px; }
 .back:hover { color: var(--accent); }
 .prose a { text-decoration: underline; text-decoration-thickness: 1px; }

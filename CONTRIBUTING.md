@@ -345,6 +345,7 @@ npm run links       # 檢查 dist/ 的連結（需先 npm run build）
 
 - `npm run links` 等同 `node scripts/check-links.mjs dist`。**ERROR**（內部連結或圖片不存在、外部網址 404/410）必須修；**WARNING**（`#錨點`找不到、外部網站 403/429/5xx 或連不上）請看一下，通常是對方網站擋機器人，可以忽略。只想檢查站內連結：`node scripts/check-links.mjs dist --no-external`。
 - 想只驗證內容欄位（比 build 快）：`npx astro sync`。
+- 專案卡片的 stars 等數字來自 GitHub API：沒有 token 時每小時約可 build 8 次，超過時 build 仍會成功，只是卡片沒有數字，終端機會出現 `[github] ... HTTP 403` 之類的警告。`npm test` 中檢查 stars 的那一項在沒有設定 `GITHUB_TOKEN` 時會自動略過（CI 會檢查）。
 - 流程：`git checkout -b add-paper-xxx` → 改檔 → `npm run build` → `git add` / `git commit` / `git push` → 在 GitHub 開 PR。
 
 ---
