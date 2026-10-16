@@ -27,7 +27,7 @@ const links: Link[] = [
   d.links.website ? { href: d.links.website, icon: 'link', label: t('people.website', lang) } : null,
   d.links.github ? { href: d.links.github, icon: 'github', label: 'GitHub' } : null,
   d.links.scholar ? { href: d.links.scholar, icon: 'scholar', label: 'Google Scholar' } : null,
-  d.links.orcid ? { href: d.links.orcid, icon: 'orcid', label: t('people.orcid', lang) } : null,
+  d.links.orcid ? { href: d.links.orcid, icon: 'orcid', label: t('people.orcid', lang), text: t('people.orcid', lang) } : null,
   d.links.linkedin ? { href: d.links.linkedin, icon: 'linkedin', label: 'LinkedIn' } : null,
 ].filter((l): l is Link => l !== null);
 ---

@@ -7,7 +7,7 @@ authors:
   - Wen Ren Yang
   - Aryan Kesarwani
   - Riya Singh
-venue: "IET International Conference on Engineering Technologies and Applications (ICETA 2024), IET Conference Proceedings CP893, 2024(22), pp. 11-12"
+venue: "IET International Conference on Engineering Technologies and Applications (ICETA 2024), IET Conference Proceedings, vol. 2024, no. 22, pp. 11–12"
 year: 2024
 type: conference
 doi: "10.1049/icp.2024.4141"
@@ -17,4 +17,4 @@ tags: [face recognition, speaker verification, VGG16, ResNet]
 areas: [biometrics-security, international-programs]
 featured: true
 verified: true
-source: "https://digital-library.theiet.org/doi/abs/10.1049/icp.2024.4141 (opened; title, authors, ICETA 2024 match). Also arXiv 2601.06218."
+source: "Re-checked https://digital-library.theiet.org/doi/abs/10.1049/icp.2024.4141 on 2026-10-17 (Chrome): title, author order and 2024-12-02 date match; volume, issue and pages from Crossref. Also arXiv 2601.06218."
