@@ -1,0 +1,32 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../PageHead.astro';
+import AreaCard from '../AreaCard.astro';
+import Icon from '../Icon.astro';
+import { t, localePath, type Locale, type UiKey } from '../../i18n/utils';
+import { slugOf } from '../../lib/format';
+import { getAreas, getProjects, getPublications, getFacilities, inArea } from '../../lib/data';
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const [areas, projects, pubs, facilities] = await Promise.all([getAreas(lang), getProjects(), getPublications(), getFacilities()]);
+const categories = [...new Set(facilities.map((f) => f.data.category))].map((c) => t(`facility.${c}` as UiKey, lang));
+---
+<Base lang={lang} title={t('research.title', lang)} path="/research/">
+  <PageHead kicker={t('home.hero.kicker', lang)} title={t('research.title', lang)} lede={t('research.intro', lang)} />
+  <section class="container section-tight">
+    <div class="grid grid-2">
+      {areas.map((a, i) => (
+        <AreaCard area={a} lang={lang} i={i % 4} full level={2}
+          projects={projects.filter(inArea(slugOf(a.id))).length}
+          pubs={pubs.filter(inArea(slugOf(a.id))).length} />
+      ))}
+    </div>
+    {facilities.length > 0 && (
+      <p class="facilities-line">
+        <Icon name="chip" />
+        <span><strong>{t('research.facilities', lang)}</strong> · {categories.join(' · ')}</span>
+        <a href={`${localePath('/join/', lang)}#facilities`}>{t('research.facilities.more', lang)} →</a>
+      </p>
+    )}
+  </section>
+</Base>

@@ -1,0 +1,6 @@
+---
+import ResearchIndex from '../../../components/pages/ResearchIndex.astro';
+import { asLocale } from '../../../i18n/utils';
+const lang = asLocale(Astro.currentLocale);
+---
+<ResearchIndex lang={lang} />

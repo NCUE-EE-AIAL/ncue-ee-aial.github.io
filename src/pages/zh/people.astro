@@ -1,0 +1,6 @@
+---
+import People from '../../components/pages/People.astro';
+import { asLocale } from '../../i18n/utils';
+const lang = asLocale(Astro.currentLocale);
+---
+<People lang={lang} />

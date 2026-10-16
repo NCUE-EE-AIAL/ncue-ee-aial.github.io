@@ -1,0 +1,20 @@
+---
+/** "Interested? Visit the lab or write to us." — closes every research page and the Join page. */
+import Icon from './Icon.astro';
+import { t, localePath, type Locale } from '../i18n/utils';
+import { site } from '../i18n/ui';
+import { getPeople } from '../lib/data';
+interface Props { lang: Locale; showJoin?: boolean }
+const { lang, showJoin = true } = Astro.props;
+const piEmail = (await getPeople()).find((p) => p.data.role === 'pi')?.data.links.email;
+---
+<section class="container cta-wrap">
+  <div class="cta reveal">
+    <p class="cta-title">{t('cta.title', lang)}</p>
+    <div class="cta-actions">
+      <a class="btn" href={`mailto:${site.email}`}><Icon name="mail" /> {t('cta.lab', lang)}</a>
+      {piEmail && <a class="btn btn-ghost" href={`mailto:${piEmail}`}>{t('cta.pi', lang)}</a>}
+      {showJoin && <a class="btn btn-ghost" href={localePath('/join/', lang)}>{t('cta.join', lang)} <Icon name="arrow" /></a>}
+    </div>
+  </div>
+</section>

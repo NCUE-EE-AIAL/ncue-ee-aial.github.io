@@ -1,0 +1,5 @@
+name:
+  en: "Dual-GPU AI training workstations (RTX 4090 / RTX 5090 class)"
+  zh: "AI 雙卡訓練工作站（RTX 4090 / 5090 等級）"
+category: compute
+order: 1

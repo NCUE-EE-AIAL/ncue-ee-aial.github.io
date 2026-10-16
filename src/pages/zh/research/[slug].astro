@@ -1,0 +1,12 @@
+---
+import ResearchArea from '../../../components/pages/ResearchArea.astro';
+import { asLocale } from '../../../i18n/utils';
+import { getSlugs } from '../../../lib/data';
+
+export async function getStaticPaths() {
+  return (await getSlugs('research')).map((slug) => ({ params: { slug } }));
+}
+
+const lang = asLocale(Astro.currentLocale);
+---
+<ResearchArea lang={lang} slug={Astro.params.slug!} />

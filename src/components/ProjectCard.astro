@@ -1,0 +1,53 @@
+---
+import Icon from './Icon.astro';
+import VideoEmbed from './VideoEmbed.astro';
+import { pick, t, localePath, formatDate, type Locale } from '../i18n/utils';
+import type { Project } from '../lib/data';
+import type { RepoMeta } from '../lib/github';
+interface Props {
+  project: Project;
+  lang: Locale;
+  meta: RepoMeta | null;
+  /** research slug → title in this language */
+  areaTitles: Map<string, string>;
+  /** person id → display name in this language */
+  names: Map<string, string>;
+  i?: number;
+  level?: 2 | 3;
+}
+const { project, lang, meta, areaTitles, names, i = 0, level = 3 } = Astro.props;
+const H = level === 2 ? 'h2' : 'h3';
+const d = project.data;
+const title = pick(d.title, lang);
+const repoUrl = meta?.htmlUrl ?? (d.repo ? `https://github.com/${d.repo}` : undefined);
+---
+<article class="card project reveal" id={project.id} data-areas={d.areas.join(' ')} style={`--i:${i}`}>
+  <div class="project-head">
+    <H class="project-title">{repoUrl ? <a href={repoUrl} rel="noopener">{title}</a> : title}</H>
+    {d.status === 'archived' && <span class="chip">{t('projects.archived', lang)}</span>}
+  </div>
+  <p class="project-summary">{pick(d.summary, lang)}</p>
+  <ul class="chips">
+    {d.areas.map((a) => <li><a class="chip chip-accent" href={localePath(`/research/${a}/`, lang)}>{areaTitles.get(a) ?? a}</a></li>)}
+  </ul>
+  {d.links.video && <VideoEmbed url={d.links.video} title={title} lang={lang} />}
+  {d.members.length > 0 && (
+    <p class="project-people">
+      <span class="muted">{t('projects.members', lang)}</span>
+      {d.members.map((m, k) => <>{k > 0 && ', '}<a href={`${localePath('/people/', lang)}#${m.id}`}>{names.get(m.id) ?? m.id}</a></>)}
+    </p>
+  )}
+  <div class="project-meta">
+    {meta?.language && <span class="lang">{meta.language}</span>}
+    {meta && <span class="stars" title={`${meta.stars} ${t('projects.stars', lang)}`}><Icon name="star" /> {meta.stars}</span>}
+    {meta?.pushedAt && <span>{t('projects.updated', lang)} {formatDate(new Date(meta.pushedAt), lang)}</span>}
+    {!meta && d.year && <span>{d.year}</span>}
+  </div>
+  {(repoUrl || d.links.demo || d.links.paper) && (
+    <div class="project-links">
+      {repoUrl && <a href={repoUrl} rel="noopener"><Icon name="github" /> {t('projects.repo', lang)}</a>}
+      {d.links.demo && <a href={d.links.demo} rel="noopener"><Icon name="external" /> {t('projects.demo', lang)}</a>}
+      {d.links.paper && <a href={d.links.paper}><Icon name="link" /> {t('projects.paper', lang)}</a>}
+    </div>
+  )}
+</article>

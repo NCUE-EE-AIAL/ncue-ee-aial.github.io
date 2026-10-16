@@ -1,0 +1,37 @@
+---
+/**
+ * Home hero illustration: two cameras triangulate a point on a 3D object (stereo vision),
+ * a biosignal trace runs below. Drawn with stroke-dashoffset on a 6 s loop;
+ * static under prefers-reduced-motion (see .hero-art in global.css).
+ */
+---
+<div class="hero-art" aria-hidden="true">
+  <svg viewBox="0 0 440 360" focusable="false">
+    <defs>
+      <pattern id="hero-dots" width="20" height="20" patternUnits="userSpaceOnUse">
+        <circle class="dot" cx="10" cy="10" r="1"></circle>
+      </pattern>
+    </defs>
+    <rect width="440" height="360" fill="url(#hero-dots)"></rect>
+    <path class="fov" d="M110 250 L40 70 M110 250 L262 60 M330 250 L178 60 M330 250 L400 70"></path>
+    <path class="baseline" d="M136 250 H304"></path>
+    <path class="plane" d="M76 215 H144 M296 215 H364"></path>
+    <path class="ray draw" pathLength="1" d="M110 250 L220 120"></path>
+    <path class="ray draw" pathLength="1" d="M330 250 L220 120"></path>
+    <path class="cube-hidden anim" d="M190 150 L220 124 H280 M220 124 V64"></path>
+    <path class="cube draw" pathLength="1" d="M190 90 H250 V150 H190 Z M190 90 L220 64 H280 L250 90 M280 64 V124 L250 150"></path>
+    <circle class="target anim" cx="220" cy="120" r="7"></circle>
+    <circle class="target-dot anim" cx="220" cy="120" r="2.6"></circle>
+    <circle class="proj anim" cx="139.6" cy="215" r="3.2"></circle>
+    <circle class="proj anim" cx="300.4" cy="215" r="3.2"></circle>
+    <g class="cam">
+      <path d="M100 236 l3 -5 h14 l3 5 M88 236 h44 a4 4 0 0 1 4 4 v20 a4 4 0 0 1 -4 4 h-44 a4 4 0 0 1 -4 -4 v-20 a4 4 0 0 1 4 -4 z"></path>
+      <circle cx="110" cy="250" r="8.5"></circle>
+      <circle cx="110" cy="250" r="3"></circle>
+      <path d="M320 236 l3 -5 h14 l3 5 M308 236 h44 a4 4 0 0 1 4 4 v20 a4 4 0 0 1 -4 4 h-44 a4 4 0 0 1 -4 -4 v-20 a4 4 0 0 1 4 -4 z"></path>
+      <circle cx="330" cy="250" r="8.5"></circle>
+      <circle cx="330" cy="250" r="3"></circle>
+    </g>
+    <path class="wave draw" pathLength="1" d="M24 318 H96 q7 -9 14 0 H130 l4 5 l6 -32 l6 40 l4 -13 H170 q10 -14 20 0 H250 q7 -9 14 0 H284 l4 5 l6 -32 l6 40 l4 -13 H324 q10 -14 20 0 H416"></path>
+  </svg>
+</div>

@@ -1,0 +1,16 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../PageHead.astro';
+import NewsItem from '../NewsItem.astro';
+import { t, type Locale } from '../../i18n/utils';
+import { getNews } from '../../lib/data';
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const news = await getNews(lang);
+---
+<Base lang={lang} title={t('news.title', lang)} path="/news/">
+  <PageHead title={t('news.title', lang)} lede={t('news.intro', lang)} />
+  <div class="container news-list news-page">
+    {news.length > 0 ? news.map((n) => <NewsItem post={n} lang={lang} level={2} />) : <p class="muted">{t('news.empty', lang)}</p>}
+  </div>
+</Base>

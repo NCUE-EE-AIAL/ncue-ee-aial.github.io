@@ -1,0 +1,32 @@
+---
+import Icon from './Icon.astro';
+import { localePath, t, type Locale } from '../i18n/utils';
+import { slugOf } from '../lib/format';
+import type { Area } from '../lib/data';
+interface Props {
+  area: Area;
+  lang: Locale;
+  i?: number;
+  /** Show keywords and counts (Research index). */
+  full?: boolean;
+  projects?: number;
+  pubs?: number;
+  level?: 2 | 3;
+}
+const { area, lang, i = 0, full = false, projects = 0, pubs = 0, level = 3 } = Astro.props;
+const H = level === 2 ? 'h2' : 'h3';
+const counts = [
+  projects > 0 ? `${projects} ${t(projects === 1 ? 'count.project' : 'count.projects', lang)}` : '',
+  pubs > 0 ? `${pubs} ${t(pubs === 1 ? 'count.pub' : 'count.pubs', lang)}` : '',
+].filter(Boolean);
+---
+<a class="card area-card reveal" href={localePath(`/research/${slugOf(area.id)}/`, lang)} style={`--i:${i}`}>
+  <span class="area-icon"><Icon name={area.data.icon} /></span>
+  <H class="area-title">{area.data.title}</H>
+  <p>{area.data.summary}</p>
+  {full && area.data.keywords.length > 0 && (
+    <ul class="chips kw">{area.data.keywords.map((k) => <li class="chip">{k}</li>)}</ul>
+  )}
+  {full && counts.length > 0 && <p class="area-meta">{counts.join(' · ')}</p>}
+  <span class="area-go" aria-hidden="true"><Icon name="arrow" /></span>
+</a>

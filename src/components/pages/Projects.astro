@@ -1,0 +1,44 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../PageHead.astro';
+import ProjectCard from '../ProjectCard.astro';
+import { pick, t, type Locale } from '../../i18n/utils';
+import { slugOf } from '../../lib/format';
+import { getProjects, getAreas, getPeople, inArea } from '../../lib/data';
+import { getRepoMeta } from '../../lib/github';
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const [projects, areas, people] = await Promise.all([getProjects(), getAreas(lang), getPeople()]);
+const metas = await Promise.all(projects.map((p) => (p.data.repo ? getRepoMeta(p.data.repo) : Promise.resolve(null))));
+const areaTitles = new Map(areas.map((a) => [slugOf(a.id), a.data.title]));
+const names = new Map(people.map((p) => [p.id, pick(p.data.name, lang)]));
+const used = areas.map((a) => slugOf(a.id)).filter((slug) => projects.some(inArea(slug)));
+// Pure-CSS filter: the checked radio hides cards outside that research area.
+const filterCss = used.map((a) => `.projects:has(#pf-${a}:checked) .project:not([data-areas~="${a}"]){display:none}`).join('');
+---
+<Base lang={lang} title={t('projects.title', lang)} path="/projects/">
+  <style is:inline slot="head" set:html={filterCss}></style>
+  <PageHead title={t('projects.title', lang)} lede={t('projects.intro', lang)} />
+  <div class="container projects">
+    {used.length > 1 && (
+      <fieldset class="filters">
+        <legend class="sr-only">{t('projects.filter.label', lang)}</legend>
+        <input type="radio" name="project-area" id="pf-all" checked />
+        <label for="pf-all">{t('projects.filter.all', lang)} <span class="count">{projects.length}</span></label>
+        {used.map((a) => (
+          <>
+            <input type="radio" name="project-area" id={`pf-${a}`} />
+            <label for={`pf-${a}`}>{areaTitles.get(a)} <span class="count">{projects.filter(inArea(a)).length}</span></label>
+          </>
+        ))}
+      </fieldset>
+    )}
+    {projects.length === 0
+      ? <p class="muted">{t('projects.empty', lang)}</p>
+      : (
+        <div class="grid grid-2">
+          {projects.map((p, i) => <ProjectCard project={p} lang={lang} meta={metas[i]} areaTitles={areaTitles} names={names} i={i % 4} level={2} />)}
+        </div>
+      )}
+  </div>
+</Base>

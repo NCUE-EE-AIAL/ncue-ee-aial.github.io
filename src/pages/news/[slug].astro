@@ -1,0 +1,12 @@
+---
+import NewsPost from '../../components/pages/NewsPost.astro';
+import { asLocale } from '../../i18n/utils';
+import { getSlugs } from '../../lib/data';
+
+export async function getStaticPaths() {
+  return (await getSlugs('news')).map((slug) => ({ params: { slug } }));
+}
+
+const lang = asLocale(Astro.currentLocale);
+---
+<NewsPost lang={lang} slug={Astro.params.slug!} />

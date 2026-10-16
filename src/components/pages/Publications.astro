@@ -1,0 +1,46 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../PageHead.astro';
+import PubItem from '../PubItem.astro';
+import { t, type Locale, type UiKey } from '../../i18n/utils';
+import { getPublications, getPeople } from '../../lib/data';
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const [pubs, people] = await Promise.all([getPublications(), getPeople()]);
+const members = people.map((p) => p.data.name.en);
+const TYPES = ['journal', 'conference', 'thesis', 'preprint', 'other'] as const;
+const types = TYPES.filter((ty) => pubs.some((p) => p.data.type === ty));
+const years = [...new Set(pubs.map((p) => p.data.year))];
+// Pure-CSS filter: the checked radio hides the other types and any year left empty.
+const filterCss = types.map((ty) =>
+  `.pubs:has(#pt-${ty}:checked) .pub:not([data-type="${ty}"]),` +
+  `.pubs:has(#pt-${ty}:checked) .pub-group:not(:has(.pub[data-type="${ty}"])){display:none}`).join('');
+---
+<Base lang={lang} title={t('pubs.title', lang)} path="/publications/">
+  <style is:inline slot="head" set:html={filterCss}></style>
+  <PageHead title={t('pubs.title', lang)} lede={t('pubs.intro', lang)} />
+  <div class="container pubs">
+    {types.length > 1 && (
+      <fieldset class="filters">
+        <legend class="sr-only">{t('pubs.filter.label', lang)}</legend>
+        <input type="radio" name="pub-type" id="pt-all" checked />
+        <label for="pt-all">{t('pubs.filter.all', lang)} <span class="count">{pubs.length}</span></label>
+        {types.map((ty) => (
+          <>
+            <input type="radio" name="pub-type" id={`pt-${ty}`} />
+            <label for={`pt-${ty}`}>{t(`pubs.type.${ty}` as UiKey, lang)} <span class="count">{pubs.filter((p) => p.data.type === ty).length}</span></label>
+          </>
+        ))}
+      </fieldset>
+    )}
+    {pubs.length === 0 && <p class="muted">{t('pubs.empty', lang)}</p>}
+    {years.map((y) => (
+      <section class="pub-group" data-year={y} aria-labelledby={`y${y}`}>
+        <h2 class="pub-year" id={`y${y}`}>{y}</h2>
+        <ol class="pub-list">
+          {pubs.filter((p) => p.data.year === y).map((p) => <PubItem pub={p} lang={lang} members={members} anchor />)}
+        </ol>
+      </section>
+    ))}
+  </div>
+</Base>

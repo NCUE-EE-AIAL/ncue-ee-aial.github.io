@@ -1,0 +1,79 @@
+---
+import Base from '../../layouts/Base.astro';
+import HeroArt from '../HeroArt.astro';
+import AreaCard from '../AreaCard.astro';
+import PubItem from '../PubItem.astro';
+import NewsItem from '../NewsItem.astro';
+import Icon from '../Icon.astro';
+import { t, s, localePath, type Locale } from '../../i18n/utils';
+import { site } from '../../i18n/ui';
+import { getAreas, getPublications, getNews, getPeople } from '../../lib/data';
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const [areas, pubs, news, people] = await Promise.all([getAreas(lang), getPublications(), getNews(lang), getPeople()]);
+const members = people.map((p) => p.data.name.en);
+---
+<Base lang={lang} title={s('name', lang)} path="/">
+  <section class="hero container">
+    <div class="hero-text">
+      <p class="kicker">{t('home.hero.kicker', lang)}</p>
+      <h1>{s('name', lang)}</h1>
+      <p class="lede">{s('tagline', lang)}</p>
+      <p class="hero-body">{t('home.hero.body', lang)}</p>
+      <div class="actions">
+        <a class="btn" href={localePath('/research/', lang)}>{t('home.cta.research', lang)} <Icon name="arrow" /></a>
+        <a class="btn btn-ghost" href={localePath('/join/', lang)}>{t('home.join.title', lang)}</a>
+      </div>
+      <ul class="hero-meta">
+        <li><Icon name="scholar" /> {s('pi', lang)}</li>
+        <li><Icon name="pin" /> {s('orgShort', lang)} · {t('home.location', lang)}</li>
+        <li><a href={site.github} rel="noopener"><Icon name="github" /> {t('home.github', lang)}</a></li>
+      </ul>
+    </div>
+    <HeroArt />
+  </section>
+
+  <section class="section container" aria-labelledby="areas-h">
+    <div class="section-head reveal">
+      <h2 id="areas-h">{t('home.areas', lang)}</h2>
+      <a class="more" href={localePath('/research/', lang)}>{t('home.areas.all', lang)} →</a>
+    </div>
+    <div class="grid grid-3">
+      {areas.map((a, i) => <AreaCard area={a} lang={lang} i={i} />)}
+    </div>
+  </section>
+
+  <section class="section container split">
+    <div aria-labelledby="pubs-h">
+      <div class="section-head reveal">
+        <h2 id="pubs-h">{t('home.pubs', lang)}</h2>
+        <a class="more" href={localePath('/publications/', lang)}>{t('home.pubs.all', lang)} →</a>
+      </div>
+      {pubs.length > 0
+        ? <ol class="pub-list">{pubs.slice(0, 3).map((p) => <PubItem pub={p} lang={lang} members={members} showYear />)}</ol>
+        : <p class="muted">{t('pubs.empty', lang)}</p>}
+    </div>
+    <div aria-labelledby="news-h">
+      <div class="section-head reveal">
+        <h2 id="news-h">{t('home.news', lang)}</h2>
+        <a class="more" href={localePath('/news/', lang)}>{t('home.news.all', lang)} →</a>
+      </div>
+      {news.length > 0
+        ? <div class="news-list">{news.slice(0, 3).map((n) => <NewsItem post={n} lang={lang} />)}</div>
+        : <p class="muted">{t('news.empty', lang)}</p>}
+    </div>
+  </section>
+
+  <section class="section container" aria-labelledby="join-h">
+    <div class="join-band reveal">
+      <div>
+        <h2 id="join-h">{t('home.join.title', lang)}</h2>
+        <p>{t('home.join.body', lang)}</p>
+      </div>
+      <div class="actions">
+        <a class="btn" href={localePath('/join/', lang)}>{t('home.join.cta', lang)} <Icon name="arrow" /></a>
+        <a class="btn btn-ghost" href={`mailto:${site.email}`}><Icon name="mail" /> {site.email}</a>
+      </div>
+    </div>
+  </section>
+</Base>

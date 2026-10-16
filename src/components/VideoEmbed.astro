@@ -1,0 +1,33 @@
+---
+/** Click-to-load YouTube player: nothing is fetched from YouTube until the visitor clicks. */
+import { t, type Locale } from '../i18n/utils';
+import { youtubeId } from '../lib/format';
+interface Props { url: string; title: string; lang: Locale }
+const { url, title, lang } = Astro.props;
+const id = youtubeId(url);
+---
+{id ? (
+  <div class="video-embed" data-video-id={id} data-title={title}>
+    <button type="button" class="video-play" aria-label={`${t('video.play', lang)}: ${title}`}>
+      <span class="video-play-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"></path></svg></span>
+      <span class="video-play-text">{t('video.play', lang)}</span>
+      <span class="video-note">{t('video.note', lang)}</span>
+    </button>
+  </div>
+) : (
+  <p class="video-link"><a href={url} rel="noopener">{t('projects.video', lang)}</a></p>
+)}
+<script>
+  document.querySelectorAll<HTMLElement>('.video-embed').forEach((box) => {
+    box.querySelector('button')?.addEventListener('click', () => {
+      const frame = document.createElement('iframe');
+      frame.src = `https://www.youtube-nocookie.com/embed/${box.dataset.videoId}?autoplay=1&rel=0`;
+      frame.title = box.dataset.title ?? 'Video';
+      frame.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      frame.allowFullscreen = true;
+      frame.referrerPolicy = 'strict-origin-when-cross-origin';
+      box.replaceChildren(frame);
+      box.classList.add('is-playing');
+    }, { once: true });
+  });
+</script>

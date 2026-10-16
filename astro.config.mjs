@@ -10,7 +10,8 @@ export default defineConfig({
     defaultLocale: 'en',
     locales: ['en', 'zh'],
     routing: { prefixDefaultLocale: false },
-    fallback: { zh: 'en' },
+    // No route-level fallback: every page exists in both languages (thin files under src/pages/zh/),
+    // and missing zh fields fall back to en inside the components (pick() in src/i18n/utils.ts).
   },
   integrations: [
     sitemap({

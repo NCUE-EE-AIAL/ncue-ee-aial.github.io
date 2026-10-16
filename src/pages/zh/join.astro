@@ -1,0 +1,6 @@
+---
+import Join from '../../components/pages/Join.astro';
+import { asLocale } from '../../i18n/utils';
+const lang = asLocale(Astro.currentLocale);
+---
+<Join lang={lang} />

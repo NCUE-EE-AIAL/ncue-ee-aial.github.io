@@ -1,0 +1,15 @@
+---
+import { formatDate, localePath, type Locale } from '../i18n/utils';
+import { slugOf } from '../lib/format';
+import type { NewsPost } from '../lib/data';
+interface Props { post: NewsPost; lang: Locale; level?: 2 | 3 }
+const { post, lang, level = 3 } = Astro.props;
+const H = level === 2 ? 'h2' : 'h3';
+---
+<article class="news-item">
+  <time datetime={post.data.date.toISOString().slice(0, 10)}>{formatDate(post.data.date, lang)}</time>
+  <div>
+    <H class="news-title"><a href={localePath(`/news/${slugOf(post.id)}/`, lang)}>{post.data.title}</a></H>
+    {post.data.summary && <p class="news-summary">{post.data.summary}</p>}
+  </div>
+</article>

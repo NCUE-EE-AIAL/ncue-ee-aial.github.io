@@ -1,23 +1,6 @@
 ---
-// STUB — replaced by the real home page in the build session. Exists so that
-// `astro build` validates every content collection and the Base layout renders.
-import Base from '../layouts/Base.astro';
-import { getCollection } from 'astro:content';
-import { asLocale, s } from '../i18n/utils';
+import HomePage from '../components/pages/HomePage.astro';
+import { asLocale } from '../i18n/utils';
 const lang = asLocale(Astro.currentLocale);
-const counts = Object.fromEntries(
-  await Promise.all(
-    (['research', 'publications', 'projects', 'people', 'news'] as const).map(async (c) => [c, (await getCollection(c)).length]),
-  ),
-);
 ---
-<Base lang={lang} title={s('name', lang)} path="/">
-  <section class="hero container">
-    <p class="kicker">Under construction</p>
-    <h1>{s('name', lang)}</h1>
-    <p class="lede">{s('tagline', lang)}</p>
-    <ul class="hero-meta">
-      {Object.entries(counts).map(([k, v]) => <li>{k}: {v}</li>)}
-    </ul>
-  </section>
-</Base>
+<HomePage lang={lang} />

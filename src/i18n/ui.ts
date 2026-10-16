@@ -10,7 +10,7 @@ export const site = {
     zh: '國立彰化師範大學 電機工程學系',
   },
   orgShort: { en: 'NCUE EE', zh: '彰師大電機' },
-  pi: { en: 'Prof. Wen-Ren Yang', zh: '楊文仁 教授' },
+  pi: { en: 'Prof. Wen-Ren Yang', zh: '指導教授 楊文仁' },
   tagline: {
     en: 'Applied AI for vision, robotics, and biomedical signals.',
     zh: '視覺、機器人與生醫訊號的人工智慧應用研究。',
@@ -20,6 +20,7 @@ export const site = {
     zh: '彰師大人工智慧應用實驗室：雙鏡頭 3D 視覺、機械手臂、生醫 AI、生物辨識安全，以及 TEEP / IIPP 國際生研究。',
   },
   email: 'ncueaial@gmail.com',
+  repo: 'https://github.com/NCUE-EE-AIAL/ncue-ee-aial.github.io',
   github: 'https://github.com/NCUE-EE-AIAL',
   facebook: 'https://www.facebook.com/share/foHmCkxWDa8Knune/',
   address: {
@@ -57,6 +58,12 @@ export const ui = {
   },
   'home.join.cta': { en: 'How to apply', zh: '申請方式' },
   'home.github': { en: 'Lab on GitHub', zh: '實驗室 GitHub' },
+  'home.hero.body': {
+    en: 'Led by Prof. Wen-Ren Yang in the Department of Electrical Engineering at National Changhua University of Education, we build AI systems that perceive 3D space, guide robotic arms, read biosignals and verify identity, and we design them to run on affordable hardware.',
+    zh: '實驗室由國立彰化師範大學電機工程學系楊文仁老師主持，打造能感知三維空間、導引機械手臂、解讀生理訊號與驗證身分的 AI 系統，並讓它們能在平價硬體上運作。',
+  },
+  'home.cta.research': { en: 'Explore our research', zh: '認識研究方向' },
+  'home.location': { en: 'Changhua, Taiwan', zh: '台灣 彰化' },
 
   'research.title': { en: 'Research', zh: '研究方向' },
   'research.intro': {
@@ -68,6 +75,25 @@ export const ui = {
   'research.pubs': { en: 'Related publications', zh: '相關論文' },
   'research.people': { en: 'People in this area', zh: '參與成員' },
   'research.back': { en: 'All research areas', zh: '所有研究方向' },
+  'research.kicker': { en: 'Research area', zh: '研究方向' },
+  'research.facilities': { en: 'Lab facilities', zh: '實驗室設備' },
+  'research.facilities.more': { en: 'See the equipment list', zh: '查看設備清單' },
+  'research.none': {
+    en: 'Projects and papers in this area will be listed here once they are public.',
+    zh: '此方向的專案與論文公開後，將列於此處。',
+  },
+  'count.project': { en: 'project', zh: '個專案' },
+  'count.projects': { en: 'projects', zh: '個專案' },
+  'count.pub': { en: 'publication', zh: '篇論文' },
+  'count.pubs': { en: 'publications', zh: '篇論文' },
+
+  'cta.title': { en: 'Interested? Visit the lab or write to us.', zh: '有興趣？歡迎來實驗室看看，或寫信給我們。' },
+  'cta.lab': { en: 'Email the lab', zh: '寫信給實驗室' },
+  'cta.pi': { en: 'Email Prof. Yang', zh: '寫信給楊老師' },
+  'cta.join': { en: 'How to join', zh: '如何加入' },
+
+  'video.play': { en: 'Play video', zh: '播放影片' },
+  'video.note': { en: 'Loads from YouTube when you click', zh: '點擊後才會從 YouTube 載入' },
 
   'pubs.title': { en: 'Publications', zh: '論文發表' },
   'pubs.intro': {
@@ -75,6 +101,8 @@ export const ui = {
     zh: '實驗室的期刊與會議論文。標示「待確認」的條目仍在與出版社紀錄核對中。',
   },
   'pubs.filter.all': { en: 'All', zh: '全部' },
+  'pubs.filter.label': { en: 'Filter by type', zh: '依類型篩選' },
+  'pubs.copyFailed': { en: 'Copy failed', zh: '複製失敗' },
   'pubs.type.journal': { en: 'Journal', zh: '期刊' },
   'pubs.type.conference': { en: 'Conference', zh: '會議' },
   'pubs.type.thesis': { en: 'Thesis', zh: '學位論文' },
@@ -95,6 +123,8 @@ export const ui = {
     zh: '實驗室的開源程式與系統。Repo 統計數字於每次網站建置時更新。',
   },
   'projects.filter.all': { en: 'All areas', zh: '全部方向' },
+  'projects.filter.label': { en: 'Filter by research area', zh: '依研究方向篩選' },
+  'projects.members': { en: 'People', zh: '成員' },
   'projects.stars': { en: 'stars', zh: '星標' },
   'projects.updated': { en: 'Updated', zh: '更新於' },
   'projects.archived': { en: 'Archived', zh: '已封存' },
@@ -105,11 +135,19 @@ export const ui = {
   'projects.empty': { en: 'No projects listed yet.', zh: '尚未列出專案。' },
 
   'people.title': { en: 'People', zh: '成員' },
+  'people.intro': {
+    en: 'The lab is led by Prof. Wen-Ren Yang and brings together graduate, undergraduate and international students.',
+    zh: '實驗室由楊文仁老師主持，成員包含研究生、大學部專題生與國際學生。',
+  },
+  'people.papers': { en: 'Papers', zh: '論文' },
+  'people.projects': { en: 'Projects', zh: '專案' },
+  'people.orcid': { en: 'ORCID', zh: 'ORCID' },
+  'people.website': { en: 'Website', zh: '個人網站' },
   'people.pi': { en: 'Principal Investigator', zh: '指導教授' },
   'people.current': { en: 'Current members', zh: '現任成員' },
   'people.international': { en: 'International students', zh: '國際學生' },
   'people.alumni': { en: 'Alumni', zh: '校友' },
-  'people.role.pi': { en: 'Professor', zh: '教授' },
+  'people.role.pi': { en: 'Principal Investigator', zh: '指導教授' },
   'people.role.phd': { en: 'PhD student', zh: '博士生' },
   'people.role.master': { en: 'Master’s student', zh: '碩士生' },
   'people.role.undergrad': { en: 'Undergraduate', zh: '大學部專題生' },
@@ -118,6 +156,7 @@ export const ui = {
   'people.photoAlt': { en: 'Portrait of', zh: '照片：' },
 
   'news.title': { en: 'News', zh: '實驗室動態' },
+  'news.intro': { en: 'Announcements and updates from the lab.', zh: '實驗室的公告與近況。' },
   'news.empty': { en: 'No posts yet.', zh: '尚無動態。' },
   'news.back': { en: 'All news', zh: '所有動態' },
 
@@ -141,6 +180,19 @@ export const ui = {
     zh: 'TODO：請實驗室確認計畫名稱、期間與申請時程。',
   },
   'join.contact.title': { en: 'Contact', zh: '聯絡方式' },
+  'join.email.lab': { en: 'Lab email', zh: '實驗室信箱' },
+  'join.email.pi': { en: 'Prof. Yang', zh: '楊文仁 老師' },
+  'join.facilities.title': { en: 'Facilities', zh: '實驗室設備' },
+  'join.facilities.intro': {
+    en: 'Students share the lab’s equipment for model training, prototyping and deployment.',
+    zh: '同學共用實驗室設備，進行模型訓練、原型開發與部署。',
+  },
+  'facility.compute': { en: 'AI compute', zh: 'AI 運算' },
+  'facility.fpga': { en: 'FPGA', zh: 'FPGA' },
+  'facility.edge': { en: 'Edge AI', zh: '邊緣 AI' },
+  'facility.sensor': { en: 'Sensors', zh: '感測器' },
+  'facility.robot': { en: 'Robotics', zh: '機器人' },
+  'facility.other': { en: 'Other', zh: '其他' },
   'join.email': { en: 'Email', zh: '電子郵件' },
   'join.address': { en: 'Address', zh: '地址' },
   'join.room': { en: 'Lab', zh: '研究室' },
@@ -154,6 +206,7 @@ export const ui = {
   'notfound.title': { en: 'Page not found', zh: '找不到頁面' },
   'notfound.body': { en: 'The page you asked for does not exist or has moved.', zh: '你要的頁面不存在或已搬移。' },
   'notfound.home': { en: 'Back to home', zh: '回首頁' },
+  'notfound.kicker': { en: 'Error 404', zh: '錯誤 404' },
 } as const satisfies Record<string, { en: string; zh: string }>;
 
 export type UiKey = keyof typeof ui;

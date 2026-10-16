@@ -1,0 +1,84 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../PageHead.astro';
+import Cta from '../Cta.astro';
+import Icon from '../Icon.astro';
+import { pick, s, t, type Locale, type UiKey } from '../../i18n/utils';
+import { site } from '../../i18n/ui';
+import { getFacilities, getPeople } from '../../lib/data';
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const [facilities, people] = await Promise.all([getFacilities(), getPeople()]);
+const piEmail = people.find((p) => p.data.role === 'pi')?.data.links.email;
+// TODO markers (unconfirmed facts) show in `npm run dev` only, never on the public site.
+const showTodo = import.meta.env.DEV;
+const room = s('room', lang);
+const roomKnown = !room.startsWith('TODO');
+---
+<Base lang={lang} title={t('join.title', lang)} path="/join/">
+  <PageHead title={t('join.title', lang)} lede={t('join.intro', lang)} />
+  <div class="container join-layout">
+    <div class="join-main">
+      <section class="join-block reveal" aria-labelledby="students-h">
+        <h2 id="students-h">{t('join.students.title', lang)}</h2>
+        <p>{t('join.students.body', lang)}</p>
+      </section>
+      <section class="join-block reveal" aria-labelledby="intl-h">
+        <h2 id="intl-h">{t('join.intl.title', lang)}</h2>
+        <p>{t('join.intl.body', lang)}</p>
+        {showTodo && <p class="todo">{t('join.intl.todo', lang)}</p>}
+      </section>
+      {facilities.length > 0 && (
+        <section class="join-block" id="facilities" aria-labelledby="facilities-h">
+          <h2 id="facilities-h">{t('join.facilities.title', lang)}</h2>
+          <p class="muted">{t('join.facilities.intro', lang)}</p>
+          <ul class="facility-list">
+            {facilities.map((f) => (
+              <li class="facility">
+                <span class="facility-cat">{t(`facility.${f.data.category}` as UiKey, lang)}</span>
+                <span class="facility-name">{pick(f.data.name, lang)}{f.data.qty && <span class="facility-qty"> × {f.data.qty}</span>}</span>
+                {f.data.note && <span class="facility-note">{pick(f.data.note, lang)}</span>}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+    </div>
+    <aside class="card contact-card" id="contact" aria-labelledby="contact-h">
+      <h2 id="contact-h">{t('join.contact.title', lang)}</h2>
+      <dl class="contact-list">
+        <div>
+          <dt>{t('join.email.lab', lang)}</dt>
+          <dd><a href={`mailto:${site.email}`}>{site.email}</a></dd>
+        </div>
+        {piEmail && (
+          <div>
+            <dt>{t('join.email.pi', lang)}</dt>
+            <dd><a href={`mailto:${piEmail}`}>{piEmail}</a></dd>
+          </div>
+        )}
+        <div>
+          <dt>{t('join.address', lang)}</dt>
+          <dd>{s('org', lang)}<br />{s('address', lang)}</dd>
+        </div>
+        {(roomKnown || showTodo) && (
+          <div>
+            <dt>{t('join.room', lang)}</dt>
+            <dd class:list={[{ todo: !roomKnown }]}>{room}</dd>
+          </div>
+        )}
+        <div>
+          <dt>{t('join.links', lang)}</dt>
+          <dd>
+            <ul class="contact-links">
+              <li><a href={site.github} rel="noopener"><Icon name="github" /> GitHub</a></li>
+              <li><a href={site.facebook} rel="noopener"><Icon name="facebook" /> Facebook</a></li>
+              <li><a href={`${site.repo}/issues/new/choose`} rel="noopener"><Icon name="external" /> {t('join.issue', lang)}</a></li>
+            </ul>
+          </dd>
+        </div>
+      </dl>
+    </aside>
+  </div>
+  <Cta lang={lang} showJoin={false} />
+</Base>

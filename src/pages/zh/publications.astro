@@ -1,0 +1,6 @@
+---
+import Publications from '../../components/pages/Publications.astro';
+import { asLocale } from '../../i18n/utils';
+const lang = asLocale(Astro.currentLocale);
+---
+<Publications lang={lang} />

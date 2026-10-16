@@ -10,11 +10,13 @@ interface Props {
   /** locale-less path of this page, e.g. "/people/". Defaults from the URL. */
   path?: string;
   ogType?: 'website' | 'article';
+  /** Error pages: no canonical / hreflang, not indexed. */
+  bare?: boolean;
 }
-const { lang, title, description, ogType = 'website' } = Astro.props;
+const { lang, title, description, ogType = 'website', bare = false } = Astro.props;
 const path = Astro.props.path ?? stripLocale(Astro.url.pathname).path;
 const siteName = s('name', lang);
-const fullTitle = path === '/' ? `${siteName} · ${s('orgShort', lang)}` : `${title} · ${siteName}`;
+const fullTitle = path === '/' && !bare ? `${siteName} · ${s('orgShort', lang)}` : `${title} · ${siteName}`;
 const desc = description ?? s('description', lang);
 const canonical = new URL(localePath(path, lang), Astro.site);
 const other = otherLocale(lang);
@@ -26,10 +28,14 @@ const other = otherLocale(lang);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={desc} />
-    <link rel="canonical" href={canonical} />
-    <link rel="alternate" hreflang={htmlLang.en} href={new URL(localePath(path, 'en'), Astro.site)} />
-    <link rel="alternate" hreflang={htmlLang.zh} href={new URL(localePath(path, 'zh'), Astro.site)} />
-    <link rel="alternate" hreflang="x-default" href={new URL(localePath(path, 'en'), Astro.site)} />
+    {bare ? <meta name="robots" content="noindex" /> : (
+      <>
+        <link rel="canonical" href={canonical} />
+        <link rel="alternate" hreflang={htmlLang.en} href={new URL(localePath(path, 'en'), Astro.site)} />
+        <link rel="alternate" hreflang={htmlLang.zh} href={new URL(localePath(path, 'zh'), Astro.site)} />
+        <link rel="alternate" hreflang="x-default" href={new URL(localePath(path, 'en'), Astro.site)} />
+      </>
+    )}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta property="og:type" content={ogType} />
@@ -49,9 +55,11 @@ const other = otherLocale(lang);
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <script is:inline>
       (function () {
+        var root = document.documentElement;
+        root.classList.add('js');
         try {
           var t = localStorage.getItem('theme');
-          if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t;
+          if (t === 'dark' || t === 'light') root.dataset.theme = t;
         } catch (e) {}
       })();
     </script>
@@ -64,5 +72,22 @@ const other = otherLocale(lang);
       <slot />
     </main>
     <Footer lang={lang} />
+    <script is:inline>
+      // Fade-up for .reveal blocks as they scroll into view; everything shows at once under reduced motion.
+      (function () {
+        var els = document.querySelectorAll('.reveal');
+        var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (still || !('IntersectionObserver' in window)) {
+          els.forEach(function (el) { el.classList.add('in'); });
+          return;
+        }
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+          });
+        }, { rootMargin: '0px 0px -6% 0px' });
+        els.forEach(function (el) { io.observe(el); });
+      })();
+    </script>
   </body>
 </html>

@@ -1,0 +1,81 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHead from '../PageHead.astro';
+import ProjectCard from '../ProjectCard.astro';
+import PubItem from '../PubItem.astro';
+import VideoEmbed from '../VideoEmbed.astro';
+import Cta from '../Cta.astro';
+import Icon from '../Icon.astro';
+import { pick, t, localePath, type Locale, type UiKey } from '../../i18n/utils';
+import { slugOf } from '../../lib/format';
+import { getAreas, getProjects, getPublications, getPeople, inArea } from '../../lib/data';
+import { getRepoMeta } from '../../lib/github';
+interface Props { lang: Locale; slug: string }
+const { lang, slug } = Astro.props;
+const [areas, allProjects, allPubs, people] = await Promise.all([getAreas(lang), getProjects(), getPublications(), getPeople()]);
+const area = areas.find((a) => slugOf(a.id) === slug);
+if (!area) throw new Error(`No research area "${slug}" in src/content/research/`);
+const { Content } = await render(area);
+const projects = allProjects.filter(inArea(slug));
+const pubs = allPubs.filter(inArea(slug));
+const team = people.filter(inArea(slug));
+const metas = await Promise.all(projects.map((p) => (p.data.repo ? getRepoMeta(p.data.repo) : Promise.resolve(null))));
+const areaTitles = new Map(areas.map((a) => [slugOf(a.id), a.data.title]));
+const names = new Map(people.map((p) => [p.id, pick(p.data.name, lang)]));
+const memberNames = people.map((p) => p.data.name.en);
+---
+<Base lang={lang} title={area.data.title} description={area.data.summary} path={`/research/${slug}/`}>
+  <PageHead kicker={t('research.kicker', lang)} title={area.data.title} lede={area.data.summary}>
+    <a slot="before" class="back" href={localePath('/research/', lang)}>← {t('research.back', lang)}</a>
+  </PageHead>
+  <div class="container area-layout">
+    <div class="area-main">
+      {area.data.image && (
+        <figure class="area-figure"><img src={area.data.image} alt={area.data.imageAlt ?? ''} loading="lazy" decoding="async" /></figure>
+      )}
+      <div class="prose"><Content /></div>
+      {area.data.video && <VideoEmbed url={area.data.video} title={area.data.title} lang={lang} />}
+    </div>
+    <aside class="area-aside">
+      <span class="area-icon area-icon-lg"><Icon name={area.data.icon} /></span>
+      {area.data.keywords.length > 0 && (
+        <div class="aside-block">
+          <h2 class="aside-title">{t('research.keywords', lang)}</h2>
+          <ul class="chips">{area.data.keywords.map((k) => <li class="chip">{k}</li>)}</ul>
+        </div>
+      )}
+      {team.length > 0 && (
+        <div class="aside-block">
+          <h2 class="aside-title">{t('research.people', lang)}</h2>
+          <ul class="aside-people">
+            {team.map((p) => (
+              <li>
+                <a href={`${localePath('/people/', lang)}#${p.id}`}>{pick(p.data.name, lang)}</a>
+                <span class="muted">{p.data.alumni ? t('people.alumni', lang) : t(`people.role.${p.data.role}` as UiKey, lang)}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </aside>
+  </div>
+  {projects.length > 0 && (
+    <section class="section container" aria-labelledby="projects-h">
+      <div class="section-head"><h2 id="projects-h">{t('research.projects', lang)}</h2></div>
+      <div class="grid grid-2">
+        {projects.map((p, i) => <ProjectCard project={p} lang={lang} meta={metas[i]} areaTitles={areaTitles} names={names} i={i % 4} />)}
+      </div>
+    </section>
+  )}
+  {pubs.length > 0 && (
+    <section class="section container" aria-labelledby="pubs-h">
+      <div class="section-head"><h2 id="pubs-h">{t('research.pubs', lang)}</h2></div>
+      <ol class="pub-list">{pubs.map((p) => <PubItem pub={p} lang={lang} members={memberNames} showYear />)}</ol>
+    </section>
+  )}
+  {projects.length === 0 && pubs.length === 0 && (
+    <section class="section container"><p class="muted">{t('research.none', lang)}</p></section>
+  )}
+  <Cta lang={lang} />
+</Base>

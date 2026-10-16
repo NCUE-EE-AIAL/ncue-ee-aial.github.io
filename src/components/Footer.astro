@@ -17,7 +17,7 @@ const year = new Date().getFullYear();
       <li><a href={`mailto:${site.email}`}><Icon name="mail" /> {site.email}</a></li>
       <li><a href={site.github} rel="noopener"><Icon name="github" /> GitHub</a></li>
       <li><a href={site.facebook} rel="noopener"><Icon name="facebook" /> Facebook</a></li>
-      <li><a href="https://github.com/NCUE-EE-AIAL/NCUE-EE-AIAL.github.io" rel="noopener">{t('footer.source', lang)}</a></li>
+      <li><a href={site.repo} rel="noopener">{t('footer.source', lang)}</a></li>
       <li><a href={localePath('/join/', lang)}>{t('nav.join', lang)}</a></li>
     </ul>
   </div>

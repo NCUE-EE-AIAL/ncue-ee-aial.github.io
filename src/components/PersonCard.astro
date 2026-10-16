@@ -1,0 +1,76 @@
+---
+import Icon, { type IconName } from './Icon.astro';
+import { pick, s, t, localePath, type Locale, type UiKey } from '../i18n/utils';
+import { initials, isAuthor } from '../lib/format';
+import type { Person, Publication, Project } from '../lib/data';
+interface Props {
+  person: Person;
+  lang: Locale;
+  pubs: Publication[];
+  projects: Project[];
+  i?: number;
+  /** Larger layout with department line and research-area chips. */
+  pi?: boolean;
+  areaTitles?: Map<string, string>;
+}
+const { person, lang, pubs, projects, i = 0, pi = false, areaTitles } = Astro.props;
+const d = person.data;
+const name = pick(d.name, lang);
+const other = lang === 'zh' ? d.name.en : d.name.zh;
+const altName = other && other !== name ? other : undefined;
+const H = pi ? 'h2' : 'h3';
+const myPubs = pi ? [] : pubs.filter((p) => isAuthor(d.name.en, p.data.authors));
+const myProjects = pi ? [] : projects.filter((p) => p.data.members.some((m) => m.id === person.id));
+type Link = { href: string; icon: IconName; label: string; text?: string };
+const links: Link[] = [
+  d.links.email ? { href: `mailto:${d.links.email}`, icon: 'mail', label: d.links.email, text: d.links.email } : null,
+  d.links.website ? { href: d.links.website, icon: 'link', label: t('people.website', lang) } : null,
+  d.links.github ? { href: d.links.github, icon: 'github', label: 'GitHub' } : null,
+  d.links.scholar ? { href: d.links.scholar, icon: 'scholar', label: 'Google Scholar' } : null,
+  d.links.orcid ? { href: d.links.orcid, icon: 'orcid', label: t('people.orcid', lang) } : null,
+  d.links.linkedin ? { href: d.links.linkedin, icon: 'linkedin', label: 'LinkedIn' } : null,
+].filter((l): l is Link => l !== null);
+---
+<article class:list={['card', 'person', 'reveal', { 'pi-card': pi }]} id={person.id} style={`--i:${i}`}>
+  {d.photo
+    ? <img class="avatar" src={d.photo} alt={`${t('people.photoAlt', lang)} ${name}`} width={pi ? 120 : 72} height={pi ? 120 : 72} loading="lazy" decoding="async" />
+    : <span class="avatar" aria-hidden="true">{initials(d.name.en)}</span>}
+  <div class="person-body">
+    <H class="person-name">{name}{altName && <span class="name-alt" lang={lang === 'zh' ? 'en' : 'zh-Hant-TW'}>{altName}</span>}</H>
+    <p class="role">
+      <span>{t(`people.role.${d.role}` as UiKey, lang)}</span>
+      {d.program && <span class="chip chip-accent">{d.program}</span>}
+      {d.years && <span class="years">{d.years}</span>}
+    </p>
+    {pi && <p class="org">{s('org', lang)}</p>}
+    {d.bio && <p class="bio">{pick(d.bio, lang)}</p>}
+    {pi && areaTitles && d.areas.length > 0 && (
+      <ul class="chips person-areas">
+        {d.areas.map((a) => <li><a class="chip chip-accent" href={localePath(`/research/${a}/`, lang)}>{areaTitles.get(a) ?? a}</a></li>)}
+      </ul>
+    )}
+    {(myPubs.length > 0 || myProjects.length > 0) && (
+      <dl class="works">
+        {myPubs.length > 0 && (
+          <div>
+            <dt>{t('people.papers', lang)}</dt>
+            <dd><ul>{myPubs.map((p) => <li><a href={`${localePath('/publications/', lang)}#${p.id}`}>{pick(p.data.title, lang)}</a> <span class="muted">({p.data.year})</span></li>)}</ul></dd>
+          </div>
+        )}
+        {myProjects.length > 0 && (
+          <div>
+            <dt>{t('people.projects', lang)}</dt>
+            <dd><ul>{myProjects.map((p) => <li><a href={`${localePath('/projects/', lang)}#${p.id}`}>{pick(p.data.title, lang)}</a></li>)}</ul></dd>
+          </div>
+        )}
+      </dl>
+    )}
+    {links.length > 0 && (
+      <ul class="links">
+        {links.map((l) => (
+          <li><a href={l.href} rel={l.href.startsWith('mailto:') ? undefined : 'noopener'} aria-label={l.text ? undefined : `${l.label}: ${name}`} title={l.label}><Icon name={l.icon} />{l.text && <span>{l.text}</span>}</a></li>
+        ))}
+      </ul>
+    )}
+  </div>
+</article>
