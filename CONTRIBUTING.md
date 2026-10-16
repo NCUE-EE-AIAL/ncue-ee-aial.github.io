@@ -1,0 +1,471 @@
+# 貢獻指南 / Contributing
+
+## English summary
+
+- This is the hand-over guide for the lab website of the AI Application Laboratory (人工智慧應用實驗室), Dept. of Electrical Engineering, NCUE. PI: Prof. Wen-Ren Yang. Live site: https://ncue-ee-aial.github.io/
+- All content is plain files under `src/content/`. To add a paper, person, project, news post, research area or piece of equipment you add (or edit) **one file**, open a pull request to `main`, and GitHub Actions rebuilds and publishes the site in about 2 minutes.
+- English is the default (`/`), Traditional Chinese is at `/zh/`. Bilingual fields are `{ en, zh }`; a missing `zh` falls back to English.
+- The Zod schemas in `src/content.config.ts` are the single source of truth for every field. A wrong or missing field makes `npm run build` fail and names the file.
+- No git? Edit a file on github.com (pencil icon, then "Create a new branch and start a pull request"), or open the "Add a publication" issue form.
+- Local preview: `npm ci`, `npm run dev` (http://localhost:4321), `npm run build`, `npm test`, `npm run links`.
+- Lab rules: a paper is listed only if Wen-Ren Yang is an author; `verified: true` needs a `source` URL you actually opened; PDFs only for arXiv / accepted manuscripts (IEEE/IET: DOI only); no student personal emails; no portraits without consent; no hot-linked images; research pages describe problems and methods only; only public repos and published papers.
+- Questions: ncueaial@gmail.com or a GitHub issue in `NCUE-EE-AIAL/ncue-ee-aial.github.io`.
+
+---
+
+## 目錄
+
+1. [網站如何運作](#1-網站如何運作)
+2. [四個最常做的操作](#2-四個最常做的操作)
+3. [其他內容：研究方向、設備、照片](#3-其他內容研究方向設備照片)
+4. [欄位對照表](#4-欄位對照表)
+5. [實驗室內容規則](#5-實驗室內容規則)
+6. [不用 git 也能修改](#6-不用-git-也能修改)
+7. [本機預覽與檢查](#7-本機預覽與檢查)
+8. [常見 build 錯誤解讀](#8-常見-build-錯誤解讀)
+9. [誰在維護、去哪裡問](#9-誰在維護去哪裡問)
+
+---
+
+## 1. 網站如何運作
+
+這是一個用 [Astro](https://astro.build) 建出來的靜態網站。**所有內容都是 `src/content/` 底下的純文字檔**（YAML 或 Markdown），不需要資料庫，也不需要改程式。
+
+```
+你新增 / 修改一個檔案  →  推到 main（或開 PR 並合併）  →  GitHub Actions「Deploy to GitHub Pages」自動 build  →  約 2 分鐘後上線
+```
+
+- 英文是預設語言，網址為 `/`；繁體中文在 `/zh/`，頁面結構完全相同。
+- 雙語欄位寫成 `{ en, zh }`。**`zh` 可以不寫**，沒寫時中文頁會顯示英文內容（所以一定要有 `en`）。
+- 欄位的唯一標準是 `src/content.config.ts`（Zod schema）。欄位寫錯、漏填，`npm run build` 會失敗並告訴你是哪個檔案（見[第 8 節](#8-常見-build-錯誤解讀)），不會把壞資料發佈出去。
+
+### 內容檔與網頁的對應
+
+| 資料夾 | 一個檔案 = | 顯示在 | 中文鏡像 |
+|---|---|---|---|
+| `src/content/research/<slug>/{en,zh}.md` | 一個研究方向（每種語言一個檔） | `/research/`（列表）與 `/research/<slug>/` | `/zh/research/`、`/zh/research/<slug>/` |
+| `src/content/publications/<年>-<key>.yaml` | 一篇論文 | `/publications/` | `/zh/publications/` |
+| `src/content/projects/<slug>.yaml` | 一個專案 | `/projects/` | `/zh/projects/` |
+| `src/content/people/<id>.yaml` | 一位成員 | `/people/`（指導教授、現任成員、國際學生、校友分組） | `/zh/people/` |
+| `src/content/news/<YYYY-MM-DD>-<slug>/{en,zh}.md` | 一則動態（每種語言一個檔） | `/news/`（列表）與 `/news/<slug>/` | `/zh/news/`、`/zh/news/<slug>/` |
+| `src/content/facilities/<id>.yaml` | 一項（或一類）設備 | `/join/#facilities`（加入我們頁的「設備」區） | `/zh/join/#facilities` |
+
+另外：專案卡片的 stars、主要語言、最後 push 時間，是 build 時用 GitHub API 向 `repo` 欄位指定的 repo 取得（離線時也能 build，只是沒有這些數字）。首頁（`/`）會自動帶出所有研究方向卡片、最新 3 篇論文與最新 3 則動態，不需要另外編輯。
+
+---
+
+## 2. 四個最常做的操作
+
+> 通用小技巧：**複製一個現有檔案再改**，比從零寫安全。YAML 縮排一律用 **2 個空格**（不能用 Tab）；值裡有冒號 `:`、井號 `#` 或引號時，整段用雙引號包起來。
+
+### 2.1 新增一篇論文
+
+先確認符合[內容規則](#5-實驗室內容規則)：作者必須包含楊文仁老師。
+
+1. 在 `src/content/publications/` 新增 `<年>-<key>.yaml`，例如 `2026-emotion-as-distribution.yaml`。`key` 用小寫英文、數字、連字號。
+2. 內容（可複製 `2024-two-step-auth.yaml` 修改）：
+
+   ```yaml
+   title:
+     en: "Two-step Authentication: Multi-biometric System Using Voice and Facial Recognition"
+     zh: "雙階段身分驗證：結合語音與人臉辨識的多生物特徵系統"
+   authors:
+     - Kuan Wei Chen
+     - Wen Ren Yang
+   venue: "IET International Conference on Engineering Technologies and Applications (ICETA 2024)"
+   year: 2024
+   type: conference          # journal | conference | thesis | preprint | other
+   doi: "10.1049/icp.2024.4141"
+   url: "https://digital-library.theiet.org/doi/abs/10.1049/icp.2024.4141"
+   areas: [biometrics-security]
+   verified: false           # 沒親自核對出版社頁面就維持 false
+   ```
+3. `verified: true` 只在你**真的打開了出版社頁面並核對標題、作者、年份**之後才寫，且必須同時填 `source`（那個頁面的網址）。`verified: false` 的論文會在頁面上顯示「待確認 / to verify」標記，這是正常的。
+4. 在本機執行 `npm run build`（見[第 7 節](#7-本機預覽與檢查)），再開 PR。
+
+### 2.2 新增成員
+
+1. 在 `src/content/people/` 新增 `<id>.yaml`。**檔名（不含 `.yaml`）就是這個人的 id**，專案的 `members` 欄位用的就是它，所以請用穩定的小寫英文，例如 `ting-yi-lin.yaml`。之後不要隨便改檔名，否則要同步改所有專案裡的 `members`。
+2. 內容：
+
+   ```yaml
+   name:
+     en: "Ting-Yi Lin"
+     zh: "林庭毅"
+   role: master              # pi | phd | master | undergrad | intern | staff
+   years: "2025–"
+   areas: [biomedical-ai]
+   bio:
+     en: "M.S. student working on ..."
+     zh: "碩士生，研究 ..."
+   links:
+     github: "https://github.com/your-name"
+   order: 10                 # 數字小的排前面
+   ```
+3. 畢業或離開：加上 `alumni: true`，並把 `years` 改成 `"2022–2024"` 的形式。
+4. **學生不要填 `links.email`**（schema 會直接擋下）。聯絡方式一律是實驗室信箱 ncueaial@gmail.com 或指導教授。
+5. 要放照片請先讀[第 3 節的照片說明](#照片)與[內容規則](#5-實驗室內容規則)（需本人同意）。
+
+### 2.3 新增專案
+
+1. 在 `src/content/projects/` 新增 `<slug>.yaml`，例如 `patrolbot.yaml`。
+2. 內容：
+
+   ```yaml
+   title:
+     en: "PatrolBot"
+     zh: "PatrolBot 自主巡邏系統"
+   summary:
+     en: "Design and construction of an autonomous patrol robot vehicle ..."
+     zh: "設計並建置自主巡邏機器車 ..."
+   repo: "NCUE-EE-AIAL/PatrolBot"    # 格式 owner/name，不是完整網址；必須是公開 repo
+   areas: [international-programs]    # 至少一個
+   year: 2023
+   members: [ting-yi-lin]             # people/ 底下的檔名（不含 .yaml）
+   status: active                     # active | archived
+   ```
+3. 沒有公開 repo 的專案可以省略 `repo`。`members` 裡的 id 必須真的存在於 `people/`；打錯時 build 會失敗，並指出是哪個專案檔、哪個 id。
+
+### 2.4 新增動態（最新消息）
+
+1. 建立資料夾 `src/content/news/<YYYY-MM-DD>-<slug>/`，例如 `2026-11-05-ieee-conference-accepted/`。
+2. 資料夾內放兩個檔案：`en.md` 與 `zh.md`（兩個都建，內容各用該語言寫；只有 `en.md` 時中文頁會顯示英文）。
+3. 每個檔案長這樣：
+
+   ```markdown
+   ---
+   title: "Paper accepted at ..."
+   date: 2026-11-05
+   summary: "One-sentence summary shown in the list."
+   ---
+
+   內文用 Markdown 寫。
+   ```
+   `date` 請用 `YYYY-MM-DD`，且要與資料夾名稱的日期一致。`title` 裡若有冒號，務必加雙引號。
+
+---
+
+## 3. 其他內容：研究方向、設備、照片
+
+### 研究方向
+
+- 檔案位置：`src/content/research/<slug>/en.md` 與 `zh.md`，各自有 front matter（`title`、`summary`、`icon`、`order`，其餘選填，見[欄位表](#研究方向-research)）。
+- 修改既有方向：直接改這兩個檔。
+- **新增一個全新的研究方向**，除了建立 `research/<新slug>/{en,zh}.md`，還必須把 slug 加進 `src/content.config.ts` 最上面的 `AREA_SLUGS`，否則論文 / 專案 / 成員的 `areas` 欄位不能使用它，build 會失敗。這是整個流程中唯一需要改程式檔的地方。方向名稱、首頁卡片與專案頁的篩選按鈕都會自動從 `en.md` / `zh.md` 的 front matter 產生，不需要改 `src/i18n/ui.ts`；`icon` 只能從 `camera` `arm` `heart` `shield` `globe` `chip` 選一個。
+- 內容規則：只描述問題與方法，不寫未發表的細節（見第 5 節）。
+- 有研究影片：把 YouTube 網址寫在 `video`；訪客點擊後才會載入，不會拖慢頁面。
+
+### 設備
+
+- `src/content/facilities/<id>.yaml`，一項或一類設備一個檔，只寫到「類別」層級，不要逐台列規格。
+- 範例：
+
+  ```yaml
+  name:
+    en: "X299 workstation server"
+    zh: "X299 工作站伺服器"
+  category: compute    # compute | fpga | edge | sensor | robot | other
+  qty: 1               # 選填
+  order: 2
+  ```
+- 顯示在 `/join/#facilities`。
+
+### 照片
+
+- 檔案放進 `public/images/` 下的子資料夾（建議 `people/`、`news/`、`research/`，沒有就自己建立），在 YAML / Markdown 裡用**以 `/` 開頭、不含 `public`** 的路徑引用，例如檔案 `public/images/people/ting-yi.jpg` 寫成 `photo: /images/people/ting-yi.jpg`。
+- 研究頁的 `image` 一定要同時寫 `imageAlt`（一句話描述圖片，給視障讀者使用）。
+- 圖片請先縮小（寬度約 1200 px 以內、檔案數百 KB），不要放原始相機檔。
+- **不要**直接引用別的網站上的圖片網址，也不要放沒有授權的圖片。
+
+---
+
+## 4. 欄位對照表
+
+「必填」欄：是 = 沒有就 build 失敗；否 = 可省略（括號為預設值）。`bi` 代表雙語物件：
+
+```yaml
+title:
+  en: "必填"
+  zh: "選填，沒寫就顯示 en"
+```
+
+### 論文 publications
+
+檔案：`src/content/publications/<年>-<key>.yaml`
+
+| 欄位 | 必填 | 型別 / 可用值 | 範例 | 說明 |
+|---|---|---|---|---|
+| `title` | 是 | bi | `en: "Two-step Authentication ..."` | |
+| `authors` | 是 | 字串清單，至少 1 位 | `- Wen Ren Yang` | 依發表順序；必須含楊文仁老師（規則） |
+| `venue` | 是 | 字串 | `"ICETA 2024, pp. 11-12"` | 期刊 / 會議全名，可含卷期頁碼 |
+| `year` | 是 | 整數 1990–2100 | `2024` | 不要加引號 |
+| `type` | 是 | `journal` `conference` `thesis` `preprint` `other` | `conference` | |
+| `doi` | 否 | 字串 | `"10.1049/icp.2024.4141"` | 不含 `https://doi.org/` |
+| `url` | 否 | 完整網址 | `"https://digital-library.theiet.org/..."` | 出版社頁面 |
+| `pdf` | 否 | 字串（網址或站內路徑） | `"https://arxiv.org/pdf/2601.06218"` | 只限 arXiv / 作者接受稿 |
+| `code` | 否 | 完整網址 | `"https://github.com/NCUE-EE-AIAL/..."` | 公開 repo |
+| `tags` | 否（`[]`） | 字串清單 | `[face recognition, VGG16]` | 自由關鍵字 |
+| `areas` | 否（`[]`） | 研究方向 slug 清單：`stereo-3d-vision` `robotic-arm` `biomedical-ai` `biometrics-security` `international-programs` | `[biometrics-security]` | 拼錯會 build 失敗 |
+| `featured` | 否（`false`） | true / false | `true` | 保留欄位，目前頁面未使用（首頁固定顯示最新 3 篇） |
+| `verified` | 否（`false`） | true / false | `true` | `false` 會顯示「待確認 / to verify」標記 |
+| `source` | 條件必填 | 字串（網址或說明） | `"https://digital-library.theiet.org/... (opened; title, authors match)"` | **`verified: true` 時必填** |
+
+### 成員 people
+
+檔案：`src/content/people/<id>.yaml`（檔名 = id）
+
+| 欄位 | 必填 | 型別 / 可用值 | 範例 | 說明 |
+|---|---|---|---|---|
+| `name` | 是 | bi | `en: "Ting-Yi Lin"` `zh: "林庭毅"` | |
+| `role` | 是 | `pi` `phd` `master` `undergrad` `intern` `staff` | `master` | |
+| `program` | 否 | `TEEP` `IIPP` | `TEEP` | 國際交流計畫（如有） |
+| `alumni` | 否（`false`） | true / false | `true` | 畢業或離開 |
+| `years` | 否 | 字串 | `"2025–"`、`"2022–2024"` | 含 `–` 請加引號 |
+| `areas` | 否（`[]`） | 研究方向 slug 清單 | `[biomedical-ai]` | |
+| `bio` | 否 | bi | `en: "M.S. student ..."` | 簡短、僅寫公開資訊 |
+| `photo` | 否 | 字串，路徑 | `/images/people/ting-yi.jpg` | 檔案放 `public/images/people/`；需本人同意 |
+| `links.github` | 否 | 完整網址 | `"https://github.com/brian10420"` | |
+| `links.scholar` | 否 | 完整網址 | | Google Scholar |
+| `links.linkedin` | 否 | 完整網址 | | |
+| `links.website` | 否 | 完整網址 | | 個人網站 |
+| `links.orcid` | 否 | 必須符合 `https://orcid.org/0000-0000-0000-0000` | `"https://orcid.org/0000-0002-1825-0097"` | 四組各 4 碼，最後一碼可為 `X`；不是只寫數字 |
+| `links.email` | 否 | email | `"wry87c@cc.ncue.edu.tw"` | **僅限 `role: pi` 或 `staff`**，學生填了會 build 失敗 |
+| `order` | 否（`100`） | 整數 | `10` | 小的排前面（PI 是 1） |
+
+### 專案 projects
+
+檔案：`src/content/projects/<slug>.yaml`
+
+| 欄位 | 必填 | 型別 / 可用值 | 範例 | 說明 |
+|---|---|---|---|---|
+| `title` | 是 | bi | | |
+| `summary` | 是 | bi | | 一兩句話 |
+| `areas` | 是 | 研究方向 slug 清單，**至少 1 個** | `[international-programs]` | |
+| `repo` | 否 | `owner/name`（英數、`_`、`.`、`-`） | `"NCUE-EE-AIAL/PatrolBot"` | 不是完整網址；公開 repo；用來抓 stars / 語言 / 最後 push |
+| `year` | 否 | 整數 | `2023` | |
+| `members` | 否（`[]`） | people 的 id 清單 | `[ting-yi-lin]` | 檔名（不含 `.yaml`）；不存在的 id 會讓 build 失敗 |
+| `links.demo` | 否 | 完整網址 | | |
+| `links.video` | 否 | 完整網址（YouTube） | | 點擊後才載入 |
+| `links.paper` | 否 | 字串 | | 對應論文的網址（或 DOI 連結） |
+| `status` | 否（`active`） | `active` `archived` | `archived` | |
+| `featured` | 否（`false`） | true / false | | 精選：專案頁中排在同狀態（active / archived）的專案前面 |
+
+### 動態 news
+
+檔案：`src/content/news/<YYYY-MM-DD>-<slug>/en.md`、`zh.md`（front matter + Markdown 內文）
+
+| 欄位 | 必填 | 型別 | 範例 | 說明 |
+|---|---|---|---|---|
+| `title` | 是 | 字串 | `"Lab website relaunched"` | 有冒號請加引號 |
+| `date` | 是 | 日期 `YYYY-MM-DD` | `2026-10-17` | 不是日期格式會失敗 |
+| `summary` | 否 | 字串 | | 列表顯示的一句話 |
+
+### 研究方向 research
+
+檔案：`src/content/research/<slug>/en.md`、`zh.md`
+
+| 欄位 | 必填 | 型別 / 可用值 | 範例 | 說明 |
+|---|---|---|---|---|
+| `title` | 是 | 字串 | `"Robotic Arm Control"` | 這個檔的語言 |
+| `summary` | 是 | 字串 | | 一句話摘要 |
+| `icon` | 是 | `camera` `arm` `heart` `shield` `globe` `chip` | `arm` | |
+| `order` | 是 | 整數 | `2` | 小的排前面 |
+| `keywords` | 否（`[]`） | 字串清單 | `["motion control"]` | |
+| `image` | 否 | 以 `/` 開頭的路徑 | `/images/research/arm.jpg` | **有 `image` 就必須有 `imageAlt`** |
+| `imageAlt` | 條件必填 | 字串 | `"A robotic arm picking a cube"` | 一句話描述圖片 |
+| `video` | 否 | 完整網址（YouTube） | `"https://www.youtube.com/watch?v=..."` | 點擊才載入 |
+
+### 設備 facilities
+
+檔案：`src/content/facilities/<id>.yaml`
+
+| 欄位 | 必填 | 型別 / 可用值 | 範例 | 說明 |
+|---|---|---|---|---|
+| `name` | 是 | bi | | 類別層級，不逐台列規格 |
+| `category` | 是 | `compute` `fpga` `edge` `sensor` `robot` `other` | `compute` | |
+| `qty` | 否 | 正整數 | `4` | |
+| `note` | 否 | bi | | 補充說明 |
+| `order` | 否（`100`） | 整數 | `1` | 小的排前面 |
+
+### 兩個容易被忽略的地方
+
+- **欄位名拼錯或多寫一個 schema 沒有的欄位，build 會直接失敗**（訊息是 `Unrecognized key: "featurd"`）。需要新欄位請找維護者改 `src/content.config.ts`。
+- 清單縮排不整齊仍可能**不報錯但內容被黏在一起**（論文的 `authors` 有特別檢查，其他清單沒有；見[第 8 節](#8-常見-build-錯誤解讀)的第 12 項）。
+
+---
+
+## 5. 實驗室內容規則
+
+以下是實驗室的政策，不是建議。PR 審核時會逐項確認。
+
+1. **論文**：只有楊文仁（Wen-Ren Yang，楊文仁老師）為作者之一的論文才收錄。
+2. **`verified: true`**：沒有 `source`（你實際打開過的出版社頁面網址）絕不可設為 `true`。沒核對就保持 `false`。
+3. **PDF**：只能連 arXiv 或作者接受稿（accepted manuscript）。IEEE / IET 等出版社版本只放 DOI 連結，不放 PDF。
+4. **學生個人 email 不公開**：聯絡請寄實驗室信箱 ncueaial@gmail.com 或指導教授；`links.email` 僅限 PI 與 staff。
+5. **人像照片**：沒有本人同意，不放肖像照。
+6. **圖片**：不得外連其他網站的圖片（hot-link）；檔案一律放進 `public/`。也要確認有權使用該圖片。
+7. **研究頁**只寫「問題與方法」；不寫尚未發表的進行中細節、資料集、模型設定。
+8. **只列公開的 repo 與已公開的論文**（已發表，或已有 arXiv 等公開版本）。私有 repo 不放進專案；沒有公開版本的投稿中論文不要列入。
+9. **影片**：把 YouTube 網址放在 `video`（專案則為 `links.video`）；它只在訪客點擊後才載入。
+
+---
+
+## 6. 不用 git 也能修改
+
+**方法 A：直接在 github.com 上改檔**
+
+1. 打開 repo `NCUE-EE-AIAL/ncue-ee-aial.github.io`，進到要改的檔案（例如 `src/content/people/ting-yi-lin.yaml`）。
+2. 點右上角的**鉛筆圖示**（Edit this file）。
+3. 改完，按 Commit changes，選 **「Create a new branch for this commit and start a pull request」**（建立新分支並發起 PR）。
+4. 填好 PR 範本的檢查清單。維護者核對後合併，網站約 2 分鐘後更新。
+
+新增檔案：在資料夾頁面按 **Add file → Create new file**，檔名欄輸入完整路徑（例如 `src/content/news/2026-11-05-xxx/en.md`），其餘同上。
+
+**方法 B：論文用 Issue 表單**
+
+到 Issues → New issue → **「Add a publication / 新增論文」**，填表送出，會有實驗室成員幫你建檔。
+
+> 開 PR 後，GitHub 會自動執行「Check site」（build、測試、站內連結檢查，約 2 分鐘）。PR 頁面下方若顯示紅色叉叉，點 Details 看錯誤訊息，對照[第 8 節](#8-常見-build-錯誤解讀)修正；出現綠色勾勾才合併。
+
+---
+
+## 7. 本機預覽與檢查
+
+需要 Node.js **22.22 以上**與 git。
+
+```sh
+git clone https://github.com/NCUE-EE-AIAL/ncue-ee-aial.github.io.git
+cd ncue-ee-aial.github.io
+npm ci              # 第一次（或 package-lock.json 有變動時）
+npm run dev         # 開發伺服器 http://localhost:4321 ，存檔後自動更新
+npm run build       # 型別檢查 (astro check) + 建置到 dist/ ；錯誤會在這裡出現
+npm test            # 執行 tests/ 的測試（需先 npm run build）
+npm run links       # 檢查 dist/ 的連結（需先 npm run build）
+```
+
+- `npm run links` 等同 `node scripts/check-links.mjs dist`。**ERROR**（內部連結或圖片不存在、外部網址 404/410）必須修；**WARNING**（`#錨點`找不到、外部網站 403/429/5xx 或連不上）請看一下，通常是對方網站擋機器人，可以忽略。只想檢查站內連結：`node scripts/check-links.mjs dist --no-external`。
+- 想只驗證內容欄位（比 build 快）：`npx astro sync`。
+- 流程：`git checkout -b add-paper-xxx` → 改檔 → `npm run build` → `git add` / `git commit` / `git push` → 在 GitHub 開 PR。
+
+---
+
+## 8. 常見 build 錯誤解讀
+
+以下訊息都是在拋棄式的複本裡故意把一個欄位弄壞、實際執行 `npx astro sync` 得到的原文（只擷取關鍵行）。`npm run build` 會顯示同樣的訊息。**第一行 `[...Error]` 加上 `publications → 檔名` 告訴你是哪個檔案**；`Location:` 的行號對 schema 錯誤永遠是 `:0:0`，不用理它。
+
+### 1. `verified: true` 卻沒有 `source`
+
+```
+[InvalidContentEntryDataError] publications → 2024-two-step-auth data does not match collection schema.
+  ****: verified: true requires a source URL
+```
+修正：補上 `source: "出版社頁面網址"`；如果你其實沒核對過，改成 `verified: false`。
+
+### 2. 研究方向 slug 拼錯（`areas`）
+
+```
+[InvalidContentEntryDataError] publications → 2024-two-step-auth data does not match collection schema.
+  areas.0: Invalid option: expected one of "stereo-3d-vision"|"robotic-arm"|"biomedical-ai"|"biometrics-security"|"international-programs"
+```
+`areas.0` 表示清單的第 1 個（從 0 起算）。修正：照訊息列出的選項改。如果是要新增研究方向，見[第 3 節](#研究方向)的 `AREA_SLUGS`。同樣格式的 `type: Invalid option: expected one of ...`、`icon: Invalid option ...` 也是改成列出的其中一個。
+
+### 3. 網址格式不對
+
+```
+[InvalidContentEntryDataError] publications → 2024-two-step-auth data does not match collection schema.
+  url: Invalid URL
+```
+修正：網址要完整，含 `https://`（我們故意把它刪掉測試）。欄位名在訊息裡（`url`、`code`、`links.github` ...）。
+
+### 4. 學生填了 `links.email`
+
+```
+[InvalidContentEntryDataError] people → brian-lin data does not match collection schema.
+  ****: links.email is only for the PI or staff; students are contacted through the lab email
+```
+修正：刪掉 `email` 那一行。
+
+### 5. ORCID 格式錯誤
+
+```
+[InvalidContentEntryDataError] people → wen-ren-yang data does not match collection schema.
+  links.orcid: orcid must look like https://orcid.org/0000-0002-1825-0097
+```
+修正：寫成完整網址 `https://orcid.org/0000-0000-0000-0000`（只貼數字不行）。
+
+### 6. 漏填必填欄位（或欄位名拼錯）
+
+```
+publications → 2024-two-step-auth data does not match collection schema.
+  year**: **year: Required
+```
+把 `Venue:` 大小寫寫錯，會同時得到 `Unrecognized key: "Venue"` 與 `venue: Required`。修正：補上欄位，注意 YAML 的欄位名**區分大小寫**。
+
+### 7. 型別不對
+
+```
+  year**: **year: Expected type `"number"`, received `"string"`
+  name**: **name: Expected type `"object"`, received `"string"`
+  date**: **date: Expected type `"date"`, received `"object"`
+```
+- `year: "2024"` 加了引號變成字串，拿掉引號。
+- `name: "Ting-Yi Lin"` 應該寫成 `name:` 底下縮排 `en:` / `zh:` 的雙語物件。
+- 動態的 `date: soon` 要改成 `2026-11-05` 這種 `YYYY-MM-DD`。
+
+### 8. `repo` 寫成完整網址
+
+```
+[InvalidContentEntryDataError] projects → patrolbot data does not match collection schema.
+  repo: Invalid string: must match pattern /^[\w.-]+\/[\w.-]+$/
+```
+修正：只寫 `owner/name`，例如 `NCUE-EE-AIAL/PatrolBot`，不要 `https://github.com/`。
+
+### 9. `image` 沒有 `imageAlt`
+
+```
+[InvalidContentEntryDataError] research → robotic-arm/en data does not match collection schema.
+  ****: image needs imageAlt (a one-line description for screen readers)
+```
+修正：補一行 `imageAlt: "一句話描述圖片"`。
+
+### 10. YAML 本身語法錯誤（引號沒配對）
+
+```
+[DataCollectionEntryParseError] publications/2024-two-step-auth.yaml failed to parse: Unexpected scalar at node end at line 10, column 14:
+venue: "IET "quoted"  International Conference ...
+```
+這類錯誤會直接指出**行號與欄位**。常見原因：雙引號字串裡又有雙引號（改用 `'單引號'` 包整段，或把內部引號拿掉）。
+
+### 11. Markdown front matter 裡有冒號
+
+```
+Nested mappings are not allowed in compact mappings at line 2, column 8:
+title: Lab: website relaunched
+Location: .../news/2026-10-17-new-website/en.md:1:7
+```
+修正：含冒號的標題要加雙引號：`title: "Lab: website relaunched"`。
+
+### 12. 不會報錯、但結果不對的情況（請小心）
+
+欄位名拼錯、多寫欄位、`title` 底下的 `zh:` 少縮排而變成頂層欄位，現在都會 build 失敗（`Unrecognized key`）。仍會**通過 build** 的是清單縮排不一致：
+
+```yaml
+keywords:
+  - stereo vision
+   - depth estimation   # 多了一個空格
+```
+會被解讀成一個關鍵字 `stereo vision - depth estimation`。論文的 `authors` 有特別檢查（名字裡出現 ` - ` 會報錯：`an author contains " - "`），其他清單沒有。
+
+預防方式：複製現有檔案再改、縮排只用 2 的倍數的空格，並在 `npm run dev` 預覽頁面目視確認。
+
+### 其他
+
+- `npm run build` 的第一步是 `astro check`（型別檢查）。如果錯誤訊息指向 `.astro` / `.ts` 檔，而不是 `src/content/` 的檔案，那是程式問題而非內容問題，請找維護者。
+
+---
+
+## 9. 誰在維護、去哪裡問
+
+- 網站由實驗室成員共同維護，指導教授：楊文仁老師。**網站不屬於任何單一學生**；畢業前請確認你負責的內容已交接，並確保 GitHub 組織 `NCUE-EE-AIAL` 至少有兩位 owner。
+- 問題與討論：實驗室信箱 **ncueaial@gmail.com**，或在 GitHub 開 Issue（repo：`NCUE-EE-AIAL/ncue-ee-aial.github.io`）。
+- 網站上的線上版：https://ncue-ee-aial.github.io/（英文）、https://ncue-ee-aial.github.io/zh/（繁體中文）。

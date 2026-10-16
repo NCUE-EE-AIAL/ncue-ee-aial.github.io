@@ -1,0 +1,95 @@
+name: "Add a publication / 新增論文"
+description: "Suggest a paper for the lab website. A lab member will turn it into a content file. / 提供一篇論文，由實驗室成員建立網站內容檔。"
+title: "[Publication] "
+labels: ["publication"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Only papers with **Wen-Ren Yang (楊文仁)** as an author are listed. Please open the publisher page and copy the details from it.
+        只收錄**楊文仁老師**為作者之一的論文。請打開出版社頁面，照上面的資料填寫。
+  - type: input
+    id: title_en
+    attributes:
+      label: "Title (English) / 英文標題"
+      placeholder: "Two-step Authentication: Multi-biometric System Using Voice and Facial Recognition"
+    validations:
+      required: true
+  - type: input
+    id: title_zh
+    attributes:
+      label: "Title (Chinese, optional) / 中文標題（選填）"
+      description: "Leave empty if there is no Chinese title. / 沒有中文標題可留空。"
+  - type: textarea
+    id: authors
+    attributes:
+      label: "Authors, one per line, in the published order / 作者（每行一位，依發表順序）"
+      placeholder: |
+        Kuan Wei Chen
+        Wen Ren Yang
+    validations:
+      required: true
+  - type: input
+    id: venue
+    attributes:
+      label: "Venue (journal or conference, with volume/pages if known) / 期刊或會議名稱"
+      placeholder: "IET International Conference on Engineering Technologies and Applications (ICETA 2024)"
+    validations:
+      required: true
+  - type: input
+    id: year
+    attributes:
+      label: "Year / 年份"
+      placeholder: "2024"
+    validations:
+      required: true
+  - type: dropdown
+    id: type
+    attributes:
+      label: "Type / 類型"
+      options:
+        - journal
+        - conference
+        - thesis
+        - preprint
+        - other
+    validations:
+      required: true
+  - type: input
+    id: doi
+    attributes:
+      label: "DOI"
+      description: "Without https://doi.org/ , e.g. 10.1049/icp.2024.4141"
+  - type: input
+    id: url
+    attributes:
+      label: "Publisher page URL (the page you actually opened) / 出版社頁面網址"
+      placeholder: "https://digital-library.theiet.org/doi/abs/10.1049/icp.2024.4141"
+  - type: input
+    id: pdf
+    attributes:
+      label: "PDF link (arXiv or author-accepted manuscript ONLY) / PDF 連結（僅限 arXiv 或作者接受稿）"
+      description: "Do NOT link IEEE/IET publisher PDFs; give the DOI above instead. / IEEE、IET 出版社版本請勿附 PDF，只填上方 DOI。"
+  - type: input
+    id: code
+    attributes:
+      label: "Code repository URL (public only) / 程式碼網址（僅限公開）"
+      placeholder: "https://github.com/NCUE-EE-AIAL/..."
+  - type: checkboxes
+    id: areas
+    attributes:
+      label: "Research areas / 研究方向"
+      description: "Tick every area that fits. / 可複選。"
+      options:
+        - label: "stereo-3d-vision (立體視覺)"
+        - label: "robotic-arm (機械手臂)"
+        - label: "biomedical-ai (生醫 AI)"
+        - label: "biometrics-security (生物辨識與資安)"
+        - label: "international-programs (國際計畫)"
+  - type: checkboxes
+    id: pi_author
+    attributes:
+      label: "Confirmation / 確認"
+      options:
+        - label: "Wen-Ren Yang (楊文仁) is one of the authors / 楊文仁老師是作者之一"
+          required: true
