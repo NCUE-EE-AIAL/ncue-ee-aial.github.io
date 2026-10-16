@@ -1,0 +1,159 @@
+export const LOCALES = ['en', 'zh'] as const;
+export type Locale = (typeof LOCALES)[number];
+export const DEFAULT_LOCALE: Locale = 'en';
+
+export const site = {
+  name: { en: 'AI Application Laboratory', zh: '人工智慧應用實驗室' },
+  short: { en: 'AIAL', zh: 'AIAL' },
+  org: {
+    en: 'Department of Electrical Engineering, National Changhua University of Education',
+    zh: '國立彰化師範大學 電機工程學系',
+  },
+  orgShort: { en: 'NCUE EE', zh: '彰師大電機' },
+  pi: { en: 'Prof. Wen-Ren Yang', zh: '楊文仁 教授' },
+  tagline: {
+    en: 'Applied AI for vision, robotics, and biomedical signals.',
+    zh: '視覺、機器人與生醫訊號的人工智慧應用研究。',
+  },
+  description: {
+    en: 'AI Application Laboratory at NCUE: stereo 3D vision, robotic arms, biomedical AI, biometric security, and international student research (TEEP / IIPP).',
+    zh: '彰師大人工智慧應用實驗室：雙鏡頭 3D 視覺、機械手臂、生醫 AI、生物辨識安全，以及 TEEP / IIPP 國際生研究。',
+  },
+  email: 'ncueaial@gmail.com',
+  github: 'https://github.com/NCUE-EE-AIAL',
+  facebook: 'https://www.facebook.com/share/foHmCkxWDa8Knune/',
+  address: {
+    en: 'No. 2, Shi-Da Rd., Changhua City, Changhua County 500, Taiwan',
+    zh: '500 彰化縣彰化市師大路 2 號',
+  },
+  room: { en: 'TODO: building / room', zh: 'TODO：館別／研究室房號' },
+} as const;
+
+export const ui = {
+  'nav.home': { en: 'Home', zh: '首頁' },
+  'nav.research': { en: 'Research', zh: '研究方向' },
+  'nav.publications': { en: 'Publications', zh: '論文發表' },
+  'nav.projects': { en: 'Projects', zh: '專案' },
+  'nav.people': { en: 'People', zh: '成員' },
+  'nav.news': { en: 'News', zh: '動態' },
+  'nav.join': { en: 'Join & Contact', zh: '加入與聯絡' },
+  'nav.menu': { en: 'Menu', zh: '選單' },
+  'nav.skip': { en: 'Skip to content', zh: '跳至主內容' },
+  'lang.switch': { en: '中文', zh: 'English' },
+  'lang.switchLabel': { en: 'Switch to Traditional Chinese', zh: '切換為英文' },
+  'theme.toggle': { en: 'Toggle dark mode', zh: '切換深淺色' },
+
+  'home.hero.kicker': { en: 'NCUE · Electrical Engineering', zh: '彰師大 · 電機工程學系' },
+  'home.areas': { en: 'Research areas', zh: '研究方向' },
+  'home.areas.all': { en: 'All areas', zh: '全部方向' },
+  'home.pubs': { en: 'Recent publications', zh: '近期論文' },
+  'home.pubs.all': { en: 'All publications', zh: '全部論文' },
+  'home.news': { en: 'News', zh: '實驗室動態' },
+  'home.news.all': { en: 'All news', zh: '全部動態' },
+  'home.join.title': { en: 'Join the lab', zh: '加入實驗室' },
+  'home.join.body': {
+    en: 'We welcome NCUE graduate and undergraduate students, and international students through the TEEP and IIPP programs.',
+    zh: '歡迎彰師大研究生與大學部專題生，以及透過 TEEP、IIPP 計畫來台的國際學生。',
+  },
+  'home.join.cta': { en: 'How to apply', zh: '申請方式' },
+  'home.github': { en: 'Lab on GitHub', zh: '實驗室 GitHub' },
+
+  'research.title': { en: 'Research', zh: '研究方向' },
+  'research.intro': {
+    en: 'Five directions, one lab: we build AI systems that see, move, and read the body.',
+    zh: '五個方向、一個實驗室：我們打造會看、會動、會讀懂身體訊號的 AI 系統。',
+  },
+  'research.keywords': { en: 'Keywords', zh: '關鍵詞' },
+  'research.projects': { en: 'Related projects', zh: '相關專案' },
+  'research.pubs': { en: 'Related publications', zh: '相關論文' },
+  'research.people': { en: 'People in this area', zh: '參與成員' },
+  'research.back': { en: 'All research areas', zh: '所有研究方向' },
+
+  'pubs.title': { en: 'Publications', zh: '論文發表' },
+  'pubs.intro': {
+    en: 'Journal and conference papers from the lab. Entries marked “to verify” are being checked against the publisher record.',
+    zh: '實驗室的期刊與會議論文。標示「待確認」的條目仍在與出版社紀錄核對中。',
+  },
+  'pubs.filter.all': { en: 'All', zh: '全部' },
+  'pubs.type.journal': { en: 'Journal', zh: '期刊' },
+  'pubs.type.conference': { en: 'Conference', zh: '會議' },
+  'pubs.type.thesis': { en: 'Thesis', zh: '學位論文' },
+  'pubs.type.preprint': { en: 'Preprint', zh: '預印本' },
+  'pubs.type.other': { en: 'Other', zh: '其他' },
+  'pubs.unverified': { en: 'to verify', zh: '待確認' },
+  'pubs.doi': { en: 'DOI', zh: 'DOI' },
+  'pubs.pdf': { en: 'PDF', zh: 'PDF' },
+  'pubs.code': { en: 'Code', zh: '程式碼' },
+  'pubs.link': { en: 'Link', zh: '連結' },
+  'pubs.bibtex': { en: 'BibTeX', zh: 'BibTeX' },
+  'pubs.copied': { en: 'Copied', zh: '已複製' },
+  'pubs.empty': { en: 'No publications listed yet.', zh: '尚未列出論文。' },
+
+  'projects.title': { en: 'Projects', zh: '專案' },
+  'projects.intro': {
+    en: 'Open-source code and systems from the lab. Repository stats update on every site build.',
+    zh: '實驗室的開源程式與系統。Repo 統計數字於每次網站建置時更新。',
+  },
+  'projects.filter.all': { en: 'All areas', zh: '全部方向' },
+  'projects.stars': { en: 'stars', zh: '星標' },
+  'projects.updated': { en: 'Updated', zh: '更新於' },
+  'projects.archived': { en: 'Archived', zh: '已封存' },
+  'projects.repo': { en: 'View on GitHub', zh: '前往 GitHub' },
+  'projects.demo': { en: 'Demo', zh: '示範' },
+  'projects.video': { en: 'Video', zh: '影片' },
+  'projects.paper': { en: 'Paper', zh: '論文' },
+  'projects.empty': { en: 'No projects listed yet.', zh: '尚未列出專案。' },
+
+  'people.title': { en: 'People', zh: '成員' },
+  'people.pi': { en: 'Principal Investigator', zh: '指導教授' },
+  'people.current': { en: 'Current members', zh: '現任成員' },
+  'people.international': { en: 'International students', zh: '國際學生' },
+  'people.alumni': { en: 'Alumni', zh: '校友' },
+  'people.role.pi': { en: 'Professor', zh: '教授' },
+  'people.role.phd': { en: 'PhD student', zh: '博士生' },
+  'people.role.master': { en: 'Master’s student', zh: '碩士生' },
+  'people.role.undergrad': { en: 'Undergraduate', zh: '大學部專題生' },
+  'people.role.intern': { en: 'International student', zh: '國際學生' },
+  'people.role.staff': { en: 'Staff', zh: '助理' },
+  'people.photoAlt': { en: 'Portrait of', zh: '照片：' },
+
+  'news.title': { en: 'News', zh: '實驗室動態' },
+  'news.empty': { en: 'No posts yet.', zh: '尚無動態。' },
+  'news.back': { en: 'All news', zh: '所有動態' },
+
+  'join.title': { en: 'Join & Contact', zh: '加入與聯絡' },
+  'join.intro': {
+    en: 'The lab takes NCUE master’s students, undergraduate project students, and international students through TEEP and IIPP.',
+    zh: '實驗室招收彰師大碩士生、大學部專題生，以及經由 TEEP 與 IIPP 計畫來台的國際學生。',
+  },
+  'join.students.title': { en: 'NCUE students', zh: '彰師大學生' },
+  'join.students.body': {
+    en: 'Email Prof. Yang with your CV, transcript, and one paragraph on which research area interests you and why. Undergraduates: mention the course or project you want to join.',
+    zh: '請將履歷、成績單，以及一段說明你感興趣的研究方向與原因，寄給楊老師。大學部同學請註明想加入的課程或專題。',
+  },
+  'join.intl.title': { en: 'International students (TEEP / IIPP)', zh: '國際學生（TEEP / IIPP）' },
+  'join.intl.body': {
+    en: 'TEEP (Taiwan Experience Education Program) and IIPP (International Industrial Talents Education Special Program) place short-term research interns in the lab. Write to us with your intended dates, background, and a topic from our research areas.',
+    zh: 'TEEP（臺灣體驗教育計畫）與 IIPP 計畫提供短期研究實習名額。來信請附預計期間、學術背景，以及想參與的研究方向。',
+  },
+  'join.intl.todo': {
+    en: 'TODO: confirm program names, typical duration, and application windows with the lab.',
+    zh: 'TODO：請實驗室確認計畫名稱、期間與申請時程。',
+  },
+  'join.contact.title': { en: 'Contact', zh: '聯絡方式' },
+  'join.email': { en: 'Email', zh: '電子郵件' },
+  'join.address': { en: 'Address', zh: '地址' },
+  'join.room': { en: 'Lab', zh: '研究室' },
+  'join.links': { en: 'Links', zh: '連結' },
+  'join.issue': { en: 'Suggest a fix to this site', zh: '回報網站問題' },
+
+  'footer.rights': { en: 'All rights reserved.', zh: '版權所有。' },
+  'footer.source': { en: 'Site source', zh: '網站原始碼' },
+  'footer.maintained': { en: 'Maintained by lab members.', zh: '由實驗室成員維護。' },
+
+  'notfound.title': { en: 'Page not found', zh: '找不到頁面' },
+  'notfound.body': { en: 'The page you asked for does not exist or has moved.', zh: '你要的頁面不存在或已搬移。' },
+  'notfound.home': { en: 'Back to home', zh: '回首頁' },
+} as const satisfies Record<string, { en: string; zh: string }>;
+
+export type UiKey = keyof typeof ui;

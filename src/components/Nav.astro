@@ -1,0 +1,52 @@
+---
+import Icon from './Icon.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import { t, s, localePath, otherLocale, type Locale } from '../i18n/utils';
+interface Props { lang: Locale; path: string }
+const { lang, path } = Astro.props;
+const items: { key: Parameters<typeof t>[0]; href: string }[] = [
+  { key: 'nav.research', href: '/research/' },
+  { key: 'nav.publications', href: '/publications/' },
+  { key: 'nav.projects', href: '/projects/' },
+  { key: 'nav.people', href: '/people/' },
+  { key: 'nav.news', href: '/news/' },
+  { key: 'nav.join', href: '/join/' },
+];
+const isCurrent = (href: string) => path === href || (href !== '/' && path.startsWith(href));
+const other = otherLocale(lang);
+---
+<header class="nav" id="site-nav">
+  <div class="container nav-inner">
+    <a class="brand" href={localePath('/', lang)}>
+      <span class="brand-mark" aria-hidden="true">AI</span>
+      <span>
+        {s('name', lang)}
+        <span class="brand-sub">{s('orgShort', lang)} · {s('pi', lang)}</span>
+      </span>
+    </a>
+    <button class="nav-toggle nav-tools-btn" type="button" aria-expanded="false" aria-controls="nav-links" aria-label={t('nav.menu', lang)} id="nav-toggle">
+      <Icon name="menu" />
+    </button>
+    <ul class="nav-links" id="nav-links">
+      {items.map((it) => (
+        <li><a href={localePath(it.href, lang)} aria-current={isCurrent(it.href) ? 'page' : undefined}>{t(it.key, lang)}</a></li>
+      ))}
+    </ul>
+    <div class="nav-tools">
+      <a href={localePath(path, other)} hreflang={other === 'zh' ? 'zh-Hant-TW' : 'en'} lang={other === 'zh' ? 'zh-Hant-TW' : 'en'} aria-label={t('lang.switchLabel', lang)}>{t('lang.switch', lang)}</a>
+      <ThemeToggle label={t('theme.toggle', lang)} />
+    </div>
+  </div>
+</header>
+<script>
+  const nav = document.getElementById('site-nav');
+  const toggle = document.getElementById('nav-toggle');
+  toggle?.addEventListener('click', () => {
+    const open = nav?.classList.toggle('open') ?? false;
+    toggle.setAttribute('aria-expanded', String(open));
+  });
+</script>
+<style>
+  .nav-toggle { border: 1px solid var(--border); background: transparent; border-radius: var(--radius-sm); padding: 7px 10px; color: var(--muted); cursor: pointer; }
+  .nav-toggle:hover { color: var(--text); background: var(--surface-2); }
+</style>

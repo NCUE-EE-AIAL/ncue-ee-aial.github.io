@@ -1,0 +1,68 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { s, localePath, stripLocale, otherLocale, htmlLang, type Locale } from '../i18n/utils';
+interface Props {
+  lang: Locale;
+  title: string;
+  description?: string;
+  /** locale-less path of this page, e.g. "/people/". Defaults from the URL. */
+  path?: string;
+  ogType?: 'website' | 'article';
+}
+const { lang, title, description, ogType = 'website' } = Astro.props;
+const path = Astro.props.path ?? stripLocale(Astro.url.pathname).path;
+const siteName = s('name', lang);
+const fullTitle = path === '/' ? `${siteName} · ${s('orgShort', lang)}` : `${title} · ${siteName}`;
+const desc = description ?? s('description', lang);
+const canonical = new URL(localePath(path, lang), Astro.site);
+const other = otherLocale(lang);
+---
+<!doctype html>
+<html lang={htmlLang[lang]}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={desc} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang={htmlLang.en} href={new URL(localePath(path, 'en'), Astro.site)} />
+    <link rel="alternate" hreflang={htmlLang.zh} href={new URL(localePath(path, 'zh'), Astro.site)} />
+    <link rel="alternate" hreflang="x-default" href={new URL(localePath(path, 'en'), Astro.site)} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:image" content={new URL('/og.png', Astro.site)} />
+    <meta property="og:locale" content={lang === 'zh' ? 'zh_TW' : 'en_US'} />
+    <meta property="og:locale:alternate" content={other === 'zh' ? 'zh_TW' : 'en_US'} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f1117" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script is:inline>
+      (function () {
+        try {
+          var t = localStorage.getItem('theme');
+          if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t;
+        } catch (e) {}
+      })();
+    </script>
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{lang === 'zh' ? '跳至主內容' : 'Skip to content'}</a>
+    <Nav lang={lang} path={path} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+  </body>
+</html>

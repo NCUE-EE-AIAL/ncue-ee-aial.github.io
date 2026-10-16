@@ -1,0 +1,12 @@
+title:
+  en: "Two-Step Multi-Biometric Authentication"
+  zh: "雙階段多生物特徵身分驗證"
+summary:
+  en: "A two-step authentication design in which a VGG16 face classifier identifies an enrolled user and a ResCNN speaker encoder then verifies their voice, using only an ordinary webcam and microphone; published at ICETA 2024."
+  zh: "雙階段驗證設計：先以 VGG16 人臉分類器辨識已註冊使用者，再以 ResCNN 語者編碼器驗證其聲音，僅需一般網路攝影機與麥克風；發表於 ICETA 2024。"
+repo: "NCUE-EE-AIAL/Two-step-Authentication-Multi-biometric-System"
+areas: [biometrics-security, international-programs]
+year: 2024
+members: [brian-lin]
+status: active
+featured: true

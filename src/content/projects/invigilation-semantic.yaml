@@ -1,0 +1,12 @@
+title:
+  en: "Invigilation Using Lightweight Semantic Analysis"
+  zh: "輕量語意分析監考系統"
+summary:
+  en: "Vision-based exam invigilation that combines Swin-T semantic segmentation (92.74% accuracy) with ShuffleNet V2 face identification (98.58%), fused at decision level for edge deployment."
+  zh: "以視覺為基礎的監考系統，結合 Swin-T 語意分割（準確率 92.74%）與 ShuffleNet V2 人臉辨識（98.58%），於決策層融合，可部署於邊緣裝置。"
+repo: "NCUE-EE-AIAL/Invigilation-Using-Lightweight-Semantic-Analysis"
+areas: [biometrics-security]
+year: 2024
+members: [brian-lin]
+status: active
+featured: false

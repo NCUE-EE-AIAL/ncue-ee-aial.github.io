@@ -1,0 +1,16 @@
+title:
+  en: "Emotion as a Distribution: Joint Valence-Arousal Probability Learning for Speaker-Independent Multimodal Emotion Recognition"
+authors:
+  - Tingyi Lin
+  - Wen-Ren Yang
+  - Kuanwei Chen
+venue: "arXiv:2609.05755 (submitted to Speech Communication)"
+year: 2026
+type: preprint
+url: "https://arxiv.org/abs/2609.05755"
+code: "https://github.com/brian10420/EchoMind-Mamba-VA-SER"
+tags: [emotion recognition, Mamba, valence-arousal, IEMOCAP, multimodal]
+areas: [biomedical-ai]
+featured: true
+verified: true
+source: "https://arxiv.org/abs/2609.05755 (opened; title, authors, submission date 4 Sep 2026, comments match)"

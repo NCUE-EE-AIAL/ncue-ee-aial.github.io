@@ -1,0 +1,13 @@
+name:
+  en: "Ting-Yi Lin"
+  zh: "林庭毅"
+role: master
+years: "2025–"
+areas: [biomedical-ai]
+bio:
+  en: "M.S. student working on speech and multimodal emotion recognition and AI for biomedical signals, with a focus on Mamba state-space models and edge deployment."
+  zh: "碩士生，研究語音與多模態情緒辨識及生醫訊號 AI，著重 Mamba 狀態空間模型與邊緣部署。"
+links:
+  github: "https://github.com/brian10420"
+  website: "https://brian10420.github.io"
+order: 10

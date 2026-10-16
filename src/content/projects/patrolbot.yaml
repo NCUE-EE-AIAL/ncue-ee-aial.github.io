@@ -1,0 +1,12 @@
+title:
+  en: "PatrolBot"
+  zh: "PatrolBot 自主巡邏系統"
+summary:
+  en: "Design and construction of an autonomous patrol robot vehicle, using an MPU-6050 IMU with PID control to hold a straight course, VL53L-series distance sensing on ESP32, and Blynk-based monitoring."
+  zh: "設計並建置自主巡邏機器車，以 MPU-6050 慣性感測器搭配 PID 控制維持直線行駛，並使用 ESP32 搭配 VL53L 系列測距感測器與 Blynk 監控。"
+repo: "NCUE-EE-AIAL/PatrolBot"
+areas: [international-programs]
+year: 2023
+members: []
+status: archived
+featured: false

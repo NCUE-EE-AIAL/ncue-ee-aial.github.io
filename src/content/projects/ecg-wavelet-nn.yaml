@@ -1,0 +1,12 @@
+title:
+  en: "Embedded Wavelet Neural Network for ECG Analysis"
+  zh: "嵌入式小波類神經網路心電圖分析"
+summary:
+  en: "Wavelet-based preprocessing and feature extraction of ECG heartbeat signals, with ANN and CNN heartbeat classifiers deployed on low-cost microcontrollers (Arduino Nano, ESP8266 with MicroPython)."
+  zh: "以小波轉換進行心電圖心跳訊號的前處理與特徵擷取，並以 ANN 與 CNN 分類心跳，部署於低成本微控制器（Arduino Nano、ESP8266 MicroPython）。"
+repo: "NCUE-EE-AIAL/Embedded-Wavelet-Neural-Network-for-ECG-Analysis"
+areas: [international-programs, biomedical-ai]
+year: 2023
+members: []
+status: archived
+featured: false

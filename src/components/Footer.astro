@@ -1,0 +1,27 @@
+---
+import Icon from './Icon.astro';
+import { t, s, localePath, type Locale } from '../i18n/utils';
+import { site } from '../i18n/ui';
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const year = new Date().getFullYear();
+---
+<footer class="footer">
+  <div class="container footer-inner">
+    <div>
+      <div style="color:var(--text);font-weight:600">{s('name', lang)}</div>
+      <div>{s('org', lang)}</div>
+      <div style="margin-top:8px">© {year} · {t('footer.rights', lang)} {t('footer.maintained', lang)}</div>
+    </div>
+    <ul class="footer-links">
+      <li><a href={`mailto:${site.email}`}><Icon name="mail" /> {site.email}</a></li>
+      <li><a href={site.github} rel="noopener"><Icon name="github" /> GitHub</a></li>
+      <li><a href={site.facebook} rel="noopener"><Icon name="facebook" /> Facebook</a></li>
+      <li><a href="https://github.com/NCUE-EE-AIAL/NCUE-EE-AIAL.github.io" rel="noopener">{t('footer.source', lang)}</a></li>
+      <li><a href={localePath('/join/', lang)}>{t('nav.join', lang)}</a></li>
+    </ul>
+  </div>
+</footer>
+<style>
+  .footer-links a { display: inline-flex; align-items: center; gap: 6px; }
+</style>
