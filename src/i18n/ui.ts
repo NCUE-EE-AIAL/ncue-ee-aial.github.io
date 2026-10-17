@@ -72,6 +72,7 @@ export const ui = {
   },
   'home.cta.research': { en: 'Explore our research', zh: '認識研究方向' },
   'home.about': { en: 'About the lab', zh: '關於實驗室' },
+  'home.about.groupCaption': { en: 'lab members', zh: '實驗室成員' },
   // Facts only, each from a source (people/wen-ren-yang.yaml, research/international-programs, Prof. Yang's slides).
   // Approved by Brian before publishing (2026-10-18 plan). An empty string hides the paragraph.
   'home.about.p1': {

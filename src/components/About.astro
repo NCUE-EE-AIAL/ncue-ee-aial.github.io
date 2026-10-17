@@ -1,18 +1,25 @@
 ---
-import { t, type Locale, type UiKey } from '../i18n/utils';
+import Photo from './Photo.astro';
+import { t, pick, type Locale, type UiKey } from '../i18n/utils';
 import { ayLabel } from '../lib/format';
-import type { Stat } from '../lib/data';
-/** Home "About the lab": the introduction and numbers counted from the content at build time. Phase B adds the group photo. */
-interface Props { lang: Locale; stats: Stat[] }
-const { lang, stats } = Astro.props;
+import type { Stat, GroupPhoto } from '../lib/data';
+/** Home "About the lab": the introduction, the newest yearly group photo (if any) and numbers counted at build time. */
+interface Props { lang: Locale; stats: Stat[]; group?: GroupPhoto }
+const { lang, stats, group } = Astro.props;
+const g = group?.data;
 const paragraphs = [t('home.about.p1', lang), t('home.about.p2', lang)].filter((p) => p.trim() !== '');
 ---
 {(paragraphs.length > 0 || stats.length > 0) && (
-  <section class="section container about" id="about" aria-labelledby="about-h">
+  <section class:list={['section container about', { 'has-photo': g }]} id="about" aria-labelledby="about-h">
     <div class="about-text reveal">
       <h2 id="about-h">{t('home.about', lang)}</h2>
       {paragraphs.map((p) => <p>{p}</p>)}
     </div>
+    {g && (
+      <Photo src={g.photo.src} alt={pick(g.photo.alt, lang)} width={620} eager class="about-photo reveal"
+        sizes="(min-width: 1080px) 520px, (min-width: 860px) 46vw, 100vw"
+        caption={`${g.year} · ${t('home.about.groupCaption', lang)}${g.names ? ` — ${pick(g.names, lang)}` : ''}`} />
+    )}
     {stats.length > 0 && (
       <ul class="stats reveal">
         {stats.map((s) => (

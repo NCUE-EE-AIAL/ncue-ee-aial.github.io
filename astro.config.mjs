@@ -33,6 +33,11 @@ const stripHtmlComments = {
 
 export default defineConfig({
   site: 'https://ncue-ee-aial.github.io',
+  // Photos (src/content/**) become AVIF/WebP/JPEG at build time; the cache keeps rebuilds fast.
+  image: {
+    service: { entrypoint: 'astro/assets/services/sharp', config: { avif: { effort: 3 }, jpeg: { mozjpeg: true } } },
+  },
+  cacheDir: './.cache/astro',
   // Keep whitespace between inline mixed zh/en text intact.
   compressHTML: true,
   i18n: {

@@ -9,11 +9,11 @@ import ArtFill from '../ArtFill.astro';
 import About from '../About.astro';
 import { t, s, localePath, type Locale } from '../../i18n/utils';
 import { site } from '../../i18n/ui';
-import { getAreas, getPublications, getNews, getPeople, getStats } from '../../lib/data';
+import { getAreas, getPublications, getNews, getPeople, getStats, getGroupPhotos } from '../../lib/data';
 import { recentNews } from '../../lib/news.mjs';
 interface Props { lang: Locale }
 const { lang } = Astro.props;
-const [areas, pubs, news, people, stats] = await Promise.all([getAreas(lang), getPublications(), getNews(lang), getPeople(), getStats()]);
+const [areas, pubs, news, people, stats, groupPhotos] = await Promise.all([getAreas(lang), getPublications(), getNews(lang), getPeople(), getStats(), getGroupPhotos()]);
 const members = people.map((p) => p.data.name.en);
 const recent = recentNews(news);
 ---
@@ -37,7 +37,7 @@ const recent = recentNews(news);
     <HeroArt lang={lang} />
   </section>
 
-  <About lang={lang} stats={stats} />
+  <About lang={lang} stats={stats} group={groupPhotos[0]} />
 
   <section class="section container" aria-labelledby="areas-h">
     <div class="section-head reveal">

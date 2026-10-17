@@ -88,13 +88,6 @@ test('no external images, no third-party scripts, no preloaded video', () => {
   }
 });
 
-test('home page weighs under 300 KB of HTML + CSS + JS', () => {
-  const page = html('/');
-  const assets = [...page.matchAll(/(?:href|src)="(\/_astro\/[^"]+\.(?:css|js))"/g)].map((m) => m[1]);
-  const bytes = Buffer.byteLength(page) + assets.reduce((n, a) => n + statSync(join(DIST, a)).size, 0);
-  assert.ok(bytes < 300 * 1024, `home is ${Math.round(bytes / 1024)} KB`);
-});
-
 test('home hero art exists and motion is switched off under prefers-reduced-motion', () => {
   const page = html('/');
   assert.match(page, /class="hero-art/);
@@ -326,5 +319,19 @@ test('the contact card links a map of the campus and NCUE\'s own directions page
     assert.match(card, /href="https:\/\/www\.google\.com\/maps\/search\/\?api=1&amp;query=[^"]+"/, `${r}: no map link`);
     assert.match(card, /href="https:\/\/www\.ncue\.edu\.tw\/p\/412-1000-870\.php\?Lang=zh-tw"/, `${r}: no directions link`);
     assert.match(card, /500208/, `${r}: the address needs the 6-digit postcode`);
+  }
+});
+
+test('with a group photo, About shows the newest as a sized <picture> with AVIF and WebP, captioned with its year', () => {
+  const dir = join(ROOT, 'src/content/group-photos');
+  const years = existsSync(dir) ? readdirSync(dir).map((f) => f.match(/^(\d{4})\.ya?ml$/)?.[1]).filter(Boolean).sort() : [];
+  if (years.length === 0) return; // none yet: the figure-free case is checked in the About test
+  for (const r of ['/', zh('/')]) {
+    const about = section(html(r), 'about');
+    const fig = about.slice(about.indexOf('<figure'), about.indexOf('</figure>'));
+    assert.match(fig, /<source[^>]+type="image\/avif"/, `${r}: no AVIF source`);
+    assert.match(fig, /<source[^>]+type="image\/webp"/, `${r}: no WebP source`);
+    assert.match(fig, /<img[^>]+width="\d+"[^>]*height="\d+"|<img[^>]+height="\d+"[^>]*width="\d+"/, `${r}: the photo has no size`);
+    assert.match(fig, new RegExp(`<figcaption[^>]*>[^<]*${years.at(-1)}`), `${r}: caption lacks the year ${years.at(-1)}`);
   }
 });

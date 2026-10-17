@@ -1,0 +1,14 @@
+---
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+/**
+ * A local photo from a collection's image() field: AVIF and WebP with a JPEG fallback, sized for its slot, with an
+ * optional caption. `width` is the widest it is shown; `eager` only for a photo near the top of a page.
+ */
+interface Props { src: ImageMetadata; alt: string; width: number; sizes?: string; caption?: string; captionLang?: string; eager?: boolean; class?: string }
+const { src, alt, width, sizes, caption, captionLang, eager = false, class: cls } = Astro.props;
+---
+<figure class:list={['photo', cls]}>
+  <Picture src={src} alt={alt} width={width} sizes={sizes} formats={['avif', 'webp']} fallbackFormat="jpeg" layout="constrained" loading={eager ? 'eager' : 'lazy'} decoding="async" />
+  {caption && <figcaption lang={captionLang}>{caption}</figcaption>}
+</figure>
