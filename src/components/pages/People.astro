@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import PageHead from '../PageHead.astro';
 import PersonCard from '../PersonCard.astro';
+import ArtFill from '../ArtFill.astro';
 import { t, type Locale } from '../../i18n/utils';
 import { slugOf } from '../../lib/format';
 import { getPeople, getPublications, getProjects, getAreas, type Person } from '../../lib/data';
@@ -18,7 +19,7 @@ const groups = [
 ].filter((g) => g.list.length > 0);
 ---
 <Base lang={lang} title={t('people.title', lang)} path="/people/">
-  <PageHead title={t('people.title', lang)} lede={t('people.intro', lang)} />
+  <PageHead title={t('people.title', lang)} lede={t('people.intro', lang)} art="people" />
   <section class="container people-pi" id="pi" aria-label={t('people.pi', lang)}>
     {pis.map((p) => <PersonCard person={p} lang={lang} pubs={pubs} projects={projects} pi areaTitles={areaTitles} />)}
   </section>
@@ -29,6 +30,7 @@ const groups = [
       </div>
       <div class="grid grid-2 people-grid">
         {g.list.map((p, i) => <PersonCard person={p} lang={lang} pubs={pubs} projects={projects} i={i % 4} />)}
+        <ArtFill name={g.id === 'alumni' ? 'chip' : 'opamp'} count={g.list.length} />
       </div>
     </section>
   ))}

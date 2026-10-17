@@ -1,0 +1,10 @@
+<!-- News: an oscilloscope screen, a triggered and decaying burst, two time cursors. -->
+<svg class="art-svg" viewBox="0 0 480 240" preserveAspectRatio="xMaxYMid meet" focusable="false">
+<rect class="dots" x="0" y="0" width="480" height="240" mask="url(#art-vignette)"></rect>
+<rect class="ink" x="168" y="22" width="286" height="196" rx="12"></rect>
+<path class="con" d="M168 120H454M310 22V218"></path>
+<path class="thin" d="M184 117v6M198 117v6M212 117v6M226 117v6M240 117v6M254 117v6M268 117v6M282 117v6M296 117v6M310 117v6M324 117v6M338 117v6M352 117v6M366 117v6M380 117v6M394 117v6M408 117v6M422 117v6M436 117v6M307 36h6M307 50h6M307 64h6M307 78h6M307 92h6M307 106h6M307 134h6M307 148h6M307 162h6M307 176h6M307 190h6M307 204h6"></path>
+<path class="dim" d="M206 34V206M270 34V206"></path>
+<path class="thin" d="M206 30h64M206 26v8M270 26v8"></path>
+<path class="sig" d="M176 120H206q8 -60 16 0q8 48 16 0q8 -38 16 0q8 30 16 0q8 -24 16 0q8 19 16 0q8 -15 16 0q8 12 16 0q8 -9 16 0q8 7 16 0q8 -5 16 0q8 4 16 0q8 -3 16 0q8 2 16 0H446"></path>
+<path class="key" d="M160 113l8 7l-8 7z"></path></svg>

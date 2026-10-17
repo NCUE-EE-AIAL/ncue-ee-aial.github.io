@@ -1,17 +1,21 @@
 ---
 /** Single bilingual 404: GitHub Pages serves this one file for every missing path, /zh/ included. */
 import Base from '../../layouts/Base.astro';
+import Art from '../Art.astro';
 import { t } from '../../i18n/utils';
 ---
 <Base lang="en" title={`${t('notfound.title', 'en')} · ${t('notfound.title', 'zh')}`} path="/" bare>
   <section class="container notfound">
-    <p class="kicker">404</p>
-    <h1>{t('notfound.title', 'en')}</h1>
-    <p class="lede">{t('notfound.body', 'en')}</p>
-    <p class="lede" lang="zh-Hant-TW"><strong>{t('notfound.title', 'zh')}</strong>：{t('notfound.body', 'zh')}</p>
-    <div class="actions">
-      <a class="btn" href="/">{t('notfound.home', 'en')}</a>
-      <a class="btn btn-ghost" href="/zh/" lang="zh-Hant-TW">{t('notfound.home', 'zh')}</a>
+    <div>
+      <p class="kicker">404</p>
+      <h1>{t('notfound.title', 'en')}</h1>
+      <p class="lede">{t('notfound.body', 'en')}</p>
+      <p class="lede" lang="zh-Hant-TW"><strong>{t('notfound.title', 'zh')}</strong>：{t('notfound.body', 'zh')}</p>
+      <div class="actions">
+        <a class="btn" href="/">{t('notfound.home', 'en')}</a>
+        <a class="btn btn-ghost" href="/zh/" lang="zh-Hant-TW">{t('notfound.home', 'zh')}</a>
+      </div>
     </div>
+    <Art name="404" class="art-404" />
   </section>
 </Base>

@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import PageHead from '../PageHead.astro';
 import ProjectCard from '../ProjectCard.astro';
+import ArtFill from '../ArtFill.astro';
 import { pick, t, type Locale } from '../../i18n/utils';
 import { slugOf } from '../../lib/format';
 import { getProjects, getAreas, getPeople, inArea } from '../../lib/data';
@@ -18,7 +19,7 @@ const filterCss = used.map((a) => `.projects:has(#pf-${a}:checked) .project:not(
 ---
 <Base lang={lang} title={t('projects.title', lang)} path="/projects/">
   <style is:inline slot="head" set:html={filterCss}></style>
-  <PageHead title={t('projects.title', lang)} lede={t('projects.intro', lang)} />
+  <PageHead title={t('projects.title', lang)} lede={t('projects.intro', lang)} art="projects" />
   <div class="container projects">
     {used.length > 1 && (
       <fieldset class="filters">
@@ -38,6 +39,7 @@ const filterCss = used.map((a) => `.projects:has(#pf-${a}:checked) .project:not(
       : (
         <div class="grid grid-2">
           {projects.map((p, i) => <ProjectCard project={p} lang={lang} meta={metas[i]} areaTitles={areaTitles} names={names} i={i % 4} level={2} />)}
+          <ArtFill name="opamp" count={projects.length} />
         </div>
       )}
   </div>

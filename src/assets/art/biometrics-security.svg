@@ -1,0 +1,23 @@
+<!-- Biometrics and security: whorl ridges with breaks, minutiae linked into a graph, a voice envelope beside it. -->
+<svg class="art-svg" viewBox="0 0 480 240" preserveAspectRatio="xMaxYMid meet" focusable="false">
+<rect class="dots" x="0" y="0" width="480" height="240" mask="url(#art-vignette)"></rect>
+<g transform="rotate(-14 335 122)"><ellipse class="thin" cx="335" cy="122" rx="7" ry="10"></ellipse>
+<ellipse class="thin" stroke-dasharray="48 7" cx="335.9" cy="121.4" rx="15.6" ry="20"></ellipse>
+<ellipse class="thin" cx="336.8" cy="120.8" rx="24.2" ry="30"></ellipse>
+<ellipse class="thin" stroke-dasharray="70 9 30 6" cx="337.7" cy="120.2" rx="32.8" ry="40"></ellipse>
+<ellipse class="thin" cx="338.6" cy="119.6" rx="41.4" ry="50"></ellipse>
+<ellipse class="thin" stroke-dasharray="120 10" cx="339.5" cy="119" rx="50" ry="60"></ellipse>
+<ellipse class="thin" stroke-dasharray="90 8 40 9" cx="340.4" cy="118.4" rx="58.6" ry="70"></ellipse>
+<ellipse class="thin" cx="341.3" cy="117.8" rx="67.2" ry="80"></ellipse>
+<ellipse class="thin" stroke-dasharray="160 12" cx="342.2" cy="117.2" rx="75.8" ry="90"></ellipse>
+<ellipse class="thin" stroke-dasharray="60 10 110 8" cx="343.1" cy="116.6" rx="84.4" ry="100"></ellipse>
+<ellipse class="thin" cx="344" cy="116" rx="93" ry="110"></ellipse>
+<ellipse class="thin" stroke-dasharray="200 14" cx="344.9" cy="115.4" rx="101.6" ry="120"></ellipse></g>
+<path class="dim" d="M305.3 107.7L373.1 63.9L393.8 200.8L304.7 158.6L302.1 14.8Z"></path>
+<path class="thin" d="M150 119v6M157 117v10M164 113v18M171 116v12M178 109v26M185 105v34M192 111v22M199 102v40M206 107v30M213 113v18M220 110v24M227 116v12M234 118v8M241 115v14M248 119v6"></path>
+<path class="sig" d="M140 122H254"></path>
+<circle class="sig paper" cx="305.3" cy="107.7" r="4"></circle>
+<circle class="sig paper" cx="373.1" cy="63.9" r="4"></circle>
+<circle class="sig paper" cx="393.8" cy="200.8" r="4"></circle>
+<circle class="sig paper" cx="304.7" cy="158.6" r="4"></circle>
+<circle class="sig paper" cx="302.1" cy="14.8" r="4"></circle></svg>

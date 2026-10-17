@@ -1,0 +1,16 @@
+---
+/**
+ * Decorative line art from src/assets/art/<name>.svg, inlined so it takes the theme's --art-* colours.
+ * `name` may list fallbacks: the first drawing that exists is used (a new research area without its own
+ * drawing falls back instead of breaking the build). Always aria-hidden and never focusable; styles and
+ * placement live under "Background art" in global.css. "defs" holds the shared patterns and is emitted as is.
+ */
+const files = import.meta.glob<string>('../assets/art/*.svg', { query: '?raw', import: 'default', eager: true });
+interface Props { name: string | string[]; class?: string }
+const { name, class: cls } = Astro.props;
+const names = [name].flat();
+const found = names.find((n) => files[`../assets/art/${n}.svg`]);
+if (!found) throw new Error(`No art ${names.map((n) => `"${n}"`).join(' or ')} in src/assets/art/`);
+const svg = files[`../assets/art/${found}.svg`];
+---
+{found === 'defs' ? <Fragment set:html={svg} /> : <div class:list={['art', cls]} aria-hidden="true" set:html={svg}></div>}

@@ -1,0 +1,16 @@
+<!-- Grid filler: a chip fanning out to vias. -->
+<svg class="art-svg" viewBox="0 0 320 180" preserveAspectRatio="xMidYMid meet" focusable="false">
+<rect class="dots" x="0" y="0" width="320" height="180" mask="url(#art-vignette)"></rect>
+<path class="thin" d="M176 62V40l14-14H232M188 78H212l14-14V40M188 102H212l14 14V146M176 118V140l14 14H232M160 118V140l-14 14H104M132 102H108l-14 14V146M132 78H108l-14-14V40"></path>
+<path class="sig" d="M160 62V40l-14-14H104"></path>
+<rect class="ink paper" x="132" y="62" width="56" height="56" rx="4"></rect>
+<path class="thin" d="M139 62v-6M139 118v6M132 69h-6M188 69h6M147.4 62v-6M147.4 118v6M132 77.4h-6M188 77.4h6M155.8 62v-6M155.8 118v6M132 85.8h-6M188 85.8h6M164.2 62v-6M164.2 118v6M132 94.2h-6M188 94.2h6M172.6 62v-6M172.6 118v6M132 102.6h-6M188 102.6h6M181 62v-6M181 118v6M132 111h-6M188 111h6"></path>
+<circle class="thin" cx="141" cy="71" r="2"></circle>
+<circle class="sig paper" cx="104" cy="26" r="3.5"></circle>
+<circle class="thin paper" cx="232" cy="26" r="3.5"></circle>
+<circle class="thin paper" cx="226" cy="40" r="3.5"></circle>
+<circle class="thin paper" cx="226" cy="146" r="3.5"></circle>
+<circle class="thin paper" cx="232" cy="154" r="3.5"></circle>
+<circle class="thin paper" cx="104" cy="154" r="3.5"></circle>
+<circle class="thin paper" cx="94" cy="146" r="3.5"></circle>
+<circle class="thin paper" cx="94" cy="40" r="3.5"></circle></svg>

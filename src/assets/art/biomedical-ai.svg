@@ -1,0 +1,11 @@
+<!-- Biomedical AI: an ECG over three wavelet-like bands, R peaks marked, one RR interval measured. -->
+<svg class="art-svg" viewBox="0 0 480 240" preserveAspectRatio="xMaxYMid meet" focusable="false">
+<rect class="dots" x="0" y="0" width="480" height="240" mask="url(#art-vignette)"></rect>
+<path class="dim" d="M180 30V226M300 30V226"></path>
+<path class="thin" d="M180 22v8M300 22v8M180 26H300"></path>
+<path class="thin" d="M110 150H172l2-6l3 12l3-14l3 12l3-7l2 3H292l2-6l3 12l3-14l3 12l3-7l2 3H412l2-6l3 12l3-14l3 12l3-7l2 3H476"></path>
+<path class="thin" d="M110 182H160q10-14 20 0q10 14 20 0H280q10-14 20 0q10 14 20 0H400q10-14 20 0q10 14 20 0H476"></path>
+<path class="con" d="M110 212q30-10 60 0t60 0t60 0t60 0t60 0t60 0"></path>
+<path class="sig" d="M96 92H132q5-7 10 0H172l2 4l6-52l6 64l4-16H208q12-16 24 0H252q5-7 10 0H292l2 4l6-52l6 64l4-16H328q12-16 24 0H372q5-7 10 0H412l2 4l6-52l6 64l4-16H448q12-16 24 0H480"></path>
+<circle class="key" cx="180" cy="40" r="3"></circle>
+<circle class="key" cx="300" cy="40" r="3"></circle></svg>

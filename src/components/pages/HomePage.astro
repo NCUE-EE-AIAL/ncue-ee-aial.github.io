@@ -5,6 +5,7 @@ import AreaCard from '../AreaCard.astro';
 import PubItem from '../PubItem.astro';
 import NewsItem from '../NewsItem.astro';
 import Icon from '../Icon.astro';
+import ArtFill from '../ArtFill.astro';
 import { t, s, localePath, type Locale } from '../../i18n/utils';
 import { site } from '../../i18n/ui';
 import { getAreas, getPublications, getNews, getPeople } from '../../lib/data';
@@ -40,6 +41,7 @@ const members = people.map((p) => p.data.name.en);
     </div>
     <div class="grid grid-3">
       {areas.map((a, i) => <AreaCard area={a} lang={lang} i={i} />)}
+      <ArtFill name="opamp" count={areas.length} />
     </div>
   </section>
 

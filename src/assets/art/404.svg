@@ -1,0 +1,15 @@
+<!-- 404: a circuit left open. Current leaves the cell and stops at the switch; the lamp stays dark. -->
+<svg class="art-svg" viewBox="92 18 336 264" preserveAspectRatio="xMidYMid meet" focusable="false">
+<rect class="dots" x="0" y="0" width="480" height="300" mask="url(#art-vignette)"></rect>
+<path class="ink" d="M126 138H154M140 152V230H380V168M380 132V70H286"></path>
+<path class="ink" d="M132 152H148"></path>
+<path class="ink thick" d="M133 150H147"></path>
+<circle class="ink" cx="380" cy="150" r="18"></circle>
+<path class="thin" d="M367.3 137.3l25.4 25.4M392.7 137.3l-25.4 25.4"></path>
+<path class="ink" d="M233 70L276 42"></path>
+<path class="dim" d="M276 42A44 44 0 0 1 280 64"></path>
+<path class="ink" d="M260 230V246M246 246H274M251 253H269M256 260H264"></path>
+<path class="sig" d="M140 138V70H228"></path>
+<circle class="ink paper" cx="232" cy="70" r="4"></circle>
+<circle class="ink paper" cx="282" cy="70" r="4"></circle>
+<circle class="key" cx="232" cy="70" r="2"></circle></svg>

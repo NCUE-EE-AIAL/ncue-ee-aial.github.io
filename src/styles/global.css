@@ -17,6 +17,10 @@
   --warn-soft: #fef3c7;
   --nav-bg: rgba(255, 255, 255, 0.92);
   --shadow: 0 1px 2px rgba(17, 24, 39, 0.06), 0 4px 16px rgba(17, 24, 39, 0.05);
+  /* Background line art: --art-faint is safe under any text (tests/art.test.mjs); ink and signal stay clear of text. */
+  --art-faint: #e1e5ec;
+  --art-ink: #c3cad6;
+  --art-signal: #a9c0f1;
   --radius: 10px;
   --radius-sm: 6px;
   --maxw: 1080px;
@@ -43,6 +47,9 @@
   --warn-soft: #3a2d0c;
   --nav-bg: rgba(15, 17, 23, 0.9);
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.35);
+  --art-faint: #212938;
+  --art-ink: #354056;
+  --art-signal: #2f4a78;
   color-scheme: dark;
 }
 @media (prefers-color-scheme: dark) {
@@ -64,6 +71,9 @@
     --warn-soft: #3a2d0c;
     --nav-bg: rgba(15, 17, 23, 0.9);
     --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.35);
+    --art-faint: #212938;
+    --art-ink: #354056;
+    --art-signal: #2f4a78;
     color-scheme: dark;
   }
 }
@@ -82,6 +92,7 @@ body {
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
+  position: relative; /* containing block for the wide-screen .art-bench */
 }
 html[lang^='zh'] body { line-height: 1.8; letter-spacing: 0.01em; }
 main { flex: 1; }
@@ -112,7 +123,7 @@ button { font: inherit; color: inherit; }
 .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
 .section-head h2 { margin: 0; }
 .section-head .more { font-size: 0.95rem; white-space: nowrap; }
-.page-head { padding-block: clamp(36px, 6vw, 64px) clamp(20px, 3vw, 32px); }
+.page-head { padding-block: clamp(36px, 6vw, 64px) clamp(20px, 3vw, 32px); position: relative; isolation: isolate; }
 .page-head .lede { color: var(--muted); font-size: 1.1rem; max-width: 60ch; margin-top: 10px; }
 .kicker { color: var(--accent); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
 .grid { display: grid; gap: 20px; }
@@ -258,6 +269,59 @@ a.card:hover { text-decoration: none; border-color: var(--border-2); box-shadow:
 @keyframes hero-fade { 0%, 34% { opacity: 0; } 46%, 86% { opacity: 1; } 100% { opacity: 0; } }
 @keyframes hero-pulse { 0%, 44% { opacity: 0; transform: scale(0.3); } 52% { opacity: 1; transform: scale(1.3); } 58%, 86% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1); } }
 
+/* ───────── Background art (src/assets/art/*.svg, inlined by Art.astro) ─────────
+   The hero's grammar, quieter and still: dot grid and dashed construction lines in --art-faint, objects in --art-ink,
+   one signal line in --art-signal. Decorative only: aria-hidden, no pointer, no motion, not printed. */
+.art { pointer-events: none; user-select: none; }
+.art-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+.art-svg { display: block; width: 100%; height: 100%; }
+.art-svg * { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.art .dots { fill: url(#art-dots); }
+.art .holes { fill: url(#art-holes); }
+.art .dot, .art .hole { fill: var(--art-faint); }
+.art .fade { fill: url(#art-fade); } /* luminance mask that softens the edges of every dot field */
+.art .fade-in, .art .fade-out { stop-color: #fff; }
+.art .fade-out { stop-opacity: 0; }
+.art .web { stroke: var(--art-faint); stroke-width: 1; }
+.art .con { stroke: var(--art-faint); stroke-width: 1.25; stroke-dasharray: 2 6; }
+.art .dim { stroke: var(--art-ink); stroke-width: 1; stroke-dasharray: 4 5; }
+.art .ink { stroke: var(--art-ink); stroke-width: 1.5; }
+.art .thin, .art .node { stroke: var(--art-ink); stroke-width: 1; }
+.art .thick { stroke-width: 3.5; }
+.art .sig, .art .lit { stroke: var(--art-signal); stroke-width: 1.75; }
+.art .fine { stroke-width: 1.1; }
+.art .key { fill: var(--art-signal); stroke: none; }
+.art .dotk { fill: var(--art-ink); }
+.art .paper, .art .node { fill: var(--bg); }
+
+/* Page heads: the plate sits right of the text column (44rem keeps it clear of the 60ch lede) and bleeds into the gutter. */
+.art-head { display: none; }
+@media (min-width: 1000px) {
+  .page-head.has-art h1 { max-width: 42rem; }
+  .art-head {
+    --bleed: clamp(0px, (100vw - var(--maxw)) / 2 - 24px, 200px);
+    display: block; position: absolute; z-index: -1; top: 0; bottom: 0;
+    right: calc(-1 * var(--bleed)); width: min(560px, 100% + var(--bleed) - 44rem);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 28%);
+    mask-image: linear-gradient(90deg, transparent, #000 28%);
+  }
+}
+
+/* Card grids: a drawing takes the empty cells of the last row, only while the grid has three columns. */
+.art-fill { display: none; place-items: center; align-self: start; min-height: 160px; }
+.art-fill-2 { grid-column: span 2; }
+.art-fill .art-svg { width: min(100%, 340px); height: auto; }
+@media (min-width: 852px) { .grid-3 > .art-fill { display: grid; } }
+@media (min-width: 972px) { .grid-2 > .art-fill { display: grid; } }
+.projects:has(#pf-all:not(:checked)) .art-fill { display: none; }
+
+/* Wide screens: an XY-scope Lissajous in the left gutter, beside the first section, clipped to the page. */
+.art-bench { display: none; }
+.art-bench .art-svg { height: auto; }
+@media (min-width: 1600px) {
+  .art-bench { display: block; position: absolute; z-index: -1; top: 340px; bottom: 0; left: 0; width: min(380px, (100% - var(--maxw)) / 2 - 24px); overflow: hidden; }
+}
+
 /* ───────── Publications ───────── */
 .pub-year { margin-top: 32px; margin-bottom: 12px; font-size: 1.05rem; color: var(--muted); font-weight: 600; }
 .pub { padding: 14px 0; border-top: 1px solid var(--border); display: grid; gap: 6px; }
@@ -333,12 +397,12 @@ fieldset.filters { border: 0; padding: 0; min-width: 0; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .js .reveal, .js .reveal.in { opacity: 1; animation: none; }
-  .hero-art * { animation: none !important; }
+  .hero-art *, .art * { animation: none !important; }
   .hero-art .draw { stroke-dashoffset: 0; }
   .card, .area-go, .video-play-icon { transition: none; }
   a.card:hover { transform: none; }
 }
-@media print { .js .reveal { opacity: 1; } .hero-art { display: none; } }
+@media print { .js .reveal { opacity: 1; } .hero-art, .art { display: none; } }
 
 /* ───────── Area cards ───────── */
 .area-card { position: relative; display: flex; flex-direction: column; gap: 8px; padding: 22px 22px 20px; }
@@ -477,6 +541,10 @@ h2 .count { vertical-align: 0.3em; margin-left: 6px; }
 .video-note { font-size: 0.8rem; color: var(--muted); }
 
 /* ───────── 404 ───────── */
-.notfound { padding-block: clamp(56px, 10vw, 112px); }
+.notfound { padding-block: clamp(56px, 10vw, 112px); display: grid; gap: 32px clamp(28px, 5vw, 56px); align-items: center; }
+@media (min-width: 860px) { .notfound { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); } }
+.art-404 { width: 100%; max-width: 480px; }
+.art-404 .art-svg { height: auto; }
+@media (max-width: 859px) { .art-404 { max-width: 360px; } }
 .notfound .lede { color: var(--muted); font-size: 1.1rem; margin-top: 12px; max-width: 60ch; }
 .notfound .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }

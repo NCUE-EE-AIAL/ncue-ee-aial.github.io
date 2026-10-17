@@ -1,0 +1,17 @@
+<!-- International programs: a tilted globe, an orbit, and a great-circle route out of Taiwan. -->
+<svg class="art-svg" viewBox="0 0 480 240" preserveAspectRatio="xMaxYMid meet" focusable="false">
+<rect class="dots" x="0" y="0" width="480" height="240" mask="url(#art-vignette)"></rect>
+<ellipse class="con" transform="rotate(-12 330 122)" cx="330" cy="122" rx="146" ry="42"></ellipse>
+<g transform="rotate(-18 330 122)"><circle class="ink" cx="330" cy="122" r="92"></circle>
+<ellipse class="thin" cx="330" cy="122" rx="46" ry="92"></ellipse>
+<ellipse class="thin" cx="330" cy="122" rx="79.7" ry="92"></ellipse>
+<path class="thin" d="M330 30V214"></path>
+<ellipse class="con" cx="330" cy="192.5" rx="59.1" ry="9.5"></ellipse>
+<ellipse class="con" cx="330" cy="160.9" rx="83.4" ry="13.3"></ellipse>
+<ellipse class="thin" cx="330" cy="122" rx="92" ry="14.7"></ellipse>
+<ellipse class="con" cx="330" cy="83.1" rx="83.4" ry="13.3"></ellipse>
+<ellipse class="con" cx="330" cy="51.5" rx="59.1" ry="9.5"></ellipse></g>
+<path class="sig" d="M372 98Q290 2 266 152"></path>
+<circle class="key" cx="372" cy="98" r="3.2"></circle>
+<circle class="sig" cx="372" cy="98" r="8"></circle>
+<circle class="key" cx="266" cy="152" r="3"></circle></svg>

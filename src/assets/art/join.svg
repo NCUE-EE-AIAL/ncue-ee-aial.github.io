@@ -1,0 +1,17 @@
+<!-- Join: a breadboard waiting for parts: a DIP chip across the channel, a resistor, an LED, one jumper wire. -->
+<svg class="art-svg" viewBox="0 0 480 240" preserveAspectRatio="xMaxYMid meet" focusable="false">
+<rect class="dots" x="0" y="0" width="480" height="240" mask="url(#art-vignette)"></rect>
+<rect class="ink" x="156" y="36" width="300" height="178" rx="8"></rect>
+<path class="thin" d="M156 121H456M156 129H456M168 48H444M168 202H444"></path>
+<rect class="holes" x="168" y="58" width="276" height="56"></rect>
+<rect class="holes" x="168" y="136" width="276" height="56"></rect>
+<rect class="ink paper" x="280" y="104" width="60" height="42" rx="3"></rect>
+<path class="thin" d="M280 120a5 5 0 0 1 0 10M290 104v-6M290 146v6M300 104v-6M300 146v6M310 104v-6M310 146v6M320 104v-6M320 146v6M330 104v-6M330 146v6"></path>
+<path class="ink" d="M186 80H202M238 80H254"></path>
+<rect class="ink paper" x="202" y="73" width="36" height="14" rx="7"></rect>
+<path class="thin" d="M211 74v12M219 74v12M227 74v12"></path>
+<path class="ink" d="M372 104V90a10 10 0 0 1 20 0V104M376 104v10M388 104v10M396 76l8-8m-5 0h5v5M400 86l8-8m-5 0h5v5"></path>
+<path class="sig" d="M190 48C220 4 330 4 354 70"></path>
+<circle class="key" cx="190" cy="48" r="3"></circle>
+<circle class="key" cx="354" cy="70" r="3"></circle>
+<path class="thin" d="M340 136C362 136 370 122 382 114"></path></svg>

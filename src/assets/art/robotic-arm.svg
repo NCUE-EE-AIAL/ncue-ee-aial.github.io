@@ -1,0 +1,14 @@
+<!-- Robotic arm: a three-link kinematic sketch with joint angles, reach envelope and a pick-and-place path. -->
+<svg class="art-svg" viewBox="0 0 480 240" preserveAspectRatio="xMaxYMid meet" focusable="false">
+<rect class="dots" x="0" y="0" width="480" height="240" mask="url(#art-vignette)"></rect>
+<path class="con" d="M155.1 -0.4A200 200 0 0 1 430 185"></path>
+<path class="con" d="M230 185L250 98L338 62L372 92"></path>
+<path class="dim" d="M230 185H292M258 185A28 28 0 0 0 243.1 160.3M275 100L290.9 70M285.3 80.6A22 22 0 0 1 296.7 96.4"></path>
+<path class="ink" d="M196 205H268M200 205l-8 9M210 205l-8 9M220 205l-8 9M230 205l-8 9M240 205l-8 9M250 205l-8 9M260 205l-8 9M214 205l5-14h22l5 14"></path>
+<path class="ink" d="M230 185L275 100L365 85M365 85L392 115M399.4 108.3L384.6 121.7M399.4 108.3L408.8 118.7M384.6 121.7L393.9 132.1"></path>
+<path class="sig" d="M401.4 125.4C430 132 446 160 446 196"></path>
+<path class="dim" d="M430 204h32"></path>
+<circle class="key" cx="446" cy="196" r="3"></circle>
+<circle class="ink paper" cx="230" cy="185" r="7"></circle>
+<circle class="ink paper" cx="275" cy="100" r="7"></circle>
+<circle class="ink paper" cx="365" cy="85" r="6"></circle></svg>

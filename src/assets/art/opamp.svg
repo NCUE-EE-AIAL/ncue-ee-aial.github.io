@@ -1,0 +1,11 @@
+<!-- Grid filler: an inverting amplifier, small wave in, larger wave out. -->
+<svg class="art-svg" viewBox="0 0 320 180" preserveAspectRatio="xMidYMid meet" focusable="false">
+<rect class="dots" x="0" y="0" width="320" height="180" mask="url(#art-vignette)"></rect>
+<path class="ink" d="M130 50V130L200 90Z"></path>
+<path class="thin" d="M138 70h8M138 110h8M142 106v8"></path>
+<path class="ink" d="M42 70H64l3-6l6 12l6-12l6 12l6-12l3 6H130M112 70V28H146l3-6l6 12l6-12l6 12l6-12l3 6H222V90H200"></path>
+<path class="ink" d="M130 110H104V128M94 128h20M98 134h12M102 140h4"></path>
+<circle class="ink paper" cx="112" cy="70" r="2.5"></circle>
+<circle class="ink paper" cx="222" cy="90" r="2.5"></circle>
+<path class="thin" d="M8 70q4-6 8 0t8 0t8 0t8 0"></path>
+<path class="sig" d="M222 90H244q6-28 12 0t12 0t12 0t12 0"></path></svg>

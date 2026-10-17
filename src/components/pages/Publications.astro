@@ -18,7 +18,7 @@ const filterCss = types.map((ty) =>
 ---
 <Base lang={lang} title={t('pubs.title', lang)} path="/publications/">
   <style is:inline slot="head" set:html={filterCss}></style>
-  <PageHead title={t('pubs.title', lang)} lede={t('pubs.intro', lang)} />
+  <PageHead title={t('pubs.title', lang)} lede={t('pubs.intro', lang)} art="publications" />
   <div class="container pubs">
     {types.length > 1 && (
       <fieldset class="filters">

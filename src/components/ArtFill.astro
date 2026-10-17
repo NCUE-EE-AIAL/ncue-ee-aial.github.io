@@ -1,0 +1,8 @@
+---
+/** Fills the empty cells in the last row of a three-column card grid with a drawing (desktop only, see .art-fill). */
+import Art from './Art.astro';
+interface Props { name: string; count: number }
+const { name, count } = Astro.props;
+const empty = (3 - (count % 3)) % 3;
+---
+{empty > 0 && <Art name={name} class={`art-fill art-fill-${empty}`} />}

@@ -60,7 +60,7 @@
 
 ### 2.1 新增一篇論文
 
-先確認符合[內容規則](#5-實驗室內容規則)：作者必須包含楊文仁老師。
+先確認符合[內容規則](#5-實驗室內容規則)：作者必須包含楊文然老師。
 
 1. 在 `src/content/publications/` 新增 `<年>-<key>.yaml`，例如 `2026-emotion-as-distribution.yaml`。`key` 用小寫英文、數字、連字號。
 2. 內容（可複製 `2024-two-step-auth.yaml` 修改）：
@@ -177,6 +177,15 @@
 - 圖片請先縮小（寬度約 1200 px 以內、檔案數百 KB），不要放原始相機檔。
 - **不要**直接引用別的網站上的圖片網址，也不要放沒有授權的圖片。
 
+### 背景插圖
+
+- 頁首與卡片的背景線稿放在 `src/assets/art/*.svg`，由 `scripts/art-gen.mjs` **產生**：要改圖，請改這支 script 再執行 `npm run art`（會重寫全部 SVG）；直接改 SVG 會在下次執行時被蓋掉。
+- 規格：頁首圖的 `viewBox` 為 `0 0 480 240`、`preserveAspectRatio="xMaxYMid meet"`；格狀卡片的填充圖（`opamp`、`chip`）為 `0 0 320 180`、`xMidYMid meet`（`404` 與 `bench` 是特例，照現有檔案）。
+- 第一個元素是帶 `mask="url(#art-vignette)"` 的 `.dots` 矩形；`class` 只能用 `dots` `con` `dim` `ink` `thin` `sig` `key` `paper` `holes` `web` `node`。
+- 不要寫顏色（`fill`、`stroke`、色碼、`style` 都不行），顏色由 `src/styles/global.css` 的 CSS 變數決定；每個元素都要有成對的結尾標籤（`<path ...></path>`，不能寫 `/>`）。
+- 新研究方向要有自己的插圖：在 script 裡新增一張並在 `NOTES` 補一行說明，輸出為 `src/assets/art/<slug>.svg`（`<slug>` 與 `research/` 資料夾同名）；沒有這個檔案時，研究頁會自動改用通用的 `research` 插圖。
+- 改完執行 `npm test`（檢查顏色、結尾標籤、檔案大小與 `npm run art` 的輸出是否與 SVG 一致；其餘規格要自己遵守）。
+
 ---
 
 ## 4. 欄位對照表
@@ -196,7 +205,7 @@ title:
 | 欄位 | 必填 | 型別 / 可用值 | 範例 | 說明 |
 |---|---|---|---|---|
 | `title` | 是 | bi | `en: "Two-step Authentication ..."` | |
-| `authors` | 是 | 字串清單，至少 1 位 | `- Wen Ren Yang` | 依發表順序；必須含楊文仁老師（規則） |
+| `authors` | 是 | 字串清單，至少 1 位 | `- Wen Ren Yang` | 依發表順序；必須含楊文然老師（規則） |
 | `venue` | 是 | 字串 | `"ICETA 2024, pp. 11-12"` | 期刊 / 會議全名，可含卷期頁碼 |
 | `year` | 是 | 整數 1990–2100 | `2024` | 不要加引號 |
 | `type` | 是 | `journal` `conference` `thesis` `preprint` `other` | `conference` | |
@@ -298,7 +307,7 @@ title:
 
 以下是實驗室的政策，不是建議。PR 審核時會逐項確認。
 
-1. **論文**：只有楊文仁（Wen-Ren Yang，楊文仁老師）為作者之一的論文才收錄。
+1. **論文**：只有楊文然（Wen-Ren Yang，楊文然老師）為作者之一的論文才收錄。
 2. **`verified: true`**：沒有 `source`（你實際打開過的出版社頁面網址）絕不可設為 `true`。沒核對就保持 `false`。
 3. **PDF**：只能連 arXiv 或作者接受稿（accepted manuscript）。IEEE / IET 等出版社版本只放 DOI 連結，不放 PDF。
 4. **學生個人 email 不公開**：聯絡請寄實驗室信箱 ncueaial@gmail.com 或指導教授；`links.email` 僅限 PI 與 staff。
@@ -467,6 +476,6 @@ keywords:
 
 ## 9. 誰在維護、去哪裡問
 
-- 網站由實驗室成員共同維護，指導教授：楊文仁老師。**網站不屬於任何單一學生**；畢業前請確認你負責的內容已交接，並確保 GitHub 組織 `NCUE-EE-AIAL` 至少有兩位 owner。
+- 網站由實驗室成員共同維護，指導教授：楊文然老師。**網站不屬於任何單一學生**；畢業前請確認你負責的內容已交接，並確保 GitHub 組織 `NCUE-EE-AIAL` 至少有兩位 owner。
 - 問題與討論：實驗室信箱 **ncueaial@gmail.com**，或在 GitHub 開 Issue（repo：`NCUE-EE-AIAL/ncue-ee-aial.github.io`）。
 - 網站上的線上版：https://ncue-ee-aial.github.io/（英文）、https://ncue-ee-aial.github.io/zh/（繁體中文）。

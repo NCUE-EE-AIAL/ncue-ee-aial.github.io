@@ -1,0 +1,21 @@
+<!-- Projects: an edge-AI board with a QFP chip, camera module, header, mounting holes and routed traces. -->
+<svg class="art-svg" viewBox="0 0 480 240" preserveAspectRatio="xMaxYMid meet" focusable="false">
+<rect class="dots" x="0" y="0" width="480" height="240" mask="url(#art-vignette)"></rect>
+<rect class="ink" x="166" y="28" width="290" height="186" rx="12"></rect>
+<circle class="thin" cx="182" cy="44" r="5"></circle>
+<circle class="thin" cx="440" cy="44" r="5"></circle>
+<circle class="thin" cx="182" cy="198" r="5"></circle>
+<circle class="thin" cx="440" cy="198" r="5"></circle>
+<rect class="ink paper" x="250" y="80" width="64" height="64" rx="4"></rect>
+<path class="ink" d="M242 90h8M242 99h8M242 108h8M242 117h8M242 126h8M242 135h8M314 90h8M314 99h8M314 108h8M314 117h8M314 126h8M314 135h8M260 72v8M269 72v8M278 72v8M287 72v8M296 72v8M305 72v8M260 144v8M269 144v8M278 144v8M287 144v8M296 144v8M305 144v8"></path>
+<circle class="thin" cx="259" cy="89" r="2.5"></circle>
+<rect class="ink paper" x="362" y="52" width="60" height="60" rx="5"></rect>
+<circle class="thin" cx="392" cy="82" r="19"></circle>
+<circle class="thin" cx="392" cy="82" r="9"></circle>
+<rect class="holes" x="214" y="176" width="168" height="24"></rect>
+<rect class="thin" x="214" y="176" width="168" height="24" rx="2"></rect>
+<path class="thin" d="M322 99H340l12-12H362M322 117H346l10 10V164M269 152V164l-8 8H226M287 152V176M197 74H232l10 10V108"></path>
+<path class="sig" d="M392 112V136l-12 12H340l-8-8H322"></path>
+<circle class="sig paper" cx="392" cy="112" r="3"></circle>
+<circle class="ink paper" cx="197" cy="74" r="3"></circle>
+<circle class="ink paper" cx="226" cy="172" r="3"></circle></svg>

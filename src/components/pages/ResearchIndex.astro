@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import PageHead from '../PageHead.astro';
 import AreaCard from '../AreaCard.astro';
 import Icon from '../Icon.astro';
+import ArtFill from '../ArtFill.astro';
 import { t, localePath, type Locale, type UiKey } from '../../i18n/utils';
 import { slugOf } from '../../lib/format';
 import { getAreas, getProjects, getPublications, getFacilities, inArea } from '../../lib/data';
@@ -12,7 +13,7 @@ const [areas, projects, pubs, facilities] = await Promise.all([getAreas(lang), g
 const categories = [...new Set(facilities.map((f) => f.data.category))].map((c) => t(`facility.${c}` as UiKey, lang));
 ---
 <Base lang={lang} title={t('research.title', lang)} path="/research/">
-  <PageHead kicker={t('home.hero.kicker', lang)} title={t('research.title', lang)} lede={t('research.intro', lang)} />
+  <PageHead kicker={t('home.hero.kicker', lang)} title={t('research.title', lang)} lede={t('research.intro', lang)} art="research" />
   <section class="container section-tight">
     <div class="grid grid-2">
       {areas.map((a, i) => (
@@ -20,6 +21,7 @@ const categories = [...new Set(facilities.map((f) => f.data.category))].map((c) 
           projects={projects.filter(inArea(slugOf(a.id))).length}
           pubs={pubs.filter(inArea(slugOf(a.id))).length} />
       ))}
+      <ArtFill name="chip" count={areas.length} />
     </div>
     {facilities.length > 0 && (
       <p class="facilities-line">

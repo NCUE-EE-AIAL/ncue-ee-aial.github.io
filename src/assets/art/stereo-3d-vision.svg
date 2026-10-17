@@ -1,0 +1,15 @@
+<!-- Stereo 3D vision: a rectified image pair on shared scanlines; the cube sits 16 units apart (disparity). -->
+<svg class="art-svg" viewBox="0 0 480 240" preserveAspectRatio="xMaxYMid meet" focusable="false">
+<rect class="dots" x="0" y="0" width="480" height="240" mask="url(#art-vignette)"></rect>
+<path class="con" d="M110 70H476M110 95H476M110 120H476M110 145H476M110 170H476"></path>
+<path class="con" d="M222 224L150 182M222 224L290 182M382 224L310 182M382 224L450 182"></path>
+<path class="dim" d="M230 224H374"></path>
+<rect class="ink" x="150" y="50" width="140" height="130" rx="3"></rect>
+<rect class="ink" x="310" y="50" width="140" height="130" rx="3"></rect>
+<path class="con" d="M200 143l24-21h48M224 122v-48M344 143l24-21h48M368 122v-48"></path>
+<path class="ink" d="M200 95h48v48h-48zm0 0l24-21h48l-24 21m24-21v48l-24 21M344 95h48v48h-48zm0 0l24-21h48l-24 21m24-21v48l-24 21"></path>
+<path class="sig" d="M200 95H344"></path>
+<circle class="key" cx="200" cy="95" r="3"></circle>
+<circle class="key" cx="344" cy="95" r="3"></circle>
+<circle class="ink paper" cx="222" cy="224" r="5"></circle>
+<circle class="ink paper" cx="382" cy="224" r="5"></circle></svg>

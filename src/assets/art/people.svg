@@ -1,0 +1,26 @@
+<!-- People: a valence-arousal plane; speech comes in and lands as a distribution, not a single label. -->
+<svg class="art-svg" viewBox="0 0 480 240" preserveAspectRatio="xMaxYMid meet" focusable="false">
+<rect class="dots" x="0" y="0" width="480" height="240" mask="url(#art-vignette)"></rect>
+<circle class="con" cx="330" cy="120" r="34"></circle>
+<circle class="con" cx="330" cy="120" r="66"></circle>
+<circle class="ink" cx="330" cy="120" r="98"></circle>
+<path class="dim" d="M210 120H456M330 8V232"></path>
+<g transform="rotate(-24 368 88)"><ellipse class="con" cx="368" cy="88" rx="54" ry="34"></ellipse>
+<ellipse class="thin" cx="368" cy="88" rx="36" ry="22"></ellipse>
+<ellipse class="sig" cx="368" cy="88" rx="17" ry="10"></ellipse></g>
+<circle class="dotk" cx="352" cy="84" r="1.8"></circle>
+<circle class="dotk" cx="376" cy="92" r="1.8"></circle>
+<circle class="dotk" cx="361" cy="104" r="1.8"></circle>
+<circle class="dotk" cx="384" cy="78" r="1.8"></circle>
+<circle class="dotk" cx="344" cy="99" r="1.8"></circle>
+<circle class="dotk" cx="371" cy="70" r="1.8"></circle>
+<circle class="dotk" cx="392" cy="101" r="1.8"></circle>
+<circle class="dotk" cx="356" cy="116" r="1.8"></circle>
+<circle class="dotk" cx="338" cy="82" r="1.8"></circle>
+<circle class="dotk" cx="399" cy="86" r="1.8"></circle>
+<circle class="dotk" cx="366" cy="61" r="1.8"></circle>
+<circle class="dotk" cx="329" cy="104" r="1.8"></circle>
+<circle class="dotk" cx="405" cy="70" r="1.8"></circle>
+<circle class="dotk" cx="347" cy="66" r="1.8"></circle>
+<path class="sig" d="M106 120h8l4-6l4 12l4-20l4 30l4-38l4 34l4-24l4 16l4-28l4 36l4-18l4 8l4-4h6L368 88"></path>
+<circle class="key" cx="368" cy="88" r="3.2"></circle></svg>

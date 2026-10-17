@@ -1,0 +1,23 @@
+<!-- Research index: a layered network; one route lights up through it, fed by a wave. -->
+<svg class="art-svg" viewBox="0 0 480 240" preserveAspectRatio="xMaxYMid meet" focusable="false">
+<rect class="dots" x="0" y="0" width="480" height="240" mask="url(#art-vignette)"></rect>
+<path class="web" d="M190 80L265 40M190 80L265 80M190 80L265 120M190 80L265 160M190 80L265 200M190 120L265 40M190 120L265 80M190 120L265 120M190 120L265 160M190 120L265 200M190 160L265 40M190 160L265 80M190 160L265 120M190 160L265 160M190 160L265 200M265 40L340 60M265 40L340 100M265 40L340 140M265 40L340 180M265 80L340 60M265 80L340 100M265 80L340 140M265 80L340 180M265 120L340 60M265 120L340 100M265 120L340 140M265 120L340 180M265 160L340 60M265 160L340 100M265 160L340 140M265 160L340 180M265 200L340 60M265 200L340 100M265 200L340 140M265 200L340 180M340 60L415 40M340 60L415 80M340 60L415 120M340 60L415 160M340 60L415 200M340 100L415 40M340 100L415 80M340 100L415 120M340 100L415 160M340 100L415 200M340 140L415 40M340 140L415 80M340 140L415 120M340 140L415 160M340 140L415 200M340 180L415 40M340 180L415 80M340 180L415 120M340 180L415 160M340 180L415 200"></path>
+<path class="con" d="M421 40H476M421 80H476M421 120H476M421 160H476M421 200H476"></path>
+<path class="sig" d="M70 120q7.5-18 15 0t15 0t15 0t15 0t15 0t15 0t15 0t15 0L265 80L340 140L415 120"></path>
+<circle class="node" cx="190" cy="80" r="5"></circle>
+<circle class="node lit" cx="190" cy="120" r="5"></circle>
+<circle class="node" cx="190" cy="160" r="5"></circle>
+<circle class="node" cx="265" cy="40" r="5"></circle>
+<circle class="node lit" cx="265" cy="80" r="5"></circle>
+<circle class="node" cx="265" cy="120" r="5"></circle>
+<circle class="node" cx="265" cy="160" r="5"></circle>
+<circle class="node" cx="265" cy="200" r="5"></circle>
+<circle class="node" cx="340" cy="60" r="5"></circle>
+<circle class="node" cx="340" cy="100" r="5"></circle>
+<circle class="node lit" cx="340" cy="140" r="5"></circle>
+<circle class="node" cx="340" cy="180" r="5"></circle>
+<circle class="node" cx="415" cy="40" r="5"></circle>
+<circle class="node" cx="415" cy="80" r="5"></circle>
+<circle class="node lit" cx="415" cy="120" r="5"></circle>
+<circle class="node" cx="415" cy="160" r="5"></circle>
+<circle class="node" cx="415" cy="200" r="5"></circle></svg>
