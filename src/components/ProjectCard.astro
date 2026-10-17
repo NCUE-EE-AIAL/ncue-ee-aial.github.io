@@ -3,11 +3,12 @@ import Icon from './Icon.astro';
 import VideoEmbed from './VideoEmbed.astro';
 import { pick, t, localePath, formatDate, type Locale } from '../i18n/utils';
 import type { Project } from '../lib/data';
-import type { RepoMeta } from '../lib/github';
+import { repoLink, type RepoMeta, type MissingRepo } from '../lib/github';
 interface Props {
   project: Project;
   lang: Locale;
-  meta: RepoMeta | null;
+  /** null: GitHub was unreachable; { missing: true }: the repo does not exist. */
+  meta: RepoMeta | MissingRepo | null;
   /** research slug → title in this language */
   areaTitles: Map<string, string>;
   /** person id → display name in this language */
@@ -19,7 +20,8 @@ const { project, lang, meta, areaTitles, names, i = 0, level = 3 } = Astro.props
 const H = level === 2 ? 'h2' : 'h3';
 const d = project.data;
 const title = pick(d.title, lang);
-const repoUrl = meta?.htmlUrl ?? (d.repo ? `https://github.com/${d.repo}` : undefined);
+const info = meta && !('missing' in meta) ? meta : null;
+const repoUrl = repoLink(meta, d.repo);
 ---
 <article class="card project reveal" id={project.id} data-areas={d.areas.join(' ')} style={`--i:${i}`}>
   <div class="project-head">
@@ -38,10 +40,10 @@ const repoUrl = meta?.htmlUrl ?? (d.repo ? `https://github.com/${d.repo}` : unde
     </p>
   )}
   <div class="project-meta">
-    {meta?.language && <span class="lang">{meta.language}</span>}
-    {meta && <span class="stars" title={`${meta.stars} ${t('projects.stars', lang)}`}><Icon name="star" /> {meta.stars}</span>}
-    {meta?.pushedAt && <span>{t('projects.updated', lang)} {formatDate(new Date(meta.pushedAt), lang)}</span>}
-    {!meta && d.year && <span>{d.year}</span>}
+    {info?.language && <span class="lang">{info.language}</span>}
+    {info && <span class="stars" title={`${info.stars} ${t('projects.stars', lang)}`}><Icon name="star" /> {info.stars}</span>}
+    {info?.pushedAt && <span>{t('projects.updated', lang)} {formatDate(new Date(info.pushedAt), lang)}</span>}
+    {!info && d.year && <span>{d.year}</span>}
   </div>
   {(repoUrl || d.links.demo || d.links.paper) && (
     <div class="project-links">

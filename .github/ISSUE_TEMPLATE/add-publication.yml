@@ -85,6 +85,7 @@ body:
         - label: "robotic-arm (機械手臂)"
         - label: "biomedical-ai (生醫 AI)"
         - label: "biometrics-security (生物辨識與資安)"
+        - label: "smart-grid-energy (智慧電網與儲能)"
         - label: "international-programs (國際計畫)"
   - type: checkboxes
     id: pi_author

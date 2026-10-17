@@ -1,7 +1,7 @@
 // Unit tests for src/lib/github.ts (build-time GitHub repo metadata). No network: fetch is stubbed.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { getRepoMeta } from '../src/lib/github.ts';
+import { getRepoMeta, repoLink } from '../src/lib/github.ts';
 
 const json = (body, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json' } });
@@ -39,11 +39,25 @@ test('maps the GitHub API response to RepoMeta', async () => {
   } finally { f.restore(); }
 });
 
-test('returns null when the API answers with an error status', async () => {
+test('returns null when the API answers with a server error', async () => {
+  const f = stubFetch(() => json({ message: 'Server Error' }, 500));
+  try {
+    assert.equal(await getRepoMeta('acme/broken'), null);
+  } finally { f.restore(); }
+});
+
+test('marks a repository that does not exist (404) as missing', async () => {
   const f = stubFetch(() => json({ message: 'Not Found' }, 404));
   try {
-    assert.equal(await getRepoMeta('acme/missing'), null);
+    assert.deepEqual(await getRepoMeta('acme/deleted'), { missing: true });
   } finally { f.restore(); }
+});
+
+test('repoLink: the API URL; the plain repo URL when GitHub was unreachable; nothing for a missing repo', () => {
+  assert.equal(repoLink({ ...sample, stars: 1, description: null, pushedAt: null, language: null, htmlUrl: 'https://github.com/acme/demo' }, 'acme/demo'), 'https://github.com/acme/demo');
+  assert.equal(repoLink(null, 'acme/demo'), 'https://github.com/acme/demo');
+  assert.equal(repoLink({ missing: true }, 'acme/gone'), undefined);
+  assert.equal(repoLink(null, undefined), undefined);
 });
 
 test('returns null when the network fails', async () => {
