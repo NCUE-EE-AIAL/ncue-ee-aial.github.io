@@ -45,7 +45,7 @@ export default defineConfig({
   integrations: [
     stripHtmlComments,
     sitemap({
-      i18n: { defaultLocale: 'en', locales: { en: 'en-US', zh: 'zh-TW' } },
+      i18n: { defaultLocale: 'en', locales: { en: 'en', zh: 'zh-Hant-TW' } },
     }),
   ],
 });

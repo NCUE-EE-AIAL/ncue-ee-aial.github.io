@@ -28,6 +28,10 @@ export const site = {
     zh: '500 彰化縣彰化市師大路 2 號',
   },
   room: { en: 'TODO: building / room', zh: 'TODO：館別／研究室房號' },
+  ogImageAlt: {
+    en: 'AI Application Laboratory, NCUE Electrical Engineering: the lab name beside a line drawing of a stereo camera pair and a heartbeat trace.',
+    zh: '彰師大電機 人工智慧應用實驗室：實驗室名稱，旁邊是雙鏡頭相機與心跳波形的線條圖。',
+  },
 } as const;
 
 export const ui = {
@@ -102,6 +106,10 @@ export const ui = {
     en: 'Journal and conference papers from the lab. Entries marked “to verify” are being checked against the publisher record.',
     zh: '實驗室的期刊與會議論文。標示「待確認」的條目仍在與出版社紀錄核對中。',
   },
+  'pubs.meta': {
+    en: 'Journal and conference papers by Prof. Wen-Ren Yang and the NCUE AI Application Laboratory, by year, with DOI links and BibTeX.',
+    zh: '楊文然老師與彰師大人工智慧應用實驗室的期刊與會議論文，依年份排列，附 DOI 連結與 BibTeX。',
+  },
   'pubs.filter.all': { en: 'All', zh: '全部' },
   'pubs.filter.label': { en: 'Filter by type', zh: '依類型篩選' },
   'pubs.copyFailed': { en: 'Copy failed', zh: '複製失敗' },
@@ -163,6 +171,10 @@ export const ui = {
 
   'news.title': { en: 'News', zh: '實驗室動態' },
   'news.intro': { en: 'Announcements and updates from the lab.', zh: '實驗室的公告與近況。' },
+  'news.meta': {
+    en: 'News from the NCUE AI Application Laboratory: papers, awards, new members, events and international interns.',
+    zh: '彰師大人工智慧應用實驗室的動態：論文、獲獎、新成員、活動與國際實習生。',
+  },
   'news.empty': { en: 'No posts yet.', zh: '尚無動態。' },
   'news.back': { en: 'All news', zh: '所有動態' },
 

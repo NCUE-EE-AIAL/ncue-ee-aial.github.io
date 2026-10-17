@@ -12,7 +12,7 @@ const { lang } = Astro.props;
 const [areas, projects, pubs, facilities] = await Promise.all([getAreas(lang), getProjects(), getPublications(), getFacilities()]);
 const categories = [...new Set(facilities.map((f) => f.data.category))].map((c) => t(`facility.${c}` as UiKey, lang));
 ---
-<Base lang={lang} title={t('research.title', lang)} path="/research/">
+<Base lang={lang} title={t('research.title', lang)} path="/research/" description={t('research.intro', lang)}>
   <PageHead kicker={t('home.hero.kicker', lang)} title={t('research.title', lang)} lede={t('research.intro', lang)} art="research" />
   <section class="container section-tight">
     <div class="grid grid-2">

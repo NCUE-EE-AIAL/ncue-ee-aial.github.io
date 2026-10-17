@@ -17,7 +17,7 @@ const used = areas.map((a) => slugOf(a.id)).filter((slug) => projects.some(inAre
 // Pure-CSS filter: the checked radio hides cards outside that research area.
 const filterCss = used.map((a) => `.projects:has(#pf-${a}:checked) .project:not([data-areas~="${a}"]){display:none}`).join('');
 ---
-<Base lang={lang} title={t('projects.title', lang)} path="/projects/">
+<Base lang={lang} title={t('projects.title', lang)} path="/projects/" description={t('projects.intro', lang)}>
   <style is:inline slot="head" set:html={filterCss}></style>
   <PageHead title={t('projects.title', lang)} lede={t('projects.intro', lang)} art="projects" />
   <div class="container projects">

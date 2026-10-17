@@ -4,6 +4,8 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import Art from '../components/Art.astro';
 import { s, localePath, stripLocale, otherLocale, htmlLang, type Locale } from '../i18n/utils';
+import { site } from '../i18n/ui';
+import { safeJsonLd, siteNodes, graph } from '../lib/seo.mjs';
 interface Props {
   lang: Locale;
   title: string;
@@ -13,6 +15,8 @@ interface Props {
   ogType?: 'website' | 'article';
   /** Error pages: no canonical / hreflang, not indexed. */
   bare?: boolean;
+  /** Extra JSON-LD nodes for this page (e.g. the PI on People), added to the site-wide graph. */
+  jsonLd?: object[];
 }
 const { lang, title, description, ogType = 'website', bare = false } = Astro.props;
 const path = Astro.props.path ?? stripLocale(Astro.url.pathname).path;
@@ -21,6 +25,15 @@ const fullTitle = path === '/' && !bare ? `${siteName} · ${s('orgShort', lang)}
 const desc = description ?? s('description', lang);
 const canonical = new URL(localePath(path, lang), Astro.site);
 const other = otherLocale(lang);
+const origin = new URL('/', Astro.site).origin;
+const ld = bare ? '' : safeJsonLd(graph([
+  ...siteNodes({
+    origin, lang, inLanguage: htmlLang[lang], home: new URL(localePath('/', lang), Astro.site).href,
+    name: site.name, email: site.email, address: site.address,
+    logo: new URL('/apple-touch-icon.png', Astro.site).href, sameAs: [site.github, site.facebook],
+  }),
+  ...(Astro.props.jsonLd ?? []),
+]));
 ---
 <!doctype html>
 <html lang={htmlLang[lang]}>
@@ -38,6 +51,7 @@ const other = otherLocale(lang);
       </>
     )}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta property="og:type" content={ogType} />
     <meta property="og:title" content={fullTitle} />
@@ -45,12 +59,17 @@ const other = otherLocale(lang);
     <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content={siteName} />
     <meta property="og:image" content={new URL('/og.png', Astro.site)} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content={s('ogImageAlt', lang)} />
     <meta property="og:locale" content={lang === 'zh' ? 'zh_TW' : 'en_US'} />
     <meta property="og:locale:alternate" content={other === 'zh' ? 'zh_TW' : 'en_US'} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f1117" />
+    {ld && <script type="application/ld+json" set:html={ld} />}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />

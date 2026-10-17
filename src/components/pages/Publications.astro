@@ -16,7 +16,7 @@ const filterCss = types.map((ty) =>
   `.pubs:has(#pt-${ty}:checked) .pub:not([data-type="${ty}"]),` +
   `.pubs:has(#pt-${ty}:checked) .pub-group:not(:has(.pub[data-type="${ty}"])){display:none}`).join('');
 ---
-<Base lang={lang} title={t('pubs.title', lang)} path="/publications/">
+<Base lang={lang} title={t('pubs.title', lang)} path="/publications/" description={t('pubs.meta', lang)}>
   <style is:inline slot="head" set:html={filterCss}></style>
   <PageHead title={t('pubs.title', lang)} lede={t('pubs.intro', lang)} art="publications" />
   <div class="container pubs">

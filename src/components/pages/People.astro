@@ -4,7 +4,8 @@ import PageHead from '../PageHead.astro';
 import PersonCard from '../PersonCard.astro';
 import ArtFill from '../ArtFill.astro';
 import ThesisGroups from '../ThesisGroups.astro';
-import { t, type Locale } from '../../i18n/utils';
+import { t, pick, localePath, otherLocale, type Locale } from '../../i18n/utils';
+import { personNode } from '../../lib/seo.mjs';
 import { slugOf } from '../../lib/format';
 import { splitTheses } from '../../lib/theses.mjs';
 import { getPeople, getPublications, getProjects, getAreas, getTheses, type Person } from '../../lib/data';
@@ -14,6 +15,13 @@ const [people, pubs, projects, areas, theses] = await Promise.all([getPeople(), 
 const areaTitles = new Map(areas.map((a) => [slugOf(a.id), a.data.title]));
 const intl = (p: Person) => p.data.role === 'intern' || !!p.data.program;
 const pis = people.filter((p) => p.data.role === 'pi');
+const home = new URL('/', Astro.site);
+const piLd = pis.map((p) => personNode({
+  origin: home.origin, name: pick(p.data.name, lang), alternateName: pick(p.data.name, otherLocale(lang)),
+  jobTitle: lang === 'zh' ? '副教授' : 'Associate Professor', email: p.data.links?.email,
+  sameAs: [p.data.links?.orcid].filter((u): u is string => !!u),
+  image: p.data.photo ? new URL(p.data.photo, home).href : undefined, url: new URL(localePath('/people/', lang), home).href,
+}));
 const groups = [
   { id: 'current', title: t('people.current', lang), list: people.filter((p) => p.data.role !== 'pi' && !p.data.alumni && !intl(p)) },
   { id: 'international', title: t('people.international', lang), list: people.filter((p) => p.data.role !== 'pi' && !p.data.alumni && intl(p)) },
@@ -28,7 +36,7 @@ const openYears = thesisYears.slice(0, OPEN_YEARS);
 const olderYears = thesisYears.slice(OPEN_YEARS);
 const olderCount = olderYears.reduce((n, y) => n + y.list.length, 0);
 ---
-<Base lang={lang} title={t('people.title', lang)} path="/people/">
+<Base lang={lang} title={t('people.title', lang)} path="/people/" description={t('people.intro', lang)} jsonLd={piLd}>
   <PageHead title={t('people.title', lang)} lede={t('people.intro', lang)} art="people" />
   <section class="container people-pi" id="pi" aria-label={t('people.pi', lang)}>
     {pis.map((p) => <PersonCard person={p} lang={lang} pubs={pubs} projects={projects} pi areaTitles={areaTitles} />)}
