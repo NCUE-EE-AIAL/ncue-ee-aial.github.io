@@ -4,7 +4,7 @@
  */
 import { getCollection, type CollectionEntry } from 'astro:content';
 import type { Locale } from '../i18n/utils';
-import { slugOf, langOf } from './format';
+import { slugOf, pickLocalized } from './format';
 
 export type Publication = CollectionEntry<'publications'>;
 export type Person = CollectionEntry<'people'>;
@@ -56,24 +56,14 @@ export async function getFacilities(): Promise<Facility[]> {
     .sort((a, b) => a.data.order - b.data.order || byEn(a.data.name, b.data.name));
 }
 
-/** One entry per folder: the `lang` file when it exists, otherwise en.md. */
-function localized<T extends { id: string }>(entries: T[], lang: Locale): T[] {
-  const bySlug = new Map<string, T>();
-  for (const e of entries) {
-    const slug = slugOf(e.id);
-    if (langOf(e.id) === lang || (!bySlug.has(slug) && langOf(e.id) === 'en')) bySlug.set(slug, e);
-  }
-  return [...bySlug.values()];
-}
-
 /** By `order`. */
 export async function getAreas(lang: Locale): Promise<Area[]> {
-  return localized(await getCollection('research'), lang).sort((a, b) => a.data.order - b.data.order);
+  return pickLocalized(await getCollection('research'), lang).sort((a, b) => a.data.order - b.data.order);
 }
 
 /** Newest first. */
 export async function getNews(lang: Locale): Promise<NewsPost[]> {
-  return localized(await getCollection('news'), lang)
+  return pickLocalized(await getCollection('news'), lang)
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf() || slugOf(a.id).localeCompare(slugOf(b.id)));
 }
 

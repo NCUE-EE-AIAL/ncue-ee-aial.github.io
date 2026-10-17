@@ -425,6 +425,7 @@ a.card:hover { text-decoration: none; border-color: var(--border-2); box-shadow:
 ul.chips { list-style: none; padding: 0; }
 .section-tight { padding-block: 0 clamp(40px, 6vw, 64px); }
 .split { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: clamp(28px, 5vw, 56px); }
+.split:has(> :only-child) { grid-template-columns: minmax(0, 1fr); }
 @media (max-width: 860px) { .split { grid-template-columns: 1fr; } }
 .count {
   display: inline-block; min-width: 1.7em; padding: 0 6px; border-radius: 999px; background: var(--surface-2);
@@ -550,6 +551,8 @@ h2 .count { vertical-align: 0.3em; margin-left: 6px; }
 .news-title a:hover { color: var(--accent); }
 .news-summary { color: var(--muted); font-size: 0.92rem; margin-top: 4px; }
 .news-page .news-title { font-size: 1.15rem; }
+.news-year { margin-top: 32px; margin-bottom: 4px; font-size: 1.05rem; color: var(--muted); font-weight: 600; }
+.news-lang { margin: 4px 0 0; font-size: 0.85rem; color: var(--muted); }
 
 /* ───────── Join & contact ───────── */
 .join-layout { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: clamp(28px, 5vw, 56px); align-items: start; }

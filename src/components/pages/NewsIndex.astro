@@ -7,10 +7,17 @@ import { getNews } from '../../lib/data';
 interface Props { lang: Locale }
 const { lang } = Astro.props;
 const news = await getNews(lang);
+const years = [...new Set(news.map((n) => n.data.date.getUTCFullYear()))];
 ---
 <Base lang={lang} title={t('news.title', lang)} path="/news/" description={t('news.meta', lang)}>
   <PageHead title={t('news.title', lang)} lede={t('news.intro', lang)} art="news" />
-  <div class="container news-list news-page">
-    {news.length > 0 ? news.map((n) => <NewsItem post={n} lang={lang} level={2} />) : <p class="muted">{t('news.empty', lang)}</p>}
+  <div class="container news-page">
+    {news.length === 0 && <p class="muted">{t('news.empty', lang)}</p>}
+    {years.map((y) => (
+      <section class="news-group" aria-labelledby={`ny${y}`}>
+        <h2 class="news-year" id={`ny${y}`}>{y}</h2>
+        <div class="news-list">{news.filter((n) => n.data.date.getUTCFullYear() === y).map((n) => <NewsItem post={n} lang={lang} />)}</div>
+      </section>
+    ))}
   </div>
 </Base>

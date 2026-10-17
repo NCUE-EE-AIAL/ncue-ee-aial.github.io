@@ -210,3 +210,35 @@ test('every publication entry bolds the PI exactly once, whatever spelling it us
     }
   }
 });
+
+test('home shows only news from the last 12 months and no empty-state placeholders', () => {
+  const home = html('/');
+  const split = home.slice(home.indexOf('class="section container split'));
+  const row = split.slice(0, split.indexOf('</section>'));
+  assert.doesNotMatch(row, /class="muted"/, 'the home page must not show "no posts" placeholders');
+  const col = row.indexOf('aria-labelledby="news-h"');
+  if (col < 0) return; // no recent news: the column is gone, which is the point
+  const cutoff = new Date(); cutoff.setUTCMonth(cutoff.getUTCMonth() - 12); cutoff.setUTCDate(cutoff.getUTCDate() - 7); // a week of slack for stale dist/
+  const dates = [...row.slice(col).matchAll(/<time datetime="([\d-]+)"/g)].map((m) => new Date(`${m[1]}T00:00:00Z`));
+  assert.ok(dates.length >= 1 && dates.length <= 3, `${dates.length} news items on the home page`);
+  for (const d of dates) assert.ok(d >= cutoff, `home shows a post from ${d.toISOString().slice(0, 10)}`);
+});
+
+test('/news/ groups posts under one heading per year', () => {
+  const years = new Set(NEWS.flatMap((n) => readdirSync(join(ROOT, 'src/content/news', n))
+    .map((f) => readFileSync(join(ROOT, 'src/content/news', n, f), 'utf8').match(/^date: (\d{4})/m)?.[1]).filter(Boolean)));
+  for (const r of ['/news/', zh('/news/')]) {
+    const heads = [...html(r).matchAll(/<h2 class="news-year" id="ny(\d{4})">/g)].map((m) => m[1]);
+    assert.deepEqual(heads, [...years].sort().reverse(), r);
+  }
+});
+
+test('a post written in one language appears on both sites, tagged with its language', () => {
+  const single = NEWS.filter((n) => readdirSync(join(ROOT, 'src/content/news', n)).length === 1);
+  if (single.length === 0) return; // none today; the rule is unit-tested via pickLocalized
+  for (const n of single) {
+    const only = readdirSync(join(ROOT, 'src/content/news', n))[0].replace('.md', '');
+    const other = only === 'en' ? zh(`/news/${n}/`) : `/news/${n}/`;
+    assert.match(html(other), new RegExp(`<h1[^>]*lang="${only === 'en' ? 'en' : 'zh-Hant-TW'}"`), other);
+  }
+});

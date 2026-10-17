@@ -9,6 +9,20 @@ export function langOf(id: string): string {
   return id.split('/')[1] ?? 'en';
 }
 
+/**
+ * One entry per folder: the `lang` file, else en, else whatever language exists, so a post or area
+ * written in only one language still appears on both sites (the components tag it with its language).
+ */
+export function pickLocalized<T extends { id: string }>(entries: T[], lang: string): T[] {
+  const rank = (id: string) => (langOf(id) === lang ? 0 : langOf(id) === 'en' ? 1 : 2);
+  const bySlug = new Map<string, T>();
+  for (const e of [...entries].sort((a, b) => a.id.localeCompare(b.id))) {
+    const cur = bySlug.get(slugOf(e.id));
+    if (!cur || rank(e.id) < rank(cur.id)) bySlug.set(slugOf(e.id), e);
+  }
+  return [...bySlug.values()];
+}
+
 /** "Wen-Ren Yang", "Wen Ren Yang" and "WenRen Yang" all become "wenrenyang". */
 export function normName(name: string): string {
   return name.toLowerCase().replace(/[^a-z]/g, '');

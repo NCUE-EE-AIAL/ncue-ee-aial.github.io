@@ -176,6 +176,7 @@ export const ui = {
     zh: '彰師大人工智慧應用實驗室的動態：論文、獲獎、新成員、活動與國際實習生。',
   },
   'news.empty': { en: 'No posts yet.', zh: '尚無動態。' },
+  'news.onlyIn': { en: 'In Chinese', zh: '僅有英文' },
   'news.back': { en: 'All news', zh: '所有動態' },
 
   'join.title': { en: 'Join & Contact', zh: '加入與聯絡' },

@@ -9,10 +9,12 @@ import ArtFill from '../ArtFill.astro';
 import { t, s, localePath, type Locale } from '../../i18n/utils';
 import { site } from '../../i18n/ui';
 import { getAreas, getPublications, getNews, getPeople } from '../../lib/data';
+import { recentNews } from '../../lib/news.mjs';
 interface Props { lang: Locale }
 const { lang } = Astro.props;
 const [areas, pubs, news, people] = await Promise.all([getAreas(lang), getPublications(), getNews(lang), getPeople()]);
 const members = people.map((p) => p.data.name.en);
+const recent = recentNews(news);
 ---
 <Base lang={lang} title={s('name', lang)} path="/">
   <section class="hero container">
@@ -45,26 +47,28 @@ const members = people.map((p) => p.data.name.en);
     </div>
   </section>
 
-  <section class="section container split">
-    <div aria-labelledby="pubs-h">
-      <div class="section-head reveal">
-        <h2 id="pubs-h">{t('home.pubs', lang)}</h2>
-        <a class="more" href={localePath('/publications/', lang)}>{t('home.pubs.all', lang)} →</a>
-      </div>
-      {pubs.length > 0
-        ? <ol class="pub-list">{pubs.slice(0, 3).map((p) => <PubItem pub={p} lang={lang} members={members} showYear />)}</ol>
-        : <p class="muted">{t('pubs.empty', lang)}</p>}
-    </div>
-    <div aria-labelledby="news-h">
-      <div class="section-head reveal">
-        <h2 id="news-h">{t('home.news', lang)}</h2>
-        <a class="more" href={localePath('/news/', lang)}>{t('home.news.all', lang)} →</a>
-      </div>
-      {news.length > 0
-        ? <div class="news-list">{news.slice(0, 3).map((n) => <NewsItem post={n} lang={lang} />)}</div>
-        : <p class="muted">{t('news.empty', lang)}</p>}
-    </div>
-  </section>
+  {(pubs.length > 0 || recent.length > 0) && (
+    <section class="section container split">
+      {pubs.length > 0 && (
+        <div aria-labelledby="pubs-h">
+          <div class="section-head reveal">
+            <h2 id="pubs-h">{t('home.pubs', lang)}</h2>
+            <a class="more" href={localePath('/publications/', lang)}>{t('home.pubs.all', lang)} →</a>
+          </div>
+          <ol class="pub-list">{pubs.slice(0, 3).map((p) => <PubItem pub={p} lang={lang} members={members} showYear />)}</ol>
+        </div>
+      )}
+      {recent.length > 0 && (
+        <div aria-labelledby="news-h">
+          <div class="section-head reveal">
+            <h2 id="news-h">{t('home.news', lang)}</h2>
+            <a class="more" href={localePath('/news/', lang)}>{t('home.news.all', lang)} →</a>
+          </div>
+          <div class="news-list">{recent.map((n) => <NewsItem post={n} lang={lang} />)}</div>
+        </div>
+      )}
+    </section>
+  )}
 
   <section class="section container" aria-labelledby="join-h">
     <div class="join-band reveal">

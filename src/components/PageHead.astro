@@ -1,14 +1,15 @@
 ---
 import Art from './Art.astro';
 /** `art`: drawing(s) in src/assets/art/ shown right of the heading on wide screens (first that exists wins). */
-interface Props { title: string; kicker?: string; lede?: string; art?: string | string[] }
-const { title, kicker, lede, art } = Astro.props;
+/** `textLang`: set when the title and lede are in the other language (a post written in one language only). */
+interface Props { title: string; kicker?: string; lede?: string; art?: string | string[]; textLang?: string }
+const { title, kicker, lede, art, textLang } = Astro.props;
 ---
 <header class:list={['page-head container', { 'has-art': art }]}>
   <slot name="before" />
   {kicker && <p class="kicker">{kicker}</p>}
-  <h1>{title}</h1>
-  {lede && <p class="lede">{lede}</p>}
+  <h1 lang={textLang}>{title}</h1>
+  {lede && <p class="lede" lang={textLang}>{lede}</p>}
   <slot />
   {art && <Art name={art} class="art-head" />}
 </header>

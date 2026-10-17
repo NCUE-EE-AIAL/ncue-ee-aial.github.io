@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';
-import { slugOf, langOf, normName, isAuthor, initials, youtubeId, toBibtex } from '../src/lib/format.ts';
+import { slugOf, langOf, pickLocalized, normName, isAuthor, initials, youtubeId, toBibtex } from '../src/lib/format.ts';
 
 test('slugOf / langOf split a localized entry id', () => {
   assert.equal(slugOf('biomedical-ai/en'), 'biomedical-ai');
@@ -79,4 +79,14 @@ test('isAuthor does not over-match: other people and ambiguous initials stay pla
   }
   assert.ok(isAuthor('Kuan-Wei Chen', ['K.-W. Chen']));
   assert.ok(!isAuthor('Kuan-Wei Chen', ['K. Y. Chen']));
+});
+
+test('pickLocalized keeps one entry per folder: the page language, else en, else whatever exists', () => {
+  const ids = (list) => list.map((e) => e.id).sort();
+  const both = [{ id: 'a/en' }, { id: 'a/zh' }];
+  assert.deepEqual(ids(pickLocalized(both, 'zh')), ['a/zh']);
+  assert.deepEqual(ids(pickLocalized(both, 'en')), ['a/en']);
+  assert.deepEqual(ids(pickLocalized([{ id: 'b/en' }], 'zh')), ['b/en']);
+  assert.deepEqual(ids(pickLocalized([{ id: 'c/zh' }], 'en')), ['c/zh'], 'a zh-only post must still appear on the English site');
+  assert.deepEqual(ids(pickLocalized([{ id: 'c/zh' }, { id: 'd/en' }, { id: 'd/zh' }], 'en')), ['c/zh', 'd/en']);
 });

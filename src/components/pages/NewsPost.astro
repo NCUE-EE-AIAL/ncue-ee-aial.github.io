@@ -2,18 +2,21 @@
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import PageHead from '../PageHead.astro';
-import { t, localePath, formatDate, type Locale } from '../../i18n/utils';
-import { slugOf } from '../../lib/format';
+import { t, localePath, formatDate, htmlLang, type Locale } from '../../i18n/utils';
+import { slugOf, langOf } from '../../lib/format';
 import { getNews } from '../../lib/data';
 interface Props { lang: Locale; slug: string }
 const { lang, slug } = Astro.props;
 const post = (await getNews(lang)).find((n) => slugOf(n.id) === slug);
 if (!post) throw new Error(`No news post "${slug}" in src/content/news/`);
 const { Content } = await render(post);
+const postLang = langOf(post.id) as Locale;
+const foreign = postLang !== lang ? htmlLang[postLang] : undefined;
 ---
 <Base lang={lang} title={post.data.title} description={post.data.summary} path={`/news/${slug}/`} ogType="article">
-  <PageHead kicker={formatDate(post.data.date, lang)} title={post.data.title} lede={post.data.summary} art="news">
+  <PageHead kicker={formatDate(post.data.date, lang)} title={post.data.title} lede={post.data.summary} art="news" textLang={foreign}>
     <a slot="before" class="back" href={localePath('/news/', lang)}>← {t('news.back', lang)}</a>
+    {foreign && <p class="news-lang">{t('news.onlyIn', lang)}</p>}
   </PageHead>
-  <article class="container news-body"><div class="prose"><Content /></div></article>
+  <article class="container news-body"><div class="prose" lang={foreign}><Content /></div></article>
 </Base>
