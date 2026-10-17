@@ -1,0 +1,9 @@
+audience: intl
+order: 30
+q:
+  en: "How is the internship organised?"
+  zh: "實習如何進行？"
+a:
+  en: "Each intern works on a project, hands in a weekly report and attends a weekly meeting."
+  zh: "每位實習生負責一個專題，每週繳交報告並參加每週會議。"
+source: "Prof. Yang's TEEP 2023 and IIPP 2024 slides (Weekly report and meeting), provided by Brian on 2026-10-18"

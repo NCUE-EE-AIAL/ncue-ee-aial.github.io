@@ -305,3 +305,26 @@ test('home has an About section whose numbers match the content folders', () => 
   }
   assert.ok(html('/').indexOf('id="about"') < html('/').indexOf('id="areas-h"'), 'About comes right after the hero');
 });
+
+test('/join/ lists every FAQ file as a <details>, grouped by audience', () => {
+  const dir = join(ROOT, 'src/content/faq');
+  const files = existsSync(dir) ? readdirSync(dir).filter((f) => /\.ya?ml$/.test(f)) : [];
+  for (const r of ['/join/', zh('/join/')]) {
+    const page = html(r);
+    if (files.length === 0) { assert.doesNotMatch(page, /id="faq"/, r); continue; }
+    const faq = section(page, 'faq');
+    const block = faq.slice(0, faq.indexOf('</section>'));
+    assert.equal((block.match(/<details class="faq"/g) ?? []).length, files.length, `${r}: one <details> per FAQ file`);
+    const audiences = new Set(files.map((f) => readFileSync(join(dir, f), 'utf8').match(/^audience: (\w+)/m)[1]));
+    assert.equal((block.match(/<h3 class="faq-audience"/g) ?? []).length, audiences.size, `${r}: one heading per audience`);
+  }
+});
+
+test('the contact card links a map of the campus and NCUE\'s own directions page', () => {
+  for (const r of ['/join/', zh('/join/')]) {
+    const card = section(html(r), 'contact');
+    assert.match(card, /href="https:\/\/www\.google\.com\/maps\/search\/\?api=1&amp;query=[^"]+"/, `${r}: no map link`);
+    assert.match(card, /href="https:\/\/www\.ncue\.edu\.tw\/p\/412-1000-870\.php\?Lang=zh-tw"/, `${r}: no directions link`);
+    assert.match(card, /500208/, `${r}: the address needs the 6-digit postcode`);
+  }
+});

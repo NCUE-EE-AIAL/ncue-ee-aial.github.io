@@ -407,6 +407,12 @@ a.card:hover { text-decoration: none; border-color: var(--border-2); box-shadow:
 .grant-row { display: grid; grid-template-columns: 200px 1fr; gap: 16px; padding: 14px 0; border-top: 1px solid var(--border); }
 .grant-row:last-child { border-bottom: 1px solid var(--border); }
 @media (max-width: 560px) { .grant-row { grid-template-columns: 1fr; gap: 4px; } }
+.faq-group + .faq-group { margin-top: 20px; }
+.faq-audience { font-size: 1rem; color: var(--muted); font-weight: 600; margin: 16px 0 8px; }
+.faq { border-top: 1px solid var(--border); padding: 12px 0; }
+.faq:last-child { border-bottom: 1px solid var(--border); }
+.faq summary { cursor: pointer; font-weight: 600; min-height: 24px; }
+.faq p { margin: 8px 0 0; }
 .honor-list { list-style: none; padding: 0; margin: 0; }
 .honor { display: grid; grid-template-columns: 64px 1fr; gap: 16px; padding: 14px 0; border-top: 1px solid var(--border); }
 .honor:last-child { border-bottom: 1px solid var(--border); }

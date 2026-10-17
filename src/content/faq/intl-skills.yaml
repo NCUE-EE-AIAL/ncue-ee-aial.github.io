@@ -1,0 +1,9 @@
+audience: intl
+order: 20
+q:
+  en: "Which skills should I have?"
+  zh: "需要具備哪些能力？"
+a:
+  en: "Programming in Python and MATLAB for signal processing and machine learning, and C or C++."
+  zh: "能以 Python 與 MATLAB 進行訊號處理與機器學習，並具備 C 或 C++ 程式能力。"
+source: "Prof. Yang's TEEP 2023 slides (C or C++ required) and IIPP 2024 slides (MATLAB and Python), provided by Brian on 2026-10-18"

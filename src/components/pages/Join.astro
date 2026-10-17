@@ -5,10 +5,11 @@ import Cta from '../Cta.astro';
 import Icon from '../Icon.astro';
 import { pick, s, t, type Locale, type UiKey } from '../../i18n/utils';
 import { site } from '../../i18n/ui';
-import { getFacilities, getPeople } from '../../lib/data';
+import { getFacilities, getPeople, getFaq } from '../../lib/data';
 interface Props { lang: Locale }
 const { lang } = Astro.props;
-const [facilities, people] = await Promise.all([getFacilities(), getPeople()]);
+const [facilities, people, faq] = await Promise.all([getFacilities(), getPeople(), getFaq()]);
+const audiences = (['master', 'undergrad', 'intl', 'all'] as const).filter((a) => faq.some((f) => f.data.audience === a));
 const piEmail = people.find((p) => p.data.role === 'pi')?.data.links.email;
 // TODO markers (unconfirmed facts) show in `npm run dev` only, never on the public site.
 const showTodo = import.meta.env.DEV;
@@ -28,6 +29,22 @@ const roomKnown = !room.startsWith('TODO');
         <p>{t('join.intl.body', lang)}</p>
         {showTodo && <p class="todo">{t('join.intl.todo', lang)}</p>}
       </section>
+      {faq.length > 0 && (
+        <section class="join-block" id="faq" aria-labelledby="faq-h">
+          <h2 id="faq-h">{t('join.faq.title', lang)}</h2>
+          {audiences.map((a) => (
+            <div class="faq-group">
+              <h3 class="faq-audience">{t(`join.faq.${a}` as UiKey, lang)}</h3>
+              {faq.filter((f) => f.data.audience === a).map((f) => (
+                <details class="faq">
+                  <summary>{pick(f.data.q, lang)}</summary>
+                  <p>{pick(f.data.a, lang)}</p>
+                </details>
+              ))}
+            </div>
+          ))}
+        </section>
+      )}
       {facilities.length > 0 && (
         <section class="join-block" id="facilities" aria-labelledby="facilities-h">
           <h2 id="facilities-h">{t('join.facilities.title', lang)}</h2>
@@ -60,6 +77,15 @@ const roomKnown = !room.startsWith('TODO');
         <div>
           <dt>{t('join.address', lang)}</dt>
           <dd>{s('org', lang)}<br />{s('address', lang)}</dd>
+        </div>
+        <div>
+          <dt>{t('join.directions', lang)}</dt>
+          <dd>
+            <ul class="contact-links">
+              <li><a href={site.map} rel="noopener"><Icon name="pin" /> {t('join.map', lang)}</a></li>
+              <li><a href={site.directions} rel="noopener" hreflang={lang === 'en' ? 'zh-Hant-TW' : undefined}><Icon name="external" /> {t('join.transport', lang)}</a></li>
+            </ul>
+          </dd>
         </div>
         {(roomKnown || showTodo) && (
           <div>
