@@ -129,3 +129,18 @@ export async function getFaq(): Promise<Faq[]> {
   return (await getCollection('faq')).sort((a, b) =>
     AUDIENCES.indexOf(a.data.audience) - AUDIENCES.indexOf(b.data.audience) || a.data.order - b.data.order || byEn(a.data.q, b.data.q));
 }
+
+export type Stat = { key: 'theses' | 'papers' | 'code' | 'grants'; n: number; sinceAy?: number };
+
+/** Home-page numbers, counted at build time. A 0 is left out; funded projects show from three on. */
+export async function getStats(): Promise<Stat[]> {
+  const [theses, pubs, projects, grants] = await Promise.all([getTheses(), getCollection('publications'), getCollection('projects'), getCollection('grants')]);
+  const master = theses.filter((t) => t.data.degree === 'master');
+  const stats: Stat[] = [
+    { key: 'theses', n: master.length, sinceAy: master.length > 0 ? Math.min(...master.map((t) => t.data.ay)) : undefined },
+    { key: 'papers', n: pubs.length },
+    { key: 'code', n: projects.filter((p) => p.data.repo).length },
+    { key: 'grants', n: grants.length >= 3 ? grants.length : 0 },
+  ];
+  return stats.filter((s) => s.n > 0);
+}

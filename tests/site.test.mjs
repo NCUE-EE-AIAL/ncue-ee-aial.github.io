@@ -285,3 +285,23 @@ test('the research folders and AREA_SLUGS in the schema name the same areas', ()
   const slugs = [...readFileSync(join(ROOT, 'src/content.config.ts'), 'utf8').match(/AREA_SLUGS = \[([^\]]+)\]/)[1].matchAll(/'([\w-]+)'/g)].map((m) => m[1]);
   assert.deepEqual([...slugs].sort(), [...AREAS].sort());
 });
+
+test('home has an About section whose numbers match the content folders', () => {
+  const count = (dir, re) => readdirSync(join(ROOT, 'src/content', dir)).filter((f) => !re || re.test(readFileSync(join(ROOT, 'src/content', dir, f), 'utf8'))).length;
+  const want = { theses: count('theses', /^degree: master/m), papers: count('publications'), code: count('projects', /^repo:/m) };
+  const grantsDir = join(ROOT, 'src/content/grants');
+  const grantCount = existsSync(grantsDir) ? readdirSync(grantsDir).length : 0;
+  for (const r of ['/', zh('/')]) {
+    const about = section(html(r), 'about');
+    const block = about.slice(0, about.indexOf('</section>'));
+    assert.match(block, /<h2 id="about-h">/, r);
+    assert.ok((block.match(/<p>/g) ?? []).length >= 1, `${r}: no introduction text`);
+    for (const [k, n] of Object.entries(want)) {
+      assert.match(block, new RegExp(`data-stat="${k}"[^>]*>\\s*<span class="stat-n">${n}</span>`), `${r}: ${k} should read ${n}`);
+    }
+    assert.equal(/data-stat="grants"/.test(block), grantCount >= 3, `${r}: the grants number shows only from 3 grants`);
+    const groupDir = join(ROOT, 'src/content/group-photos');
+    if (!existsSync(groupDir) || readdirSync(groupDir).length === 0) assert.doesNotMatch(block, /<figure/, `${r}: a figure without a group photo`);
+  }
+  assert.ok(html('/').indexOf('id="about"') < html('/').indexOf('id="areas-h"'), 'About comes right after the hero');
+});

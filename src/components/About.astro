@@ -1,0 +1,28 @@
+---
+import { t, type Locale, type UiKey } from '../i18n/utils';
+import { ayLabel } from '../lib/format';
+import type { Stat } from '../lib/data';
+/** Home "About the lab": the introduction and numbers counted from the content at build time. Phase B adds the group photo. */
+interface Props { lang: Locale; stats: Stat[] }
+const { lang, stats } = Astro.props;
+const paragraphs = [t('home.about.p1', lang), t('home.about.p2', lang)].filter((p) => p.trim() !== '');
+---
+{(paragraphs.length > 0 || stats.length > 0) && (
+  <section class="section container about" id="about" aria-labelledby="about-h">
+    <div class="about-text reveal">
+      <h2 id="about-h">{t('home.about', lang)}</h2>
+      {paragraphs.map((p) => <p>{p}</p>)}
+    </div>
+    {stats.length > 0 && (
+      <ul class="stats reveal">
+        {stats.map((s) => (
+          <li class="stat" data-stat={s.key}>
+            <span class="stat-n">{s.n}</span>
+            <span class="stat-label">{t(`stats.${s.key}` as UiKey, lang)}</span>
+            {s.sinceAy !== undefined && <span class="stat-sub">{t('stats.since', lang).replace('{ay}', ayLabel(s.sinceAy, lang))}</span>}
+          </li>
+        ))}
+      </ul>
+    )}
+  </section>
+)}

@@ -68,6 +68,22 @@ export const ui = {
     zh: '實驗室由國立彰化師範大學電機工程學系楊文然老師主持，打造能感知三維空間、導引機械手臂、解讀生理訊號與驗證身分的 AI 系統，並讓它們能在平價硬體上運作。',
   },
   'home.cta.research': { en: 'Explore our research', zh: '認識研究方向' },
+  'home.about': { en: 'About the lab', zh: '關於實驗室' },
+  // Facts only, each from a source (people/wen-ren-yang.yaml, research/international-programs, Prof. Yang's slides).
+  // Approved by Brian before publishing (2026-10-18 plan). An empty string hides the paragraph.
+  'home.about.p1': {
+    en: 'The AI Application Laboratory is part of the Department of Electrical Engineering at National Changhua University of Education, led by Prof. Wen-Ren Yang, who has taught in the department since 2006 and directs the Artificial Intelligence Applications Center. Building on his expertise in wavelet transforms, digital signal processing and signal analysis, power electronics and neural networks, the lab develops AI applications that run on embedded and affordable hardware.',
+    zh: '人工智慧應用實驗室隸屬國立彰化師範大學電機工程學系，由楊文然老師主持。楊老師自 2006 年起任教於本系，並擔任人工智慧應用中心主任，專長為小波轉換、數位訊號處理與訊號分析、電力電子與類神經網路；實驗室延續這些基礎，發展能在嵌入式與平價硬體上運作的 AI 應用。',
+  },
+  'home.about.p2': {
+    en: 'The lab has hosted international interns through TEEP since 2018 and through IIPP since 2024.',
+    zh: '實驗室自 2018 年起透過 TEEP、2024 年起透過 IIPP 接待國際實習生。',
+  },
+  'stats.theses': { en: 'master’s theses advised', zh: '篇指導碩士論文' },
+  'stats.papers': { en: 'publications', zh: '篇論文' },
+  'stats.code': { en: 'open-source projects', zh: '個開源專案' },
+  'stats.grants': { en: 'funded projects', zh: '件研究計畫' },
+  'stats.since': { en: 'since {ay}', zh: '自 {ay}起' },
   'home.location': { en: 'Changhua, Taiwan', zh: '台灣 彰化' },
 
   'research.title': { en: 'Research', zh: '研究方向' },
