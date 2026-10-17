@@ -1,7 +1,12 @@
 name: Deploy to GitHub Pages
+# Every push to main is built, tested and link-checked before it goes live (content edited on github.com
+# can reach main without a pull request). The weekly run keeps date-based content current: the homepage's
+# recent news, which projects are ongoing, and GitHub stats.
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: '17 21 * * 0' # Mondays 05:17 Taipei
   workflow_dispatch:
 permissions:
   contents: read
@@ -15,12 +20,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: withastro/action@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
         env:
           # Lets src/lib/github.ts fetch repo metadata at 1000 req/h instead of 60.
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: npm test
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: node scripts/check-links.mjs dist --no-external
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
   deploy:
     needs: build
     runs-on: ubuntu-latest
