@@ -22,6 +22,7 @@ export const AREA_SLUGS = [
   'robotic-arm',
   'biomedical-ai',
   'biometrics-security',
+  'smart-grid-energy',
   'international-programs',
 ] as const;
 const areaSlug = z.enum(AREA_SLUGS);
@@ -32,7 +33,7 @@ const research = defineCollection({
   schema: z.strictObject({
     title: z.string(),
     summary: z.string(),
-    icon: z.enum(['camera', 'arm', 'heart', 'shield', 'globe', 'chip']),
+    icon: z.enum(['camera', 'arm', 'heart', 'shield', 'globe', 'chip', 'bolt']),
     order: z.number().int(),
     keywords: z.array(z.string()).default([]),
     /** Optional figure: a path under public/, e.g. /images/research/stereo.jpg. Needs imageAlt. */

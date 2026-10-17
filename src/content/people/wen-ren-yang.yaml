@@ -3,9 +3,9 @@ name:
   zh: "楊文然"
 role: pi
 photo: "/images/people/wen-ren-yang.webp"
-areas: [stereo-3d-vision, biomedical-ai, biometrics-security, international-programs]
+areas: [stereo-3d-vision, biomedical-ai, biometrics-security, smart-grid-energy, international-programs]
 bio:
-  en: "Associate Professor in the Department of Electrical Engineering, NCUE (faculty member since 2006), and director of the Artificial Intelligent Application Center. Ph.D. in electrical engineering from the University of Missouri-Columbia; research interests include wavelet transforms, digital signal processing and signal analysis, power electronics, neural networks and integrated optics."
+  en: "Associate Professor in the Department of Electrical Engineering, NCUE (faculty member since 2006), and director of the Artificial Intelligence Applications Center. Ph.D. in electrical engineering from the University of Missouri-Columbia; research interests include wavelet transforms, digital signal processing and signal analysis, power electronics, neural networks and integrated optics."
   zh: "國立彰化師範大學電機工程學系副教授（2006 年起任教），並擔任人工智慧應用中心主任。美國密蘇里大學哥倫比亞分校電機工程博士；研究專長包含小波轉換、數位訊號處理與訊號分析、電力電子、類神經網路與積體光學。"
 links:
   email: "wry87c@cc.ncue.edu.tw"

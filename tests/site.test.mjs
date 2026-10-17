@@ -270,3 +270,18 @@ test('every honour file is listed on People; with none, there is no honours sect
     }
   }
 });
+
+test('smart-grid-energy: an area in both languages, on the PI card, with its papers and the BESS project', () => {
+  for (const r of ['/research/smart-grid-energy/', zh('/research/smart-grid-energy/')]) assert.ok(existsSync(file(r)), `missing ${r}`);
+  for (const r of ['/people/', zh('/people/')]) {
+    assert.match(section(html(r), 'pi'), new RegExp(`href="${r.startsWith('/zh') ? '/zh' : ''}/research/smart-grid-energy/"`), `${r}: PI card lacks the area`);
+  }
+  const page = html('/research/smart-grid-energy/');
+  assert.match(page, /Flywheel energy storage system for voltage sag compensation/);
+  assert.match(page, /Battery Energy Storage System/i);
+});
+
+test('the research folders and AREA_SLUGS in the schema name the same areas', () => {
+  const slugs = [...readFileSync(join(ROOT, 'src/content.config.ts'), 'utf8').match(/AREA_SLUGS = \[([^\]]+)\]/)[1].matchAll(/'([\w-]+)'/g)].map((m) => m[1]);
+  assert.deepEqual([...slugs].sort(), [...AREAS].sort());
+});

@@ -12,12 +12,12 @@ export const site = {
   orgShort: { en: 'NCUE EE', zh: '彰師大電機' },
   pi: { en: 'Prof. Wen-Ren Yang', zh: '指導教授 楊文然' },
   tagline: {
-    en: 'Applied AI for vision, robotics, and biomedical signals.',
-    zh: '視覺、機器人與生醫訊號的人工智慧應用研究。',
+    en: 'Applied AI for vision, robotics, biomedical signals and energy systems.',
+    zh: '視覺、機器人、生醫訊號與能源系統的人工智慧應用研究。',
   },
   description: {
-    en: 'AI Application Laboratory at NCUE: stereo 3D vision, robotic arms, biomedical AI, biometric security, and international student research (TEEP / IIPP).',
-    zh: '彰師大人工智慧應用實驗室：雙鏡頭 3D 視覺、機械手臂、生醫 AI、生物辨識安全，以及 TEEP / IIPP 國際生研究。',
+    en: 'AI Application Laboratory at NCUE: stereo 3D vision, robotic arms, biomedical AI, biometrics, smart grids and energy storage, and TEEP / IIPP interns.',
+    zh: '彰師大人工智慧應用實驗室：雙鏡頭 3D 視覺、機械手臂、生醫 AI、生物辨識安全、智慧電網與儲能，以及 TEEP / IIPP 國際生研究。',
   },
   email: 'ncueaial@gmail.com',
   repo: 'https://github.com/NCUE-EE-AIAL/ncue-ee-aial.github.io',
@@ -72,8 +72,8 @@ export const ui = {
 
   'research.title': { en: 'Research', zh: '研究方向' },
   'research.intro': {
-    en: 'Five directions, one lab: we build AI systems that see, move, and read the body.',
-    zh: '五個方向、一個實驗室：我們打造會看、會動、會讀懂身體訊號的 AI 系統。',
+    en: 'Six directions, one lab: we build AI systems that see, move, read the body and manage energy.',
+    zh: '六個方向、一個實驗室：我們打造會看、會動、會讀懂身體訊號，也會管理能源的 AI 系統。',
   },
   'research.keywords': { en: 'Keywords', zh: '關鍵詞' },
   'research.projects': { en: 'Related projects', zh: '相關專案' },

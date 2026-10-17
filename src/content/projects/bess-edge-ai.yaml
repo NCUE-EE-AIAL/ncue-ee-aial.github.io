@@ -1,0 +1,13 @@
+# Source: Prof. Yang's TEEP 2023 (SDG 7) and IIPP 2024 slides, provided by Brian on 2026-10-18; ongoing (Brian, 2026-10-18).
+# The system's partners are never named on this site (CONTRIBUTING §5).
+title:
+  en: "AI and Edge Computing for the Campus Battery Energy Storage System"
+  zh: "校內儲能系統的 AI 與邊緣運算"
+summary:
+  en: "Helping run the 1-MW battery energy storage system on the NCUE campus: edge devices process measurements with the discrete wavelet transform, short-time Fourier transform and Huffman coding, LSTM networks predict the system's behaviour, and power quality is analysed together with solar integration, toward a zero-energy campus (SDG 7)."
+  zh: "協助彰師大校內 1 MW 儲能系統運轉：邊緣裝置以離散小波轉換、短時傅立葉轉換與 Huffman 編碼處理量測資料，以 LSTM 類神經網路預測系統行為，並分析電力品質與太陽能整合，朝零耗能校園（SDG 7）邁進。"
+areas: [smart-grid-energy]
+year: 2023
+members: []
+status: active
+featured: false
