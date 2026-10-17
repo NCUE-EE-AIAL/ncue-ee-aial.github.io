@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig, fontProviders } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import { readdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
@@ -42,6 +42,25 @@ export default defineConfig({
     // No route-level fallback: every page exists in both languages (thin files under src/pages/zh/),
     // and missing zh fields fall back to en inside the components (pick() in src/i18n/utils.ts).
   },
+  // Inter is self-hosted (SIL OFL 1.1, src/assets/fonts/OFL.txt): the Latin variable subset from
+  // @fontsource-variable/inter 5.3.0, so the site requests nothing from other origins.
+  // Traditional Chinese families come before system-ui, so Han characters keep their Taiwanese forms.
+  fonts: [{
+    provider: fontProviders.local(),
+    name: 'Inter',
+    cssVariable: '--font-inter',
+    display: 'swap',
+    fallbacks: ['Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', 'system-ui', 'Segoe UI', 'Roboto', 'sans-serif'],
+    options: {
+      variants: [{
+        src: ['./src/assets/fonts/inter-latin-wght.woff2'],
+        weight: '100 900',
+        style: 'normal',
+        unicodeRange: ['U+0000-00FF', 'U+0131', 'U+0152-0153', 'U+02BB-02BC', 'U+02C6', 'U+02DA', 'U+02DC', 'U+0304', 'U+0308', 'U+0329',
+          'U+2000-206F', 'U+20AC', 'U+2122', 'U+2191', 'U+2193', 'U+2212', 'U+2215', 'U+FEFF', 'U+FFFD'],
+      }],
+    },
+  }],
   integrations: [
     stripHtmlComments,
     sitemap({

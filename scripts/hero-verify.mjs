@@ -26,7 +26,9 @@ const check = (ok, msg) => { log.push(`${ok ? 'PASS' : 'FAIL'} ${msg}`); console
 const STATE = `(() => {
   const art = document.querySelector('.hero-art');
   const scenes = [...art.querySelectorAll('.scene')];
-  const visible = scenes.filter((s) => getComputedStyle(s).visibility === 'visible');
+  // A scene shows when it is visible and not transparent. At the cycle's first 2.8 ms the last scene sits on its
+  // 20% keyframe: visibility:visible at opacity ~1e-15, which no one can see (seen at load once fonts stopped blocking render).
+  const visible = scenes.filter((s) => getComputedStyle(s).visibility === 'visible' && parseFloat(getComputedStyle(s).opacity) > 0.01);
   const cur = visible[0];
   const strokes = cur ? [...cur.querySelectorAll('.draw, .trace')].map((e) => parseFloat(getComputedStyle(e).strokeDashoffset)) : [];
   const op = (e) => { let o = 1; for (let n = e; n && n !== art; n = n.parentElement) o *= parseFloat(getComputedStyle(n).opacity); return o; };
