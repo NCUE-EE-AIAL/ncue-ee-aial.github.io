@@ -1,0 +1,10 @@
+student:
+  zh: "周宥陞"
+degree: master
+ay: 100
+title:
+  zh: "具輸出功率調節之市電併聯換流器之研製"
+  en: "Design and Implementation of a Grid-Connected Inverter with Output Power Regulation"
+coAdvisors:
+  - "陳良瑞"
+url: "https://hdl.handle.net/11296/bjfdpu"

@@ -1,6 +1,7 @@
 import { defineCollection, reference } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
+import { isLocalPhoto, AY_MIN, ayMax } from './lib/rules.mjs';
 
 /**
  * Content model. Non-developers only touch files under src/content/.
@@ -101,8 +102,10 @@ const people = defineCollection({
     years: z.string().optional(),
     areas: z.array(areaSlug).default([]),
     bio: bi.optional(),
-    /** Path under public/, e.g. /images/people/brian.jpg */
-    photo: z.string().optional(),
+    /** Local file under public/images/people/ (.webp, .jpg, .jpeg, .png or .avif), e.g. /images/people/brian.webp. No external images. */
+    photo: z.string().refine(isLocalPhoto, {
+      error: 'photo must be a local file like /images/people/name.webp (.webp, .jpg, .jpeg, .png or .avif), not a URL',
+    }).optional(),
     links: z.strictObject({
       github: z.url().optional(),
       scholar: z.url().optional(),
@@ -142,4 +145,27 @@ const facilities = defineCollection({
   }),
 });
 
-export const collections = { research, publications, projects, people, news, facilities };
+/**
+ * One YAML per master's thesis advised: theses/<ay>-<handle id>.yaml, copied from the NDLTD record page.
+ * `ay` is the ROC academic year. `dept` only when the department is not 電機工程學系. Names stay in Chinese.
+ */
+const theses = defineCollection({
+  loader: glob({ pattern: '**/*.{yaml,yml}', base: './src/content/theses' }),
+  schema: z.strictObject({
+    student: z.strictObject({ zh: z.string(), en: z.string().optional() }),
+    degree: z.enum(['master', 'phd']),
+    ay: z.number().int()
+      .min(AY_MIN, { error: `ay is the ROC academic year, ${AY_MIN} or later (for example 113)` })
+      .max(ayMax(), { error: `ay is the ROC academic year, ${ayMax()} at most (for example 113 for 2024–25)` }),
+    dept: z.string().optional(),
+    title: z.strictObject({ zh: z.string(), en: z.string().optional() }),
+    /** Every advisor other than 楊文然, in Chinese, without 博士. */
+    coAdvisors: z.array(z.string()).default([]),
+    /** The 論文永久網址 from the NDLTD record page. */
+    url: z.string().regex(/^https:\/\/hdl\.handle\.net\/11296\/[a-z0-9]+$/, {
+      error: 'url must look like https://hdl.handle.net/11296/abc123 (the 論文永久網址)',
+    }),
+  }),
+});
+
+export const collections = { research, publications, projects, people, news, facilities, theses };

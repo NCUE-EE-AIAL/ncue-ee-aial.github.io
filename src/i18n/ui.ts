@@ -93,6 +93,7 @@ export const ui = {
   'cta.join': { en: 'How to join', zh: '如何加入' },
 
   'video.play': { en: 'Play video', zh: '播放影片' },
+  'video.watch': { en: 'Watch on YouTube', zh: '到 YouTube 觀看' },
   'video.note': { en: 'Loads from YouTube when you click', zh: '點擊後才會從 YouTube 載入' },
 
   'pubs.title': { en: 'Publications', zh: '論文發表' },
@@ -147,6 +148,10 @@ export const ui = {
   'people.current': { en: 'Current members', zh: '現任成員' },
   'people.international': { en: 'International students', zh: '國際學生' },
   'people.alumni': { en: 'Alumni', zh: '校友' },
+  'people.theses': { en: 'Master’s theses advised', zh: '指導碩士論文' },
+  'people.theses.phd': { en: 'PhD dissertations advised', zh: '指導博士論文' },
+  'people.theses.coadvised': { en: 'co-advised with', zh: '共同指導：' },
+  'people.theses.more': { en: 'Show earlier theses ({n})', zh: '顯示更早的論文（{n} 篇）' },
   'people.role.pi': { en: 'Principal Investigator', zh: '指導教授' },
   'people.role.phd': { en: 'PhD student', zh: '博士生' },
   'people.role.master': { en: 'Master’s student', zh: '碩士生' },

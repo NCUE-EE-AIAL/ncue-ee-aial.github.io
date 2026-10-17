@@ -14,13 +14,23 @@ const items: { key: Parameters<typeof t>[0]; href: string }[] = [
 ];
 const isCurrent = (href: string) => path === href || (href !== '/' && path.startsWith(href));
 const other = otherLocale(lang);
+const name = s('name', lang);
+// The zh name breaks only here, as 人工智慧 / 應用實驗室, never as a lone 室 (see .brand in global.css).
+const cut = lang === 'zh' && name.startsWith('人工智慧') ? '人工智慧'.length : 0;
 ---
 <header class="nav" id="site-nav">
   <div class="container nav-inner">
     <a class="brand" href={localePath('/', lang)}>
-      <span class="brand-mark" aria-hidden="true">AI</span>
+      <svg class="brand-mark" data-logo="aial-signal" viewBox="0 0 32 32" width="28" height="28" aria-hidden="true" focusable="false">
+        <rect class="brand-tile" width="32" height="32" rx="7"></rect>
+        <g class="brand-signal" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 24.5H6.5L12 7.5L17.5 24.5H27"></path>
+          <path d="M22.5 24.5V14.5"></path>
+        </g>
+        <circle class="brand-dot" cx="22.5" cy="9" r="2.8"></circle>
+      </svg>
       <span>
-        {s('name', lang)}
+        {cut ? <>{name.slice(0, cut)}<wbr />{name.slice(cut)}</> : name}
         <span class="brand-sub">{s('orgShort', lang)} · {s('pi', lang)}</span>
       </span>
     </a>

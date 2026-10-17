@@ -1,0 +1,10 @@
+student:
+  zh: "呂冠霖"
+degree: master
+ay: 105
+title:
+  zh: "應用於同步發電機之交流/直流功率因數修正器"
+  en: "Implementation of AC/DC Power Factor Correction for Synchronous Generator"
+coAdvisors:
+  - "陳良瑞"
+url: "https://hdl.handle.net/11296/z9s658"

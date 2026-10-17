@@ -49,6 +49,7 @@
 | `src/content/people/<id>.yaml` | 一位成員 | `/people/`（指導教授、現任成員、國際學生、校友分組） | `/zh/people/` |
 | `src/content/news/<YYYY-MM-DD>-<slug>/{en,zh}.md` | 一則動態（每種語言一個檔） | `/news/`（列表）與 `/news/<slug>/` | `/zh/news/`、`/zh/news/<slug>/` |
 | `src/content/facilities/<id>.yaml` | 一項（或一類）設備 | `/join/#facilities`（加入我們頁的「設備」區） | `/zh/join/#facilities` |
+| `src/content/theses/<學年度>-<handle>.yaml` | 一篇指導的碩士論文 | `/people/#theses`（成員頁最後一區，依學年度分組） | `/zh/people/#theses` |
 
 另外：專案卡片的 stars、主要語言、最後 push 時間，是 build 時用 GitHub API 向 `repo` 欄位指定的 repo 取得（離線時也能 build，只是沒有這些數字）。首頁（`/`）會自動帶出所有研究方向卡片、最新 3 篇論文與最新 3 則動態，不需要另外編輯。
 
@@ -170,6 +171,16 @@
   ```
 - 顯示在 `/join/#facilities`。
 
+### 指導的碩士論文
+
+- `src/content/theses/<學年度>-<handle>.yaml`，一篇論文一個檔，例如 `113-eums9d.yaml`（`handle` 是永久網址最後一段）。顯示在 `/people/#theses`，依學年度由新到舊分組，最新三個學年度直接展開，其餘收在「顯示更早的論文」裡。
+- 欄位：`student`（`zh` 必填，`en` 選填）、`degree`（`master` 或 `phd`）、`ay`（民國學年度，整數，例如 `113`）、`dept`（選填，只有系所不是電機工程學系時才寫，例如 `"資訊工程學系"`）、`title`（`zh` 必填，`en` 選填）、`coAdvisors`（選填，除楊文然以外的指導教授，中文姓名清單，不含「博士」）、`url`（必填，`https://hdl.handle.net/11296/<handle>`）。
+- 所有資料只從臺灣博碩士論文知識加值系統（NDLTD）該筆論文的詳細頁抄錄，`url` 用頁面上的「論文永久網址」。不要自己翻譯題名。`title.en` 照紀錄原文，只去掉頭尾空白與結尾句點；紀錄沒有英文題名就不要寫 `title.en`。
+- 不放學生的 email 與照片。
+- **`student.en` 的規則**：只有當紀錄上的「研究生」欄位本身不是中文字，或是外國姓名的音譯時，才把該紀錄的「外文」姓名抄進 `student.en`（例如 `student.zh: "羅倪可"` 對應 `en: "Nikola Radakovic"`，或紀錄寫成全大寫 `"MONICA"` 的國際生）。**絕不自己把中文姓名轉成羅馬拼音**（紀錄上的拼音不一致，我們不統一）。`student.zh` 沒有任何中文字且有 `student.en` 時，中英文頁都顯示 `student.en`（不會顯示全大寫的原始紀錄）。
+- **`degree` 的用法**：`master` 的論文列在「指導碩士論文」（英文頁 "Master’s theses advised"）；`phd` 的論文另列在「指導博士論文」（"PhD dissertations advised"），只有存在博士論文時這一區才會出現，不需要改程式。每一區都依學年度由新到舊分組。
+- **`ay` 的範圍**：民國學年度，最小 95，最大為「今年的民國年 + 1」（超出範圍 build 會失敗並說明）。
+
 ### 照片
 
 - 檔案放進 `public/images/` 下的子資料夾（建議 `people/`、`news/`、`research/`，沒有就自己建立），在 YAML / Markdown 裡用**以 `/` 開頭、不含 `public`** 的路徑引用，例如檔案 `public/images/people/ting-yi.jpg` 寫成 `photo: /images/people/ting-yi.jpg`。
@@ -185,6 +196,12 @@
 - 不要寫顏色（`fill`、`stroke`、色碼、`style` 都不行），顏色由 `src/styles/global.css` 的 CSS 變數決定；每個元素都要有成對的結尾標籤（`<path ...></path>`，不能寫 `/>`）。
 - 新研究方向要有自己的插圖：在 script 裡新增一張並在 `NOTES` 補一行說明，輸出為 `src/assets/art/<slug>.svg`（`<slug>` 與 `research/` 資料夾同名）；沒有這個檔案時，研究頁會自動改用通用的 `research` 插圖。
 - 改完執行 `npm test`（檢查顏色、結尾標籤、檔案大小與 `npm run art` 的輸出是否與 SVG 一致；其餘規格要自己遵守）。
+
+### 網站標誌與圖示
+
+- 頁首的標誌是 `src/components/Nav.astro` 裡的內嵌 SVG（座標為 32×32 的 `viewBox`）；要改標誌就改這段 SVG。
+- `public/favicon.svg` 是同一個標誌放在主色底塊上。
+- `public/og.png` 是社群分享用的 1200×630 PNG，以手工編輯，沒有產生程式。要重做時，用 `design/logo/`（不會被網站發布）裡的來源 SVG（`c-signal-mark.svg`、`c-signal-favicon.svg`、`c-signal-lockup-en.svg`、`c-signal-lockup-zh.svg`）組合，並維持 1200×630 的尺寸。
 
 ---
 

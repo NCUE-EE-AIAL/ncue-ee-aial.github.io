@@ -1,7 +1,7 @@
 ---
 /** Click-to-load YouTube player: nothing is fetched from YouTube until the visitor clicks. */
 import { t, type Locale } from '../i18n/utils';
-import { youtubeId } from '../lib/format';
+import { youtubeId, youtubeWatchUrl } from '../lib/format';
 interface Props { url: string; title: string; lang: Locale }
 const { url, title, lang } = Astro.props;
 const id = youtubeId(url);
@@ -13,6 +13,7 @@ const id = youtubeId(url);
       <span class="video-play-text">{t('video.play', lang)}</span>
       <span class="video-note">{t('video.note', lang)}</span>
     </button>
+    <noscript><a class="video-fallback" href={youtubeWatchUrl(id)} rel="noopener">{t('video.watch', lang)}: {title}</a></noscript>
   </div>
 ) : (
   <p class="video-link"><a href={url} rel="noopener">{t('projects.video', lang)}</a></p>
@@ -28,6 +29,7 @@ const id = youtubeId(url);
       frame.referrerPolicy = 'strict-origin-when-cross-origin';
       box.replaceChildren(frame);
       box.classList.add('is-playing');
+      frame.focus(); // the button that had focus is gone: keep the keyboard user's place
     }, { once: true });
   });
 </script>

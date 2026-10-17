@@ -1,0 +1,12 @@
+student:
+  zh: "羅倪可"
+  en: "Nikola Radakovic"
+degree: master
+ay: 105
+dept: "資訊工程學系"
+title:
+  zh: "使用Volder演算法於同步馬達扭力控制"
+  en: "Novel Synchronous Motor Torque Control by Using Volder’s Algorithm"
+coAdvisors:
+  - "陳伯岳"
+url: "https://hdl.handle.net/11296/jcbmux"

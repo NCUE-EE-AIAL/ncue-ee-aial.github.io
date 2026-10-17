@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { isAuthor } from '../src/lib/format.ts';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const DIST = join(ROOT, 'dist');
@@ -191,5 +192,21 @@ test('people photos: alt text has no stray space, the PI photo (LCP) is eager, t
     const rest = list.filter((t) => t !== pi);
     assert.ok(rest.length > 0);
     for (const t of rest) assert.equal(attr(t, 'loading'), 'lazy', `${route}: ${attr(t, 'src')} should stay lazy`);
+  }
+});
+
+test('every publication entry bolds the PI exactly once, whatever spelling it uses', () => {
+  const PI = 'Wen-Ren Yang';
+  for (const r of ['/publications/', zh('/publications/')]) {
+    const entries = [...html(r).matchAll(/<li class="pub"[^>]*>[\s\S]*?<\/li>/g)].map((m) => m[0]);
+    assert.ok(entries.length >= 30, `${r}: only ${entries.length} entries`);
+    for (const e of entries) {
+      const id = e.match(/ id="([^"]+)"/)?.[1] ?? e.slice(0, 60);
+      const authors = e.match(/<p class="pub-authors">([\s\S]*?)<\/p>/)[1];
+      const bold = [...authors.matchAll(/<strong class="me">([^<]*)<\/strong>/g)].map((m) => m[1]);
+      const plain = authors.replace(/<strong class="me">[^<]*<\/strong>/g, '').split(',').map((x) => x.trim()).filter(Boolean);
+      assert.equal(bold.filter((b) => isAuthor(PI, [b])).length, 1, `${r} ${id}: PI bolded ${bold.filter((b) => isAuthor(PI, [b])).length} times in "${authors}"`);
+      assert.deepEqual(plain.filter((p) => isAuthor(PI, [p])), [], `${r} ${id}: PI left plain in "${authors}"`);
+    }
   }
 });

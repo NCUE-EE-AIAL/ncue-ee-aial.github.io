@@ -12,6 +12,7 @@ export type Project = CollectionEntry<'projects'>;
 export type Area = CollectionEntry<'research'>;
 export type NewsPost = CollectionEntry<'news'>;
 export type Facility = CollectionEntry<'facilities'>;
+export type Thesis = CollectionEntry<'theses'>;
 
 const byEn = (a: { en: string }, b: { en: string }) => a.en.localeCompare(b.en);
 
@@ -41,6 +42,12 @@ export async function getProjects(): Promise<Project[]> {
   const rank = (p: Project) => (p.data.status === 'active' ? 0 : 2) + (p.data.featured ? 0 : 1);
   return projects.sort((a, b) =>
     rank(a) - rank(b) || (b.data.year ?? 0) - (a.data.year ?? 0) || byEn(a.data.title, b.data.title));
+}
+
+/** Newest academic year first, then student name. */
+export async function getTheses(): Promise<Thesis[]> {
+  return (await getCollection('theses'))
+    .sort((a, b) => b.data.ay - a.data.ay || a.data.student.zh.localeCompare(b.data.student.zh, 'zh-Hant'));
 }
 
 /** By `order`, then name. */

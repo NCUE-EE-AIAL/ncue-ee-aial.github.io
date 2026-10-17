@@ -1,0 +1,10 @@
+name:
+  # TODO: confirm with lab: formal English name for 王衡均 ("Morri" is his English name)
+  en: "Morri Wang"
+  zh: "王衡均"
+role: phd
+areas: [robotic-arm]
+bio:
+  en: "Ph.D. student; mentors students on the lab's robotic arms."
+  zh: "博士生，指導學弟妹進行機械手臂研究。"
+order: 5

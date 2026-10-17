@@ -1,0 +1,36 @@
+---
+import { t, type Locale } from '../i18n/utils';
+import { ayLabel } from '../lib/format';
+import { studentName, langOfText } from '../lib/theses.mjs';
+import type { Thesis } from '../lib/data';
+interface Props { lang: Locale; years: { ay: number; list: Thesis[] }[] }
+const { lang, years } = Astro.props;
+const zh = lang === 'zh';
+// Text in another language than the page gets its own lang (WCAG 3.1.2): Chinese on the en page, Latin on the zh page.
+const pageLang = zh ? 'zh-Hant-TW' : 'en';
+const langFor = (text: string) => { const l = langOfText(text); return l === pageLang ? undefined : l; };
+const coNames = (x: Thesis) => x.data.coAdvisors.join(zh ? '、' : ', ');
+---
+{years.map((y) => (
+  <>
+    <h3 class="thesis-year">{ayLabel(y.ay, lang)}</h3>
+    <ul class="thesis-list">
+      {y.list.map((x) => {
+        const name = studentName(x.data.student, lang);
+        const title = zh ? x.data.title.zh : (x.data.title.en ?? x.data.title.zh);
+        return (
+          <li>
+            <span class="thesis-student" lang={langFor(name)}>{name}</span>
+            <span class="thesis-body">
+              <a href={x.data.url} rel="noopener" lang={langFor(title)}>{title}</a>
+              {x.data.dept && <small class="muted" lang={langFor(x.data.dept)}>{x.data.dept}</small>}
+              {x.data.coAdvisors.length > 0 && (
+                <small class="muted">{t('people.theses.coadvised', lang)}{zh ? '' : ' '}{langFor(coNames(x)) ? <span lang={langFor(coNames(x))}>{coNames(x)}</span> : coNames(x)}</small>
+              )}
+            </span>
+          </li>
+        );
+      })}
+    </ul>
+  </>
+))}

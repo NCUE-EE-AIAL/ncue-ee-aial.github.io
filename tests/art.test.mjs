@@ -25,17 +25,30 @@ const INNER = [
   '/people/', '/news/', ...subdirs('src/content/news').map((n) => `/news/${n}/`), '/join/',
 ];
 
-/** The body of the first `{ ... }` block that follows `head` in the stylesheet (handles nesting). */
+/** The body of the `{ ... }` block whose opening brace is the first one at or after index `at` (handles nesting). */
+function bodyFrom(at) {
+  const open = CSS.indexOf('{', at);
+  let depth = 0;
+  for (let i = open; i < CSS.length; i++) {
+    if (CSS[i] === '{') depth++;
+    else if (CSS[i] === '}' && --depth === 0) return CSS.slice(open + 1, i);
+  }
+  throw new Error(`unclosed block at ${at}`);
+}
+/** The body of the first `{ ... }` block that follows `head` in the stylesheet. */
 function block(head) {
   const at = CSS.indexOf(head);
   assert.ok(at >= 0, `missing ${head} in global.css`);
-  let depth = 0;
-  for (let i = CSS.indexOf('{', at); i < CSS.length; i++) {
-    if (CSS[i] === '{') depth++;
-    else if (CSS[i] === '}' && --depth === 0) return CSS.slice(CSS.indexOf('{', at) + 1, i);
-  }
-  throw new Error(`unclosed ${head}`);
+  return bodyFrom(at);
 }
+/** Bodies of every `@media (prefers-color-scheme: dark)` block, however it is spaced. */
+const darkMedia = () => [...CSS.matchAll(/@media\s*\(\s*prefers-color-scheme\s*:\s*dark\s*\)\s*\{/g)].map((m) => bodyFrom(m.index));
+/** The theme tokens the dark media query gives to :root unless the visitor chose light: matched by regex, not by exact text. */
+const autoDark = () => {
+  const bodies = darkMedia().map((b) => b.match(/:root:not\(\s*\[\s*data-theme\s*=\s*["']?light["']?\s*\]\s*\)\s*\{([^}]*)\}/)?.[1]).filter((b) => b && /--art-faint/.test(b));
+  assert.equal(bodies.length, 1, 'expected one dark @media block that sets :root:not([data-theme=light]) tokens');
+  return bodies[0];
+};
 const hex = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
 const lum = (rgb) => {
   const [r, g, b] = rgb.map((v) => { const c = v / 255; return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4; });
@@ -45,7 +58,7 @@ const ratio = (a, b) => { const [hi, lo] = [lum(a), lum(b)].sort((x, y) => y - x
 const THEMES = {
   light: block(':root {'),
   dark: block(":root[data-theme='dark'] {"),
-  auto: block("@media (prefers-color-scheme: dark) {\n  :root:not([data-theme='light']) {"),
+  auto: autoDark(),
 };
 const token = (body, name) => {
   const m = body.match(new RegExp(`--${name}:\\s*(#[0-9a-fA-F]{6})\\b`));
@@ -131,5 +144,45 @@ test('inline SVG in the built pages loads nothing from elsewhere', () => {
     for (const m of readFileSync(f, 'utf8').matchAll(/<svg\b[\s\S]*?<\/svg>/g)) {
       assert.doesNotMatch(m[0], /(?:href|src)="(?:https?:)?\/\/|url\(\s*["']?(?:https?:)?\/\/|<image\b/, rel(f));
     }
+  }
+});
+
+const ids = (text) => [...text.matchAll(/\bid="([\w-]+)"/g)].map((m) => m[1]);
+const refs = (text) => [...text.matchAll(/url\(\s*["']?#([\w-]+)/g)].map((m) => m[1]);
+
+test('every url(#id) in the plates and in the .art rules has a matching id in the defs plate', () => {
+  const defined = new Set(ids(src('defs.svg')));
+  assert.ok(defined.size >= 3, `only ${defined.size} ids in defs.svg`);
+  const used = new Map();
+  for (const f of svgs.filter((x) => x !== 'defs.svg')) for (const r of refs(src(f))) used.set(r, f);
+  for (const m of CSS.matchAll(/([^{}]*\.art\b[^{}]*)\{([^}]*)\}/g)) for (const r of refs(m[2])) used.set(r, 'global.css');
+  assert.ok(used.size >= 3, `only ${used.size} distinct url(#...) references found`);
+  for (const [id, where] of used) assert.ok(defined.has(id), `${where} uses url(#${id}) but defs.svg has no id="${id}"`);
+});
+
+test('each built page with art includes the defs plate exactly once', () => {
+  let pages = 0;
+  for (const f of allHtml()) {
+    const page = readFileSync(f, 'utf8');
+    const layers = (page.match(/class="art [^"]*"/g) ?? []).filter((c) => !/\bart-defs\b/.test(c)).length;
+    if (!layers) continue;
+    pages++;
+    const defs = (page.match(/class="art art-defs"/g) ?? []).length;
+    assert.equal(defs, 1, `${rel(f)} has ${layers} art layers and ${defs} defs plates`);
+    for (const id of ids(src('defs.svg'))) assert.equal((page.match(new RegExp(`\\bid="${id}"`, 'g')) ?? []).length, 1, `${rel(f)}: id="${id}" must appear once`);
+  }
+  assert.ok(pages >= 20, `only ${pages} built pages carry art`);
+});
+
+test('the card-grid filler is shown by the grid\'s own width, the same condition that gives it a third column', () => {
+  const gap = Number(CSS.match(/\.grid\s*\{[^}]*\bgap:\s*(\d+)px/)[1]);
+  for (const n of [2, 3]) {
+    const min = Number(CSS.match(new RegExp(`\\.grid-${n}\\s*\\{[^}]*minmax\\(min\\(100%,\\s*(\\d+)px\\)`))[1]);
+    const threeCols = 3 * min + 2 * gap; // narrowest grid width that auto-fill gives three columns
+    assert.match(CSS, new RegExp(`\\.grid-${n}\\s*[,{][^}]*container-type:\\s*inline-size|\\.grid-${n}[^{}]*,[^{}]*\\{[^}]*container-type:\\s*inline-size`), `.grid-${n} must be a size container`);
+    assert.doesNotMatch(CSS, new RegExp(`@media[^{]*\\{\\s*\\.grid-${n} > \\.art-fill`), `.grid-${n} > .art-fill must not depend on the viewport width`);
+    const rule = CSS.match(new RegExp(`@container\\s*\\(\\s*min-width:\\s*(\\d+)px\\s*\\)\\s*\\{\\s*\\.grid-${n} > \\.art-fill\\s*\\{[^}]*display:\\s*grid`));
+    assert.ok(rule, `missing @container (min-width: ${threeCols}px) { .grid-${n} > .art-fill { display: grid } }`);
+    assert.equal(Number(rule[1]), threeCols, `.grid-${n}: three columns need a ${threeCols}px grid`);
   }
 });

@@ -14,9 +14,27 @@ export function normName(name: string): string {
   return name.toLowerCase().replace(/[^a-z]/g, '');
 }
 
+/** "W.-R. Yang" -> ["W", "R", "Yang"]; "Wen-Ren Yang" -> ["Wen", "Ren", "Yang"]. */
+const nameParts = (name: string) => name.split(/[\s.\-]+/).filter(Boolean);
+
+/** `abbr` is `full` with every given name cut to its initial: "W. R. Yang" and "W.-R. Yang" for "Wen-Ren Yang". */
+function isInitialsOf(abbr: string, full: string): boolean {
+  const a = nameParts(abbr);
+  const f = nameParts(full);
+  if (f.length < 2 || a.length !== f.length) return false;
+  if (normName(a[a.length - 1]) !== normName(f[f.length - 1])) return false;
+  return a.slice(0, -1).every((w, i) => w.length === 1 && w.toLowerCase() === f[i][0].toLowerCase());
+}
+
+/** The same person: equal after normName, or one is the other written with initials. "Wen-Xun Yang" is not "Wen-Ren Yang". */
+export function sameName(a: string, b: string): boolean {
+  const n = normName(a);
+  if (n && n === normName(b)) return true;
+  return isInitialsOf(a, b) || isInitialsOf(b, a);
+}
+
 export function isAuthor(name: string, authors: readonly string[]): boolean {
-  const n = normName(name);
-  return authors.some((a) => normName(a) === n);
+  return authors.some((a) => sameName(name, a));
 }
 
 export function initials(name: string): string {
@@ -43,6 +61,11 @@ export function youtubeId(url: string): string | null {
       : (u.pathname.match(/^\/(?:embed|shorts|live)\/([^/]+)/)?.[1] ?? null);
   }
   return id && /^[\w-]{11}$/.test(id) ? id : null;
+}
+
+/** The video's page on YouTube (for the no-JavaScript fallback link). */
+export function youtubeWatchUrl(id: string): string {
+  return `https://www.youtube.com/watch?v=${id}`;
 }
 
 export type PubType = 'journal' | 'conference' | 'thesis' | 'preprint' | 'other';
@@ -84,4 +107,9 @@ export function toBibtex(p: BibInput): string {
   if (p.doi) fields.push(['doi', p.doi]);
   if (p.url) fields.push(['url', p.url]);
   return `@${ENTRY[p.type]}{${bibKey(p)},\n${fields.map(([k, v]) => `  ${k} = {${v}}`).join(',\n')}\n}`;
+}
+
+/** ROC academic year as a label: zh "113 學年度", en "2024–25" (ay + 1911, then the last two digits of ay + 1912). */
+export function ayLabel(ay: number, lang: 'en' | 'zh'): string {
+  return lang === 'zh' ? `${ay} 學年度` : `${ay + 1911}–${String(ay + 1912).slice(-2)}`;
 }

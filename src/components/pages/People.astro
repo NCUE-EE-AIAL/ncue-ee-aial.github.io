@@ -3,12 +3,14 @@ import Base from '../../layouts/Base.astro';
 import PageHead from '../PageHead.astro';
 import PersonCard from '../PersonCard.astro';
 import ArtFill from '../ArtFill.astro';
+import ThesisGroups from '../ThesisGroups.astro';
 import { t, type Locale } from '../../i18n/utils';
 import { slugOf } from '../../lib/format';
-import { getPeople, getPublications, getProjects, getAreas, type Person } from '../../lib/data';
+import { splitTheses } from '../../lib/theses.mjs';
+import { getPeople, getPublications, getProjects, getAreas, getTheses, type Person } from '../../lib/data';
 interface Props { lang: Locale }
 const { lang } = Astro.props;
-const [people, pubs, projects, areas] = await Promise.all([getPeople(), getPublications(), getProjects(), getAreas(lang)]);
+const [people, pubs, projects, areas, theses] = await Promise.all([getPeople(), getPublications(), getProjects(), getAreas(lang), getTheses()]);
 const areaTitles = new Map(areas.map((a) => [slugOf(a.id), a.data.title]));
 const intl = (p: Person) => p.data.role === 'intern' || !!p.data.program;
 const pis = people.filter((p) => p.data.role === 'pi');
@@ -17,6 +19,14 @@ const groups = [
   { id: 'international', title: t('people.international', lang), list: people.filter((p) => p.data.role !== 'pi' && !p.data.alumni && intl(p)) },
   { id: 'alumni', title: t('people.alumni', lang), list: people.filter((p) => p.data.role !== 'pi' && p.data.alumni) },
 ].filter((g) => g.list.length > 0);
+// Theses by degree, then by academic year, newest first; the three newest master's years stay open.
+const { master: thesisYears, phd: phdYears } = splitTheses(theses);
+const masterCount = thesisYears.reduce((n, y) => n + y.list.length, 0);
+const phdCount = phdYears.reduce((n, y) => n + y.list.length, 0);
+const OPEN_YEARS = 3;
+const openYears = thesisYears.slice(0, OPEN_YEARS);
+const olderYears = thesisYears.slice(OPEN_YEARS);
+const olderCount = olderYears.reduce((n, y) => n + y.list.length, 0);
 ---
 <Base lang={lang} title={t('people.title', lang)} path="/people/">
   <PageHead title={t('people.title', lang)} lede={t('people.intro', lang)} art="people" />
@@ -34,4 +44,26 @@ const groups = [
       </div>
     </section>
   ))}
+  {masterCount > 0 && (
+    <section class="section container" id="theses" aria-labelledby="theses-h">
+      <div class="section-head">
+        <h2 id="theses-h">{t('people.theses', lang)} <span class="count">{masterCount}</span></h2>
+      </div>
+      <ThesisGroups lang={lang} years={openYears} />
+      {olderYears.length > 0 && (
+        <details class="thesis-more">
+          <summary>{t('people.theses.more', lang).replace('{n}', String(olderCount))}</summary>
+          <ThesisGroups lang={lang} years={olderYears} />
+        </details>
+      )}
+    </section>
+  )}
+  {phdCount > 0 && (
+    <section class="section container" id="phd-theses" aria-labelledby="phd-theses-h">
+      <div class="section-head">
+        <h2 id="phd-theses-h">{t('people.theses.phd', lang)} <span class="count">{phdCount}</span></h2>
+      </div>
+      <ThesisGroups lang={lang} years={phdYears} />
+    </section>
+  )}
 </Base>

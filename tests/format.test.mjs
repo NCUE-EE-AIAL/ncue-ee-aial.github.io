@@ -1,6 +1,7 @@
 // Unit tests for src/lib/format.ts (pure helpers used by the page components).
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { readdirSync, readFileSync } from 'node:fs';
 import { slugOf, langOf, normName, isAuthor, initials, youtubeId, toBibtex } from '../src/lib/format.ts';
 
 test('slugOf / langOf split a localized entry id', () => {
@@ -55,4 +56,27 @@ test('toBibtex picks the entry type and venue field from the publication type', 
   assert.match(toBibtex({ ...base, type: 'preprint', url: 'https://arxiv.org/abs/2609.05755' }),
     /^@misc\{[\s\S]*howpublished = \{V\}[\s\S]*url = \{https:\/\/arxiv\.org\/abs\/2609\.05755\}/);
   assert.match(toBibtex({ ...base, type: 'thesis' }), /^@mastersthesis\{[\s\S]*school = \{V\}/);
+});
+
+test('isAuthor finds the PI under every spelling used in src/content/publications', () => {
+  const dir = new URL('../src/content/publications/', import.meta.url);
+  const names = new Set();
+  for (const f of readdirSync(dir)) {
+    const body = readFileSync(new URL(f, dir), 'utf8').split(/^authors:\s*$/m)[1]?.split(/^\S/m)[0] ?? '';
+    for (const m of body.matchAll(/^\s+-\s*["']?(.+?)["']?\s*$/gm)) if (/\b(Yang|Y\.?)\b/.test(m[1])) names.add(m[1]);
+  }
+  const variants = ['Wen-Ren Yang', 'Wen Ren Yang', 'W. R. Yang', 'W.-R. Yang', 'WenRen Yang', 'wen-ren yang'];
+  for (const v of variants) assert.ok(isAuthor('Wen-Ren Yang', [v]), `${v} should match`);
+  for (const dataName of names) {
+    if (['K. Y. Huang', 'N. Y. Chu', 'T. Y. Guo', 'Z. Y. He', 'Wen-Xun Yang'].includes(dataName)) continue;
+    assert.ok(isAuthor('Wen-Ren Yang', [dataName]), `the data spells the PI "${dataName}"`);
+  }
+});
+
+test('isAuthor does not over-match: other people and ambiguous initials stay plain', () => {
+  for (const other of ['Wen-Xun Yang', 'W. X. Yang', 'R. W. Yang', 'W. Yang', 'W. R. Yao', 'K. Y. Huang', 'Wen-Ren Yao', 'Ren Yang']) {
+    assert.ok(!isAuthor('Wen-Ren Yang', [other]), `${other} must not match`);
+  }
+  assert.ok(isAuthor('Kuan-Wei Chen', ['K.-W. Chen']));
+  assert.ok(!isAuthor('Kuan-Wei Chen', ['K. Y. Chen']));
 });
