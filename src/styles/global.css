@@ -248,30 +248,68 @@ a.card:hover { text-decoration: none; border-color: var(--border-2); box-shadow:
 .hero-meta a:hover { color: var(--accent); }
 @media (max-width: 860px) { .hero { grid-template-columns: 1fr; } .hero-art { max-width: 460px; } }
 
-/* Hero illustration (HeroArt.astro): stereo rays, cube, biosignal; 6 s draw loop. */
-.hero-art { border: 1px solid var(--border); border-radius: 16px; background: var(--surface); overflow: hidden; box-shadow: var(--shadow); }
-.hero-art svg { width: 100%; height: auto; }
+/* Hero illustration (HeroArt.astro): five research scenes drawn in turn on one 28 s cycle, 5.6 s (20 %) a scene.
+   In a scene the construction lines fade in (.fade, 0.6 s), the ink draws (.draw, 1.2 s), the signal traces (.trace, 2 s)
+   and the key dots pop (.pop); .t1–.t10 delay an element in 0.3 s steps; at 5 s the scene fades out for the next one.
+   It moves only with JS, which the pause button needs. At rest (no JS, reduced motion) scene one stands fully drawn. */
+.hero-art { --cycle: 28s; position: relative; border: 1px solid var(--border); border-radius: 16px; background: var(--surface); overflow: hidden; box-shadow: var(--shadow); }
+.hero-art > svg { width: 100%; height: auto; }
 .hero-art path, .hero-art circle { fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .hero-art .dot { fill: var(--border-2); }
-.hero-art .fov { stroke: var(--border-2); stroke-width: 1; stroke-dasharray: 2 6; }
-.hero-art .baseline { stroke: var(--muted); stroke-width: 1.2; stroke-dasharray: 4 5; }
-.hero-art .plane { stroke: var(--muted); stroke-width: 1.6; }
-.hero-art .ray { stroke: var(--accent); stroke-width: 1.8; animation: hero-ray 6s ease-in-out both; }
-.hero-art .cube { stroke: var(--text); stroke-width: 1.8; animation: hero-cube 6s ease-in-out both; }
-.hero-art .cube-hidden { stroke: var(--muted); stroke-width: 1.2; stroke-dasharray: 3 4; animation: hero-fade 6s ease both; }
-.hero-art .target { stroke: var(--accent); stroke-width: 1.6; }
-.hero-art .target, .hero-art .target-dot { transform-box: fill-box; transform-origin: center; animation: hero-pulse 6s ease both; }
-.hero-art .target-dot, .hero-art .proj { fill: var(--accent); stroke: none; }
-.hero-art .proj { animation: hero-pop 6s ease both; }
-.hero-art .cam path, .hero-art .cam circle { stroke: var(--text); stroke-width: 1.8; fill: var(--surface); }
-.hero-art .wave { stroke: var(--accent); stroke-width: 2; opacity: 0.85; animation: hero-wave 6s linear both; }
-.hero-art .draw { stroke-dasharray: 1 1; }
-@keyframes hero-ray { 0% { stroke-dashoffset: 1; opacity: 0; } 3% { opacity: 1; } 22%, 100% { stroke-dashoffset: 0; opacity: 1; } }
-@keyframes hero-cube { 0%, 20% { stroke-dashoffset: 1; opacity: 0; } 22% { opacity: 1; } 46%, 100% { stroke-dashoffset: 0; opacity: 1; } }
-@keyframes hero-wave { 0%, 28% { stroke-dashoffset: 1; opacity: 0; } 30% { opacity: 0.85; } 70%, 100% { stroke-dashoffset: 0; opacity: 0.85; } }
-@keyframes hero-pop { 0%, 20% { opacity: 0; } 26%, 100% { opacity: 1; } }
-@keyframes hero-fade { 0%, 34% { opacity: 0; } 46%, 100% { opacity: 1; } }
-@keyframes hero-pulse { 0%, 44% { opacity: 0; transform: scale(0.3); } 52% { opacity: 1; transform: scale(1.3); } 58%, 100% { opacity: 1; transform: scale(1); } }
+.hero-art .con { stroke: var(--border-2); stroke-width: 1; stroke-dasharray: 2 6; }
+.hero-art .dim { stroke: var(--muted); stroke-width: 1.2; stroke-dasharray: 4 5; }
+.hero-art .thin { stroke: var(--muted); stroke-width: 1.2; }
+.hero-art .ink { stroke: var(--text); stroke-width: 1.8; }
+.hero-art .body > * { fill: var(--surface); }
+.hero-art .sig { stroke: var(--accent); stroke-width: 2; }
+.hero-art .ring { stroke: var(--accent); stroke-width: 1.6; }
+.hero-art .key { fill: var(--accent); stroke: none; }
+.hero-art .mark { fill: var(--muted); stroke: none; }
+.hero-art .draw, .hero-art .trace { stroke-dasharray: 1 1; }
+.hero-art .pop { transform-box: fill-box; transform-origin: center; }
+.hero-art .scene + .scene { visibility: hidden; }
+.hero-art .t1 { --dt: 0.3s; }
+.hero-art .t2 { --dt: 0.6s; }
+.hero-art .t3 { --dt: 0.9s; }
+.hero-art .t4 { --dt: 1.2s; }
+.hero-art .t5 { --dt: 1.5s; }
+.hero-art .t6 { --dt: 1.8s; }
+.hero-art .t7 { --dt: 2.1s; }
+.hero-art .t8 { --dt: 2.4s; }
+.hero-art .t9 { --dt: 2.7s; }
+.hero-art .t10 { --dt: 3s; }
+/* Scene n starts (n - 1) × 5.6 s into the cycle: a negative delay of cycle − (n − 1) × 5.6 s. */
+.js .hero-art .scene { animation: hero-slot var(--cycle) linear infinite backwards; animation-delay: var(--at, 0s); }
+.js .hero-art .scene:nth-child(2) { --at: -22.4s; }
+.js .hero-art .scene:nth-child(3) { --at: -16.8s; }
+.js .hero-art .scene:nth-child(4) { --at: -11.2s; }
+.js .hero-art .scene:nth-child(5) { --at: -5.6s; }
+.js .hero-art .fade { animation: hero-fade var(--cycle) ease-out infinite backwards; }
+.js .hero-art .draw { animation: hero-draw var(--cycle) ease-in-out infinite backwards; }
+.js .hero-art .trace { animation: hero-trace var(--cycle) ease-in-out infinite backwards; }
+.js .hero-art .pop { animation: hero-pop var(--cycle) ease-out infinite backwards; }
+.js .hero-art :is(.fade, .draw, .trace, .pop) { animation-delay: calc(var(--at, 0s) + var(--dt, 0s)); }
+/* Paused (the button): freeze the cycle and show the current scene fully drawn. Off screen: just freeze. */
+.hero-art.is-paused *, .hero-art.is-off * { animation-play-state: paused !important; }
+.hero-art.is-paused .scene, .hero-art.is-paused .fade, .hero-art.is-paused .pop { opacity: 1 !important; }
+.hero-art.is-paused .draw, .hero-art.is-paused .trace { opacity: 1 !important; stroke-dashoffset: 0 !important; }
+.hero-art.is-paused .pop { transform: none !important; }
+@keyframes hero-slot { 0%, 17.86% { visibility: visible; opacity: 1; } 20% { visibility: visible; opacity: 0; } 20.01%, 100% { visibility: hidden; opacity: 0; } }
+@keyframes hero-fade { 0% { opacity: 0; } 2.14%, 20.5% { opacity: 1; } 20.6%, 100% { opacity: 0; } }
+@keyframes hero-draw { 0% { stroke-dashoffset: 1; opacity: 0; } 0.2% { opacity: 1; } 4.29%, 20.5% { stroke-dashoffset: 0; opacity: 1; } 20.6%, 100% { stroke-dashoffset: 1; opacity: 0; } }
+@keyframes hero-trace { 0% { stroke-dashoffset: 1; opacity: 0; } 0.2% { opacity: 1; } 7.14%, 20.5% { stroke-dashoffset: 0; opacity: 1; } 20.6%, 100% { stroke-dashoffset: 1; opacity: 0; } }
+@keyframes hero-pop { 0% { opacity: 0; transform: scale(0.2); } 1.07% { opacity: 1; transform: scale(1.4); } 1.61%, 20.5% { opacity: 1; transform: scale(1); } 20.6%, 100% { opacity: 0; transform: scale(0.2); } }
+/* Pause button (WCAG 2.2.2): only with JS, hidden under reduced motion (nothing moves then). Constant label, aria-pressed. */
+.hero-toggle {
+  display: none; position: absolute; right: 10px; bottom: 10px; width: 36px; height: 36px; place-items: center; padding: 0;
+  border: 1px solid var(--muted); border-radius: 50%; background: var(--bg); color: var(--muted); cursor: pointer; /* --muted on --surface: 3:1 or better in both themes (WCAG 1.4.11) */
+}
+.js .hero-toggle { display: grid; }
+.hero-toggle:hover { color: var(--text); border-color: var(--text); }
+.hero-toggle[aria-pressed='true'] { color: var(--accent); }
+.hero-toggle svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; }
+.hero-toggle .i-play, .hero-toggle[aria-pressed='true'] .i-pause { display: none; }
+.hero-toggle[aria-pressed='true'] .i-play { display: inline; }
 
 /* ───────── Background art (src/assets/art/*.svg, inlined by Art.astro) ─────────
    The hero's grammar, quieter and still: dot grid and dashed construction lines in --art-faint, objects in --art-ink,
@@ -406,7 +444,7 @@ fieldset.filters { border: 0; padding: 0; min-width: 0; }
   html { scroll-behavior: auto; }
   .js .reveal, .js .reveal.in { opacity: 1; animation: none; }
   .hero-art *, .art * { animation: none !important; }
-  .hero-art .draw { stroke-dashoffset: 0; }
+  .js .hero-toggle { display: none; }
   .card, .area-go, .video-play-icon { transition: none; }
   a.card:hover { transform: none; }
 }

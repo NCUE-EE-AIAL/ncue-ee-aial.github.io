@@ -45,6 +45,7 @@ export const ui = {
   'theme.toggle': { en: 'Toggle dark mode', zh: '切換深淺色' },
 
   'home.hero.kicker': { en: 'NCUE · Electrical Engineering', zh: '彰師大 · 電機工程學系' },
+  'home.hero.pause': { en: 'Pause animation', zh: '暫停動畫' },
   'home.areas': { en: 'Research areas', zh: '研究方向' },
   'home.areas.all': { en: 'All areas', zh: '全部方向' },
   'home.pubs': { en: 'Recent publications', zh: '近期論文' },

@@ -10,35 +10,64 @@ import { youtubeWatchUrl } from '../src/lib/format.ts';
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
 const CSS = read('src/styles/global.css');
+const HERO = read('src/components/HeroArt.astro');
 const DIST = join(ROOT, 'dist');
 if (!existsSync(join(DIST, 'index.html'))) throw new Error('dist/ is missing: run `npm run build` first');
 
-/** Every `selector { body }` rule whose selector mentions `.hero-art` (not nested in @media/@keyframes). */
-const heroRules = () => [...CSS.matchAll(/(^|\n)(\.hero-art[^{}]*)\{([^{}]*)\}/g)].map((m) => ({ sel: m[2].trim(), body: m[3] }));
-const keyframes = () => [...CSS.matchAll(/@keyframes\s+(hero-[\w-]+)\s*\{((?:[^{}]|\{[^{}]*\})*)\}/g)].map((m) => ({ name: m[1], body: m[2] }));
+/** `{ head, body }` for each top-level block of a stylesheet (comments dropped); call it again on an at-rule's body. */
+function blocks(css) {
+  const out = [];
+  const src = css.replace(/\/\*[\s\S]*?\*\//g, '');
+  for (let i = 0; ;) {
+    const open = src.indexOf('{', i);
+    if (open < 0) return out;
+    let depth = 0, end = open;
+    for (; end < src.length; end++) if (src[end] === '{') depth++; else if (src[end] === '}' && --depth === 0) break;
+    out.push({ head: src.slice(i, open).trim(), body: src.slice(open + 1, end) });
+    i = end + 1;
+  }
+}
+const TOP = blocks(CSS);
+/** Every top-level rule whose selector mentions `.hero-art` (not nested in @media/@keyframes). */
+const heroRules = () => TOP.filter((r) => !r.head.startsWith('@') && /\.hero-art\b/.test(r.head));
+const keyframes = () => TOP.filter((r) => /^@keyframes\s+hero-/.test(r.head)).map((r) => ({ name: r.head.split(/\s+/)[1], body: r.body }));
+const reducedMotion = () => TOP.filter((r) => /^@media\s*\(\s*prefers-reduced-motion:\s*reduce\s*\)/.test(r.head)).flatMap((r) => blocks(r.body));
+const animationOf = (body) => body.match(/\banimation\s*:([^;]*)/)?.[1] ?? '';
 
-test('the hero animation plays once and stays fully drawn (WCAG 2.2.2)', () => {
+test('the hero cycles only behind a pause button and a reduced-motion stop (WCAG 2.2.2)', () => {
   const animated = heroRules().filter((r) => /\banimation\s*:/.test(r.body));
   assert.ok(animated.length >= 5, `only ${animated.length} animated hero rules found`);
-  for (const r of animated) {
-    const decl = r.body.match(/\banimation\s*:([^;]*)/)[1];
-    assert.doesNotMatch(decl, /infinite|(?<![\w.])(?:[2-9]|\d{2,})(?![\w.])/, `${r.sel} must not loop`);
-    assert.match(decl, /\b(forwards|both)\b/, `${r.sel} must hold its final frame (animation-fill-mode)`);
+  const loops = animated.filter((r) => /\binfinite\b/.test(animationOf(r.body)));
+  if (loops.length === 0) {
+    // Played once, it must hold a fully drawn last frame.
+    for (const r of animated) assert.match(animationOf(r.body), /\b(forwards|both)\b/, `${r.head} must hold its final frame (animation-fill-mode)`);
+    for (const k of keyframes()) {
+      const last = k.body.match(/(?:^|[\s,;{}])100%\s*\{([^}]*)\}/)?.[1] ?? '';
+      assert.doesNotMatch(last, /opacity:\s*0\s*(?:;|$)/, `${k.name}: the last frame fades the drawing out`);
+      assert.doesNotMatch(last, /stroke-dashoffset:\s*1\b/, `${k.name}: the last frame is not drawn`);
+    }
+    return;
   }
-  const frames = keyframes();
-  assert.ok(frames.length >= 5, `only ${frames.length} hero keyframes`);
-  for (const k of frames) {
-    const last = k.body.match(/(?:^|[\s,;{}])100%\s*\{([^}]*)\}/)?.[1] ?? '';
-    assert.doesNotMatch(last, /opacity:\s*0\s*[;}]|opacity:\s*0$/, `${k.name}: the last frame fades the drawing out`);
-    assert.doesNotMatch(last, /stroke-dashoffset:\s*1\b/, `${k.name}: the last frame is not drawn`);
-  }
+  // A cycle runs longer than 5 s: it needs a pause button that freezes it, and it must stand still under reduced motion.
+  const button = HERO.match(/<button\b[^>]*>/)?.[0] ?? '';
+  assert.match(button, /\btype="button"/, 'the hero cycles but has no pause <button>');
+  assert.match(button, /\baria-pressed="false"/, 'the pause button must expose its state (aria-pressed)');
+  assert.ok(heroRules().some((r) => /\.is-paused\b/.test(r.head) && /animation-play-state:\s*paused\s*!important/.test(r.body)),
+    'pressing the button must freeze every hero animation (.is-paused, animation-play-state: paused !important)');
+  assert.ok(reducedMotion().some((r) => /\.hero-art \*/.test(r.head) && /animation:\s*none\s*!important/.test(r.body)),
+    'reduced motion must stop the cycle (.hero-art * { animation: none !important })');
 });
 
-test('under prefers-reduced-motion the hero is drawn at once, without animation', () => {
-  const m = CSS.match(/@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{((?:[^{}]|\{[^{}]*\})*)\}/);
-  assert.ok(m, 'missing reduced-motion block');
-  assert.match(m[1], /\.hero-art \*[^{]*\{[^}]*animation:\s*none/);
-  assert.match(m[1], /\.hero-art \.draw\s*\{[^}]*stroke-dashoffset:\s*0/);
+test('under prefers-reduced-motion the hero stands still, fully drawn, without its pause button', () => {
+  const rm = reducedMotion();
+  assert.ok(rm.length > 0, 'missing reduced-motion block');
+  assert.ok(rm.some((r) => /\.hero-art \*/.test(r.head) && /animation:\s*none/.test(r.body)), 'hero animations must stop');
+  assert.ok(rm.some((r) => /\.hero-toggle\b/.test(r.head) && /display:\s*none/.test(r.body)), 'the pause button has nothing to pause: hide it');
+  // What stands still is the resting state: the rules outside `.js` and the paused/off-screen classes must not hide strokes.
+  for (const r of heroRules().filter((x) => !/\.js\b|\.is-/.test(x.head))) {
+    assert.doesNotMatch(r.body, /stroke-dashoffset:\s*(?!0\b)/, `${r.head}: undrawn at rest`);
+    assert.doesNotMatch(r.body, /(?:^|[;\s])opacity:\s*0\s*(?:;|$)/, `${r.head}: invisible at rest`);
+  }
 });
 
 test('youtubeWatchUrl links to the video on YouTube', () => {

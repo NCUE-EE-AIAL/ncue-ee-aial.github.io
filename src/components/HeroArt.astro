@@ -1,37 +1,118 @@
 ---
 /**
- * Home hero illustration: two cameras triangulate a point on a 3D object (stereo vision),
- * a biosignal trace runs below. Drawn once with stroke-dashoffset over 6 s,
- * then it stays fully drawn (WCAG 2.2.2: nothing loops); static under prefers-reduced-motion (see .hero-art in global.css).
+ * Home hero illustration: the lab's research topics, drawn in turn with one pen.
+ * Five scenes share one 28 s cycle, 5.6 s each, in this order: speech emotion recognition, EMG muscle fatigue,
+ * stereo 3D vision, a robotic arm carrying a box, a 1 F supercapacitor with battery cells and a charge/discharge curve.
+ * In a scene the construction lines fade in, the ink draws, the signal line traces and the key dots pop
+ * (.fade / .draw / .trace / .pop, delayed by .t1-.t10 in 0.3 s steps); then it fades out for the next one.
+ * CSS does the drawing (.hero-art in global.css). A new or moved scene needs its --at offset and the hero-slot window
+ * there; tests/hero.test.mjs checks that the slots tile the cycle. Without JS, and under prefers-reduced-motion,
+ * the first scene stands still, fully drawn. The button pauses the cycle on the current scene, fully drawn (WCAG 2.2.2).
+ * Evocative drawings, not diagrams of the lab's systems: no text but the unit "1 F", drawn as strokes.
+ * The waveforms and the arm's poses were computed once (seeded noise, inverse kinematics); edit them as plain SVG.
  */
+import { t, type Locale } from '../i18n/utils';
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const pause = t('home.hero.pause', lang);
 ---
-<div class="hero-art" aria-hidden="true">
-  <svg viewBox="0 0 440 360" focusable="false">
+<div class="hero-art">
+  <svg viewBox="0 0 440 360" aria-hidden="true" focusable="false">
     <defs>
       <pattern id="hero-dots" width="20" height="20" patternUnits="userSpaceOnUse">
         <circle class="dot" cx="10" cy="10" r="1"></circle>
       </pattern>
     </defs>
     <rect width="440" height="360" fill="url(#hero-dots)"></rect>
-    <path class="fov" d="M110 250 L40 70 M110 250 L262 60 M330 250 L178 60 M330 250 L400 70"></path>
-    <path class="baseline" d="M136 250 H304"></path>
-    <path class="plane" d="M76 215 H144 M296 215 H364"></path>
-    <path class="ray draw" pathLength="1" d="M110 250 L220 120"></path>
-    <path class="ray draw" pathLength="1" d="M330 250 L220 120"></path>
-    <path class="cube-hidden anim" d="M190 150 L220 124 H280 M220 124 V64"></path>
-    <path class="cube draw" pathLength="1" d="M190 90 H250 V150 H190 Z M190 90 L220 64 H280 L250 90 M280 64 V124 L250 150"></path>
-    <circle class="target anim" cx="220" cy="120" r="7"></circle>
-    <circle class="target-dot anim" cx="220" cy="120" r="2.6"></circle>
-    <circle class="proj anim" cx="139.6" cy="215" r="3.2"></circle>
-    <circle class="proj anim" cx="300.4" cy="215" r="3.2"></circle>
-    <g class="cam">
-      <path d="M100 236 l3 -5 h14 l3 5 M88 236 h44 a4 4 0 0 1 4 4 v20 a4 4 0 0 1 -4 4 h-44 a4 4 0 0 1 -4 -4 v-20 a4 4 0 0 1 4 -4 z"></path>
-      <circle cx="110" cy="250" r="8.5"></circle>
-      <circle cx="110" cy="250" r="3"></circle>
-      <path d="M320 236 l3 -5 h14 l3 5 M308 236 h44 a4 4 0 0 1 4 4 v20 a4 4 0 0 1 -4 4 h-44 a4 4 0 0 1 -4 -4 v-20 a4 4 0 0 1 4 -4 z"></path>
-      <circle cx="330" cy="250" r="8.5"></circle>
-      <circle cx="330" cy="250" r="3"></circle>
+    <g class="scenes">
+      <g class="scene" data-scene="emotion">
+        <path class="dim fade" d="M196 156a100 100 0 1 0 200 0a100 100 0 1 0 -200 0"></path>
+        <path class="con fade" d="M178 156H414M296 38V274"></path>
+        <path class="dim fade t6" d="M278.4 205.3A18 10 24 1 1 245.6 190.7A18 10 24 1 1 278.4 205.3"></path>
+        <path class="ink draw t1" pathLength="1" d="M50 146a10 10 0 0 1 20 0v20a10 10 0 0 1-20 0zM42 158v4a18 18 0 0 0 36 0v-4M60 180v18M48 198h24"></path>
+        <path class="thin draw t2" pathLength="1" d="M55 150h10M55 156h10M55 162h10"></path>
+        <path class="sig trace t3" pathLength="1" d="M88 154.9l2.4 2.7l2.4-5.7l2.4 10.5l2.4-15.6l2.4 21.2l2.4-26.7l2.4 28l2.4-27.3l2.4 25.9l2.4-18.2l2.4 10.7l2.4-9.2l2.4 10.2l2.4-11.4l2.4 15.9l2.4-22.2l2.4 30.6l2.4-36.2l2.4 45.7l2.4-45.6l2.4 40.8l2.4-35.5l2.4 22.1l2.4-16l2.4 11.6l2.4-8.7l2.4 7.2l2.4-6.3l2.4 9.1l2.4-13.9l2.4 18.2l2.4-23.1l2.4 26.9l2.4-24.8l2.4 19.6l2.4-15.1l2.4 9.2l2.4-6.9l2.4 9l2.4-11.4l2.4 10.2l2.4-6.9l2.4 4.9l2.4-3.1l2.4 1.1C246 156 288 110 342 110"></path>
+        <circle class="key pop t7" cx="196" cy="156" r="3.2"></circle>
+        <path class="dim fade t6" d="M380.1 84.3A46 27 -34 1 1 303.9 135.7A46 27 -34 1 1 380.1 84.3"></path>
+        <path class="thin draw t7" pathLength="1" d="M366.9 93.2A30 17 -34 1 1 317.1 126.8A30 17 -34 1 1 366.9 93.2"></path>
+        <path class="ink draw t8" pathLength="1" d="M354.4 101.6A15 8.5 -34 1 1 329.6 118.4A15 8.5 -34 1 1 354.4 101.6"></path>
+        <g class="fade t8"><circle class="mark" cx="317.7" cy="118.7" r="1.6"></circle><circle class="mark" cx="329.1" cy="112.5" r="1.6"></circle><circle class="mark" cx="317.9" cy="111.7" r="1.6"></circle><circle class="mark" cx="335.4" cy="125.2" r="1.6"></circle><circle class="mark" cx="342.9" cy="123.2" r="1.6"></circle><circle class="mark" cx="352" cy="96.4" r="1.6"></circle><circle class="mark" cx="351.1" cy="94.4" r="1.6"></circle><circle class="mark" cx="326.1" cy="129" r="1.6"></circle><circle class="mark" cx="364.3" cy="112.9" r="1.6"></circle><circle class="mark" cx="330.6" cy="110.4" r="1.6"></circle><circle class="mark" cx="345.1" cy="100.4" r="1.6"></circle><circle class="mark" cx="354.1" cy="74.3" r="1.6"></circle><circle class="mark" cx="320.6" cy="124.1" r="1.6"></circle><circle class="mark" cx="355.9" cy="104.4" r="1.6"></circle><circle class="mark" cx="327.1" cy="121.1" r="1.6"></circle><circle class="mark" cx="312" cy="94.8" r="1.6"></circle><circle class="mark" cx="339.9" cy="103.8" r="1.6"></circle><circle class="mark" cx="365.2" cy="113.1" r="1.6"></circle></g>
+        <circle class="ring pop t10" cx="342" cy="110" r="7"></circle><circle class="key pop t10" cx="342" cy="110" r="2.6"></circle>
+      </g>
+      <g class="scene" data-scene="emg">
+        <path class="con fade" d="M154 184.3V132M266 186.4V132"></path>
+        <path class="ink draw t1" pathLength="1" d="M78 238C132 184 262 183.4 336 232M78 238C132 284 262 273.4 336 232M34 240L78 238M336 232L384 229"></path>
+        <path class="thin draw t2" pathLength="1" d="M78 238C132 208 262 204.4 336 232M78 238C132 226 262 221 336 232M78 238C132 246 262 239.4 336 232M78 238C132 264 262 255.9 336 232"></path>
+        <path class="ink draw t2" pathLength="1" d="M146 193.3a8 8 0 1 0 16 0a8 8 0 1 0-16 0M258 195.4a8 8 0 1 0 16 0a8 8 0 1 0-16 0"></path>
+        <circle class="key pop t3" cx="154" cy="193.3" r="2.6"></circle>
+        <circle class="key pop t3" cx="266" cy="195.4" r="2.6"></circle>
+        <path class="sig trace t3" pathLength="1" d="M34 98.8l2.2 2.4l2.2-2.4l2.2 2.4l2.2-2.4l2.2 2.4l2.2-2.4l2.2 2.4l2.2-2.4l2.2 2.4l2.2-2.4l2.2 2.4l2.2-2.5l2.2 2.7l2.2-3l2.2 3.2l2.2-3.8l2.2 3.9l2.2-4.6l2.2 7.3l2.2-11.8l2.2 11.8l2.2-15.4l2.2 17.6l2.2-13.8l2.2 24.6l2.2-25.7l2.2 27.5l2.2-32.3l2.2 28.7l2.2-38.3l2.2 40.5l2.2-35.4l2.2 32.9l2.2-25.2l2.2 19.2l2.2-15.9l2.2 9.7l2.2-5.9l2.2 5.4l2.2-5.2l2.2 4.6l2.2-3.7l2.2 3.1l2.2-2.7l2.2 2.6l2.2-2.5l2.2 2.4l2.2-2.4l2.2 2.4l2.2-2.4l2.2 2.4l2.2-2.4l2.2 2.4l2.2-2.4l2.2 2.4l2.2-2.4l2.2 2.4l2.2-2.4l2.2 2.4l2.2-2.4l2.2 2.5l2.2-2.6l2.2 2.6l2.2-2.8l2.2 3.5l2.2-4.2l2.2 4l2.2-4l2.2 6.6l2.2-9.2l2.2 9.4l2.2-8.3l2.2 15.9l2.2-25.6l2.2 31.1l2.2-35.6l2.2 24.6l2.2-17l2.2 33l2.2-45.5l2.2 35.6l2.2-30.2l2.2 30l2.2-24.3l2.2 28.6l2.2-39.4l2.2 27.7l2.2-17.9l2.2 21.1l2.2-12.3l2.2 12.2l2.2-12.9l2.2 8.8l2.2-7.9l2.2 6.5l2.2-4.9l2.2 3.7l2.2-2.8l2.2 2.8l2.2-2.8l2.2 2.6l2.2-2.5l2.2 2.5l2.2-2.4l2.2 2.4l2.2-2.4l2.2 2.4l2.2-2.4l2.2 2.5l2.2-2.5l2.2 2.5l2.2-2.5l2.2 3l2.2-3.2l2.2 3.4l2.2-3.7l2.2 4.2l2.2-4.6l2.2 8.6l2.2-12.8l3.4 12.1l3.4-16.7l3.4 27.9l3.4-23.9l3.4 14.9l3.4-18.7l3.4 15.2l3.4-11l3.4 11.7l3.4-10.1l3.4 9.8l3.4-8l3.4 8.6l3.4-20.3l3.4 28.7l3.4-29.9l3.4 30.8l3.4-21.2l3.4 18.4l3.4-20l3.4 10.9l3.4-5.4l3.4 4.3l3.4-2.9l3.4 2.5l3.4-2.4l3.4 2.4l3.4-2.4l3.4 2.4l3.4-2.4"></path>
+        <path class="ink draw t7" pathLength="1" d="M34 97C35.3 97 39.3 97 42 97C44.7 97 47.3 97 50 97C52.7 97 55.3 97 58 96.9C60.7 96.8 63.3 96.9 66 96.4C68.7 95.9 71.3 95.4 74 93.7C76.7 92 79.3 89.1 82 86.1C84.7 83.1 87.3 78.1 90 75.9C92.7 73.7 95.3 72.1 98 72.9C100.7 73.7 103.3 77.9 106 80.8C108.7 83.7 111.3 88.1 114 90.6C116.7 93 119.3 94.5 122 95.5C124.7 96.5 127.3 96.5 130 96.8C132.7 97 135.3 96.9 138 97C140.7 97 143.3 97 146 97C148.7 97 151.3 97 154 97C156.7 97 159.3 97 162 97C164.7 97 167.3 97 170 96.8C172.7 96.7 175.3 96.7 178 96C180.7 95.3 183.3 94.6 186 92.7C188.7 90.9 191.3 88.1 194 84.9C196.7 81.7 199.3 76.7 202 73.5C204.7 70.3 207.3 66.6 210 65.8C212.7 64.9 215.3 66.3 218 68.6C220.7 70.8 223.3 75.8 226 79.3C228.7 82.8 231.3 86.9 234 89.4C236.7 92 239.3 93.6 242 94.8C244.7 96 247.3 96.2 250 96.6C252.7 96.9 255.3 96.9 258 96.9C260.7 97 263.3 97 266 97C268.7 97 271.3 97 274 97C276.7 96.9 279.3 97 282 96.6C284.7 96.1 287.3 95.8 290 94.5C292.7 93.2 295.3 91.1 298 88.8C300.7 86.6 303.3 82.8 306 81.2C308.7 79.5 311.3 78.3 314 78.9C316.7 79.5 319.3 82.8 322 84.8C324.7 86.8 327.3 90.3 330 90.9C332.7 91.5 335.3 90.7 338 88.3C340.7 85.9 343.3 79.1 346 76.4C348.7 73.7 351.3 71 354 72.1C356.7 73.2 359.3 79.7 362 83.2C364.7 86.8 367.3 91.3 370 93.5C372.7 95.8 375.3 96 378 96.6C380.7 97.2 383.3 96.9 386 97C388.7 97 391.3 97 394 97C396.7 97 400.7 97 402 97"></path>
+        <path class="dim fade t7" d="M34 103C35.3 103 39.3 103 42 103C44.7 103 47.3 103 50 103C52.7 103 55.3 103 58 103.1C60.7 103.2 63.3 103.1 66 103.6C68.7 104.1 71.3 104.6 74 106.3C76.7 108 79.3 110.9 82 113.9C84.7 116.9 87.3 121.9 90 124.1C92.7 126.3 95.3 127.9 98 127.1C100.7 126.3 103.3 122.1 106 119.2C108.7 116.3 111.3 111.9 114 109.4C116.7 107 119.3 105.5 122 104.5C124.7 103.5 127.3 103.5 130 103.2C132.7 103 135.3 103.1 138 103C140.7 103 143.3 103 146 103C148.7 103 151.3 103 154 103C156.7 103 159.3 103 162 103C164.7 103 167.3 103 170 103.2C172.7 103.3 175.3 103.3 178 104C180.7 104.7 183.3 105.4 186 107.3C188.7 109.1 191.3 111.9 194 115.1C196.7 118.3 199.3 123.3 202 126.5C204.7 129.7 207.3 133.4 210 134.2C212.7 135.1 215.3 133.7 218 131.4C220.7 129.2 223.3 124.2 226 120.7C228.7 117.2 231.3 113.1 234 110.6C236.7 108 239.3 106.4 242 105.2C244.7 104 247.3 103.8 250 103.4C252.7 103.1 255.3 103.1 258 103.1C260.7 103 263.3 103 266 103C268.7 103 271.3 103 274 103C276.7 103.1 279.3 103 282 103.4C284.7 103.9 287.3 104.2 290 105.5C292.7 106.8 295.3 108.9 298 111.2C300.7 113.4 303.3 117.2 306 118.8C308.7 120.5 311.3 121.7 314 121.1C316.7 120.5 319.3 117.2 322 115.2C324.7 113.2 327.3 109.7 330 109.1C332.7 108.5 335.3 109.3 338 111.7C340.7 114.1 343.3 120.9 346 123.6C348.7 126.3 351.3 129 354 127.9C356.7 126.8 359.3 120.3 362 116.8C364.7 113.2 367.3 108.7 370 106.5C372.7 104.2 375.3 104 378 103.4C380.7 102.8 383.3 103.1 386 103C388.7 103 391.3 103 394 103C396.7 103 400.7 103 402 103"></path>
+        <circle class="key pop t5" cx="96" cy="72.5" r="3.2"></circle>
+        <circle class="key pop t7" cx="212" cy="65.4" r="3.2"></circle>
+        <circle class="ring pop t10" cx="352" cy="71.5" r="7"></circle><circle class="key pop t10" cx="352" cy="71.5" r="2.6"></circle>
+      </g>
+      <g class="scene" data-scene="stereo">
+        <path class="con fade" d="M110 270L40 90M110 270L262 80M330 270L178 80M330 270L400 90"></path>
+        <path class="dim fade" d="M136 270H304"></path>
+        <path class="thin fade" d="M76 235H144M296 235H364"></path>
+        <g class="sig"><path class="draw t1" pathLength="1" d="M110 270L220 140"></path><path class="draw t1" pathLength="1" d="M330 270L220 140"></path></g>
+        <path class="dim fade t6" d="M190 170L220 144H280M220 144V84"></path>
+        <path class="ink draw t4" pathLength="1" d="M190 110H250V170H190ZM190 110L220 84H280L250 110M280 84V144L250 170"></path>
+        <circle class="key pop t3" cx="139.6" cy="235" r="3.2"></circle>
+        <circle class="key pop t3" cx="300.4" cy="235" r="3.2"></circle>
+        <g class="ink body fade"><path d="M100 256l3-5h14l3 5M88 256h44a4 4 0 0 1 4 4v20a4 4 0 0 1-4 4h-44a4 4 0 0 1-4-4v-20a4 4 0 0 1 4-4z"></path><circle cx="110" cy="270" r="8.5"></circle><circle cx="110" cy="270" r="3"></circle><path d="M320 256l3-5h14l3 5M308 256h44a4 4 0 0 1 4 4v20a4 4 0 0 1-4 4h-44a4 4 0 0 1-4-4v-20a4 4 0 0 1 4-4z"></path><circle cx="330" cy="270" r="8.5"></circle><circle cx="330" cy="270" r="3"></circle></g>
+        <circle class="ring pop t8" cx="220" cy="140" r="7"></circle><circle class="key pop t8" cx="220" cy="140" r="2.6"></circle>
+      </g>
+      <g class="scene" data-scene="arm">
+        <path class="con fade" d="M20.5 159.9A192 192 0 0 1 359.5 159.9"></path>
+        <path class="thin draw" pathLength="1" d="M36 296H372"></path>
+        <path class="con fade t1" d="M310 303v-7M358 303v-7"></path>
+        <path class="ink draw t1" pathLength="1" d="M162 296L170 276H210L218 296M178 276V264H202V276"></path>
+        <g class="fade t1"><path class="dim" d="M190 250L128.3 171.3L72 244M72 250.5V258M54 280V258H90V280M57 266h30v30h-30zM57 272h30"></path><circle class="thin" cx="128.3" cy="171.3" r="4"></circle><circle class="thin" cx="72" cy="244" r="4"></circle></g>
+        <path class="sig trace t3" pathLength="1" d="M72 244Q209 -48 334 244"></path>
+        <circle class="key pop t3" cx="72" cy="244" r="3.2"></circle>
+        <g class="fade t5"><path class="dim" d="M190 250L140.8 162.9L206 98M206 104.5V112M188 134V112H224V134"></path><circle class="thin" cx="140.8" cy="162.9" r="4"></circle><circle class="thin" cx="206" cy="98" r="4"></circle></g>
+        <circle class="key pop t6" cx="206" cy="98" r="3.2"></circle>
+        <path class="ink draw t6" pathLength="1" d="M195.3 256L270 189.5A8 8 0 0 1 259.4 177.5L184.7 244A8 8 0 0 1 195.3 256M260.4 188.4L329.7 248.9A6.5 6.5 0 0 1 338.3 239.1L269 178.6A6.5 6.5 0 0 1 260.4 188.4"></path>
+        <path class="ink draw t7" pathLength="1" d="M334 250.5V258M316 280V258H352V280"></path>
+        <path class="ink draw t8" pathLength="1" d="M319 266h30v30h-30zM319 272h30"></path>
+        <g class="ink body fade t6"><circle cx="190" cy="250" r="10"></circle><circle cx="264.7" cy="183.5" r="8"></circle><circle cx="334" cy="244" r="6.5"></circle></g>
+        <path class="con fade t8" d="M216 250A26 26 0 0 0 209.4 232.7"></path>
+        <circle class="ring pop t10" cx="334" cy="244" r="7"></circle><circle class="key pop t10" cx="334" cy="244" r="2.6"></circle>
+      </g>
+      <g class="scene" data-scene="power">
+        <path class="con fade" d="M44 236V318H376M44 250H376"></path>
+        <path class="thin draw" pathLength="1" d="M92 214H340"></path>
+        <path class="ink draw t1" pathLength="1" d="M180 84A30 8 0 1 1 120 84A30 8 0 1 1 180 84M120 84V206A30 8 0 0 0 180 206V84M140 84V60M160 84V60"></path>
+        <path class="thin draw t2" pathLength="1" d="M120 98A30 8 0 0 0 180 98M174 106V198"></path>
+        <path class="ink draw t3" pathLength="1" d="M133 142l6-5v26M157 137v26M157 137h11M157 149h8"></path>
+        <path class="ink draw t2" pathLength="1" d="M241 136A15 4.5 0 1 1 211 136A15 4.5 0 1 1 241 136M211 136V209.5A15 4.5 0 0 0 241 209.5V136M220 136v-6h12v6M211 146A15 4.5 0 0 0 241 146M279 136A15 4.5 0 1 1 249 136A15 4.5 0 1 1 279 136M249 136V209.5A15 4.5 0 0 0 279 209.5V136M258 136v-6h12v6M249 146A15 4.5 0 0 0 279 146M317 136A15 4.5 0 1 1 287 136A15 4.5 0 1 1 317 136M287 136V209.5A15 4.5 0 0 0 317 209.5V136M296 136v-6h12v6M287 146A15 4.5 0 0 0 317 146"></path>
+        <path class="thin draw t4" pathLength="1" d="M220 130H308"></path>
+        <path class="dim fade t3" d="M160 60C192 36 226 76 226 124"></path>
+        <path class="sig trace t3" pathLength="1" d="M48 318l40-68l0 10l40 58l40-68l0 10l40 58l40-68l0 10l40 58l40-68"></path>
+        <circle class="key pop t5" cx="88" cy="250" r="3.2"></circle>
+        <circle class="key pop t6" cx="168" cy="250" r="3.2"></circle>
+        <circle class="key pop t8" cx="248" cy="250" r="3.2"></circle>
+        <circle class="ring pop t10" cx="328" cy="250" r="7"></circle><circle class="key pop t10" cx="328" cy="250" r="2.6"></circle>
+      </g>
     </g>
-    <path class="wave draw" pathLength="1" d="M24 318 H96 q7 -9 14 0 H130 l4 5 l6 -32 l6 40 l4 -13 H170 q10 -14 20 0 H250 q7 -9 14 0 H284 l4 5 l6 -32 l6 40 l4 -13 H324 q10 -14 20 0 H416"></path>
   </svg>
+  <button class="hero-toggle" type="button" aria-pressed="false" aria-label={pause} title={pause}>
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="i-pause" d="M9 6v12M15 6v12"></path><path class="i-play" d="M8 5.5v13l11-6.5z"></path></svg>
+  </button>
 </div>
+<script>
+  // Pause button (WCAG 2.2.2) and an off-screen pause: the script only flips classes; CSS does the drawing.
+  const art = document.querySelector('.hero-art');
+  const button = art?.querySelector('.hero-toggle');
+  if (art && button) {
+    button.addEventListener('click', () => {
+      const paused = button.getAttribute('aria-pressed') !== 'true';
+      button.setAttribute('aria-pressed', String(paused));
+      art.classList.toggle('is-paused', paused);
+    });
+    new IntersectionObserver(([entry]) => art.classList.toggle('is-off', !entry.isIntersecting)).observe(art);
+  }
+</script>

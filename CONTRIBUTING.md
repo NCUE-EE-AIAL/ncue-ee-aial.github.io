@@ -197,6 +197,19 @@
 - 新研究方向要有自己的插圖：在 script 裡新增一張並在 `NOTES` 補一行說明，輸出為 `src/assets/art/<slug>.svg`（`<slug>` 與 `research/` 資料夾同名）；沒有這個檔案時，研究頁會自動改用通用的 `research` 插圖。
 - 改完執行 `npm test`（檢查顏色、結尾標籤、檔案大小與 `npm run art` 的輸出是否與 SVG 一致；其餘規格要自己遵守）。
 
+### 首頁動畫（hero）
+
+- 首頁右側的輪播插圖是 `src/components/HeroArt.astro`，由 `scripts/hero-gen.mjs` **產生**：要改圖，請改這支 script 再執行 `npm run hero`（會重寫整個元件；也可加輸出路徑：`node scripts/hero-gen.mjs <檔案>`）；直接改 `HeroArt.astro` 會在下次執行時被蓋掉，`npm test` 也會因為兩者不一致而失敗。
+- 新增或移除一個場景：在 script 的 `SCENES` 物件加（刪）一個函式，順序就是播放順序；然後 `src/styles/global.css` 裡「同一組數字」要一起改，設 N 為場景數、C 為 `--cycle`（20–30 秒），每個場景的時段 S = C ÷ N：
+  - `.hero-art` 的 `--cycle: C`；
+  - 第 k 個場景（`.scene:nth-child(k)`，k ≥ 2）的 `--at: -(C − (k − 1) × S)`（第 1 個不用設）；
+  - `@keyframes hero-slot`：場景在時段結束（100 ÷ N %）淡出，淡出前 0.6 秒開始，所以「可見到」的百分比是 100 ÷ N − 0.6 ÷ C × 100（現為 17.86%），淡出結束為 100 ÷ N（20%），其後（20.01%）起隱藏；
+  - `hero-fade`、`hero-draw`、`hero-trace`、`hero-pop` 四組 keyframes 的「釋放」百分比（結尾的 `20.5%, 20.6%`）要落在時段結束之後，即 ≥ 100 ÷ N %；
+  - 每個元素的 `--dt`（`.t1`–`.t10`，每級 0.3 秒）加上它最慢動畫的完成點（以秒計：百分比 × C ÷ 100，例如 `hero-trace` 的 7.14%）必須在淡出開始之前結束，也就是 `最大 --dt + 完成點 ≤ (100 ÷ N − 0.6 ÷ C × 100) × C ÷ 100`（現為 3 + 2 = 5 秒 ≤ 5 秒）；
+  - `tests/hero.test.mjs` 開頭的 `SCENES` 陣列（名稱與順序要和 script 一致）。
+- 改完執行 `npm run build` 與 `npm test`（`tests/hero.test.mjs` 會檢查上面每一項是否彼此吻合）。
+- `npm run verify:hero` 是選用的瀏覽器檢查（需要本機的 `google-chrome` 與 `python3`，**不**在 CI 或 `npm test` 裡執行）：先 `npm run build`，它會用無頭 Chrome 開 `dist/` 的首頁，檢查暫停按鈕、離開畫面時暫停、鍵盤操作、減少動態與無 JS 的狀態，並把 1280／390 px、淺色／深色下各場景的截圖放到暫存資料夾（路徑印在最後一行）。
+
 ### 網站標誌與圖示
 
 - 頁首的標誌是 `src/components/Nav.astro` 裡的內嵌 SVG（座標為 32×32 的 `viewBox`）；要改標誌就改這段 SVG。
