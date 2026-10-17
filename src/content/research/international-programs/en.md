@@ -6,7 +6,7 @@ order: 5
 keywords: ["TEEP", "IIPP", "international students", "embedded AI"]
 ---
 
-Each year the lab hosts international students through Taiwan government programs such as TEEP (Taiwan Experience Education Program) and IIPP. <!-- TODO: confirm with lab: program details, durations and partner universities --> These students arrive with different backgrounds, and the lab gives them a concrete project in which to apply AI to a real problem.
+Each year the lab hosts international students through two Taiwan government programs: [TEEP](https://teep.studyintaiwan.org/) (Taiwan Experience Education Program, Ministry of Education; Taiwan–India, since 2018) and [IIPP](https://iipp.stpi.niar.org.tw/) (International Internship Pilot Program, National Science and Technology Council; since 2024). <!-- source: Prof. Yang's IIPP mentor page https://iipp.stpi.niar.org.tw/mentor/846 (checked 2026-10-17) --> <!-- TODO: confirm with lab: partner universities --> These students arrive with different backgrounds, and the lab gives them a concrete project in which to apply AI to a real problem.
 
 Projects span signal processing, time-series prediction, robotics and computer vision, typically built with Python notebooks and low-cost embedded hardware such as Arduino and ESP boards. Several have grown into collaborations or papers, for example the two-step authentication work presented at ICETA 2024.
 

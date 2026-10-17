@@ -10,7 +10,7 @@ export const site = {
     zh: '國立彰化師範大學 電機工程學系',
   },
   orgShort: { en: 'NCUE EE', zh: '彰師大電機' },
-  pi: { en: 'Prof. Wen-Ren Yang', zh: '指導教授 楊文仁' },
+  pi: { en: 'Prof. Wen-Ren Yang', zh: '指導教授 楊文然' },
   tagline: {
     en: 'Applied AI for vision, robotics, and biomedical signals.',
     zh: '視覺、機器人與生醫訊號的人工智慧應用研究。',
@@ -60,7 +60,7 @@ export const ui = {
   'home.github': { en: 'Lab on GitHub', zh: '實驗室 GitHub' },
   'home.hero.body': {
     en: 'Led by Prof. Wen-Ren Yang in the Department of Electrical Engineering at National Changhua University of Education, we build AI systems that perceive 3D space, guide robotic arms, read biosignals and verify identity, and we design them to run on affordable hardware.',
-    zh: '實驗室由國立彰化師範大學電機工程學系楊文仁老師主持，打造能感知三維空間、導引機械手臂、解讀生理訊號與驗證身分的 AI 系統，並讓它們能在平價硬體上運作。',
+    zh: '實驗室由國立彰化師範大學電機工程學系楊文然老師主持，打造能感知三維空間、導引機械手臂、解讀生理訊號與驗證身分的 AI 系統，並讓它們能在平價硬體上運作。',
   },
   'home.cta.research': { en: 'Explore our research', zh: '認識研究方向' },
   'home.location': { en: 'Changhua, Taiwan', zh: '台灣 彰化' },
@@ -137,7 +137,7 @@ export const ui = {
   'people.title': { en: 'People', zh: '成員' },
   'people.intro': {
     en: 'The lab is led by Prof. Wen-Ren Yang and brings together graduate, undergraduate and international students.',
-    zh: '實驗室由楊文仁老師主持，成員包含研究生、大學部專題生與國際學生。',
+    zh: '實驗室由楊文然老師主持，成員包含研究生、大學部專題生與國際學生。',
   },
   'people.papers': { en: 'Papers', zh: '論文' },
   'people.projects': { en: 'Projects', zh: '專案' },
@@ -172,8 +172,8 @@ export const ui = {
   },
   'join.intl.title': { en: 'International students (TEEP / IIPP)', zh: '國際學生（TEEP / IIPP）' },
   'join.intl.body': {
-    en: 'TEEP (Taiwan Experience Education Program) and IIPP (International Industrial Talents Education Special Program) place short-term research interns in the lab. Write to us with your intended dates, background, and a topic from our research areas.',
-    zh: 'TEEP（臺灣體驗教育計畫）與 IIPP 計畫提供短期研究實習名額。來信請附預計期間、學術背景，以及想參與的研究方向。',
+    en: 'TEEP (Taiwan Experience Education Program, Ministry of Education) and IIPP (International Internship Pilot Program, National Science and Technology Council) bring international students to the lab for short research internships (current terms are on the program websites). Write to us with your intended dates, background, and a topic from our research areas.',
+    zh: 'TEEP（教育部「優秀外國青年來臺蹲點計畫」）與 IIPP（國科會「外籍人才來臺實習試辦專案」）提供國際學生短期研究實習名額，辦法以兩項計畫官網公告為準。來信請附預計期間、學術背景，以及想參與的研究方向。',
   },
   'join.intl.todo': {
     en: 'TODO: confirm program names, typical duration, and application windows with the lab.',
@@ -181,7 +181,7 @@ export const ui = {
   },
   'join.contact.title': { en: 'Contact', zh: '聯絡方式' },
   'join.email.lab': { en: 'Lab email', zh: '實驗室信箱' },
-  'join.email.pi': { en: 'Prof. Yang', zh: '楊文仁 老師' },
+  'join.email.pi': { en: 'Prof. Yang', zh: '楊文然 老師' },
   'join.facilities.title': { en: 'Facilities', zh: '實驗室設備' },
   'join.facilities.intro': {
     en: 'Students share the lab’s equipment for model training, prototyping and deployment.',

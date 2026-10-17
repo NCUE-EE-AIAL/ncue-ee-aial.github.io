@@ -1,11 +1,12 @@
 name:
   en: "Wen-Ren Yang"
-  zh: "楊文仁"
+  zh: "楊文然"
 role: pi
-areas: [stereo-3d-vision, robotic-arm, biomedical-ai, biometrics-security, international-programs]
+photo: "/images/people/wen-ren-yang.webp"
+areas: [stereo-3d-vision, biomedical-ai, biometrics-security, international-programs]
 bio:
-  en: "Faculty member in the Department of Electrical Engineering, NCUE, since 2006, and director of the Artificial Intelligent Application Center. Ph.D. in electrical engineering from the University of Missouri-Columbia; research interests include wavelet transforms, neural networks and integrated optics."
-  zh: "2006 年起任教於國立彰化師範大學電機工程學系，並擔任人工智慧應用中心主任。美國密蘇里大學哥倫比亞分校電機工程博士；研究興趣包含小波轉換、類神經網路與積體光學。"
+  en: "Faculty member in the Department of Electrical Engineering, NCUE, since 2006, and director of the Artificial Intelligent Application Center. Ph.D. in electrical engineering from the University of Missouri-Columbia; research interests include wavelet transforms, digital signal processing and signal analysis, power electronics, neural networks and integrated optics."
+  zh: "2006 年起任教於國立彰化師範大學電機工程學系，並擔任人工智慧應用中心主任。美國密蘇里大學哥倫比亞分校電機工程博士；研究專長包含小波轉換、數位訊號處理與訊號分析、電力電子、類神經網路與積體光學。"
 links:
   email: "wry87c@cc.ncue.edu.tw"
   # ORCID record lists no employer; both of its works are NCUE papers by Wen-Ren Yang (checked 2026-10-17).

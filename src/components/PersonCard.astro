@@ -33,7 +33,7 @@ const links: Link[] = [
 ---
 <article class:list={['card', 'person', 'reveal', { 'pi-card': pi }]} id={person.id} style={`--i:${i}`}>
   {d.photo
-    ? <img class="avatar" src={d.photo} alt={`${t('people.photoAlt', lang)} ${name}`} width={pi ? 120 : 72} height={pi ? 120 : 72} loading="lazy" decoding="async" />
+    ? <img class="avatar" src={d.photo} alt={`${t('people.photoAlt', lang)}${lang === 'zh' ? '' : ' '}${name}`} width={pi ? 120 : 72} height={pi ? 120 : 72} loading={pi ? 'eager' : 'lazy'} decoding="async" />
     : <span class="avatar" aria-hidden="true">{initials(d.name.en)}</span>}
   <div class="person-body">
     <H class="person-name">{name}{altName && <span class="name-alt" lang={lang === 'zh' ? 'en' : 'zh-Hant-TW'}>{altName}</span>}</H>

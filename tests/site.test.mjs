@@ -178,3 +178,18 @@ test('the 404 page is bilingual', () => {
   assert.match(page, /Page not found/);
   assert.match(page, /找不到頁面/);
 });
+
+test('people photos: alt text has no stray space, the PI photo (LCP) is eager, the rest lazy', () => {
+  const imgs = (route) => [...html(route).matchAll(/<img[^>]*class="avatar"[^>]*>/g)].map((m) => m[0]);
+  const attr = (tag, name) => tag.match(new RegExp(`\\s${name}="([^"]*)"`))?.[1];
+  for (const [route, alt] of [['/zh/people/', '照片：楊文然'], ['/people/', 'Portrait of Wen-Ren Yang']]) {
+    const list = imgs(route);
+    const pi = list.find((t) => attr(t, 'src').includes('wen-ren-yang'));
+    assert.ok(pi, `${route}: PI photo missing`);
+    assert.equal(attr(pi, 'alt'), alt);
+    assert.equal(attr(pi, 'loading'), 'eager', `${route}: PI photo must not be lazy`);
+    const rest = list.filter((t) => t !== pi);
+    assert.ok(rest.length > 0);
+    for (const t of rest) assert.equal(attr(t, 'loading'), 'lazy', `${route}: ${attr(t, 'src')} should stay lazy`);
+  }
+});

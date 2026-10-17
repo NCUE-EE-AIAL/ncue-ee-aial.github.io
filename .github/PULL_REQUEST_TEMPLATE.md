@@ -8,7 +8,7 @@
 - [ ] `npm test` passes / 通過
 - [ ] `npm run links` shows no errors (after a build) / 沒有 error（需先 build）
 - [ ] Content rules followed (see CONTRIBUTING.md) / 已遵守內容規則：
-  - [ ] A paper is listed only if Wen-Ren Yang (楊文仁) is an author / 論文作者含楊文仁老師
+  - [ ] A paper is listed only if Wen-Ren Yang (楊文然) is an author / 論文作者含楊文然老師
   - [ ] `verified: true` only with a `source` URL of the publisher page I opened / `verified: true` 一定附上我實際打開的出版社頁面 `source`
   - [ ] PDF only for arXiv / accepted manuscripts (IEEE/IET: DOI only) / PDF 僅限 arXiv 或接受稿
   - [ ] No student email addresses / 沒有學生個人 email

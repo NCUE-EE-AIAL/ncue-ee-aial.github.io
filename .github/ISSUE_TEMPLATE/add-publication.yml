@@ -6,8 +6,8 @@ body:
   - type: markdown
     attributes:
       value: |
-        Only papers with **Wen-Ren Yang (楊文仁)** as an author are listed. Please open the publisher page and copy the details from it.
-        只收錄**楊文仁老師**為作者之一的論文。請打開出版社頁面，照上面的資料填寫。
+        Only papers with **Wen-Ren Yang (楊文然)** as an author are listed. Please open the publisher page and copy the details from it.
+        只收錄**楊文然老師**為作者之一的論文。請打開出版社頁面，照上面的資料填寫。
   - type: input
     id: title_en
     attributes:
@@ -91,5 +91,5 @@ body:
     attributes:
       label: "Confirmation / 確認"
       options:
-        - label: "Wen-Ren Yang (楊文仁) is one of the authors / 楊文仁老師是作者之一"
+        - label: "Wen-Ren Yang (楊文然) is one of the authors / 楊文然老師是作者之一"
           required: true
