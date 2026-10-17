@@ -2,11 +2,14 @@
 import Base from '../../layouts/Base.astro';
 import PageHead from '../PageHead.astro';
 import PubItem from '../PubItem.astro';
-import { t, type Locale, type UiKey } from '../../i18n/utils';
-import { getPublications, getPeople } from '../../lib/data';
+import { t, pick, type Locale, type UiKey } from '../../i18n/utils';
+import { getPublications, getPeople, getHonors } from '../../lib/data';
 interface Props { lang: Locale }
 const { lang } = Astro.props;
-const [pubs, people] = await Promise.all([getPublications(), getPeople()]);
+const [pubs, people, honors] = await Promise.all([getPublications(), getPeople(), getHonors()]);
+// Honours that name a paper put a chip on it.
+const awards = new Map<string, string[]>();
+for (const h of honors) if (h.data.publication) awards.set(h.data.publication.id, [...(awards.get(h.data.publication.id) ?? []), pick(h.data.title, lang)]);
 const members = people.map((p) => p.data.name.en);
 const TYPES = ['journal', 'conference', 'thesis', 'preprint', 'other'] as const;
 const types = TYPES.filter((ty) => pubs.some((p) => p.data.type === ty));
@@ -38,7 +41,7 @@ const filterCss = types.map((ty) =>
       <section class="pub-group" data-year={y} aria-labelledby={`y${y}`}>
         <h2 class="pub-year" id={`y${y}`}>{y}</h2>
         <ol class="pub-list">
-          {pubs.filter((p) => p.data.year === y).map((p) => <PubItem pub={p} lang={lang} members={members} anchor />)}
+          {pubs.filter((p) => p.data.year === y).map((p) => <PubItem pub={p} lang={lang} members={members} anchor awards={awards.get(p.id)} />)}
         </ol>
       </section>
     ))}

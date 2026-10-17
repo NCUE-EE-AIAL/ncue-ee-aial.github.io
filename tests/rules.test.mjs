@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { isLocalPhoto } from '../src/lib/rules.mjs';
+import { isLocalPhoto, sponsorEra, GRANT_NO, PARTNER_RE, ymNow, isOngoing } from '../src/lib/rules.mjs';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const PEOPLE = join(ROOT, 'src/content/people');
@@ -36,4 +36,32 @@ test('the people schema uses the rule with a clear error message', () => {
   const cfg = readFileSync(join(ROOT, 'src/content.config.ts'), 'utf8');
   assert.match(cfg, /from '\.\/lib\/rules\.mjs'/);
   assert.match(cfg, /photo:\s*z\.string\(\)\.refine\(isLocalPhoto,\s*\{\s*error:\s*'[^']*\/images\/people\/[^']*',?\s*\}\)\.optional\(\)/);
+});
+
+test('sponsorEra names the agency of a grant by its start month (NSC → MOST 2014-03 → NSTC 2022-07)', () => {
+  assert.deepEqual(sponsorEra('2013-08'), ['nsc']);
+  assert.deepEqual(sponsorEra('2014-02'), ['nsc']);
+  assert.deepEqual(sponsorEra('2014-03').sort(), ['most', 'nsc']);
+  assert.deepEqual(sponsorEra('2014-04'), ['most']);
+  assert.deepEqual(sponsorEra('2022-06'), ['most']);
+  assert.deepEqual(sponsorEra('2022-07').sort(), ['most', 'nstc']);
+  assert.deepEqual(sponsorEra('2022-08'), ['nstc']);
+});
+
+test('GRANT_NO accepts NSC/MOST/NSTC numbers without the agency prefix', () => {
+  for (const ok of ['112-2221-E-018-009-MY2', '108-2622-E-018-002-CC3', '99-2221-E-018-012', '113-2637-E-018-001']) assert.match(ok, GRANT_NO, ok);
+  for (const bad of ['MOST 108-2221-E-018-010', '108-2221-E-18-010', '108/2221/E/018/010', '']) assert.doesNotMatch(bad, GRANT_NO, bad);
+});
+
+test('PARTNER_RE catches company names in industry projects, not ordinary words', () => {
+  for (const name of ['某某能源股份有限公司', '某某科技有限公司', 'Acme Co., Ltd.', 'Example Corp', 'Example Inc.']) assert.match(name, PARTNER_RE, name);
+  for (const word of ['Battery energy storage for campus microgrids', 'Industry cooperation on edge AI', '校內儲能系統的 AI 與邊緣運算']) assert.doesNotMatch(word, PARTNER_RE, word);
+});
+
+test('a grant is ongoing through its last month', () => {
+  const now = new Date('2026-10-18T12:00:00Z');
+  assert.equal(ymNow(now), '2026-10');
+  assert.equal(isOngoing('2027-07', now), true);
+  assert.equal(isOngoing('2026-10', now), true);
+  assert.equal(isOngoing('2026-09', now), false);
 });

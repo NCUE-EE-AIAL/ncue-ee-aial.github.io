@@ -242,3 +242,31 @@ test('a post written in one language appears on both sites, tagged with its lang
     assert.match(html(other), new RegExp(`<h1[^>]*lang="${only === 'en' ? 'en' : 'zh-Hant-TW'}"`), other);
   }
 });
+
+test('alumni cards show where the person went; other cards never do', () => {
+  const people = html('/people/');
+  for (const f of readdirSync(join(ROOT, 'src/content/people'))) {
+    const y = readFileSync(join(ROOT, 'src/content/people', f), 'utf8');
+    const id = f.replace(/\.ya?ml$/, '');
+    const card = people.slice(people.indexOf(`id="${id}"`));
+    const body = card.slice(0, card.indexOf('</article>'));
+    if (/^destination:/m.test(y)) {
+      assert.match(y, /^alumni: true/m, `${f}: destination without alumni: true`);
+      assert.match(body, /class="destination"/, `${id}: destination not shown`);
+    } else assert.doesNotMatch(body, /class="destination"/, `${id}: unexpected destination`);
+  }
+});
+
+test('every honour file is listed on People; with none, there is no honours section', () => {
+  const dir = join(ROOT, 'src/content/honors');
+  const files = existsSync(dir) ? readdirSync(dir).filter((f) => /\.ya?ml$/.test(f)) : [];
+  for (const r of ['/people/', zh('/people/')]) {
+    const page = html(r);
+    if (files.length === 0) { assert.doesNotMatch(page, /id="honors"/, r); continue; }
+    const list = section(page, 'honors');
+    for (const f of files) {
+      const title = readFileSync(join(dir, f), 'utf8').match(/^\s+en: "([^"]+)"/m)[1];
+      assert.ok(list.includes(escape(title).replace(/\\/g, '')) || r.startsWith('/zh'), `${r}: honour "${title}" missing`);
+    }
+  }
+});

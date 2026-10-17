@@ -8,10 +8,11 @@ import { t, pick, localePath, otherLocale, type Locale } from '../../i18n/utils'
 import { personNode } from '../../lib/seo.mjs';
 import { slugOf } from '../../lib/format';
 import { splitTheses } from '../../lib/theses.mjs';
-import { getPeople, getPublications, getProjects, getAreas, getTheses, type Person } from '../../lib/data';
+import { getPeople, getPublications, getProjects, getAreas, getTheses, getHonors, type Person } from '../../lib/data';
 interface Props { lang: Locale }
 const { lang } = Astro.props;
-const [people, pubs, projects, areas, theses] = await Promise.all([getPeople(), getPublications(), getProjects(), getAreas(lang), getTheses()]);
+const [people, pubs, projects, areas, theses, honors] = await Promise.all([getPeople(), getPublications(), getProjects(), getAreas(lang), getTheses(), getHonors()]);
+const nameOf = new Map(people.map((p) => [p.id, pick(p.data.name, lang)]));
 const areaTitles = new Map(areas.map((a) => [slugOf(a.id), a.data.title]));
 const intl = (p: Person) => p.data.role === 'intern' || !!p.data.program;
 const pis = people.filter((p) => p.data.role === 'pi');
@@ -52,6 +53,27 @@ const olderCount = olderYears.reduce((n, y) => n + y.list.length, 0);
       </div>
     </section>
   ))}
+  {honors.length > 0 && (
+    <section class="section container" id="honors" aria-labelledby="honors-h">
+      <div class="section-head">
+        <h2 id="honors-h">{t('people.honors', lang)} <span class="count">{honors.length}</span></h2>
+      </div>
+      <ul class="honor-list">
+        {honors.map((h) => {
+          const who = [...h.data.recipients.map((r) => nameOf.get(r.id) ?? r.id), ...h.data.recipientNames];
+          return (
+            <li class="honor">
+              <time datetime={h.data.date.toISOString().slice(0, 10)}>{h.data.date.getUTCFullYear()}</time>
+              <div>
+                <p class="honor-title">{h.data.url ? <a href={h.data.url} rel="noopener">{pick(h.data.title, lang)}</a> : pick(h.data.title, lang)}</p>
+                <p class="honor-by">{pick(h.data.by, lang)}{who.length > 0 && <> · {who.join(lang === 'zh' ? '、' : ', ')}</>}</p>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  )}
   {masterCount > 0 && (
     <section class="section container" id="theses" aria-labelledby="theses-h">
       <div class="section-head">

@@ -44,6 +44,7 @@ const links: Link[] = [
     </p>
     {pi && <p class="org">{s('org', lang)}</p>}
     {d.bio && <p class="bio">{pick(d.bio, lang)}</p>}
+    {d.alumni && d.destination && <p class="destination"><span class="destination-label">{t('people.destination', lang)}</span> {pick(d.destination, lang)}</p>}
     {pi && areaTitles && d.areas.length > 0 && (
       <ul class="chips person-areas">
         {d.areas.map((a) => <li><a class="chip chip-accent" href={localePath(`/research/${a}/`, lang)}>{areaTitles.get(a) ?? a}</a></li>)}

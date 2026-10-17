@@ -13,6 +13,11 @@ export type Area = CollectionEntry<'research'>;
 export type NewsPost = CollectionEntry<'news'>;
 export type Facility = CollectionEntry<'facilities'>;
 export type Thesis = CollectionEntry<'theses'>;
+export type Grant = CollectionEntry<'grants'>;
+export type Album = CollectionEntry<'albums'>;
+export type GroupPhoto = CollectionEntry<'groupPhotos'>;
+export type Honor = CollectionEntry<'honors'>;
+export type Faq = CollectionEntry<'faq'>;
 
 const byEn = (a: { en: string }, b: { en: string }) => a.en.localeCompare(b.en);
 
@@ -74,3 +79,53 @@ export async function getSlugs(collection: 'research' | 'news'): Promise<string[
 
 /** Filter predicate: entries tagged with research area `slug`. */
 export const inArea = (slug: string) => (e: { data: { areas: readonly string[] } }) => e.data.areas.includes(slug);
+
+/** Latest end first, then latest start, then title. Fails the build on unknown related ids. */
+export async function getGrants(): Promise<Grant[]> {
+  const [grants, pubs, theses] = await Promise.all([getCollection('grants'), getCollection('publications'), getCollection('theses')]);
+  const pubIds = new Set(pubs.map((p) => p.id));
+  const thesisIds = new Set(theses.map((t) => t.id));
+  for (const g of grants) {
+    for (const r of g.data.related.publications) {
+      if (!pubIds.has(r.id)) throw new Error(`src/content/grants/${g.id}.yaml: related.publications lists "${r.id}", but src/content/publications/${r.id}.yaml does not exist`);
+    }
+    for (const r of g.data.related.theses) {
+      if (!thesisIds.has(r.id)) throw new Error(`src/content/grants/${g.id}.yaml: related.theses lists "${r.id}", but src/content/theses/${r.id}.yaml does not exist`);
+    }
+  }
+  return grants.sort((a, b) =>
+    b.data.end.localeCompare(a.data.end) || b.data.start.localeCompare(a.data.start) || byEn(a.data.title, b.data.title));
+}
+
+/** Newest first. */
+export async function getAlbums(): Promise<Album[]> {
+  return (await getCollection('albums')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf() || a.id.localeCompare(b.id));
+}
+
+/** Newest year first. */
+export async function getGroupPhotos(): Promise<GroupPhoto[]> {
+  return (await getCollection('groupPhotos')).sort((a, b) => b.data.year - a.data.year);
+}
+
+/** Newest first. Fails the build on unknown people or publication ids. */
+export async function getHonors(): Promise<Honor[]> {
+  const [honors, people, pubs] = await Promise.all([getCollection('honors'), getCollection('people'), getCollection('publications')]);
+  const peopleIds = new Set(people.map((p) => p.id));
+  const pubIds = new Set(pubs.map((p) => p.id));
+  for (const h of honors) {
+    for (const r of h.data.recipients) {
+      if (!peopleIds.has(r.id)) throw new Error(`src/content/honors/${h.id}.yaml: recipients lists "${r.id}", but src/content/people/${r.id}.yaml does not exist`);
+    }
+    const pub = h.data.publication?.id;
+    if (pub && !pubIds.has(pub)) throw new Error(`src/content/honors/${h.id}.yaml: publication "${pub}" is not a file in src/content/publications/`);
+  }
+  return honors.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf() || byEn(a.data.title, b.data.title));
+}
+
+const AUDIENCES = ['master', 'undergrad', 'intl', 'all'] as const;
+
+/** By audience (master's, undergraduate, international, everyone), then `order`, then question. */
+export async function getFaq(): Promise<Faq[]> {
+  return (await getCollection('faq')).sort((a, b) =>
+    AUDIENCES.indexOf(a.data.audience) - AUDIENCES.indexOf(b.data.audience) || a.data.order - b.data.order || byEn(a.data.q, b.data.q));
+}

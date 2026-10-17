@@ -11,8 +11,10 @@ interface Props {
   showYear?: boolean;
   /** Give the item an id so People cards can link to it. */
   anchor?: boolean;
+  /** Titles of honours this paper won (src/content/honors/ with `publication`). */
+  awards?: string[];
 }
-const { pub, lang, members, showYear = false, anchor = false } = Astro.props;
+const { pub, lang, members, showYear = false, anchor = false, awards = [] } = Astro.props;
 const d = pub.data;
 const title = pick(d.title, lang);
 const altTitle = lang === 'zh' && d.title.zh ? d.title.en : undefined;
@@ -27,6 +29,7 @@ const isMember = (a: string) => members.some((m) => isAuthor(m, [a]));
   <p class="pub-venue">{d.venue}{showYear && !d.venue.includes(String(d.year)) && `, ${d.year}`}</p>
   <div class="pub-links">
     <span class="chip">{t(`pubs.type.${d.type}` as UiKey, lang)}</span>
+    {awards.map((a) => <span class="chip chip-award"><Icon name="star" /> {a}</span>)}
     {!d.verified && <span class="chip chip-warn">{t('pubs.unverified', lang)}</span>}
     {d.doi && <a href={`https://doi.org/${d.doi}`} rel="noopener">{t('pubs.doi', lang)}</a>}
     {d.pdf && <a href={d.pdf}>{t('pubs.pdf', lang)}</a>}

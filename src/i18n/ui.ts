@@ -153,6 +153,8 @@ export const ui = {
   'people.projects': { en: 'Projects', zh: '專案' },
   'people.orcid': { en: 'ORCID', zh: 'ORCID' },
   'people.website': { en: 'Website', zh: '個人網站' },
+  'people.destination': { en: 'Now:', zh: '現況：' },
+  'people.honors': { en: 'Honours and awards', zh: '榮譽與獲獎' },
   'people.pi': { en: 'Principal Investigator', zh: '指導教授' },
   'people.current': { en: 'Current members', zh: '現任成員' },
   'people.international': { en: 'International students', zh: '國際學生' },
