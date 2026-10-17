@@ -9,6 +9,13 @@ export function langOf(id: string): string {
   return id.split('/')[1] ?? 'en';
 }
 
+/** A YYYY-MM month for display: "Aug 2026" / "2026 年 8 月". */
+export function formatYm(ym: string, lang: string): string {
+  const [y, m] = ym.split('-').map(Number);
+  if (lang === 'zh') return `${y} 年 ${m} 月`;
+  return new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', timeZone: 'UTC' }).format(new Date(Date.UTC(y, m - 1, 1)));
+}
+
 /**
  * One entry per folder: the `lang` file, else en, else whatever language exists, so a post or area
  * written in only one language still appears on both sites (the components tag it with its language).

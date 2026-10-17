@@ -1,0 +1,33 @@
+---
+import { pick, t, localePath, type Locale, type UiKey } from '../i18n/utils';
+import { formatYm } from '../lib/format';
+import type { Grant } from '../lib/data';
+/** One funded project. `row`: the compact form used in the completed list. Industry projects show no partner, number or link. */
+interface Props { grant: Grant; lang: Locale; areaTitles: Map<string, string>; row?: boolean }
+const { grant, lang, areaTitles, row = false } = Astro.props;
+const d = grant.data;
+const title = pick(d.title, lang);
+const altTitle = lang === 'zh' ? (d.title.zh ? d.title.en : undefined) : d.title.zh;
+const altLang = lang === 'zh' ? 'en' : 'zh-Hant-TW';
+const sponsor = d.sponsor === 'other' && d.sponsorName ? pick(d.sponsorName, lang) : t(`grant.sponsor.${d.sponsor}` as UiKey, lang);
+const role = t(`grant.role.${d.role}` as UiKey, lang);
+const number = d.sponsor !== 'industry' && d.number ? `${d.sponsor.toUpperCase()} ${d.number}` : undefined;
+const Tag = row ? 'li' : 'article';
+---
+<Tag class:list={[row ? 'grant-row' : 'card grant', 'reveal']} id={grant.id}>
+  <p class="grant-period"><time datetime={d.start}>{formatYm(d.start, lang)}</time> – <time datetime={d.end}>{formatYm(d.end, lang)}</time></p>
+  <div class="grant-body">
+    {row ? <p class="grant-title">{title}</p> : <h4 class="grant-title">{title}</h4>}
+    {altTitle && <p class="grant-title-alt" lang={altLang}>{altTitle}</p>}
+    <p class="grant-meta">
+      <span class="chip chip-accent">{sponsor}</span>
+      <span>{role}</span>
+      {number && <span class="grant-no">{number}</span>}
+    </p>
+    {!row && d.summary && <p class="grant-summary">{pick(d.summary, lang)}</p>}
+    {!row && d.areas.length > 0 && (
+      <ul class="chips">{d.areas.map((a) => <li><a class="chip" href={localePath(`/research/${a}/`, lang)}>{areaTitles.get(a) ?? a}</a></li>)}</ul>
+    )}
+    {d.sponsor !== 'industry' && d.grb && <p class="grant-link"><a href={d.grb} rel="noopener">{t('grant.grb', lang)}</a></p>}
+  </div>
+</Tag>

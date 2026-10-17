@@ -2,14 +2,19 @@
 import Base from '../../layouts/Base.astro';
 import PageHead from '../PageHead.astro';
 import ProjectCard from '../ProjectCard.astro';
+import GrantCard from '../GrantCard.astro';
 import ArtFill from '../ArtFill.astro';
 import { pick, t, type Locale } from '../../i18n/utils';
 import { slugOf } from '../../lib/format';
-import { getProjects, getAreas, getPeople, inArea } from '../../lib/data';
+import { getProjects, getAreas, getPeople, getGrants, inArea } from '../../lib/data';
+import { isOngoing } from '../../lib/rules.mjs';
 import { getRepoMeta } from '../../lib/github';
 interface Props { lang: Locale }
 const { lang } = Astro.props;
-const [projects, areas, people] = await Promise.all([getProjects(), getAreas(lang), getPeople()]);
+const [projects, areas, people, grants] = await Promise.all([getProjects(), getAreas(lang), getPeople(), getGrants()]);
+// Ongoing is decided at build time; the weekly rebuild (deploy.yml) moves finished grants to the completed list.
+const ongoing = grants.filter((g) => isOngoing(g.data.end));
+const completed = grants.filter((g) => !isOngoing(g.data.end));
 const metas = await Promise.all(projects.map((p) => (p.data.repo ? getRepoMeta(p.data.repo) : Promise.resolve(null))));
 const areaTitles = new Map(areas.map((a) => [slugOf(a.id), a.data.title]));
 const names = new Map(people.map((p) => [p.id, pick(p.data.name, lang)]));
@@ -20,7 +25,29 @@ const filterCss = used.map((a) => `.projects:has(#pf-${a}:checked) .project:not(
 <Base lang={lang} title={t('projects.title', lang)} path="/projects/" description={t('projects.intro', lang)}>
   <style is:inline slot="head" set:html={filterCss}></style>
   <PageHead title={t('projects.title', lang)} lede={t('projects.intro', lang)} art="projects" />
-  <div class="container projects">
+  {grants.length > 0 && (
+    <section class="section container grants" id="grants" aria-labelledby="grants-h">
+      <div class="section-head">
+        <h2 id="grants-h">{t('projects.grants', lang)} <span class="count">{grants.length}</span></h2>
+      </div>
+      {ongoing.length > 0 && (
+        <div class="grant-group" id="grants-ongoing">
+          <h3 class="grant-group-title">{t('projects.ongoing', lang)}</h3>
+          <div class="grid grid-2">{ongoing.map((g) => <GrantCard grant={g} lang={lang} areaTitles={areaTitles} />)}</div>
+        </div>
+      )}
+      {completed.length > 0 && (
+        <div class="grant-group" id="grants-completed">
+          <h3 class="grant-group-title">{t('projects.completed', lang)}</h3>
+          <ol class="grant-list">{completed.map((g) => <GrantCard grant={g} lang={lang} areaTitles={areaTitles} row />)}</ol>
+        </div>
+      )}
+    </section>
+  )}
+  <section class="section container projects" id="code" aria-labelledby="code-h">
+    <div class="section-head">
+      <h2 id="code-h">{t('projects.code', lang)} <span class="count">{projects.length}</span></h2>
+    </div>
     {used.length > 1 && (
       <fieldset class="filters">
         <legend class="sr-only">{t('projects.filter.label', lang)}</legend>
@@ -38,9 +65,9 @@ const filterCss = used.map((a) => `.projects:has(#pf-${a}:checked) .project:not(
       ? <p class="muted">{t('projects.empty', lang)}</p>
       : (
         <div class="grid grid-2">
-          {projects.map((p, i) => <ProjectCard project={p} lang={lang} meta={metas[i]} areaTitles={areaTitles} names={names} i={i % 4} level={2} />)}
+          {projects.map((p, i) => <ProjectCard project={p} lang={lang} meta={metas[i]} areaTitles={areaTitles} names={names} i={i % 4} level={3} />)}
           <ArtFill name="opamp" count={projects.length} />
         </div>
       )}
-  </div>
+  </section>
 </Base>

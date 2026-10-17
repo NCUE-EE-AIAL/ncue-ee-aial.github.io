@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';
-import { slugOf, langOf, pickLocalized, normName, isAuthor, initials, youtubeId, toBibtex } from '../src/lib/format.ts';
+import { slugOf, langOf, pickLocalized, formatYm, normName, isAuthor, initials, youtubeId, toBibtex } from '../src/lib/format.ts';
 
 test('slugOf / langOf split a localized entry id', () => {
   assert.equal(slugOf('biomedical-ai/en'), 'biomedical-ai');
@@ -89,4 +89,10 @@ test('pickLocalized keeps one entry per folder: the page language, else en, else
   assert.deepEqual(ids(pickLocalized([{ id: 'b/en' }], 'zh')), ['b/en']);
   assert.deepEqual(ids(pickLocalized([{ id: 'c/zh' }], 'en')), ['c/zh'], 'a zh-only post must still appear on the English site');
   assert.deepEqual(ids(pickLocalized([{ id: 'c/zh' }, { id: 'd/en' }, { id: 'd/zh' }], 'en')), ['c/zh', 'd/en']);
+});
+
+test('formatYm writes a YYYY-MM month for each language', () => {
+  assert.equal(formatYm('2026-08', 'en'), 'Aug 2026');
+  assert.equal(formatYm('2027-07', 'zh'), '2027 年 7 月');
+  assert.equal(formatYm('2014-03', 'en'), 'Mar 2014');
 });
