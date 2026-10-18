@@ -4,6 +4,6 @@ q:
   en: "What do interns work on?"
   zh: "實習生做哪些工作？"
 a:
-  en: "Digital signal processing (short-time Fourier transform, discrete wavelet transform, digital filtering) and machine learning with LSTM and general regression neural networks, simulated and analysed in MATLAB and Python, then implemented on embedded hardware such as FPGA boards. Recent topics are listed on the International Programs page."
+  en: "Digital signal processing (short-time Fourier transform, discrete wavelet transform, digital filtering) and machine learning with LSTM and general regression neural networks, simulated and analyzed in MATLAB and Python, then implemented on embedded hardware such as FPGA boards. Recent topics are listed on the International Programs page."
   zh: "數位訊號處理（短時傅立葉轉換、離散小波轉換、數位濾波）與 LSTM、廣義迴歸類神經網路（GRNN）等機器學習方法，先以 MATLAB 與 Python 模擬分析，再實作於 FPGA 等嵌入式硬體。近年題目列在「國際交流計畫」頁。"
 source: "Prof. Yang's TEEP 2023 and IIPP 2024 slides (Internship Briefs / Internship Tasks), provided by Brian on 2026-10-18"

@@ -48,7 +48,7 @@
 | `src/content/publications/<年>-<key>.yaml` | 一篇論文 | `/publications/` | `/zh/publications/` |
 | `src/content/projects/<slug>.yaml` | 一個專案（程式 / 系統） | `/projects/`（頁名「計畫與專案」，在研究計畫之下） | `/zh/projects/` |
 | `src/content/grants/<YYYY-MM>-<slug>.yaml` | 一個研究計畫（有經費補助的） | `/projects/`（進行中的卡片，之後是已結束的清單） | `/zh/projects/` |
-| `src/content/people/<id>.yaml` | 一位成員 | `/people/`（指導教授、現任成員、國際學生、校友分組） | `/zh/people/` |
+| `src/content/people/<id>.yaml` | 一位成員 | `/people/`（指導教授、現任成員、國際學生、歷屆成員分組） | `/zh/people/` |
 | `src/content/news/<YYYY-MM-DD>-<slug>/{en,zh}.md` | 一則動態（每種語言一個檔） | `/news/`（列表）與 `/news/<slug>/` | `/zh/news/`、`/zh/news/<slug>/` |
 | `src/content/facilities/<id>.yaml` | 一項（或一類）設備 | `/join/#facilities`（加入我們頁的「設備」區） | `/zh/join/#facilities` |
 | `src/content/theses/<學年度>-<handle>.yaml` | 一篇指導的碩士論文 | `/people/#theses`（成員頁最後一區，依學年度分組） | `/zh/people/#theses` |
@@ -94,7 +94,7 @@
 
 ### 2.2 新增成員
 
-1. 在 `src/content/people/` 新增 `<id>.yaml`。**檔名（不含 `.yaml`）就是這個人的 id**，專案的 `members` 欄位用的就是它，所以請用穩定的小寫英文，例如 `ting-yi-lin.yaml`。之後不要隨便改檔名，否則要同步改所有專案裡的 `members`。
+1. 在 `src/content/people/` 新增 `<id>.yaml`。**檔名（不含 `.yaml`）就是這個人的 id**，專案的 `members` 欄位用的就是它，所以請用穩定的小寫英文，例如 `brian-lin.yaml`。id 不必等於英文姓名（`brian-lin.yaml` 的 `name.en` 是 Ting-Yi Lin）。之後不要隨便改檔名，否則要同步改所有專案裡的 `members`。
 2. 內容：
 
    ```yaml
@@ -130,12 +130,12 @@
    repo: "NCUE-EE-AIAL/PatrolBot"    # 格式 owner/name，不是完整網址；必須是公開 repo
    areas: [international-programs]    # 至少一個
    year: 2023
-   members: [ting-yi-lin]             # people/ 底下的檔名（不含 .yaml）
+   members: [brian-lin]               # people/ 底下的檔名（不含 .yaml）
    status: active                     # active | archived
    ```
 3. 沒有公開 repo 的專案可以省略 `repo`。`members` 裡的 id 必須真的存在於 `people/`；打錯時 build 會失敗，並指出是哪個專案檔、哪個 id。
 
-### 2.4 新增動態（最新消息）
+### 2.4 新增動態
 
 1. 建立資料夾 `src/content/news/<YYYY-MM-DD>-<slug>/`，例如 `2026-11-05-ieee-conference-accepted/`。
 2. 資料夾內放 `en.md` 與 `zh.md`，內容各用該語言寫。**也可以只寫一種語言**（只有 `en.md` 或只有 `zh.md`）：另一個語言的網站會照樣顯示這則動態，並標註它的語言（「In Chinese」／「僅有英文」）。
@@ -355,7 +355,7 @@ title:
 | `years` | 否 | 字串 | `"2025–"`、`"2022–2024"` | 含 `–` 請加引號 |
 | `areas` | 否（`[]`） | 研究方向 slug 清單 | `[biomedical-ai]` | |
 | `bio` | 否 | bi | `en: "M.S. student ..."` | 簡短、僅寫公開資訊 |
-| `photo` | 否 | 字串，路徑 | `/images/people/ting-yi.webp` | 檔案放 `public/images/people/`（240×240 WebP，用 `npm run photos -- <照片> --out public/images/people --headshot` 產生）；需本人同意 |
+| `photo` | 否 | 字串，路徑 | `/images/people/brian-lin.webp` | 檔案放 `public/images/people/`（240×240 WebP，用 `npm run photos -- <照片> --out public/images/people --headshot` 產生）；需本人同意 |
 | `links.github` | 否 | 完整網址 | `"https://github.com/brian10420"` | |
 | `links.scholar` | 否 | 完整網址 | | Google Scholar |
 | `links.linkedin` | 否 | 完整網址 | | |
@@ -376,7 +376,7 @@ title:
 | `areas` | 是 | 研究方向 slug 清單，**至少 1 個** | `[international-programs]` | |
 | `repo` | 否 | `owner/name`（英數、`_`、`.`、`-`） | `"NCUE-EE-AIAL/PatrolBot"` | 不是完整網址；公開 repo；用來抓 stars / 語言 / 最後 push |
 | `year` | 否 | 整數 | `2023` | |
-| `members` | 否（`[]`） | people 的 id 清單 | `[ting-yi-lin]` | 檔名（不含 `.yaml`）；不存在的 id 會讓 build 失敗 |
+| `members` | 否（`[]`） | people 的 id 清單 | `[brian-lin]` | 檔名（不含 `.yaml`）；不存在的 id 會讓 build 失敗 |
 | `links.demo` | 否 | 完整網址 | | |
 | `links.video` | 否 | 完整網址（YouTube） | | 點擊後才載入 |
 | `links.paper` | 否 | 字串 | | 對應論文的網址（或 DOI 連結） |
@@ -482,7 +482,7 @@ title:
 | `title` | 是 | bi | | 獎項名稱 |
 | `by` | 是 | bi | | 頒獎單位或活動 |
 | `date` | 是 | 日期 `YYYY-MM-DD` | `2026-10-20` | |
-| `recipients` | 否（`[]`） | people 的 id 清單 | `[ting-yi-lin]` | 不存在的 id 會讓 build 失敗 |
+| `recipients` | 否（`[]`） | people 的 id 清單 | `[brian-lin]` | 不存在的 id 會讓 build 失敗 |
 | `recipientNames` | 否（`[]`） | 字串清單 | `["林庭毅"]` | 沒有成員檔的得獎人，照獎狀上的寫法 |
 | `publication` | 否 | publications 的檔名（不含 `.yaml`） | `2024-two-step-auth` | 該論文會多一個獎項標籤 |
 | `url` | 否 | 完整網址 | | |
@@ -536,7 +536,7 @@ title:
 
 **方法 A：直接在 github.com 上改檔**
 
-1. 打開 repo `NCUE-EE-AIAL/ncue-ee-aial.github.io`，進到要改的檔案（例如 `src/content/people/ting-yi-lin.yaml`）。
+1. 打開 repo `NCUE-EE-AIAL/ncue-ee-aial.github.io`，進到要改的檔案（例如 `src/content/people/brian-lin.yaml`）。
 2. 點右上角的**鉛筆圖示**（Edit this file）。
 3. 改完，按 Commit changes，選 **「Create a new branch for this commit and start a pull request」**（建立新分支並發起 PR）。
 4. 填好 PR 範本的檢查清單。維護者核對後合併，網站約 2 分鐘後更新。
@@ -575,7 +575,7 @@ npm run links       # 檢查 dist/ 的連結（需先 npm run build）
 
 - 每次推到 `main`（包括在 github.com 上直接改檔）都會先執行 **build、`npm test`、站內連結檢查**，全部通過才會部署。所以只要有一項失敗，網站就**不會更新**：到 repo 的 **Actions** 分頁，點進紅色叉叉的那次執行，看是哪一步失敗，再對照[第 8 節](#8-常見-build-錯誤解讀)。
 - 網站**每週一台北時間 05:17 也會自動重建一次**，讓依日期決定的內容自己更新（首頁最近 12 個月的動態、研究計畫的「進行中」、GitHub stars 等）。
-- GitHub 在 repo **連續 60 天沒有 commit** 時會停用排程的 workflow，並寄信給最後一位 committer。收到通知時：到 **Actions** 分頁，選「Deploy to GitHub Pages」，按 **Enable workflow**；或推任何一個 commit 也可以。
+- GitHub 在 repo **連續 60 天沒有 commit** 時會停用排程的 workflow，並寄信給最後一位 committer。收到通知時：到 **Actions** 分頁，選「Deploy to GitHub Pages」，按 **Enable workflow**（GitHub 文件只寫了這個方法，沒有說推 commit 會自動恢復）。停用期間推上去的修改不會部署，所以按下 Enable 之後，在同一頁按 **Run workflow** 手動部署一次。網站本身不會因此下線，只是停在最後一次部署的內容。
 
 ---
 
@@ -744,7 +744,7 @@ keywords:
 ### 20. `destination` 沒有 `alumni: true`
 
 ```
-[InvalidContentEntryDataError] people → ting-yi-lin data does not match collection schema.
+[InvalidContentEntryDataError] people → brian-lin data does not match collection schema.
   ****: destination is for alumni: add alumni: true
 ```
 修正：`destination` 只給校友；確定這個人已畢業並同意公開現況後，加上 `alumni: true`，否則刪掉 `destination`。

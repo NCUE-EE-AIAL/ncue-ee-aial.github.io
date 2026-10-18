@@ -63,13 +63,13 @@ export const ui = {
   'home.join.title': { en: 'Join the lab', zh: '加入實驗室' },
   'home.join.body': {
     en: 'We welcome NCUE graduate and undergraduate students, and international students through the TEEP and IIPP programs.',
-    zh: '歡迎彰師大研究生與大學部專題生，以及透過 TEEP、IIPP 計畫來台的國際學生。',
+    zh: '歡迎彰師大研究生與大學部專題生，以及透過 TEEP、IIPP 計畫來臺的國際學生。',
   },
   'home.join.cta': { en: 'How to apply', zh: '申請方式' },
   'home.github': { en: 'Lab on GitHub', zh: '實驗室 GitHub' },
   'home.hero.body': {
-    en: 'Led by Prof. Wen-Ren Yang in the Department of Electrical Engineering at National Changhua University of Education, we build AI systems that perceive 3D space, guide robotic arms, read biosignals and verify identity, and we design them to run on affordable hardware.',
-    zh: '實驗室由國立彰化師範大學電機工程學系楊文然老師主持，打造能感知三維空間、導引機械手臂、解讀生理訊號與驗證身分的 AI 系統，並讓它們能在平價硬體上運作。',
+    en: 'Led by Prof. Wen-Ren Yang in the Department of Electrical Engineering at National Changhua University of Education, we apply AI and signal processing to biosignals and speech, identity verification and the campus battery energy storage system, and we also study stereo 3D vision and robotic-arm control. We design our systems to run on affordable hardware.',
+    zh: '實驗室由國立彰化師範大學電機工程學系楊文然老師主持，將 AI 與訊號處理應用於生理訊號與語音、身分驗證與校內儲能系統，也研究立體三維視覺與機械手臂控制，並讓系統能在平價硬體上運作。',
   },
   'home.cta.research': { en: 'Explore our research', zh: '認識研究方向' },
   'home.about': { en: 'About the lab', zh: '關於實驗室' },
@@ -89,7 +89,7 @@ export const ui = {
   'stats.code': { en: 'open-source projects', zh: '個開源專案' },
   'stats.grants': { en: 'funded projects', zh: '件研究計畫' },
   'stats.since': { en: 'since {ay}', zh: '自 {ay}起' },
-  'home.location': { en: 'Changhua, Taiwan', zh: '台灣 彰化' },
+  'home.location': { en: 'Changhua, Taiwan', zh: '臺灣 彰化' },
 
   'research.title': { en: 'Research', zh: '研究方向' },
   'research.intro': {
@@ -188,11 +188,11 @@ export const ui = {
   'people.orcid': { en: 'ORCID', zh: 'ORCID' },
   'people.website': { en: 'Website', zh: '個人網站' },
   'people.destination': { en: 'Now:', zh: '現況：' },
-  'people.honors': { en: 'Honours and awards', zh: '榮譽與獲獎' },
+  'people.honors': { en: 'Honors and awards', zh: '榮譽與獲獎' },
   'people.pi': { en: 'Principal Investigator', zh: '指導教授' },
   'people.current': { en: 'Current members', zh: '現任成員' },
   'people.international': { en: 'International students', zh: '國際學生' },
-  'people.alumni': { en: 'Alumni', zh: '校友' },
+  'people.alumni': { en: 'Alumni', zh: '歷屆成員' },
   'people.theses': { en: 'Master’s theses advised', zh: '指導碩士論文' },
   'people.theses.phd': { en: 'PhD dissertations advised', zh: '指導博士論文' },
   'people.theses.coadvised': { en: 'co-advised with', zh: '共同指導：' },
@@ -218,7 +218,7 @@ export const ui = {
   'join.title': { en: 'Join & Contact', zh: '加入與聯絡' },
   'join.intro': {
     en: 'The lab takes NCUE master’s students, undergraduate project students, and international students through TEEP and IIPP.',
-    zh: '實驗室招收彰師大碩士生、大學部專題生，以及經由 TEEP 與 IIPP 計畫來台的國際學生。',
+    zh: '實驗室招收彰師大碩士生、大學部專題生，以及經由 TEEP 與 IIPP 計畫來臺的國際學生。',
   },
   'join.students.title': { en: 'NCUE students', zh: '彰師大學生' },
   'join.students.body': {

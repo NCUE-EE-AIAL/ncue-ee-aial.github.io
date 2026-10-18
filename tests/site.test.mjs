@@ -5,7 +5,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { isAuthor } from '../src/lib/format.ts';
-import { site } from '../src/i18n/ui.ts';
+import { site, ui } from '../src/i18n/ui.ts';
 import { parse as parseYaml } from 'yaml';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
@@ -132,6 +132,12 @@ test('no page shows an email address other than the lab email and a PI or staff 
     }
   }
   assert.deepEqual(found, [], 'student emails never go on the site (CONTRIBUTING §5 rule 4): write the lab email instead');
+});
+
+test('the footer joins its two sentences the way each language writes them', () => {
+  const [rights, kept] = [ui['footer.rights'], ui['footer.maintained']];
+  assert.ok(html('/').includes(`${rights.en} ${kept.en}`), 'en: one space between the sentences');
+  assert.ok(html(zh('/')).includes(`${rights.zh}${kept.zh}`), 'zh: no space after 。');
 });
 
 test('publications are grouped by year, newest first, each with BibTeX', () => {
