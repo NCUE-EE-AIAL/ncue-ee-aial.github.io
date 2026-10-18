@@ -37,11 +37,13 @@ const cut = lang === 'zh' && name.startsWith('人工智慧') ? '人工智慧'.le
     <button class="nav-toggle nav-tools-btn" type="button" aria-expanded="false" aria-controls="nav-links" aria-label={t('nav.menu', lang)} id="nav-toggle">
       <Icon name="menu" />
     </button>
-    <ul class="nav-links" id="nav-links">
-      {items.map((it) => (
-        <li><a href={localePath(it.href, lang)} aria-current={isCurrent(it.href) ? 'page' : undefined}>{t(it.key, lang)}</a></li>
-      ))}
-    </ul>
+    <nav class="nav-menu" aria-label={t('nav.label', lang)}>
+      <ul class="nav-links" id="nav-links">
+        {items.map((it) => (
+          <li><a href={localePath(it.href, lang)} aria-current={isCurrent(it.href) ? 'page' : undefined}>{t(it.key, lang)}</a></li>
+        ))}
+      </ul>
+    </nav>
     <div class="nav-tools">
       <a href={localePath(path, other)} hreflang={other === 'zh' ? 'zh-Hant-TW' : 'en'} lang={other === 'zh' ? 'zh-Hant-TW' : 'en'} aria-label={t('lang.switchLabel', lang)}>{t('lang.switch', lang)}</a>
       <ThemeToggle label={t('theme.toggle', lang)} />

@@ -3,18 +3,25 @@ import Icon from './Icon.astro';
 interface Props { label: string }
 const { label } = Astro.props;
 ---
-<button id="theme-toggle" type="button" aria-label={label} title={label}>
+<!-- aria-pressed = dark mode on; the script sets it once it knows the theme. -->
+<button id="theme-toggle" type="button" aria-label={label} title={label} aria-pressed="false">
   <Icon name="moon" class="moon" />
   <Icon name="sun" class="sun" />
 </button>
 <script>
   const btn = document.getElementById('theme-toggle');
+  const root = document.documentElement;
+  const system = window.matchMedia('(prefers-color-scheme: dark)');
+  const current = () => root.dataset.theme ?? (system.matches ? 'dark' : 'light');
+  const show = () => btn?.setAttribute('aria-pressed', String(current() === 'dark'));
+  show();
+  system.addEventListener('change', show);
   btn?.addEventListener('click', () => {
-    const root = document.documentElement;
-    const current = root.dataset.theme
-      ?? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    const next = current === 'dark' ? 'light' : 'dark';
+    const next = current() === 'dark' ? 'light' : 'dark';
     root.dataset.theme = next;
+    // Both theme-color tags (light and dark media) take the chosen colour, as the head script does at load.
+    for (const m of document.querySelectorAll('meta[name="theme-color"]')) m.setAttribute('content', next === 'dark' ? '#0f1117' : '#ffffff');
     try { localStorage.setItem('theme', next); } catch {}
+    show();
   });
 </script>

@@ -2,7 +2,7 @@
 // The brand check also reads dist/ (run `npm run build` first).
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { youtubeWatchUrl } from '../src/lib/format.ts';
@@ -91,4 +91,29 @@ test('the Chinese brand name breaks as 人工智慧 / 應用實驗室, the Engli
   assert.match(brand(''), /AI Application Laboratory/);
   assert.match(CSS, /:lang\(zh\)\s+\.brand\s*\{[^}]*overflow-wrap:\s*normal/, 'zh brand must not break anywhere');
   assert.match(CSS, /\.brand\s*\{[^}]*word-break:\s*keep-all/);
+});
+
+const narrow = () => TOP.filter((r) => /^@media\s*\(\s*max-width:\s*860px\s*\)/.test(r.head)).flatMap((r) => blocks(r.body));
+const ruleFor = (rules, selector) => rules.filter((r) => r.head.split(',').some((h) => h.trim() === selector)).map((r) => r.body).join(';');
+
+test('without JavaScript the phone menu shows its links and hides the buttons that need a script', () => {
+  const links = ruleFor(narrow(), 'html:not(.js) .nav-links');
+  assert.match(links, /display:\s*flex/, 'html:not(.js) .nav-links must be shown under 860 px');
+  assert.match(links, /position:\s*static/, 'html:not(.js) .nav-links must sit in the header, not drop down');
+  assert.match(ruleFor(narrow(), 'html:not(.js) .nav-toggle'), /display:\s*none/, 'the menu button does nothing without JS');
+  assert.match(ruleFor(TOP, 'html:not(.js) #theme-toggle'), /display:\s*none/, 'the theme button does nothing without JS');
+});
+
+test('every page with the site menu has one labelled <nav> around its six links, and the theme button reports its state', () => {
+  const pages = (function walk(dir) {
+    return readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
+      e.isDirectory() ? walk(join(dir, e.name)) : e.name.endsWith('.html') ? [join(dir, e.name)] : []);
+  })(DIST).map((f) => [f.slice(DIST.length), readFileSync(f, 'utf8')]).filter(([, page]) => page.includes('id="site-nav"'));
+  assert.ok(pages.length >= 28, `only ${pages.length} pages have the site menu`);
+  for (const [where, page] of pages) {
+    const navs = page.match(/<nav\b[^>]*\baria-label="[^"]+"[^>]*>[\s\S]*?<\/nav>/g) ?? [];
+    assert.equal(navs.length, 1, `${where}: ${navs.length} labelled <nav> landmarks`);
+    assert.equal((navs[0].match(/<a\b/g) ?? []).length, 6, `${where}: the <nav> should hold the six menu links`);
+    assert.match(page, /<button id="theme-toggle"[^>]*\baria-pressed="false"/, `${where}: the theme button needs aria-pressed`);
+  }
 });

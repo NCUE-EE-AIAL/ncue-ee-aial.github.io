@@ -6,6 +6,7 @@ import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { isAuthor } from '../src/lib/format.ts';
 import { site } from '../src/i18n/ui.ts';
+import { parse as parseYaml } from 'yaml';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const DIST = join(ROOT, 'dist');
@@ -256,9 +257,9 @@ test('/news/ groups posts under one heading per year', () => {
   }
 });
 
-test('a post written in one language appears on both sites, tagged with its language', () => {
+test('a post written in one language appears on both sites, tagged with its language', (t) => {
   const single = NEWS.filter((n) => readdirSync(join(ROOT, 'src/content/news', n)).length === 1);
-  if (single.length === 0) return; // none today; the rule is unit-tested via pickLocalized
+  if (single.length === 0) return t.skip('no one-language post today (pickLocalized has unit tests)');
   for (const n of single) {
     const only = readdirSync(join(ROOT, 'src/content/news', n))[0].replace('.md', '');
     const other = only === 'en' ? zh(`/news/${n}/`) : `/news/${n}/`;
@@ -288,8 +289,10 @@ test('every honour file is listed on People; with none, there is no honours sect
     if (files.length === 0) { assert.doesNotMatch(page, /id="honors"/, r); continue; }
     const list = section(page, 'honors');
     for (const f of files) {
-      const title = readFileSync(join(dir, f), 'utf8').match(/^\s+en: "([^"]+)"/m)[1];
-      assert.ok(list.includes(escape(title).replace(/\\/g, '')) || r.startsWith('/zh'), `${r}: honour "${title}" missing`);
+      const { title } = parseYaml(readFileSync(join(dir, f), 'utf8'));
+      const want = (r.startsWith('/zh') && title.zh) || title.en;
+      const shown = want.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+      assert.ok(list.includes(shown), `${r}: honour "${want}" (${f}) missing`);
     }
   }
 });

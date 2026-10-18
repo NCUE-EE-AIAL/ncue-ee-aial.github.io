@@ -1,4 +1,4 @@
-// WCAG AA (4.5:1) for white text drawn on the accent fills, read from the design tokens in both themes.
+// WCAG AA (4.5:1) for white text drawn on the accent fills and for chip text, read from the design tokens in both themes.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -27,5 +27,27 @@ test('the count badge on a selected filter passes AA in both themes', () => {
   for (const fill of fills) {
     const bg = over([r, g, b], a, fill);
     assert.ok(ratio(WHITE, bg) >= 4.5, `count badge over ${fill}: ${ratio(WHITE, bg).toFixed(2)}`);
+  }
+});
+
+const tokenBlock = (selector) => {
+  const at = css.indexOf(`${selector} {`);
+  assert.ok(at >= 0, `${selector} not found`);
+  return Object.fromEntries([...css.slice(at, css.indexOf('}', at)).matchAll(/--([\w-]+):\s*(#[0-9a-fA-F]{6})\b/g)].map((m) => [m[1], hex(m[2])]));
+};
+
+test('chip text passes AA on its chip background in both themes', () => {
+  const light = tokenBlock(':root');
+  const dark = { ...light, ...tokenBlock(":root[data-theme='dark']") };
+  const chips = [...css.matchAll(/^\.(chip(?:-[\w-]+)?)\s*\{([^}]*)\}/gm)].map(([, name, body]) => ({
+    name, bg: body.match(/background:\s*var\(--([\w-]+)\)/)?.[1], fg: body.match(/(?:^|[;{\s])color:\s*var\(--([\w-]+)\)/)?.[1],
+  })).filter((c) => c.bg && c.fg);
+  assert.ok(chips.length >= 3, `found ${chips.map((c) => c.name)}`);
+  for (const [theme, t] of [['light', light], ['dark', dark]]) {
+    for (const c of chips) {
+      assert.ok(t[c.fg] && t[c.bg], `${c.name}: --${c.fg} or --${c.bg} is not a colour token`);
+      const r = ratio(t[c.fg], t[c.bg]);
+      assert.ok(r >= 4.5, `.${c.name} in ${theme}: --${c.fg} on --${c.bg} is ${r.toFixed(2)}:1`);
+    }
   }
 });

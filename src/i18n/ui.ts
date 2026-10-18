@@ -46,10 +46,11 @@ export const ui = {
   'nav.news': { en: 'News', zh: '動態' },
   'nav.join': { en: 'Join & Contact', zh: '加入與聯絡' },
   'nav.menu': { en: 'Menu', zh: '選單' },
+  'nav.label': { en: 'Main', zh: '主選單' },
   'nav.skip': { en: 'Skip to content', zh: '跳至主內容' },
   'lang.switch': { en: '中文', zh: 'English' },
   'lang.switchLabel': { en: 'Switch to Traditional Chinese', zh: '切換為英文' },
-  'theme.toggle': { en: 'Toggle dark mode', zh: '切換深淺色' },
+  'theme.toggle': { en: 'Dark mode', zh: '深色模式' },
 
   'home.hero.kicker': { en: 'NCUE · Electrical Engineering', zh: '彰師大 · 電機工程學系' },
   'home.hero.pause': { en: 'Pause animation', zh: '暫停動畫' },

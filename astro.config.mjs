@@ -38,7 +38,7 @@ export default defineConfig({
     service: { entrypoint: 'astro/assets/services/sharp', config: { avif: { effort: 3 }, jpeg: { mozjpeg: true } } },
   },
   cacheDir: './.cache/astro',
-  // Keep whitespace between inline mixed zh/en text intact.
+  // Minify the HTML. Astro keeps the spaces that inline text needs, so mixed zh/en text renders unchanged.
   compressHTML: true,
   i18n: {
     defaultLocale: 'en',
