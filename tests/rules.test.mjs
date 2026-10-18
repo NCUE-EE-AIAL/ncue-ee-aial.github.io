@@ -5,17 +5,18 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { isLocalPhoto, sponsorEra, GRANT_NO, PARTNER_RE, ymNow, isOngoing } from '../src/lib/rules.mjs';
+import * as rules from '../src/lib/rules.mjs';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const PEOPLE = join(ROOT, 'src/content/people');
 
 test('isLocalPhoto accepts only images under /images/people/', () => {
-  for (const ok of ['/images/people/erik.webp', '/images/people/a-b.jpg', '/images/people/a.JPEG', '/images/people/a.png', '/images/people/a.avif']) {
+  for (const ok of ['/images/people/erik.webp', '/images/people/a-b.jpg', '/images/people/a.JPEG', '/images/people/a.png']) {
     assert.ok(isLocalPhoto(ok), ok);
   }
   for (const bad of [
     'https://example.com/images/people/a.webp', 'http://x.org/a.jpg', '//cdn.example.com/images/people/a.png',
-    '/images/people/a.gif', '/images/people/a.svg', '/images/people/', '/images/people/a', '/images/other/a.webp',
+    '/images/people/a.avif', '/images/people/a.gif', '/images/people/a.svg', '/images/people/', '/images/people/a', '/images/other/a.webp',
     'images/people/a.webp', '/images/people/../x.webp', '/images/people/sub/a.webp', '/images/people/a.webp?x=1', '', '/images/people/a b.webp',
   ]) assert.ok(!isLocalPhoto(bad), `should reject ${JSON.stringify(bad)}`);
 });
@@ -64,4 +65,29 @@ test('a grant is ongoing through its last month', () => {
   assert.equal(isOngoing('2027-07', now), true);
   assert.equal(isOngoing('2026-10', now), true);
   assert.equal(isOngoing('2026-09', now), false);
+});
+
+test('DOI_RE takes the bare DOI of every publication and rejects a pasted link', () => {
+  const dir = join(ROOT, 'src/content/publications');
+  const dois = readdirSync(dir).flatMap((f) => {
+    const m = readFileSync(join(dir, f), 'utf8').match(/^doi:\s*["']?([^"'\n#]+?)["']?\s*$/m);
+    return m ? [m[1]] : [];
+  });
+  assert.ok(dois.length >= 20, `found only ${dois.length} DOIs`);
+  for (const ok of [...dois, '10.1049/icp.2024.4141', '10.4018/JCIT.20220701.oa11', '10.1364/AOE.2008.SaK4']) {
+    assert.ok(rules.DOI_RE?.test(ok), ok);
+  }
+  for (const bad of [
+    'https://doi.org/10.1049/icp.2024.4141', 'doi.org/10.1049/icp.2024.4141', 'doi:10.1049/icp.2024.4141',
+    'http://dx.doi.org/10.1109/TIM.2011.2179824', ' 10.1049/icp.2024.4141', '10.1049/icp.2024.4141 ', '10.1049', '10.12/x', '',
+  ]) assert.ok(!rules.DOI_RE?.test(bad), `should reject ${JSON.stringify(bad)}`);
+});
+
+test('toDay reads YYYY-MM-DD as that day in UTC and leaves anything else for the schema to reject', () => {
+  assert.equal(rules.toDay?.('2026-10-17')?.toISOString?.(), '2026-10-17T00:00:00.000Z');
+  const parsed = new Date('2026-10-17T00:00:00Z'); // what YAML makes of an unquoted 2026-10-17
+  assert.equal(rules.toDay?.(parsed), parsed);
+  for (const bad of ['2026/10/17', '17 Oct 2026', '2026-02-30', '2026-13-01', '2026-1-7', '']) {
+    assert.ok(!(rules.toDay?.(bad) instanceof Date), `should not turn ${JSON.stringify(bad)} into a date`);
+  }
 });

@@ -22,8 +22,10 @@ const d = project.data;
 const title = pick(d.title, lang);
 const info = meta && !('missing' in meta) ? meta : null;
 const repoUrl = repoLink(meta, d.repo);
+/** For tests/site.test.mjs: whether GitHub answered for this card's repo at build time. */
+const github = d.repo ? (meta === null ? 'unavailable' : 'missing' in meta ? 'missing' : 'ok') : undefined;
 ---
-<article class="card project reveal" id={project.id} data-areas={d.areas.join(' ')} style={`--i:${i}`}>
+<article class="card project reveal" id={project.id} data-areas={d.areas.join(' ')} data-github={github} style={`--i:${i}`}>
   <div class="project-head">
     <H class="project-title">{repoUrl ? <a href={repoUrl} rel="noopener">{title}</a> : title}</H>
     {d.status === 'archived' && <span class="chip">{t('projects.archived', lang)}</span>}

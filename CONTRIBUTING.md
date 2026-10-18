@@ -267,7 +267,7 @@
 - 有人入鏡的照片，**每個可辨識的人都要同意**（見[第 5 節規則 11](#5-實驗室內容規則)）。
 - 相簿、團體合照、設備的照片放在 YAML 旁邊，用 `src: ./檔名.jpg` 引用（相對於那個 YAML），並附雙語 `alt`。路徑寫錯時，`npm run build` 會報錯（見[第 8 節](#8-常見-build-錯誤解讀)）。
 - 成員大頭照：用 `npm run photos -- <照片> --out public/images/people --headshot` 產生 240×240 的 WebP（自動裁切，並移除 EXIF 與 GPS），在 `people` 的 `photo` 用 `/images/people/檔名.webp`（開頭是 `/`、不含 `public`）。需本人同意。
-- 研究頁的 `image` 仍放在 `public/images/research/` 之類的資料夾，用以 `/` 開頭、不含 `public` 的路徑引用，而且一定要同時寫 `imageAlt`。這些照片一樣要先跑 `npm run photos`。
+- 研究頁的 `image` 也放在 Markdown 旁邊（例如 `src/content/research/robotic-arm/arm.jpg`），在 `en.md` 和 `zh.md` 各寫一次 `image: ./arm.jpg`，而且一定要同時寫該語言的 `imageAlt`。這些照片一樣要先跑 `npm run photos`。
 - `tests/photos.test.mjs` 會檢查所有已 commit 的照片：有 metadata（EXIF / GPS）或太大就會失敗（見[第 8 節](#8-常見-build-錯誤解讀)）。
 - **不要**直接引用別的網站上的圖片網址，也不要放沒有授權的圖片。
 
@@ -332,7 +332,7 @@ title:
 | `venue` | 是 | 字串 | `"ICETA 2024, pp. 11-12"` | 期刊 / 會議全名，可含卷期頁碼 |
 | `year` | 是 | 整數 1990–2100 | `2024` | 不要加引號 |
 | `type` | 是 | `journal` `conference` `thesis` `preprint` `other` | `conference` | |
-| `doi` | 否 | 字串 | `"10.1049/icp.2024.4141"` | 不含 `https://doi.org/` |
+| `doi` | 否 | 字串 | `"10.1049/icp.2024.4141"` | 不含 `https://doi.org/`（含了會 build 失敗，見[第 8 節](#8-常見-build-錯誤解讀)） |
 | `url` | 否 | 完整網址 | `"https://digital-library.theiet.org/..."` | 出版社頁面 |
 | `pdf` | 否 | 字串（網址或站內路徑） | `"https://arxiv.org/pdf/2601.06218"` | 只限 arXiv / 作者接受稿 |
 | `code` | 否 | 完整網址 | `"https://github.com/NCUE-EE-AIAL/..."` | 公開 repo |
@@ -390,7 +390,7 @@ title:
 | 欄位 | 必填 | 型別 | 範例 | 說明 |
 |---|---|---|---|---|
 | `title` | 是 | 字串 | `"Lab website relaunched"` | 有冒號請加引號 |
-| `date` | 是 | 日期 `YYYY-MM-DD` | `2026-10-17` | 不是日期格式會失敗 |
+| `date` | 是 | 日期 `YYYY-MM-DD` | `2026-10-17` | 其他寫法（例如 `2026/10/17`）會 build 失敗 |
 | `summary` | 是 | 字串（不可空白） | `"The lab has a new bilingual website."` | 一句話，顯示在動態列表，也是搜尋結果與分享預覽的描述 |
 
 ### 研究方向 research
@@ -404,7 +404,7 @@ title:
 | `icon` | 是 | `camera` `arm` `heart` `shield` `globe` `chip` `bolt` | `arm` | |
 | `order` | 是 | 整數 | `2` | 小的排前面 |
 | `keywords` | 否（`[]`） | 字串清單 | `["motion control"]` | |
-| `image` | 否 | 以 `/` 開頭的路徑 | `/images/research/arm.jpg` | **有 `image` 就必須有 `imageAlt`** |
+| `image` | 否 | 照片檔路徑（相對於 .md） | `./arm.jpg` | 照片放在 .md 旁邊，先跑 `npm run photos`；**有 `image` 就必須有 `imageAlt`** |
 | `imageAlt` | 條件必填 | 字串 | `"A robotic arm picking a cube"` | 一句話描述圖片 |
 | `video` | 否 | 完整網址（YouTube） | `"https://www.youtube.com/watch?v=..."` | 點擊才載入 |
 
@@ -773,7 +773,7 @@ keywords:
 ### 24. `tests/privacy.test.mjs` 或 `tests/photos.test.mjs` 失敗
 
 - `privacy.test.mjs`：`remove the sponsor's or partner's name from these files or file names: <清單>`。表示列出的檔案（或 `dist/` 裡建出來的檔案）的內容或檔名、資料夾名含有不可公開的名稱。把名稱從內容刪掉，或把檔案、資料夾改名（不要在 commit 訊息或 PR 裡重複它），再重新 build 與測試（見[規則 10](#5-實驗室內容規則)）。
-- `photos.test.mjs`：訊息會指出是哪張照片，例如 `carries metadata: run it through `npm run photos``（照片還帶著 EXIF / GPS）、格式不是 JPEG / PNG / WebP，或超過 400 KB，或長邊超過上限（一般照片 1600 px，團體合照 2000 px，成員大頭照 800 px）。修正：把原始照片重新跑一次訊息裡寫的指令（大頭照要加 `--headshot`），用輸出的檔案取代。**如果這張照片已經 commit 並推上去**，GPS 仍留在 git 歷史裡，請立刻通知維護者處理。
+- `photos.test.mjs`：訊息會指出是哪張照片，例如 `carries metadata: run it through `npm run photos``（照片還帶著 EXIF / GPS）、格式不是 JPEG / PNG / WebP，或超過 400 KB，或長邊超過上限（一般照片 1600 px，團體合照 2000 px，成員大頭照 800 px）。修正：把原始照片重新跑一次訊息裡寫的指令（大頭照要加 `--headshot`，團體合照要加 `--group`），用輸出的檔案取代。**如果這張照片已經 commit 並推上去**，GPS 仍留在 git 歷史裡，請立刻通知維護者處理。
 
 ### 25. 動態漏了 `summary`
 
@@ -781,6 +781,27 @@ keywords:
   summary: summary is required: one sentence for the news list and search results
 ```
 每則動態的 `en.md` / `zh.md` 都要有一句 `summary`：它顯示在動態列表，也是搜尋結果與分享預覽的描述。在 front matter 加上 `summary: "…"` 即可。
+
+### 26. `doi` 含了網址
+
+```
+  doi: doi is the bare identifier, for example 10.1049/icp.2024.4141 (without https://doi.org/)
+```
+從出版社頁面複製時常會連 `https://doi.org/` 一起貼上。只留 `10.` 開頭的那一段，網站會自己補上 `https://doi.org/`。
+
+### 27. 日期格式不對
+
+```
+  date: use YYYY-MM-DD, for example 2026-11-05
+```
+日期一律寫成 `2026-11-05`（年-月-日，月和日都是兩位數）。`2026/11/05` 這類寫法在台北的電腦上會被讀成前一天，所以 build 會直接擋下。
+
+### 28. `tests/site.test.mjs`：頁面上出現了 email
+
+```
+student emails never go on the site (CONTRIBUTING §5 rule 4): write the lab email instead
+```
+訊息會列出頁面與那個地址。網站上只能出現實驗室信箱和老師（PI）的 `links.email`；動態、研究頁、FAQ 或成員介紹裡的學生信箱，請改寫成實驗室信箱 ncueaial@gmail.com。
 
 ### 其他
 

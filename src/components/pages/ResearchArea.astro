@@ -8,6 +8,7 @@ import VideoEmbed from '../VideoEmbed.astro';
 import Cta from '../Cta.astro';
 import Icon from '../Icon.astro';
 import ArtFill from '../ArtFill.astro';
+import Photo from '../Photo.astro';
 import { pick, t, localePath, type Locale, type UiKey } from '../../i18n/utils';
 import { slugOf } from '../../lib/format';
 import { getAreas, getProjects, getPublications, getPeople, inArea } from '../../lib/data';
@@ -32,9 +33,7 @@ const memberNames = people.map((p) => p.data.name.en);
   </PageHead>
   <div class="container area-layout">
     <div class="area-main">
-      {area.data.image && (
-        <figure class="area-figure"><img src={area.data.image} alt={area.data.imageAlt ?? ''} loading="lazy" decoding="async" /></figure>
-      )}
+      {area.data.image && <Photo src={area.data.image} alt={area.data.imageAlt ?? ''} width={820} class="area-figure" />}
       <div class="prose"><Content /></div>
       {area.data.video && <VideoEmbed url={area.data.video} title={area.data.title} lang={lang} />}
     </div>

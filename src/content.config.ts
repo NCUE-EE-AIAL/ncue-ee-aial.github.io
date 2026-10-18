@@ -1,7 +1,7 @@
 import { defineCollection, reference, type SchemaContext } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
-import { isLocalPhoto, AY_MIN, ayMax, AGENCIES, sponsorEra, GRANT_NO, PARTNER_RE } from './lib/rules.mjs';
+import { isLocalPhoto, DOI_RE, toDay, AY_MIN, ayMax, AGENCIES, sponsorEra, GRANT_NO, PARTNER_RE } from './lib/rules.mjs';
 
 /**
  * Content model. Non-developers only touch files under src/content/.
@@ -12,6 +12,8 @@ import { isLocalPhoto, AY_MIN, ayMax, AGENCIES, sponsorEra, GRANT_NO, PARTNER_RE
 const bi = z.strictObject({ en: z.string(), zh: z.string().optional() });
 /** Both languages required: every photo is described for screen readers on both sites. */
 const biBoth = z.strictObject({ en: z.string().min(1), zh: z.string().min(1) });
+/** A day: YYYY-MM-DD (see toDay in src/lib/rules.mjs). */
+const day = z.preprocess(toDay, z.date({ error: 'use YYYY-MM-DD, for example 2026-11-05' }));
 /** A month: YYYY-MM. */
 const ym = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/, { error: 'use YYYY-MM, for example 2026-08' });
 /** A photo beside its YAML file (path relative to the YAML, e.g. ./2026.jpg). Run `npm run photos` on it first. */
@@ -30,14 +32,14 @@ const areaSlug = z.enum(AREA_SLUGS);
 /** One Markdown file per research area per language: research/<slug>/en.md, research/<slug>/zh.md */
 const research = defineCollection({
   loader: glob({ pattern: '*/{en,zh}.md', base: './src/content/research' }),
-  schema: z.strictObject({
+  schema: ({ image }) => z.strictObject({
     title: z.string(),
     summary: z.string(),
     icon: z.enum(['camera', 'arm', 'heart', 'shield', 'globe', 'chip', 'bolt']),
     order: z.number().int(),
     keywords: z.array(z.string()).default([]),
-    /** Optional figure: a path under public/, e.g. /images/research/stereo.jpg. Needs imageAlt. */
-    image: z.string().startsWith('/').optional(),
+    /** Optional figure: a photo next to this file, e.g. ./arm.jpg (run it through `npm run photos` first). Needs imageAlt. */
+    image: image().optional(),
     imageAlt: z.string().optional(),
     /** Optional YouTube video; loads only when a visitor clicks it. */
     video: z.url().optional(),
@@ -58,7 +60,7 @@ const publications = defineCollection({
     venue: z.string(),
     year: z.number().int().min(1990).max(2100),
     type: z.enum(['journal', 'conference', 'thesis', 'preprint', 'other']),
-    doi: z.string().optional(),
+    doi: z.string().regex(DOI_RE, { error: 'doi is the bare identifier, for example 10.1049/icp.2024.4141 (without https://doi.org/)' }).optional(),
     url: z.url().optional(),
     pdf: z.string().optional(),
     code: z.url().optional(),
@@ -109,9 +111,9 @@ const people = defineCollection({
     years: z.string().optional(),
     areas: z.array(areaSlug).default([]),
     bio: bi.optional(),
-    /** Local file under public/images/people/ (.webp, .jpg, .jpeg, .png or .avif), e.g. /images/people/brian.webp. No external images. */
+    /** Local file under public/images/people/ (.webp, .jpg, .jpeg or .png), e.g. /images/people/brian.webp. No external images. */
     photo: z.string().refine(isLocalPhoto, {
-      error: 'photo must be a local file like /images/people/name.webp (.webp, .jpg, .jpeg, .png or .avif), not a URL',
+      error: 'photo must be a local file like /images/people/name.webp (.webp, .jpg, .jpeg or .png), not a URL',
     }).optional(),
     links: z.strictObject({
       github: z.url().optional(),
@@ -139,7 +141,7 @@ const news = defineCollection({
   loader: glob({ pattern: '*/{en,zh}.md', base: './src/content/news' }),
   schema: z.strictObject({
     title: z.string(),
-    date: z.coerce.date(),
+    date: day,
     /** Shown in the news list and as the page's description in search results and link previews. */
     summary: z.string({ error: 'summary is required: one sentence for the news list and search results' })
       .min(1, { error: 'summary is required: one sentence for the news list and search results' }),
@@ -233,7 +235,7 @@ const albums = defineCollection({
   loader: glob({ pattern: '*/index.{yaml,yml}', base: './src/content/albums', generateId: ({ entry }) => entry.split('/')[0] }),
   schema: ({ image }) => z.strictObject({
     title: bi,
-    date: z.coerce.date(),
+    date: day,
     summary: bi.optional(),
     /** Defaults to the first photo. */
     cover: image().optional(),
@@ -264,7 +266,7 @@ const honors = defineCollection({
     title: bi,
     /** The awarding body or event. */
     by: bi,
-    date: z.coerce.date(),
+    date: day,
     recipients: z.array(reference('people')).default([]),
     /** Recipients without a people file, as written on the award. */
     recipientNames: z.array(z.string()).default([]),

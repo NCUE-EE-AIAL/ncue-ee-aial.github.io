@@ -42,6 +42,8 @@ for (const f of files) {
     continue;
   }
   names.add(name);
+  const src = HEADSHOT ? await sharp(f).metadata() : null;
+  const short = src ? Math.min(src.width, src.height) : 0;
   let quality = 80;
   let buf;
   for (;;) {
@@ -59,6 +61,6 @@ for (const f of files) {
   if (m.meta.length > 0) { console.error(`${f}: the output still carries ${m.meta.join(', ')}; not written`); failed++; continue; }
   writeFileSync(join(out, name), buf);
   const edge = Math.max(m.width, m.height);
-  console.log(`${join(out, name)}  ${m.width}×${m.height}  ${Math.round(buf.length / 1024)} KB${!HEADSHOT && edge < SMALL ? `  (small: long edge ${edge} px)` : ''}`);
+  console.log(`${join(out, name)}  ${m.width}×${m.height}  ${Math.round(buf.length / 1024)} KB${!HEADSHOT && edge < SMALL ? `  (small: long edge ${edge} px)` : ''}${HEADSHOT && short < 240 ? `  (enlarged from ${short} px: a photo at least 240 px on its short side looks sharper)` : ''}`);
 }
 process.exit(failed > 0 ? 1 : 0);

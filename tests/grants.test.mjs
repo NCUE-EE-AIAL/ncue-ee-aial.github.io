@@ -53,7 +53,7 @@ test('industry projects show no grant number and no link', () => {
     assert.ok(m, `${g.id} is not on /projects/`);
     const item = page.slice(m.index, page.indexOf(`</${m[1]}>`, m.index));
     // Area chips link to our own research pages; any other link, a number or a GRB link would point at the partner.
-    assert.doesNotMatch(item, /class="grant-no"|class="grant-link"|<a (?![^>]*class="chip")/, `${g.id} names its partner or links out`);
+    assert.doesNotMatch(item, /class="grant-no"|class="grant-link"|<a (?![^>]*class="chip[" ])/, `${g.id} names its partner or links out`);
   }
 });
 

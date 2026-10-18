@@ -522,7 +522,6 @@ a.area-card:hover .area-go { opacity: 1; transform: none; }
 .aside-people li { display: flex; flex-direction: column; line-height: 1.35; }
 .aside-people .muted { font-size: 0.82rem; }
 .area-figure { margin-bottom: 24px; }
-.area-figure img { width: 100%; height: auto; border-radius: var(--radius); border: 1px solid var(--border); }
 @media (max-width: 860px) {
   .area-layout { grid-template-columns: 1fr; }
   .area-aside { position: static; }

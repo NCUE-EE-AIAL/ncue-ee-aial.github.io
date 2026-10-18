@@ -5,6 +5,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { isAuthor } from '../src/lib/format.ts';
+import { site } from '../src/i18n/ui.ts';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const DIST = join(ROOT, 'dist');
@@ -96,11 +97,40 @@ test('home hero art exists and motion is switched off under prefers-reduced-moti
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
 });
 
-// Needs the GitHub API during the build: without a token, 60 requests/hour (about 8 local builds). CI passes GITHUB_TOKEN.
-test('project cards show GitHub stars fetched at build time', { skip: !process.env.GITHUB_TOKEN && 'set GITHUB_TOKEN to check live repo stats' }, () => {
+// The build asks the GitHub API about every repo; when GitHub does not answer, cards fall back to their YAML fields,
+// so an outage warns instead of failing the deploy.
+test('project cards say whether GitHub answered, and each card it answered for shows the stars', () => {
+  const dir = join(ROOT, 'src/content/projects');
+  const withRepo = readdirSync(dir).filter((f) => /^repo:\s*\S/m.test(readFileSync(join(dir, f), 'utf8'))).map((f) => f.replace(/\.ya?ml$/, ''));
+  assert.ok(withRepo.length >= 1, 'no project has a repo');
   for (const r of ['/projects/', zh('/projects/')]) {
-    assert.ok((html(r).match(/class="stars"/g) ?? []).length >= 1, `no stars on ${r}`);
+    const page = html(r);
+    const states = withRepo.map((id) => {
+      const at = page.search(new RegExp(`<article[^>]*\\bid="${escape(id)}"`));
+      assert.ok(at >= 0, `${r}: no card for ${id}`);
+      const card = page.slice(at, page.indexOf('</article>', at));
+      const state = card.match(/^<article[^>]*\bdata-github="(ok|unavailable|missing)"/)?.[1];
+      assert.ok(state, `${r}: the card for ${id} has no data-github state`);
+      if (state === 'ok') assert.match(card, /class="stars"/, `${r}: GitHub answered for ${id} but its card shows no stars`);
+      return state;
+    });
+    if (states.every((s) => s === 'unavailable')) console.warn(`${r}: GitHub did not answer for any repo; cards show their YAML fields only`);
+    assert.ok(!states.every((s) => s === 'missing'), `${r}: GitHub answered 404 for every repo: is the API request broken?`);
   }
+});
+
+test('no page shows an email address other than the lab email and a PI or staff links.email', () => {
+  const people = join(ROOT, 'src/content/people');
+  const allowed = new Set([site.email, ...readdirSync(people).flatMap((f) =>
+    [...readFileSync(join(people, f), 'utf8').matchAll(/^\s+email:\s*["']?([^"'\s#]+)/gm)].map((m) => m[1]))].map((e) => e.toLowerCase()));
+  assert.ok(allowed.size >= 2, `expected the lab email and the PI email, got ${[...allowed]}`);
+  const found = [];
+  for (const f of allHtml()) {
+    for (const m of readFileSync(f, 'utf8').matchAll(/[\w.+-]+@[\w-]+(?:\.[\w-]+)+/g)) {
+      if (!allowed.has(m[0].toLowerCase())) found.push(`${f.slice(DIST.length)}: ${m[0]}`);
+    }
+  }
+  assert.deepEqual(found, [], 'student emails never go on the site (CONTRIBUTING §5 rule 4): write the lab email instead');
 });
 
 test('publications are grouped by year, newest first, each with BibTeX', () => {
