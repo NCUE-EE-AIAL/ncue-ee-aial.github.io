@@ -4,12 +4,12 @@
 
 - This is the hand-over guide for the lab website of the AI Application Laboratory (人工智慧應用實驗室), Dept. of Electrical Engineering, NCUE. PI: Prof. Wen-Ren Yang. Live site: https://ncue-ee-aial.github.io/
 - All content is plain files under `src/content/`. To add a paper, person, project, funded grant, award, FAQ entry, news post, research area or piece of equipment you add (or edit) **one file**, open a pull request to `main`, and GitHub Actions rebuilds and publishes the site in about 2 minutes.
-- Event albums (`albums/<YYYY-MM>-<slug>/index.yaml` plus the photos) and the yearly group photo (`group-photos/<year>.yaml` plus the photo) are folders/files too. **Every photo goes through `npm run photos -- <files or folders> --out <folder> [--group]` before `git add`**: the repository is public, and a phone original with GPS stays in the history for good. Photos of people need everyone's consent (`consent` field). The page that shows albums goes live with the first album.
+- Event albums (`albums/<YYYY-MM>-<slug>/index.yaml` plus the photos) and the yearly group photo (`group-photos/<year>.yaml` plus the photo) are folders/files too. **Every photo goes through `npm run photos -- <files or folders> --out <folder> [--group | --headshot]` before `git add`** (`--headshot` makes the 240×240 WebP for `public/images/people/`): the repository is public, and a phone original with GPS stays in the history for good. Photos of people need everyone's consent (`consent` field). The page that shows albums goes live with the first album.
 - English is the default (`/`), Traditional Chinese is at `/zh/`. Bilingual fields are `{ en, zh }`; a missing `zh` falls back to English.
 - The Zod schemas in `src/content.config.ts` are the single source of truth for every field. A wrong or missing field makes `npm run build` fail and names the file.
 - No git? Edit a file on github.com (pencil icon, then "Create a new branch and start a pull request"), or open the "Add a publication" issue form.
 - Local preview: `npm ci`, `npm run dev` (http://localhost:4321), `npm run build`, `npm test`, `npm run links`.
-- Lab rules: a paper is listed only if Wen-Ren Yang is an author; `verified: true` needs a `source` URL you actually opened; PDFs only for arXiv / accepted manuscripts (IEEE/IET: DOI only); no student personal emails; no portraits without consent; no hot-linked images; the industry-sponsored project and the battery sponsor are never named (`tests/privacy.test.mjs` enforces it); research pages describe problems and methods only; only public repos and published papers.
+- Lab rules: a paper is listed only if Wen-Ren Yang is an author; `verified: true` needs a `source` URL you actually opened; PDFs only for arXiv / accepted manuscripts (IEEE/IET: DOI only); no student personal emails; no portraits without consent; no hot-linked images; industry partners and the battery sponsor are never named (`tests/privacy.test.mjs` enforces it); research pages describe problems and methods only; only public repos and published papers.
 - Questions: ncueaial@gmail.com or a GitHub issue in `NCUE-EE-AIAL/ncue-ee-aial.github.io`.
 
 ---
@@ -160,7 +160,7 @@
 
 - 檔案位置：`src/content/research/<slug>/en.md` 與 `zh.md`，各自有 front matter（`title`、`summary`、`icon`、`order`，其餘選填，見[欄位表](#研究方向-research)）。
 - 修改既有方向：直接改這兩個檔。
-- **新增一個全新的研究方向**，除了建立 `research/<新slug>/{en,zh}.md`，還必須把 slug 加進 `src/content.config.ts` 最上面的 `AREA_SLUGS`，否則論文 / 專案 / 成員的 `areas` 欄位不能使用它，build 會失敗。這是整個流程中唯一需要改程式檔的地方。方向名稱、首頁卡片與專案頁的篩選按鈕都會自動從 `en.md` / `zh.md` 的 front matter 產生，不需要改 `src/i18n/ui.ts`；`icon` 只能從 `camera` `arm` `heart` `shield` `globe` `chip` `bolt` 選一個。目前的 slug：`stereo-3d-vision` `robotic-arm` `biomedical-ai` `biometrics-security` `smart-grid-energy`（智慧電網與儲能）`international-programs`。
+- **新增一個全新的研究方向**，除了建立 `research/<新slug>/{en,zh}.md`，還必須把 slug 加進 `src/content.config.ts` 最上面的 `AREA_SLUGS`，否則論文 / 專案 / 成員的 `areas` 欄位不能使用它，build 會失敗。也要在 `.github/ISSUE_TEMPLATE/add-publication.yml` 的 `id: areas` 清單加一行 `- label: "<新slug> (<中文名>)"`，否則 `npm test` 會失敗（訊息 `add-publication.yml lists …`），部署停在測試這一步，網站不會更新。除了這兩個檔，方向名稱、首頁卡片與專案頁的篩選按鈕都會自動從 `en.md` / `zh.md` 的 front matter 產生，不需要改 `src/i18n/ui.ts`；`icon` 只能從 `camera` `arm` `heart` `shield` `globe` `chip` `bolt` 選一個。目前的 slug：`stereo-3d-vision` `robotic-arm` `biomedical-ai` `biometrics-security` `smart-grid-energy`（智慧電網與儲能）`international-programs`。
 - 內容規則：只描述問題與方法，不寫未發表的細節（見第 5 節）。
 - 有研究影片：把 YouTube 網址寫在 `video`；訪客點擊後才會載入，不會拖慢頁面。
 
@@ -211,7 +211,7 @@
   - `sponsorName`（雙語）只能搭配 `sponsor: other`，例如縣市政府。
   - `source` 一定要填：網址，或「誰在什麼時候提供的」，之後才查得到來源。
   - **不寫經費金額**。
-  - **產學計畫（`sponsor: industry`）絕不具名合作廠商**：不寫 `number`、`sponsorName`、`grb`，標題與摘要裡也不能有公司名稱（見[第 5 節規則 10](#5-實驗室內容規則)）。
+  - **產學計畫（`sponsor: industry`）絕不具名合作廠商**：不寫 `number`、`sponsorName`、`grb`，標題、摘要與 `source` 裡也不能有公司名稱；`source` 寫誰在何時提供（見[第 5 節規則 10](#5-實驗室內容規則)）。
 - 選填：`areas`、`summary`、`grb`（政府研究資訊系統 GRB 上該計畫的網址）、`related.publications` / `related.theses`（對應論文與指導論文的檔名，不含 `.yaml`）。
 
 ### 活動相簿 albums
@@ -238,7 +238,7 @@
 
 ### 團體合照 group-photos
 
-- `src/content/group-photos/<年>.yaml` 加上同資料夾的 `<年>.jpg`；一年一張。用 `npm run photos -- <檔案> --out src/content/group-photos --group`（長邊上限 2000 px）。
+- `src/content/group-photos/<年>.yaml` 加上同資料夾的 `<年>.jpg`；一年一張。先把原檔改名為 `<年>.jpg`（例如 `2026.jpg`），再執行 `npm run photos -- 2026.jpg --out src/content/group-photos --group`（長邊上限 2000 px）。輸出檔名沿用輸入檔名（小寫，`IMG_1234.JPG` → `img-1234.jpg`）；沒有先改名的話，YAML 的 `src` 要填輸出的檔名。
 - 欄位：`year`、`photo`（`src`、`alt` 雙語必填，`caption` 選填）、`consent: people-agreed`（**必填**，照片裡每個人都同意上網）、`names`（選填，雙語，例如「前排左起：…」）。
 - 最新一年的合照會顯示在首頁「關於實驗室」區。
 
@@ -258,15 +258,15 @@
 - **所有照片一律先經過 `npm run photos`，再 `git add`**：
 
   ```sh
-  npm run photos -- <檔案或資料夾> --out <輸出資料夾> [--group]
+  npm run photos -- <檔案或資料夾> --out <輸出資料夾> [--group | --headshot]
   # 例：npm run photos -- ~/Downloads/outing --out src/content/albums/2026-11-outing
   ```
-  它會把長邊縮到 1600 px（加 `--group` 是 2000 px，給團體合照）、壓到 400 KB 以內，並**移除 EXIF 與 GPS**，檔名轉成小寫。
+  它會把長邊縮到 1600 px（加 `--group` 是 2000 px，給團體合照）、壓到 400 KB 以內，並**移除 EXIF 與 GPS**，檔名轉成小寫。加 `--headshot` 則裁成 240×240 的 WebP，給成員大頭照。
 - **為什麼一定要先處理**：這個 repo 是公開的。手機原檔帶有 GPS 位置與拍攝資訊，一旦 commit，就算之後刪掉，仍會留在 git 歷史裡。
 - HEIC（iPhone 預設格式）請先匯出成 JPEG 再處理。
 - 有人入鏡的照片，**每個可辨識的人都要同意**（見[第 5 節規則 11](#5-實驗室內容規則)）。
 - 相簿、團體合照、設備的照片放在 YAML 旁邊，用 `src: ./檔名.jpg` 引用（相對於那個 YAML），並附雙語 `alt`。路徑寫錯時，`npm run build` 會報錯（見[第 8 節](#8-常見-build-錯誤解讀)）。
-- 成員大頭照維持原本的規則：放 `public/images/people/`，240×240 的 WebP，在 `people` 的 `photo` 用 `/images/people/檔名.webp`（開頭是 `/`、不含 `public`）。
+- 成員大頭照：用 `npm run photos -- <照片> --out public/images/people --headshot` 產生 240×240 的 WebP（自動裁切，並移除 EXIF 與 GPS），在 `people` 的 `photo` 用 `/images/people/檔名.webp`（開頭是 `/`、不含 `public`）。需本人同意。
 - 研究頁的 `image` 仍放在 `public/images/research/` 之類的資料夾，用以 `/` 開頭、不含 `public` 的路徑引用，而且一定要同時寫 `imageAlt`。這些照片一樣要先跑 `npm run photos`。
 - `tests/photos.test.mjs` 會檢查所有已 commit 的照片：有 metadata（EXIF / GPS）或太大就會失敗（見[第 8 節](#8-常見-build-錯誤解讀)）。
 - **不要**直接引用別的網站上的圖片網址，也不要放沒有授權的圖片。
@@ -355,7 +355,7 @@ title:
 | `years` | 否 | 字串 | `"2025–"`、`"2022–2024"` | 含 `–` 請加引號 |
 | `areas` | 否（`[]`） | 研究方向 slug 清單 | `[biomedical-ai]` | |
 | `bio` | 否 | bi | `en: "M.S. student ..."` | 簡短、僅寫公開資訊 |
-| `photo` | 否 | 字串，路徑 | `/images/people/ting-yi.webp` | 檔案放 `public/images/people/`（240×240 WebP）；需本人同意 |
+| `photo` | 否 | 字串，路徑 | `/images/people/ting-yi.webp` | 檔案放 `public/images/people/`（240×240 WebP，用 `npm run photos -- <照片> --out public/images/people --headshot` 產生）；需本人同意 |
 | `links.github` | 否 | 完整網址 | `"https://github.com/brian10420"` | |
 | `links.scholar` | 否 | 完整網址 | | Google Scholar |
 | `links.linkedin` | 否 | 完整網址 | | |
@@ -391,7 +391,7 @@ title:
 |---|---|---|---|---|
 | `title` | 是 | 字串 | `"Lab website relaunched"` | 有冒號請加引號 |
 | `date` | 是 | 日期 `YYYY-MM-DD` | `2026-10-17` | 不是日期格式會失敗 |
-| `summary` | 否 | 字串 | | 列表顯示的一句話 |
+| `summary` | 是 | 字串（不可空白） | `"The lab has a new bilingual website."` | 一句話，顯示在動態列表，也是搜尋結果與分享預覽的描述 |
 
 ### 研究方向 research
 
@@ -439,7 +439,7 @@ title:
 | `grb` | 否 | 完整網址 | | GRB 上該計畫的紀錄；`industry` 不可填 |
 | `related.publications` | 否（`[]`） | publications 的檔名清單（不含 `.yaml`） | `[2024-two-step-auth]` | 不存在的會讓 build 失敗 |
 | `related.theses` | 否（`[]`） | theses 的檔名清單（不含 `.yaml`） | `[113-eums9d]` | 同上 |
-| `source` | 是 | 字串（不可空白） | `"Brian Lin, 2026-10-18; MOE call for proposals: https://..."` | 網址，或誰在何時提供 |
+| `source` | 是 | 字串（不可空白） | `"Brian Lin, 2026-10-18; MOE call for proposals: https://..."` | 網址，或誰在何時提供；產學計畫不可含公司名稱 |
 
 沒有經費欄位，**不要寫金額**。
 
@@ -520,7 +520,7 @@ title:
 7. **研究頁**只寫「問題與方法」；不寫尚未發表的進行中細節、資料集、模型設定。
 8. **只列公開的 repo 與已公開的論文**（已發表，或已有 arXiv 等公開版本）。私有 repo 不放進專案；沒有公開版本的投稿中論文不要列入。
 9. **影片**：把 YouTube 網址放在 `video`（專案則為 `links.video`）；它只在訪客點擊後才載入。
-10. **產學計畫與電池贊助商一律不具名**：網站與 repo 的任何地方都不寫他們與合作夥伴的名稱。`tests/privacy.test.mjs` 會掃描 repo 裡的每個文字檔與建好的網站（`dist/`），名稱只以雜湊值（長度、32 位元雜湊、sha256）存在測試裡，repo 內沒有明文。要把另一個名稱加入黑名單，又不想把它寫進 repo：
+10. **產學計畫與電池贊助商一律不具名**：網站與 repo 的任何地方都不寫他們與合作夥伴的名稱，也不寫以贊助商命名的能源中心。`tests/privacy.test.mjs` 會掃描 repo 裡的每個文字檔、每個檔名與資料夾名，以及建好的網站（`dist/`），名稱只以雜湊值（長度、32 位元雜湊、sha256）存在測試裡，repo 內沒有明文。要把另一個名稱加入黑名單，又不想把它寫進 repo：
     1. 在終端機執行下面的指令（最後的 `"名稱"` 換成要擋的名稱；比對時不分大小寫與重音符號）：
 
        ```sh
@@ -721,9 +721,9 @@ keywords:
 
 ```
   ****: industry projects never name the partner: no number, sponsorName or grb
-  ****: industry projects never name the partner: take the company name out of the title and summary
+  ****: industry projects never name the partner: take the company name out of the title, summary and source
 ```
-第一則：`sponsor: industry` 的計畫不可有 `number`、`sponsorName`、`grb`，全部刪掉。第二則：標題或摘要裡出現公司名稱的字樣（如「公司」「有限公司」「Co.」「Ltd」「Inc.」），改成不具名的描述（見[規則 10](#5-實驗室內容規則)）。
+第一則：`sponsor: industry` 的計畫不可有 `number`、`sponsorName`、`grb`，全部刪掉。第二則：標題、摘要或 `source` 裡出現公司名稱的字樣（如「公司」「有限公司」「Co.」「Ltd」「Inc.」），改成不具名的描述，`source` 改寫成誰在何時提供（見[規則 10](#5-實驗室內容規則)）。
 
 ### 18. 相簿超過 12 張
 
@@ -772,8 +772,15 @@ keywords:
 
 ### 24. `tests/privacy.test.mjs` 或 `tests/photos.test.mjs` 失敗
 
-- `privacy.test.mjs`：`remove the sponsor's or partner's name from: <檔案清單>`。表示列出的檔案（或 `dist/` 裡建出來的檔案）含有不可公開的名稱。把名稱從那些檔案刪掉（不要在 commit 訊息或 PR 裡重複它），再重新 build 與測試（見[規則 10](#5-實驗室內容規則)）。
-- `photos.test.mjs`：訊息會指出是哪張照片，例如 `carries metadata: run it through `npm run photos``（照片還帶著 EXIF / GPS）、格式不是 JPEG / PNG / WebP，或超過 400 KB，或長邊超過上限（一般照片 1600 px，團體合照 2000 px）。修正：把原始照片重新跑一次 `npm run photos`，用輸出的檔案取代。**如果這張照片已經 commit 並推上去**，GPS 仍留在 git 歷史裡，請立刻通知維護者處理。
+- `privacy.test.mjs`：`remove the sponsor's or partner's name from these files or file names: <清單>`。表示列出的檔案（或 `dist/` 裡建出來的檔案）的內容或檔名、資料夾名含有不可公開的名稱。把名稱從內容刪掉，或把檔案、資料夾改名（不要在 commit 訊息或 PR 裡重複它），再重新 build 與測試（見[規則 10](#5-實驗室內容規則)）。
+- `photos.test.mjs`：訊息會指出是哪張照片，例如 `carries metadata: run it through `npm run photos``（照片還帶著 EXIF / GPS）、格式不是 JPEG / PNG / WebP，或超過 400 KB，或長邊超過上限（一般照片 1600 px，團體合照 2000 px，成員大頭照 800 px）。修正：把原始照片重新跑一次訊息裡寫的指令（大頭照要加 `--headshot`），用輸出的檔案取代。**如果這張照片已經 commit 並推上去**，GPS 仍留在 git 歷史裡，請立刻通知維護者處理。
+
+### 25. 動態漏了 `summary`
+
+```
+  summary: summary is required: one sentence for the news list and search results
+```
+每則動態的 `en.md` / `zh.md` 都要有一句 `summary`：它顯示在動態列表，也是搜尋結果與分享預覽的描述。在 front matter 加上 `summary: "…"` 即可。
 
 ### 其他
 

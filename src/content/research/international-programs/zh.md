@@ -12,6 +12,6 @@ keywords: ["TEEP", "IIPP", "國際學生", "嵌入式 AI"]
 
 **實習內容。**常見工作包括數位訊號處理（短時傅立葉轉換、離散小波轉換、數位濾波）、以 LSTM 與廣義迴歸類神經網路（GRNN）進行機器學習、以 MATLAB 與 Python 模擬分析，並實作於 FPGA 等嵌入式硬體。實習生每週繳交報告並參加會議，需具備 C 或 C++ 程式能力。<!-- source: 楊老師 TEEP 2023 與 IIPP 2024 簡報，Brian 提供（2026-10-18） -->
 
-**可選題目。**近年開放的題目包括：小波類神經網路應用於智慧電網與電力品質（特徵擷取、系統響應與系統狀態辨識）、小波類神經網路應用於嵌入式影像辨識（特徵擷取、輪廓辨識、物件辨識），以及校內儲能系統的 AI 與邊緣運算。
+**可選題目。**近年開放的題目包括：智慧電網與電力品質，以及小波類神經網路應用於工業物聯網（IIoT），兩者都涵蓋特徵擷取、系統響應與系統狀態辨識；嵌入式影像辨識（特徵擷取、輪廓辨識、物件辨識）；以及校內儲能系統的 AI 與邊緣運算。
 
 代表性專案包括[嵌入式小波類神經網路心電圖分析](https://github.com/NCUE-EE-AIAL/Embedded-Wavelet-Neural-Network-for-ECG-Analysis)、[彰師大 BEES 能源消耗分析與預測](https://github.com/NCUE-EE-AIAL/NCUE-BEES-Energy-Consumption-analysis-and-prediction)，以及[PatrolBot](https://github.com/NCUE-EE-AIAL/PatrolBot)。

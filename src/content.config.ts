@@ -140,7 +140,9 @@ const news = defineCollection({
   schema: z.strictObject({
     title: z.string(),
     date: z.coerce.date(),
-    summary: z.string().optional(),
+    /** Shown in the news list and as the page's description in search results and link previews. */
+    summary: z.string({ error: 'summary is required: one sentence for the news list and search results' })
+      .min(1, { error: 'summary is required: one sentence for the news list and search results' }),
   }),
 });
 
@@ -185,7 +187,7 @@ export const SPONSORS = ['nsc', 'most', 'nstc', 'moe', 'industry', 'other'] as c
 
 /**
  * One YAML per funded project: grants/<start>-<slug>.yaml. No budgets. An industry (產學) project never names
- * its partner: no number, sponsorName or grb, and no company name in the title or summary.
+ * its partner: no number, sponsorName or grb, and no company name in the title, summary or source.
  */
 const grants = defineCollection({
   loader: glob({ pattern: '**/*.{yaml,yml}', base: './src/content/grants' }),
@@ -207,7 +209,7 @@ const grants = defineCollection({
       publications: z.array(reference('publications')).default([]),
       theses: z.array(reference('theses')).default([]),
     }).default({ publications: [], theses: [] }),
-    /** Where the facts come from: a URL, or who supplied them and when. */
+    /** Where the facts come from: a URL, or who supplied them and when. For an industry project: who and when, never the company. */
     source: z.string().min(1),
   })
     .refine((g) => g.end >= g.start, { error: 'end is before start' })
@@ -221,8 +223,8 @@ const grants = defineCollection({
     .refine((g) => g.sponsor !== 'industry' || (!g.number && !g.sponsorName && !g.grb), {
       error: 'industry projects never name the partner: no number, sponsorName or grb',
     })
-    .refine((g) => g.sponsor !== 'industry' || !PARTNER_RE.test([g.title.en, g.title.zh, g.summary?.en, g.summary?.zh].join(' ')), {
-      error: 'industry projects never name the partner: take the company name out of the title and summary',
+    .refine((g) => g.sponsor !== 'industry' || !PARTNER_RE.test([g.title.en, g.title.zh, g.summary?.en, g.summary?.zh, g.source].join(' ')), {
+      error: 'industry projects never name the partner: take the company name out of the title, summary and source',
     }),
 });
 

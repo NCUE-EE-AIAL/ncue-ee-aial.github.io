@@ -15,6 +15,7 @@ const ROUTES = [
   '/', '/research/', ...subdirs('src/content/research').map((a) => `/research/${a}/`), '/publications/', '/projects/',
   '/people/', '/news/', ...subdirs('src/content/news').map((n) => `/news/${n}/`), '/join/',
 ];
+const POSTS = new Set(subdirs('src/content/news').map((n) => `/news/${n}/`));
 const zh = (p) => `/zh${p}`;
 const html = (route) => readFileSync(join(DIST, route, 'index.html'), 'utf8');
 const meta = (page, attr, name) => page.match(new RegExp(`<meta ${attr}="${name}" content="([^"]*)"`))?.[1];
@@ -59,7 +60,8 @@ test('each page has its own meta description', () => {
       const route = lang === 'en' ? r : zh(r);
       const desc = meta(html(route), 'name', 'description');
       assert.ok(desc, `${route}: no description`);
-      if (lang === 'en') assert.ok(desc.length >= 50 && desc.length <= 160, `${route}: description is ${desc.length} characters (50-160)`);
+      // A news post's description is its author's summary: it must be unique, but any length is fine.
+      if (lang === 'en' && !POSTS.has(r)) assert.ok(desc.length >= 50 && desc.length <= 160, `${route}: description is ${desc.length} characters (50-160)`);
       assert.ok(!seen.has(desc), `${route} repeats the description of ${seen.get(desc)}`);
       seen.set(desc, route);
     }
