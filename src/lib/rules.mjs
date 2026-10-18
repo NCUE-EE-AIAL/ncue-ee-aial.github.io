@@ -11,7 +11,8 @@ export const DOI_RE = /^10\.\d{4,9}\/\S+$/;
 
 /** Dates are written YYYY-MM-DD. YAML turns an unquoted 2026-10-17 into a Date, which passes through; a quoted
  *  "2026-10-17" becomes that day at 00:00 UTC. Anything else (2026/10/17 would be read in local time and show the
- *  day before in Taipei) is returned unchanged, so the schema rejects it. */
+ *  day before in Taipei) is returned unchanged, so the schema rejects it. Limit: YAML itself turns an unquoted
+ *  impossible date such as 2026-02-30 into 2026-03-02 before this runs, so that one builds (CONTRIBUTING §27). */
 export function toDay(v) {
   if (v instanceof Date || typeof v !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(v)) return v;
   const d = new Date(`${v}T00:00:00Z`);

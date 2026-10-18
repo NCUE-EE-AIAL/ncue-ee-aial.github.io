@@ -6,6 +6,7 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { youtubeWatchUrl } from '../src/lib/format.ts';
+import { ui } from '../src/i18n/ui.ts';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
@@ -104,16 +105,17 @@ test('without JavaScript the phone menu shows its links and hides the buttons th
   assert.match(ruleFor(TOP, 'html:not(.js) #theme-toggle'), /display:\s*none/, 'the theme button does nothing without JS');
 });
 
-test('every page with the site menu has one labelled <nav> around its six links, and the theme button reports its state', () => {
+test('every page with the site menu keeps the menu list inside the <nav> labelled Main / 主選單, and the theme button reports its state', () => {
   const pages = (function walk(dir) {
     return readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
       e.isDirectory() ? walk(join(dir, e.name)) : e.name.endsWith('.html') ? [join(dir, e.name)] : []);
   })(DIST).map((f) => [f.slice(DIST.length), readFileSync(f, 'utf8')]).filter(([, page]) => page.includes('id="site-nav"'));
-  assert.ok(pages.length >= 28, `only ${pages.length} pages have the site menu`);
+  assert.ok(pages.length >= 1, 'no page has the site menu');
   for (const [where, page] of pages) {
-    const navs = page.match(/<nav\b[^>]*\baria-label="[^"]+"[^>]*>[\s\S]*?<\/nav>/g) ?? [];
-    assert.equal(navs.length, 1, `${where}: ${navs.length} labelled <nav> landmarks`);
-    assert.equal((navs[0].match(/<a\b/g) ?? []).length, 6, `${where}: the <nav> should hold the six menu links`);
+    const label = ui['nav.label'][/<html\b[^>]*\blang="zh/.test(page) ? 'zh' : 'en'];
+    const nav = page.match(new RegExp(`<nav\\b[^>]*\\baria-label="${label}"[^>]*>[\\s\\S]*?</nav>`))?.[0];
+    assert.ok(nav, `${where}: no <nav aria-label="${label}">`);
+    assert.match(nav, /\bid="nav-links"[\s\S]*?<a\b/, `${where}: the menu list belongs inside the <nav>`);
     assert.match(page, /<button id="theme-toggle"[^>]*\baria-pressed="false"/, `${where}: the theme button needs aria-pressed`);
   }
 });

@@ -105,7 +105,7 @@
    years: "2025–"
    areas: [biomedical-ai]
    bio:
-     en: "M.S. student working on ..."
+     en: "Master’s student working on ..."
      zh: "碩士生，研究 ..."
    links:
      github: "https://github.com/your-name"
@@ -354,7 +354,7 @@ title:
 | `alumni` | 否（`false`） | true / false | `true` | 畢業或離開 |
 | `years` | 否 | 字串 | `"2025–"`、`"2022–2024"` | 含 `–` 請加引號 |
 | `areas` | 否（`[]`） | 研究方向 slug 清單 | `[biomedical-ai]` | |
-| `bio` | 否 | bi | `en: "M.S. student ..."` | 簡短、僅寫公開資訊 |
+| `bio` | 否 | bi | `en: "Master’s student ..."` | 簡短、僅寫公開資訊 |
 | `photo` | 否 | 字串，路徑 | `/images/people/brian-lin.webp` | 檔案放 `public/images/people/`（240×240 WebP，用 `npm run photos -- <照片> --out public/images/people --headshot` 產生）；需本人同意 |
 | `links.github` | 否 | 完整網址 | `"https://github.com/brian10420"` | |
 | `links.scholar` | 否 | 完整網址 | | Google Scholar |
@@ -574,7 +574,7 @@ npm run links       # 檢查 dist/ 的連結（需先 npm run build）
 ### 上線流程與每週重建
 
 - 每次推到 `main`（包括在 github.com 上直接改檔）都會先執行 **build、`npm test`、站內連結檢查**，全部通過才會部署。所以只要有一項失敗，網站就**不會更新**：到 repo 的 **Actions** 分頁，點進紅色叉叉的那次執行，看是哪一步失敗，再對照[第 8 節](#8-常見-build-錯誤解讀)。
-- 網站**每週一台北時間 05:17 也會自動重建一次**，讓依日期決定的內容自己更新（首頁最近 12 個月的動態、研究計畫的「進行中」、GitHub stars 等）。
+- 網站**每週一臺北時間 05:17 也會自動重建一次**，讓依日期決定的內容自己更新（首頁最近 12 個月的動態、研究計畫的「進行中」、GitHub stars 等）。
 - GitHub 在 repo **連續 60 天沒有 commit** 時會停用排程的 workflow，並寄信給最後一位 committer。收到通知時：到 **Actions** 分頁，選「Deploy to GitHub Pages」，按 **Enable workflow**（GitHub 文件只寫了這個方法，沒有說推 commit 會自動恢復）。停用期間推上去的修改不會部署，所以按下 Enable 之後，在同一頁按 **Run workflow** 手動部署一次。網站本身不會因此下線，只是停在最後一次部署的內容。
 
 ---
@@ -794,14 +794,16 @@ keywords:
 ```
   date: use YYYY-MM-DD, for example 2026-11-05
 ```
-日期一律寫成 `2026-11-05`（年-月-日，月和日都是兩位數）。`2026/11/05` 這類寫法在台北的電腦上會被讀成前一天，所以 build 會直接擋下。
+日期一律寫成 `2026-11-05`（年-月-日，月和日都是兩位數）。`2026/11/05` 這類寫法在臺北的電腦上會被讀成前一天，所以 build 會直接擋下。
+
+注意：不存在的日期如果**沒加引號**（例如 `date: 2026-02-30`），YAML 會先把它讀成 3 月 2 日，build 不會報錯。發布前請在 `/news/` 列表核對一次日期。
 
 ### 28. `tests/site.test.mjs`：頁面上出現了 email
 
 ```
 student emails never go on the site (CONTRIBUTING §5 rule 4): write the lab email instead
 ```
-訊息會列出頁面與那個地址。網站上只能出現實驗室信箱和老師（PI）的 `links.email`；動態、研究頁、FAQ 或成員介紹裡的學生信箱，請改寫成實驗室信箱 ncueaial@gmail.com。
+訊息會列出頁面與那個地址。網站上只能出現實驗室信箱和 PI 或 staff 的 `links.email`；動態、研究頁、FAQ 或成員介紹裡的學生信箱，請改寫成實驗室信箱 ncueaial@gmail.com。
 
 ### 其他
 

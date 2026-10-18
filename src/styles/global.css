@@ -153,7 +153,7 @@ a.card:hover { text-decoration: none; border-color: var(--border-2); box-shadow:
 }
 .chip-accent { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
 .chip-warn { background: var(--warn-soft); color: var(--warn); border-color: transparent; }
-.chip-award { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
+.chip-award { background: var(--accent-soft); color: var(--accent); border-color: transparent; font-weight: 600; }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .btn {
   display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: var(--radius-sm);

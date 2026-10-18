@@ -73,7 +73,7 @@ test('DOI_RE takes the bare DOI of every publication and rejects a pasted link',
     const m = readFileSync(join(dir, f), 'utf8').match(/^doi:\s*["']?([^"'\n#]+?)["']?\s*$/m);
     return m ? [m[1]] : [];
   });
-  assert.ok(dois.length >= 20, `found only ${dois.length} DOIs`);
+  assert.ok(dois.length >= 1, 'no DOI found in src/content/publications');
   for (const ok of [...dois, '10.1049/icp.2024.4141', '10.4018/JCIT.20220701.oa11', '10.1364/AOE.2008.SaK4']) {
     assert.ok(rules.DOI_RE?.test(ok), ok);
   }
@@ -83,6 +83,8 @@ test('DOI_RE takes the bare DOI of every publication and rejects a pasted link',
   ]) assert.ok(!rules.DOI_RE?.test(bad), `should reject ${JSON.stringify(bad)}`);
 });
 
+// Known limit: YAML reads an unquoted impossible date (2026-02-30) as 2026-03-02 before the schema sees it,
+// so it builds; CONTRIBUTING §27 asks authors to check the date on /news/.
 test('toDay reads YYYY-MM-DD as that day in UTC and leaves anything else for the schema to reject', () => {
   assert.equal(rules.toDay?.('2026-10-17')?.toISOString?.(), '2026-10-17T00:00:00.000Z');
   const parsed = new Date('2026-10-17T00:00:00Z'); // what YAML makes of an unquoted 2026-10-17

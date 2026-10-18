@@ -93,8 +93,8 @@ export const ui = {
 
   'research.title': { en: 'Research', zh: '研究方向' },
   'research.intro': {
-    en: 'Six directions, one lab: we build AI systems that see, move, read the body and manage energy.',
-    zh: '六個方向、一個實驗室：我們打造會看、會動、會讀懂身體訊號，也會管理能源的 AI 系統。',
+    en: 'Six directions, one lab: from biosignals, identity and energy to stereo 3D vision and robotic arms.',
+    zh: '六個方向，一個實驗室：從生理訊號、身分驗證與能源，到立體三維視覺與機械手臂。',
   },
   'research.keywords': { en: 'Keywords', zh: '關鍵詞' },
   'research.projects': { en: 'Related projects', zh: '相關專案' },
