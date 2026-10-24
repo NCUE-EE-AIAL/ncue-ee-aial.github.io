@@ -30,7 +30,7 @@ export const site = {
   },
   directions: 'https://www.ncue.edu.tw/p/412-1000-870.php?Lang=zh-tw',
   map: 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('國立彰化師範大學 師大校區 彰化市師大路二號'),
-  // Room from the lab's project name ("NCUE E604 AI application lab"), 2026-10-24: confirm with the lab.
+  // Confirmed from the photo of the door sign (src/assets/photos/lab-sign.jpg), 2026-10-24.
   room: { en: 'Room E604', zh: 'E604 研究室' },
   ogImageAlt: {
     en: 'AI Application Laboratory, NCUE Electrical Engineering: the lab name beside a line drawing of a stereo camera pair and a heartbeat trace.',
@@ -262,6 +262,7 @@ export const ui = {
   'join.faq.intl': { en: 'International interns (TEEP / IIPP)', zh: '國際實習生（TEEP / IIPP）' },
   'join.faq.all': { en: 'Everyone', zh: '所有人' },
   'join.room': { en: 'Lab', zh: '研究室' },
+  'join.sign.alt': { en: 'The door sign of room E604: Dept. of Electrical Engineering, 人工智慧應用實驗室, Artificial Intelligence Applications Lab.', zh: 'E604 研究室門牌：電機系，人工智慧應用實驗室（Artificial Intelligence Applications Lab）。' },
   'join.links': { en: 'Links', zh: '連結' },
   'join.issue': { en: 'Suggest a fix to this site', zh: '回報網站問題' },
 
