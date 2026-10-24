@@ -27,6 +27,18 @@ const desc = description ?? s('description', lang);
 const canonical = new URL(localePath(path, lang), Astro.site);
 const other = otherLocale(lang);
 const origin = new URL('/', Astro.site).origin;
+const csp = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline'",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data:",
+  "font-src 'self'",
+  "connect-src 'self'",
+  'frame-src https://www.youtube-nocookie.com',
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+].join('; ');
 const ld = bare ? '' : safeJsonLd(graph([
   ...siteNodes({
     origin, lang, inLanguage: htmlLang[lang], home: new URL(localePath('/', lang), Astro.site).href,
@@ -40,6 +52,9 @@ const ld = bare ? '' : safeJsonLd(graph([
 <html lang={htmlLang[lang]}>
   <head>
     <meta charset="utf-8" />
+    <!-- GitHub Pages cannot send headers, so the policy is a meta tag (frame-ancestors is ignored there).
+         Everything is served from this origin; the only third party is the click-to-load YouTube player. -->
+    <meta http-equiv="Content-Security-Policy" content={csp} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={desc} />

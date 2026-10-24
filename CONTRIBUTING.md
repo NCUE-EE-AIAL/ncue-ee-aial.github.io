@@ -284,6 +284,7 @@
 
 - 網站用的 Inter 字體是自行託管的：`src/assets/fonts/inter-latin-wght.woff2` 與授權檔 `OFL.txt`。檔案取自 `npm pack @fontsource-variable/inter@5.3.0`（包裡的 `files/inter-latin-wght-normal.woff2` 與 `LICENSE`）。
 - 網站不會從別的網站載入任何東西（沒有 Google Fonts 或其他外部資源）。
+- 每頁 `<head>` 都有 Content-Security-Policy（`src/layouts/Base.astro` 的 `csp`）：腳本、樣式、圖片、字體只能來自本站，iframe 只允許 `www.youtube-nocookie.com`。要加其他網站的嵌入（例如 Google 地圖）得先改 `csp`，否則瀏覽器會擋下；`tests/security.test.mjs` 會檢查每一頁。
 
 ### 搜尋引擎資訊（SEO）
 
@@ -544,6 +545,7 @@ title:
     3. 名稱本身不要寫在 commit 訊息、PR 或 Issue 裡。
 11. **相簿與合照必須取得入鏡者同意**：每本相簿要填 `consent`（`people-agreed` = 可辨識的人都同意上網；`no-people` = 沒有可辨識的人，`consentBy` 建議寫誰何時徵得同意）；團體合照一定是 `consent: people-agreed`。沒填，或不是這兩個值，build 會失敗。
 
+12. **不要 commit 個人或本機設定**：`.claude/`、`CLAUDE.local.md`、`.env*`、金鑰檔、本機路徑（`/home/…`、`/Users/…`、`C:\Users\…`）、AI 助理（Claude Code 等）的對話連結與存取權杖都不能進 repo。`.gitignore` 已排除前三種，`tests/security.test.mjs` 會檢查其餘項目。
 ---
 
 ## 6. 不用 git 也能修改
