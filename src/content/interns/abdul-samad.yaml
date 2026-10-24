@@ -1,7 +1,8 @@
-# Copied as written from the old lab site's testimonials (TEEP/IIPP tab), with Brian's approval on 2026-10-24.
+# Testimonial copied as written from the old lab site (TEEP/IIPP tab), with Brian's approval on 2026-10-24.
 name: "Abdul Samad"
 program: TEEP
 photo: "/images/people/abdul-samad.webp"
+# year: unknown (old lab site, before 2026)
 quote:
   en: "The internship provided an excellent opportunity to enhance my knowledge and skills in artificial intelligence. The guidance and support from Professor Wen Ren Yang created an inspiring and collaborative environment that greatly contributed to my personal and professional growth"
 order: 1

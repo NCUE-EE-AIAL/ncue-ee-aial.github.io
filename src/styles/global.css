@@ -640,6 +640,13 @@ h2 .count { vertical-align: 0.3em; margin-left: 6px; }
 .join-section-head { margin-bottom: 28px; }
 .join-section-head p { color: var(--muted); max-width: 65ch; }
 .albums { display: grid; gap: clamp(28px, 5vw, 44px); }
+.intern-year + .intern-year { margin-top: 20px; }
+.intern-year-title { font-size: 1rem; color: var(--muted); margin-bottom: 10px; }
+.intern-list { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)); gap: 12px; }
+.intern { display: flex; align-items: center; gap: 10px; }
+.intern .avatar { width: 44px; height: 44px; }
+.intern-name { margin: 0; font-weight: 600; }
+.intern-meta { margin: 0; font-size: 0.85rem; }
 .testimonials { list-style: none; padding: 0; margin-top: 16px; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 16px; align-items: start; }
 .testimonial-head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
 .testimonial-head .avatar { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; }

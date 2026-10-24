@@ -281,18 +281,21 @@ const honors = defineCollection({
   }),
 });
 
-/** Intern testimonials on the International Programs page: testimonials/<slug>.yaml, lower `order` first. */
-const testimonials = defineCollection({
-  loader: glob({ pattern: '**/*.{yaml,yml}', base: './src/content/testimonials' }),
+/** TEEP/IIPP interns: interns/<slug>.yaml. Listed on People (past international interns, by year) and, when they
+ *  wrote one, with their testimonial on the International Programs page. Lower `order` first. */
+const interns = defineCollection({
+  loader: glob({ pattern: '**/*.{yaml,yml}', base: './src/content/interns' }),
   schema: z.strictObject({
     name: z.string().min(1),
     program: z.enum(['TEEP', 'IIPP']),
+    /** Year of the internship, e.g. 2026. Leave it out when unknown: the intern is listed under "Earlier". */
+    year: z.number().int().min(2018).max(new Date().getFullYear() + 1).optional(),
     /** Local file under public/images/people/, made with `npm run photos -- <photo> --out public/images/people --headshot`. */
     photo: z.string().refine(isLocalPhoto, {
       error: 'photo must be a local file like /images/people/name.webp, not a URL',
     }).optional(),
-    /** In the intern's own words: keep it as written. */
-    quote: bi,
+    /** Testimonial in the intern's own words: keep it as written. */
+    quote: bi.optional(),
     order: z.number().int().default(100),
   }),
 });
@@ -310,4 +313,4 @@ const faq = defineCollection({
   }),
 });
 
-export const collections = { research, publications, projects, people, news, facilities, theses, grants, albums, groupPhotos, honors, faq, testimonials };
+export const collections = { research, publications, projects, people, news, facilities, theses, grants, albums, groupPhotos, honors, faq, interns };
