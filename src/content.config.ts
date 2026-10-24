@@ -111,6 +111,10 @@ const people = defineCollection({
     years: z.string().optional(),
     areas: z.array(areaSlug).default([]),
     bio: bi.optional(),
+    /** PI or staff: areas of expertise, one short phrase each. */
+    expertise: z.array(bi).default([]),
+    /** PI or staff: positions and service, newest first, e.g. { years: "2006–", text: { en: "…", zh: "…" } }. */
+    experience: z.array(z.strictObject({ years: z.string().optional(), text: bi })).default([]),
     /** Local file under public/images/people/ (.webp, .jpg, .jpeg or .png), e.g. /images/people/brian.webp. No external images. */
     photo: z.string().refine(isLocalPhoto, {
       error: 'photo must be a local file like /images/people/name.webp (.webp, .jpg, .jpeg or .png), not a URL',

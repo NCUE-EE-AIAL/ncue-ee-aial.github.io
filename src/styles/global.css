@@ -587,6 +587,10 @@ h2 .count { vertical-align: 0.3em; margin-left: 6px; }
 .works dt { color: var(--muted); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
 .works dd { margin: 2px 0 0; }
 .works ul { list-style: none; padding: 0; display: grid; gap: 2px; }
+.cv { gap: 14px; }
+.cv .expertise { display: flex; flex-wrap: wrap; gap: 4px 0; }
+.cv .expertise li:not(:last-child)::after { content: '·'; margin: 0 8px; color: var(--muted); }
+.cv-years { color: var(--muted); font-variant-numeric: tabular-nums; margin-right: 4px; }
 .person .links { list-style: none; padding: 0; flex-wrap: wrap; gap: 8px 14px; margin-top: 12px; }
 .person .links a { align-items: center; gap: 6px; font-size: 0.9rem; }
 .person .links a:hover { text-decoration: none; }

@@ -355,6 +355,8 @@ title:
 | `years` | 否 | 字串 | `"2025–"`、`"2022–2024"` | 含 `–` 請加引號 |
 | `areas` | 否（`[]`） | 研究方向 slug 清單 | `[biomedical-ai]` | |
 | `bio` | 否 | bi | `en: "Master’s student ..."` | 簡短、僅寫公開資訊 |
+| `expertise` | 否（`[]`） | bi 清單 | `- en: "Digital signal processing"` `zh: "數位訊號處理"` | 專長，每項一個短語；卡片上顯示為「專長」，用在老師或職員 |
+| `experience` | 否（`[]`） | 清單，每項 `years`（選填字串）＋ `text`（bi） | `- years: "2006–"` `text: { en: "...", zh: "..." }` | 經歷，新的在前；每項要有公開出處，寫在 yaml 註解 |
 | `photo` | 否 | 字串，路徑 | `/images/people/brian-lin.webp` | 檔案放 `public/images/people/`（240×240 WebP，用 `npm run photos -- <照片> --out public/images/people --headshot` 產生）；需本人同意 |
 | `links.github` | 否 | 完整網址 | `"https://github.com/brian10420"` | |
 | `links.scholar` | 否 | 完整網址 | | Google Scholar |
