@@ -4,6 +4,8 @@ summary: "TEEP 與 IIPP 國際學生參與的專題成果。"
 icon: globe
 order: 7
 keywords: ["TEEP", "IIPP", "國際學生", "嵌入式 AI"]
+image: ../../albums/2024-11-international-exchange/farm-group.jpg
+imageAlt: "國際交流活動中，約五十位學生在戶外樹下的大合照，手拿花束和布條。"
 ---
 
 實驗室每年透過兩項政府計畫接待國際學生：教育部的 [TEEP](https://teep.studyintaiwan.org/)（優秀外國青年來臺蹲點計畫；本實驗室的臺灣–印度專案自 2018 年起），以及國科會的 [IIPP](https://iipp.stpi.niar.org.tw/)（外籍人才來臺實習試辦專案，2024 年起）。<!-- source: 楊老師的 IIPP mentor 頁 https://iipp.stpi.niar.org.tw/mentor/846（2026-10-17 查核） --><!-- TODO: confirm with lab: 合作大學 -->這些學生背景各異，實驗室讓他們透過具體專題，將 AI 應用於實際問題。

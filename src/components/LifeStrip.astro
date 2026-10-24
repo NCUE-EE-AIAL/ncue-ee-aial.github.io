@@ -1,0 +1,28 @@
+---
+import Photo from './Photo.astro';
+import { pick, t, localePath, type Locale } from '../i18n/utils';
+import type { Album } from '../lib/data';
+/** Home: up to five photos from the activity albums (newest album first), each linking to its album on Join. */
+interface Props { lang: Locale; albums: Album[] }
+const { lang, albums } = Astro.props;
+const shots = albums.flatMap((a) => a.data.photos.map((p) => ({ album: a, photo: p }))).slice(0, 5);
+---
+{shots.length > 0 && (
+  <section class="section container life" aria-labelledby="life-h">
+    <div class="section-head reveal">
+      <h2 id="life-h">{t('join.life.title', lang)}</h2>
+      <a class="more" href={`${localePath('/join/', lang)}#life-h`}>{t('home.life.all', lang)} →</a>
+    </div>
+    <ul class:list={['life-grid', `life-${shots.length}`]}>
+      {shots.map(({ album, photo }, i) => (
+        <li class="reveal" style={`--i:${i}`}>
+          <a href={`${localePath('/join/', lang)}#album-${album.id}`}>
+            <Photo src={photo.src} alt={pick(photo.alt, lang)} width={i === 0 ? 720 : 420}
+              sizes={i === 0 ? '(min-width: 860px) 600px, 100vw' : '(min-width: 860px) 300px, 50vw'}
+              caption={pick(album.data.title, lang)} />
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}
