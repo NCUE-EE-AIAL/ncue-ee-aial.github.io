@@ -20,9 +20,9 @@
     "search": "pagefind --site dist"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.11",
+    "@astrojs/check": "^0.9.12",
     "@astrojs/sitemap": "^3.7.4",
-    "astro": "^7.4.1",
+    "astro": "^7.4.2",
     "sharp": "0.35.5",
     "typescript": "^5.9.0"
   },
