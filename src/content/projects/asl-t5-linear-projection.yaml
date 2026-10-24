@@ -1,0 +1,11 @@
+# From the old lab site (international interns); no public repo. Kept at Brian's request, 2026-10-24.
+title:
+  en: "American Sign Language Translation with T5 and Linear Projection"
+  zh: "以 T5 與線性投影進行美國手語翻譯"
+summary:
+  en: "Translates American Sign Language into English text by projecting sign features into a T5 language model through a linear layer."
+  zh: "將手語特徵經線性層投影至 T5 語言模型，把美國手語翻譯成英文文字。"
+areas: [international-programs]
+members: []
+status: archived
+featured: false

@@ -31,6 +31,10 @@ const roomKnown = !room.startsWith('TODO');
         <p>{t('join.intl.body', lang)}</p>
         {showTodo && <p class="todo">{t('join.intl.todo', lang)}</p>}
       </section>
+      <section class="join-block reveal" aria-labelledby="life-h">
+        <h2 id="life-h">{t('join.life.title', lang)}</h2>
+        <p>{t('join.life.body', lang)}</p>
+      </section>
       {faq.length > 0 && (
         <section class="join-block" id="faq" aria-labelledby="faq-h">
           <h2 id="faq-h">{t('join.faq.title', lang)}</h2>
@@ -76,6 +80,10 @@ const roomKnown = !room.startsWith('TODO');
             <dd><a href={`mailto:${piEmail}`}>{piEmail}</a></dd>
           </div>
         )}
+        <div>
+          <dt>{t('join.phone', lang)}</dt>
+          <dd><a href={`tel:${site.tel}`}>{s('phone', lang)}</a></dd>
+        </div>
         <div>
           <dt>{t('join.address', lang)}</dt>
           <dd>{s('org', lang)}<br />{s('address', lang)}</dd>
