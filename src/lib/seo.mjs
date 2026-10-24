@@ -45,5 +45,18 @@ export function personNode(p) {
   };
 }
 
+/**
+ * A paper on the Publications page, so search engines (Google Scholar included) can read title, authors and DOI.
+ * @param {{ title: string, authors: readonly string[], venue: string, year: number, doi?: string, url?: string }} p
+ */
+export function articleNode(p) {
+  return {
+    '@type': 'ScholarlyArticle', headline: p.title, name: p.title,
+    author: p.authors.map((name) => ({ '@type': 'Person', name })),
+    datePublished: String(p.year), isPartOf: { '@type': 'CreativeWork', name: p.venue },
+    sameAs: p.doi ? `https://doi.org/${p.doi}` : undefined, url: p.url,
+  };
+}
+
 /** @param {object[]} nodes */
 export const graph = (nodes) => ({ '@context': 'https://schema.org', '@graph': nodes });

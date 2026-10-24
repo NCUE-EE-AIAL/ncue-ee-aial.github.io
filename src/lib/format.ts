@@ -130,6 +130,23 @@ export function toBibtex(p: BibInput): string {
   return `@${ENTRY[p.type]}{${bibKey(p)},\n${fields.map(([k, v]) => `  ${k} = {${v}}`).join(',\n')}\n}`;
 }
 
+/** "Wen-Ren Yang" -> "W.-R. Yang", "Kuan Wei Chen" -> "K. W. Chen": given names cut to initials, family name last. */
+function ieeeName(name: string): string {
+  const words = name.trim().split(/\s+/);
+  if (words.length < 2) return name.trim();
+  const given = words.slice(0, -1).map((w) => w.split('-').map((part) => `${part[0].toUpperCase()}.`).join('-'));
+  return `${given.join(' ')} ${words[words.length - 1]}`;
+}
+
+/** One-line IEEE-style reference: A, B, and C, "Title," in Venue, year, doi: ... */
+export function toIeee(p: BibInput): string {
+  const names = p.authors.map(ieeeName);
+  const authors = names.length < 3 ? names.join(' and ') : `${names.slice(0, -1).join(', ')}, and ${names[names.length - 1]}`;
+  const venue = p.type === 'conference' ? `in ${p.venue}` : p.venue;
+  const year = p.venue.includes(String(p.year)) ? '' : `, ${p.year}`;
+  return `${authors}, "${p.title}," ${venue}${year}${p.doi ? `, doi: ${p.doi}` : ''}.`;
+}
+
 /** ROC academic year as a label: zh "113 學年度", en "2024–25" (ay + 1911, then the last two digits of ay + 1912). */
 export function ayLabel(ay: number, lang: 'en' | 'zh'): string {
   return lang === 'zh' ? `${ay} 學年度` : `${ay + 1911}–${String(ay + 1912).slice(-2)}`;

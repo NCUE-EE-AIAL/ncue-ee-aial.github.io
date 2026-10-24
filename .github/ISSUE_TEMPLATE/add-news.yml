@@ -1,0 +1,51 @@
+name: "Add a news post / 新增實驗室動態"
+description: "Share lab news (award, paper accepted, event, new member). A lab member will turn it into a post. / 提供一則實驗室消息，由實驗室成員建立網站文章。"
+title: "[News] "
+labels: ["news"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Write at least one language; the other can be left empty. Photos: attach them below only if **everyone in them agreed** to be online.
+        中英文至少寫一種，另一種可以留空。照片只有在**照片中每個人都同意**上網時才附上。
+  - type: input
+    id: date
+    attributes:
+      label: "Date / 日期 (YYYY-MM-DD)"
+      placeholder: "2026-11-05"
+    validations:
+      required: true
+  - type: input
+    id: title_en
+    attributes:
+      label: "Title (English) / 英文標題"
+  - type: input
+    id: title_zh
+    attributes:
+      label: "Title (Chinese) / 中文標題"
+  - type: input
+    id: summary
+    attributes:
+      label: "One-sentence summary / 一句話摘要"
+      description: "Shown in the news list and in search results. / 顯示在動態列表與搜尋結果。"
+    validations:
+      required: true
+  - type: textarea
+    id: body
+    attributes:
+      label: "Full text / 內文"
+      description: "Who, what, where, and links (paper DOI, event page). / 誰、做了什麼、在哪裡，以及相關連結。"
+    validations:
+      required: true
+  - type: textarea
+    id: photos
+    attributes:
+      label: "Photos (optional) / 照片（選填）"
+      description: "Drag photos here. / 把照片拖曳到這裡。"
+  - type: checkboxes
+    id: consent
+    attributes:
+      label: "Confirmation / 確認"
+      options:
+        - label: "Everyone named or shown agreed to appear on the website / 文中提到或照片中的人都同意上網"
+          required: true

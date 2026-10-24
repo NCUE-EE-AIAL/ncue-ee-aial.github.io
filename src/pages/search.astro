@@ -1,0 +1,6 @@
+---
+import Search from '../components/pages/Search.astro';
+import { asLocale } from '../i18n/utils';
+const lang = asLocale(Astro.currentLocale);
+---
+<Search lang={lang} />

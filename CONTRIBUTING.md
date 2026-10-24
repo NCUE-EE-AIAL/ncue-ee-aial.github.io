@@ -7,7 +7,8 @@
 - Event albums (`albums/<YYYY-MM>-<slug>/index.yaml` plus the photos) and the yearly group photo (`group-photos/<year>.yaml` plus the photo) are folders/files too. **Every photo goes through `npm run photos -- <files or folders> --out <folder> [--group | --headshot]` before `git add`** (`--headshot` makes the 240×240 WebP for `public/images/people/`): the repository is public, and a phone original with GPS stays in the history for good. Photos of people need everyone's consent (`consent` field). The page that shows albums goes live with the first album.
 - English is the default (`/`), Traditional Chinese is at `/zh/`. Bilingual fields are `{ en, zh }`; a missing `zh` falls back to English.
 - The Zod schemas in `src/content.config.ts` are the single source of truth for every field. A wrong or missing field makes `npm run build` fail and names the file.
-- No git? Edit a file on github.com (pencil icon, then "Create a new branch and start a pull request"), or open the "Add a publication" issue form.
+- No git? Edit a file on github.com (pencil icon, then "Create a new branch and start a pull request"), or use an issue form (publication, news post, member, project).
+- Weekly automation: a pull request with papers found on ORCID / Crossref (`scripts/pubs-sync.mjs`, check them before merging) and an issue when outside links break. Search Console, GoatCounter and a custom domain are set up once in `src/i18n/ui.ts` (section 10).
 - Local preview: `npm ci`, `npm run dev` (http://localhost:4321), `npm run build`, `npm test`, `npm run links`.
 - Lab rules: a paper is listed only if Wen-Ren Yang is an author; `verified: true` needs a `source` URL you actually opened; PDFs only for arXiv / accepted manuscripts (IEEE/IET: DOI only); no student personal emails; no portraits without consent; no hot-linked images; industry partners and the battery sponsor are never named (`tests/privacy.test.mjs` enforces it); research pages describe problems and methods only; only public repos and published papers.
 - Questions: ncueaial@gmail.com or a GitHub issue in `NCUE-EE-AIAL/ncue-ee-aial.github.io`.
@@ -25,6 +26,7 @@
 7. [本機預覽與檢查](#7-本機預覽與檢查)
 8. [常見 build 錯誤解讀](#8-常見-build-錯誤解讀)
 9. [誰在維護、去哪裡問](#9-誰在維護去哪裡問)
+10. [搜尋引擎、瀏覽統計與自訂網域](#10-搜尋引擎瀏覽統計與自訂網域)
 
 ---
 
@@ -91,6 +93,8 @@
    ```
 3. `verified: true` 只在你**真的打開了出版社頁面並核對標題、作者、年份**之後才寫，且必須同時填 `source`（那個頁面的網址）。`verified: false` 的論文會在頁面上顯示「待確認 / to verify」標記，這是正常的。
 4. 在本機執行 `npm run build`（見[第 7 節](#7-本機預覽與檢查)），再開 PR。
+
+**自動找新論文**：每週一，workflow「Suggest new publications」會用 `scripts/pubs-sync.mjs` 到老師的 ORCID 與 Crossref 找網站上還沒有的論文，替每篇建一個 `verified: false` 的檔案，開成一個 PR「New publications to check」。收到時逐篇打開出版社頁面核對、補上 `areas`，改成 `verified: true` 並填 `source` 後再合併。不該列出的論文：刪掉那個檔案，並把 DOI 加進 `scripts/pubs-sync-ignore.txt`，之後就不會再被找出來。本機想先看會找到什麼：`node scripts/pubs-sync.mjs --dry-run`。
 
 ### 2.2 新增成員
 
@@ -283,7 +287,9 @@
 
 ### 搜尋引擎資訊（SEO）
 
-- JSON-LD 結構化資料與每個頁面的 description 都是自動產生的，不需要手動編輯。
+- JSON-LD 結構化資料與每個頁面的 description 都是自動產生的，不需要手動編輯。論文頁會替每篇論文產生 `ScholarlyArticle`，每篇論文也有「BibTeX」與「IEEE」兩個複製按鈕。
+- 站內搜尋（`/search/`）由 [Pagefind](https://pagefind.app/) 在 `npm run build` 的最後一步建立索引（`dist/pagefind/`），只索引 `<main>` 的內容。`npm run dev` 時沒有索引，搜尋頁會是空的，這是正常的。
+- 動態有 RSS：`/rss.xml`（英文）與 `/zh/rss.xml`（中文），新增動態後自動更新。
 - `public/apple-touch-icon.png` 由 `npm run icons` 從 `public/favicon.svg` 產生，**不要手動修改**；要改就改 `favicon.svg` 後重新執行。
 
 ### 背景插圖
@@ -551,9 +557,14 @@ title:
 
 新增檔案：在資料夾頁面按 **Add file → Create new file**，檔名欄輸入完整路徑（例如 `src/content/news/2026-11-05-xxx/en.md`），其餘同上。
 
-**方法 B：論文用 Issue 表單**
+**方法 B：用 Issue 表單**
 
-到 Issues → New issue → **「Add a publication / 新增論文」**，填表送出，會有實驗室成員幫你建檔。
+到 Issues → New issue，選一個表單填寫送出，會有實驗室成員幫你建檔：
+
+- **Add a publication / 新增論文**
+- **Add a news post / 新增實驗室動態**（可附照片，需照片中每個人同意）
+- **Add or update a lab member / 新增或更新成員**（新成員、畢業、修改自己的介紹）
+- **Add a project / 新增專案**
 
 > 開 PR 後，GitHub 會自動執行「Check site」（build、測試、站內連結檢查，約 2 分鐘）。PR 頁面下方若顯示紅色叉叉，點 Details 看錯誤訊息，對照[第 8 節](#8-常見-build-錯誤解讀)修正；出現綠色勾勾才合併。
 
@@ -582,6 +593,7 @@ npm run links       # 檢查 dist/ 的連結（需先 npm run build）
 ### 上線流程與每週重建
 
 - 每次推到 `main`（包括在 github.com 上直接改檔）都會先執行 **build、`npm test`、站內連結檢查**，全部通過才會部署。所以只要有一項失敗，網站就**不會更新**：到 repo 的 **Actions** 分頁，點進紅色叉叉的那次執行，看是哪一步失敗，再對照[第 8 節](#8-常見-build-錯誤解讀)。
+- 另外兩個每週一的自動工作：**06:43「Suggest new publications」**（見 [2.1](#21-新增一篇論文)）、**07:29「Check external links」**檢查 DOI、GitHub 等外部連結，有壞掉的就開（或更新）一個標籤為 `broken-links` 的 issue，全部恢復正常時自動關閉。
 - 網站**每週一臺北時間 05:17 也會自動重建一次**，讓依日期決定的內容自己更新（首頁最近 12 個月的動態、研究計畫的「進行中」、GitHub stars 等）。
 - GitHub 在 repo **連續 60 天沒有 commit** 時會停用排程的 workflow，並寄信給最後一位 committer。收到通知時：到 **Actions** 分頁，選「Deploy to GitHub Pages」，按 **Enable workflow**（GitHub 文件只寫了這個方法，沒有說推 commit 會自動恢復）。停用期間推上去的修改不會部署，所以按下 Enable 之後，在同一頁按 **Run workflow** 手動部署一次。網站本身不會因此下線，只是停在最後一次部署的內容。
 
@@ -824,3 +836,33 @@ student emails never go on the site (CONTRIBUTING §5 rule 4): write the lab ema
 - 網站由實驗室成員共同維護，指導教授：楊文然老師。**網站不屬於任何單一學生**；畢業前請確認你負責的內容已交接，並確保 GitHub 組織 `NCUE-EE-AIAL` 至少有兩位 owner。
 - 問題與討論：實驗室信箱 **ncueaial@gmail.com**，或在 GitHub 開 Issue（repo：`NCUE-EE-AIAL/ncue-ee-aial.github.io`）。
 - 網站上的線上版：https://ncue-ee-aial.github.io/（英文）、https://ncue-ee-aial.github.io/zh/（繁體中文）。
+
+---
+
+## 10. 搜尋引擎、瀏覽統計與自訂網域
+
+以下三項都需要有權限的人做一次設定，設定值都在 `src/i18n/ui.ts` 的 `site` 裡。
+
+**Google Search Console（讓 Google 收錄並看搜尋成效）**
+
+1. 到 https://search.google.com/search-console ，新增資源，選「網址前置字元」，填 `https://ncue-ee-aial.github.io/`。
+2. 驗證方法選 **HTML 標記**，複製 `content="..."` 引號裡的那串字，貼到 `site.verification.google`，開 PR 合併。
+3. 部署完成（約 2 分鐘）後回 Search Console 按「驗證」。
+4. 左側 **Sitemap**，提交 `sitemap-index.xml`。
+5. Bing Webmaster Tools（https://www.bing.com/webmasters ）可以直接從 Search Console 匯入；若要用 HTML 標記，貼到 `site.verification.bing`。
+
+提升排名最有效的是**其他網站連過來**：請系辦在電機系網站的實驗室介紹放上 `https://ncue-ee-aial.github.io/`，老師的學校個人頁、ORCID、Google Scholar 個人檔案也放上網址。
+
+**瀏覽統計（GoatCounter）**
+
+1. 到 https://www.goatcounter.com/signup 用實驗室信箱註冊，選一個代碼（例如 `ncue-aial`，網址會是 `ncue-aial.goatcounter.com`）。
+2. 把代碼填到 `site.goatcounter`，開 PR 合併。之後每次瀏覽會送出頁面路徑、標題與來源網址，不用 cookie、不記錄個人資料，所以不需要 cookie 同意視窗。
+3. 要停用：把 `site.goatcounter` 改回 `''`。
+
+**自訂網域（例如 `aial.ncue.edu.tw`）**
+
+1. 請學校電算中心在 `ncue.edu.tw` 加一筆 DNS：`aial` CNAME `ncue-ee-aial.github.io.`。
+2. repo 的 **Settings → Pages → Custom domain** 填 `aial.ncue.edu.tw`，等 DNS 生效後勾選 **Enforce HTTPS**。（本站用 GitHub Actions 部署，不需要 `CNAME` 檔。）
+3. 把下列地方的 `https://ncue-ee-aial.github.io` 換成新網址，開同一個 PR：`astro.config.mjs` 的 `site`、`public/robots.txt`、`scripts/check-links.mjs` 的預設 `site`、`tests/` 裡的 `SITE` 常數。可以先用 `grep -rn "ncue-ee-aial.github.io" --exclude-dir=node_modules --exclude-dir=dist .` 找出全部。
+4. 舊網址會由 GitHub 自動轉到新網址；Search Console 用「網址變更」工具通知 Google。
+

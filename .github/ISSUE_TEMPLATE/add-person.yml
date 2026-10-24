@@ -1,0 +1,81 @@
+name: "Add or update a lab member / 新增或更新成員"
+description: "New student, graduation, or a change to your own profile. A lab member will update the People page. / 新成員、畢業或修改自己的介紹，由實驗室成員更新成員頁。"
+title: "[People] "
+labels: ["people"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        No personal email or phone number: students are contacted through the lab address. A headshot is optional and needs your consent.
+        請勿填個人 email 或電話，學生一律透過實驗室信箱聯絡。大頭照可不附，附上即表示同意上網。
+  - type: dropdown
+    id: change
+    attributes:
+      label: "What changes / 要做什麼"
+      options:
+        - "New member / 新成員"
+        - "Graduated (move to alumni) / 畢業（移到校友）"
+        - "Update my profile / 更新我的介紹"
+    validations:
+      required: true
+  - type: input
+    id: name_en
+    attributes:
+      label: "Name (English, as in your passport) / 英文姓名"
+      placeholder: "Ting-Yi Lin"
+    validations:
+      required: true
+  - type: input
+    id: name_zh
+    attributes:
+      label: "Name (Chinese) / 中文姓名"
+  - type: input
+    id: nickname
+    attributes:
+      label: "Nickname (optional) / 英文暱稱（選填）"
+  - type: dropdown
+    id: role
+    attributes:
+      label: "Role / 身分"
+      options:
+        - phd
+        - master
+        - undergrad
+        - intern
+        - staff
+    validations:
+      required: true
+  - type: input
+    id: years
+    attributes:
+      label: "Years in the lab / 在實驗室期間"
+      placeholder: "2025– or 2023–2025"
+  - type: textarea
+    id: bio
+    attributes:
+      label: "Short bio (1–3 sentences, English and/or Chinese) / 簡短介紹（1–3 句）"
+  - type: input
+    id: github
+    attributes:
+      label: "GitHub / LinkedIn / Scholar links (optional) / 個人連結（選填）"
+  - type: input
+    id: destination
+    attributes:
+      label: "Graduates: where you went next, only if you want it shown / 畢業去向（願意公開才填）"
+  - type: textarea
+    id: photo
+    attributes:
+      label: "Headshot (optional) / 大頭照（選填）"
+      description: "Drag a photo here. / 把照片拖曳到這裡。"
+  - type: checkboxes
+    id: areas
+    attributes:
+      label: "Research areas / 研究方向"
+      options:
+        - label: "wavelet-signal-analysis (小波轉換與訊號分析)"
+        - label: "stereo-3d-vision (立體視覺)"
+        - label: "robotic-arm (機械手臂)"
+        - label: "biomedical-ai (生醫 AI)"
+        - label: "biometrics-security (生物辨識與資安)"
+        - label: "smart-grid-energy (智慧電網與儲能)"
+        - label: "international-programs (國際計畫)"

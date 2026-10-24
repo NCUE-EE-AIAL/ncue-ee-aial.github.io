@@ -45,6 +45,7 @@ const cut = lang === 'zh' && name.startsWith('人工智慧') ? '人工智慧'.le
       </ul>
     </nav>
     <div class="nav-tools">
+      <a href={localePath('/search/', lang)} aria-label={t('nav.search', lang)} title={t('nav.search', lang)} aria-current={isCurrent('/search/') ? 'page' : undefined}><Icon name="search" /></a>
       <a href={localePath(path, other)} hreflang={other === 'zh' ? 'zh-Hant-TW' : 'en'} lang={other === 'zh' ? 'zh-Hant-TW' : 'en'} aria-label={t('lang.switchLabel', lang)}>{t('lang.switch', lang)}</a>
       <ThemeToggle label={t('theme.toggle', lang)} />
     </div>

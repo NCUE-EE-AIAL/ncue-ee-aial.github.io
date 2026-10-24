@@ -1,0 +1,66 @@
+name: "Add a project / 新增專案"
+description: "Show a lab project on the Projects page. A lab member will turn it into a content file. / 把實驗室專案放上專案頁，由實驗室成員建立網站內容檔。"
+title: "[Project] "
+labels: ["project"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Only public repositories and published work. Industry partners and sponsors are not named on the site.
+        只放公開的程式庫與已發表的成果；網站上不寫出產業合作對象與贊助單位名稱。
+  - type: input
+    id: title_en
+    attributes:
+      label: "Project name (English) / 英文名稱"
+    validations:
+      required: true
+  - type: input
+    id: title_zh
+    attributes:
+      label: "Project name (Chinese) / 中文名稱"
+  - type: textarea
+    id: summary
+    attributes:
+      label: "What it does, in 1–3 sentences / 專案摘要（1–3 句）"
+      description: "The problem and the method, in plain words. / 用一般人看得懂的話寫出要解決的問題與做法。"
+    validations:
+      required: true
+  - type: input
+    id: repo
+    attributes:
+      label: "Public GitHub repository / 公開的 GitHub 程式庫"
+      placeholder: "NCUE-EE-AIAL/PatrolBot"
+  - type: input
+    id: year
+    attributes:
+      label: "Year started / 開始年份"
+      placeholder: "2026"
+  - type: dropdown
+    id: status
+    attributes:
+      label: "Status / 狀態"
+      options:
+        - active
+        - archived
+  - type: input
+    id: members
+    attributes:
+      label: "Lab members on it / 參與成員"
+      placeholder: "Ting-Yi Lin, Heng-Jun Wang"
+  - type: input
+    id: links
+    attributes:
+      label: "Demo, video or paper links (optional) / 展示、影片或論文連結（選填）"
+  - type: checkboxes
+    id: areas
+    attributes:
+      label: "Research areas / 研究方向"
+      description: "Tick at least one. / 至少選一項。"
+      options:
+        - label: "wavelet-signal-analysis (小波轉換與訊號分析)"
+        - label: "stereo-3d-vision (立體視覺)"
+        - label: "robotic-arm (機械手臂)"
+        - label: "biomedical-ai (生醫 AI)"
+        - label: "biometrics-security (生物辨識與資安)"
+        - label: "smart-grid-energy (智慧電網與儲能)"
+        - label: "international-programs (國際計畫)"
