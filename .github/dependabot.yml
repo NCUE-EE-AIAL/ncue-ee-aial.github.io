@@ -1,0 +1,15 @@
+# Weekly pull requests for npm packages and GitHub Actions with known fixes; the Check site workflow tests each one.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      astro:
+        patterns: ['astro', '@astrojs/*']
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
