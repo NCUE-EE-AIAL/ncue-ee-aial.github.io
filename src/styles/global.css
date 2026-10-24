@@ -640,6 +640,12 @@ h2 .count { vertical-align: 0.3em; margin-left: 6px; }
 .join-section-head { margin-bottom: 28px; }
 .join-section-head p { color: var(--muted); max-width: 65ch; }
 .albums { display: grid; gap: clamp(28px, 5vw, 44px); }
+.testimonials { list-style: none; padding: 0; margin-top: 16px; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 16px; align-items: start; }
+.testimonial-head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.testimonial-head .avatar { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; }
+.testimonial-name { font-weight: 600; margin: 0; }
+.testimonial-program { margin: 0; font-size: 0.85rem; }
+.testimonial blockquote { margin: 0; font-size: 0.92rem; }
 .album { display: grid; grid-template-columns: minmax(0, 280px) minmax(0, 1fr); gap: 16px clamp(20px, 4vw, 40px); align-items: start; border-top: 1px solid var(--border); padding-top: clamp(20px, 3vw, 28px); }
 .album-head { display: grid; gap: 6px; }
 .album-date { color: var(--accent); font-size: 0.85rem; font-weight: 600; font-variant-numeric: tabular-nums; }

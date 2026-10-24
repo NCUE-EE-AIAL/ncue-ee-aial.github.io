@@ -1,0 +1,7 @@
+# Copied as written from the old lab site's testimonials (TEEP/IIPP tab), with Brian's approval on 2026-10-24.
+name: "Gopika"
+program: TEEP
+photo: "/images/people/gopika.webp"
+quote:
+  en: "My experience in the AI Application Lab has been enriched by the cultural exchange that naturally happens here. Working with peers from different countries and backgrounds has been rewarding, as it gives us varied perspectives on approaching projects. One project I enjoyed was developing a language processing tool to support educational applications, which required understanding language nuances across cultures. Professor Yang emphasizes empathy in AI development, reminding us to consider how our work will affect users from diverse backgrounds. This approach has not only sharpened my technical skills but has also taught me to be mindful of the social implications of AI. Our lab often organizes team-building events, like cooking classes, where we share our cultures and build stronger connections. It’s a blend of professional and personal growth that makes every day inspiring."
+order: 14

@@ -281,6 +281,22 @@ const honors = defineCollection({
   }),
 });
 
+/** Intern testimonials on the International Programs page: testimonials/<slug>.yaml, lower `order` first. */
+const testimonials = defineCollection({
+  loader: glob({ pattern: '**/*.{yaml,yml}', base: './src/content/testimonials' }),
+  schema: z.strictObject({
+    name: z.string().min(1),
+    program: z.enum(['TEEP', 'IIPP']),
+    /** Local file under public/images/people/, made with `npm run photos -- <photo> --out public/images/people --headshot`. */
+    photo: z.string().refine(isLocalPhoto, {
+      error: 'photo must be a local file like /images/people/name.webp, not a URL',
+    }).optional(),
+    /** In the intern's own words: keep it as written. */
+    quote: bi,
+    order: z.number().int().default(100),
+  }),
+});
+
 /** Questions on the Join page: faq/<audience>-<slug>.yaml, grouped by audience, lower `order` first. */
 const faq = defineCollection({
   loader: glob({ pattern: '**/*.{yaml,yml}', base: './src/content/faq' }),
@@ -294,4 +310,4 @@ const faq = defineCollection({
   }),
 });
 
-export const collections = { research, publications, projects, people, news, facilities, theses, grants, albums, groupPhotos, honors, faq };
+export const collections = { research, publications, projects, people, news, facilities, theses, grants, albums, groupPhotos, honors, faq, testimonials };

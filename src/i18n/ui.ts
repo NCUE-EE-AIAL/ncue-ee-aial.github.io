@@ -104,6 +104,11 @@ export const ui = {
   'research.projects': { en: 'Related projects', zh: '相關專案' },
   'research.pubs': { en: 'Related publications', zh: '相關論文' },
   'research.people': { en: 'People in this area', zh: '參與成員' },
+  'research.testimonials': { en: 'In our interns’ words', zh: '國際實習生心得' },
+  'research.testimonials.intro': {
+    en: 'TEEP and IIPP interns on their time in the lab, as they wrote it.',
+    zh: 'TEEP 與 IIPP 實習生分享在實驗室的經驗（保留原文英文）。',
+  },
   'research.back': { en: 'All research areas', zh: '所有研究方向' },
   'research.kicker': { en: 'Research area', zh: '研究方向' },
   'research.facilities': { en: 'Lab facilities', zh: '實驗室設備' },

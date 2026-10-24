@@ -253,6 +253,11 @@
 - `src/content/faq/<對象>-<slug>.yaml`，一個問題一個檔，顯示在 `/join/`（加入與聯絡），依 `audience` 分組：`master`（碩士）、`undergrad`（大學部）、`intl`（國際生）、`all`（所有人）。
 - `order` 小的排前面。`source` 選填，但建議寫（答案的出處，之後才能核對）。可複製 `intl-skills.yaml` 修改。
 
+### 國際生心得 testimonials
+
+- `src/content/testimonials/<slug>.yaml`，一人一個檔，顯示在國際交流研究方向頁（`/research/international-programs/`）的「國際實習生心得」區，`order` 小的排前面。
+- 欄位：`name`、`program`（`TEEP` 或 `IIPP`）、`quote`（雙語物件，保留本人原文；只有 `en` 時中文站顯示英文原文）、`photo`（選填，用 `npm run photos -- <照片> --out public/images/people --headshot` 做成 `/images/people/<slug>.webp`）、`order`。
+
 ### 照片
 
 - **所有照片一律先經過 `npm run photos`，再 `git add`**：

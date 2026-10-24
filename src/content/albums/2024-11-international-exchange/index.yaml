@@ -1,0 +1,16 @@
+# Photo from the old lab website's "International Collaborations" activity; the old site gives no place or date,
+# so none is claimed here (Brian, 2026-10-24). `date` is required: it comes from the photo's file name (WhatsApp, 2024-11-24).
+title:
+  en: "International collaborations"
+  zh: "國際交流"
+date: 2024-11-24
+summary:
+  en: "We engage in international collaborations and cultural exchange programs to broaden our perspectives and adopt global AI practices."
+  zh: "實驗室參與國際合作與文化交流計畫，拓展視野並接軌國際 AI 實務。"
+consent: people-agreed
+consentBy: "Ting-Yi Lin (Brian), 2026-10-24: photo already public on the old lab website"
+photos:
+  - src: ./farm-group.jpg
+    alt:
+      en: "Group photo of about fifty students outdoors under trees, holding flowers and banners"
+      zh: "約五十位學生在戶外樹下的大合照，手拿花束和布條"
