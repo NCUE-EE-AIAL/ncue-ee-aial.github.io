@@ -67,6 +67,8 @@ const links: Link[] = [
       </ul>
     )}
     {(myPubs.length > 0 || myProjects.length > 0) && (
+      <details class="works-more">
+      <summary>{t('people.works', lang)} · {myPubs.length + myProjects.length}</summary>
       <dl class="works">
         {myPubs.length > 0 && (
           <div>
@@ -81,6 +83,7 @@ const links: Link[] = [
           </div>
         )}
       </dl>
+      </details>
     )}
     {links.length > 0 && (
       <ul class="links">
