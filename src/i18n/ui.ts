@@ -201,6 +201,7 @@ export const ui = {
     zh: '實驗室由楊文然老師主持，成員包含研究生、大學部專題生與國際學生。',
   },
   'people.papers': { en: 'Papers', zh: '論文' },
+  'people.works': { en: 'Papers and projects', zh: '論文與專案' },
   'people.projects': { en: 'Projects', zh: '專案' },
   'people.orcid': { en: 'ORCID', zh: 'ORCID' },
   'people.expertise': { en: 'Expertise', zh: '專長' },
