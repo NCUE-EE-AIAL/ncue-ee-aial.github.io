@@ -2,7 +2,7 @@
 title: "International Programs"
 summary: "Projects by international students in the TEEP and IIPP programs."
 icon: globe
-order: 6
+order: 7
 keywords: ["TEEP", "IIPP", "international students", "embedded AI"]
 ---
 

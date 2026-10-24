@@ -1,0 +1,5 @@
+name:
+  en: "TUL PYNQ-Z2 FPGA board (Zynq-7000, Python on FPGA)"
+  zh: "TUL PYNQ-Z2 FPGA 開發板（Zynq-7000，可用 Python 操作 FPGA）"
+category: fpga
+order: 3

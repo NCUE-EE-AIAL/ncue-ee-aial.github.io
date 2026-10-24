@@ -41,6 +41,31 @@ files.defs = `<svg class="art art-defs" aria-hidden="true" focusable="false" wid
     + P('sig', 'M70 120q7.5-18 15 0t15 0t15 0t15 0t15 0t15 0t15 0t15 0L265 80L340 140L415 120', DRAW) + nodes);
 }
 
+// Wavelet and signal analysis: a steady wave with one short transient, over a dyadic time-frequency tiling; the tiles that catch the transient are lit.
+{
+  const x0 = 120, x1 = 472, T = 300, wide = x1 - x0;
+  let d = '';
+  for (let x = x0; x <= x1; x += 2) {
+    const burst = Math.exp(-(((x - T) / 9) ** 2));
+    const y = 66 - 10 * Math.sin((x - x0) / 9) - 34 * burst * Math.sin((x - T) / 1.6);
+    d += (x === x0 ? 'M' : 'L') + n(x) + ' ' + n(y);
+  }
+  const rows = [[16, 112, 28], [8, 144, 20], [4, 168, 14], [2, 186, 10]];
+  let tiles = '', lit = '';
+  for (const [k, y, h] of rows) {
+    const w = wide / k;
+    for (let i = 0; i < k; i++) {
+      const x = x0 + i * w;
+      if (T >= x && T < x + w) lit += R('sig', x + 1, y + 1, w - 2, h - 2, 1);
+      else tiles += R('thin', x + 1, y + 1, w - 2, h - 2, 1);
+    }
+  }
+  files['wavelet-signal-analysis'] = svg(480, 240, dots(480, 240)
+    + P('dim', `M${T} 24V206`) + P('con', `M${x0} 66H${x1}`)
+    + tiles + lit
+    + P('sig', d, DRAW) + C('key', T, 24, 3));
+}
+
 // Stereo 3D vision: a rectified image pair on shared scanlines; the cube sits 16 px apart (disparity).
 {
   const cube = (x, y) => `M${x} ${y}h48v48h-48zm0 0l24-21h48l-24 21m24-21v48l-24 21`;
@@ -261,6 +286,7 @@ files.defs = `<svg class="art art-defs" aria-hidden="true" focusable="false" wid
 const NOTES = {
   defs: 'Shared patterns and the vignette mask, inlined once per page by Base.astro. Colours come from the .art rules in global.css.',
   research: 'Research index: a layered network; one route lights up through it, fed by a wave.',
+  'wavelet-signal-analysis': 'Wavelet and signal analysis: a steady wave with one short transient over a dyadic time-frequency tiling; the tiles that catch it are lit.',
   'stereo-3d-vision': 'Stereo 3D vision: a rectified image pair on shared scanlines; the cube sits 16 units apart (disparity).',
   'robotic-arm': 'Robotic arm: a three-link kinematic sketch with joint angles, reach envelope and a pick-and-place path.',
   'biomedical-ai': 'Biomedical AI: an ECG over three wavelet-like bands, R peaks marked, one RR interval measured.',

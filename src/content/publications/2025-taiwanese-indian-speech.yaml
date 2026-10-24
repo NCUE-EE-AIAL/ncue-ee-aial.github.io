@@ -8,6 +8,6 @@ year: 2025
 type: conference
 doi: "10.1109/ICCE-Taiwan66881.2025.11207988"
 url: "https://ieeexplore.ieee.org/document/11207988"
-areas: [biometrics-security]
+areas: [wavelet-signal-analysis, biometrics-security]
 verified: true
 source: "Opened https://ieeexplore.ieee.org/document/11207988 on 2026-10-17 (Chrome): title, author list and Wen-Ren Yang (Dept. of EE, NCUE) match; pages from Crossref."
