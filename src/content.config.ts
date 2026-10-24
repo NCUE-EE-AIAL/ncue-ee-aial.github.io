@@ -20,6 +20,7 @@ const ym = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/, { error: 'use YYYY-MM, fo
 const picture = (image: SchemaContext['image']) => z.strictObject({ src: image(), alt: biBoth, caption: bi.optional() });
 
 export const AREA_SLUGS = [
+  'wavelet-signal-analysis',
   'stereo-3d-vision',
   'robotic-arm',
   'biomedical-ai',
@@ -35,7 +36,7 @@ const research = defineCollection({
   schema: ({ image }) => z.strictObject({
     title: z.string(),
     summary: z.string(),
-    icon: z.enum(['camera', 'arm', 'heart', 'shield', 'globe', 'chip', 'bolt']),
+    icon: z.enum(['camera', 'arm', 'heart', 'shield', 'globe', 'chip', 'bolt', 'wave']),
     order: z.number().int(),
     keywords: z.array(z.string()).default([]),
     /** Optional figure: a photo next to this file, e.g. ./arm.jpg (run it through `npm run photos` first). Needs imageAlt. */

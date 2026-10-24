@@ -1,0 +1,37 @@
+<!-- Wavelet and signal analysis: a steady wave with one short transient over a dyadic time-frequency tiling; the tiles that catch it are lit. -->
+<svg class="art-svg" viewBox="0 0 480 240" preserveAspectRatio="xMaxYMid meet" focusable="false">
+<rect class="dots" x="0" y="0" width="480" height="240" mask="url(#art-vignette)"></rect>
+<path class="dim" d="M300 24V206"></path>
+<path class="con" d="M120 66H472"></path>
+<rect class="thin" x="121" y="113" width="20" height="26" rx="1"></rect>
+<rect class="thin" x="143" y="113" width="20" height="26" rx="1"></rect>
+<rect class="thin" x="165" y="113" width="20" height="26" rx="1"></rect>
+<rect class="thin" x="187" y="113" width="20" height="26" rx="1"></rect>
+<rect class="thin" x="209" y="113" width="20" height="26" rx="1"></rect>
+<rect class="thin" x="231" y="113" width="20" height="26" rx="1"></rect>
+<rect class="thin" x="253" y="113" width="20" height="26" rx="1"></rect>
+<rect class="thin" x="275" y="113" width="20" height="26" rx="1"></rect>
+<rect class="thin" x="319" y="113" width="20" height="26" rx="1"></rect>
+<rect class="thin" x="341" y="113" width="20" height="26" rx="1"></rect>
+<rect class="thin" x="363" y="113" width="20" height="26" rx="1"></rect>
+<rect class="thin" x="385" y="113" width="20" height="26" rx="1"></rect>
+<rect class="thin" x="407" y="113" width="20" height="26" rx="1"></rect>
+<rect class="thin" x="429" y="113" width="20" height="26" rx="1"></rect>
+<rect class="thin" x="451" y="113" width="20" height="26" rx="1"></rect>
+<rect class="thin" x="121" y="145" width="42" height="18" rx="1"></rect>
+<rect class="thin" x="165" y="145" width="42" height="18" rx="1"></rect>
+<rect class="thin" x="209" y="145" width="42" height="18" rx="1"></rect>
+<rect class="thin" x="253" y="145" width="42" height="18" rx="1"></rect>
+<rect class="thin" x="341" y="145" width="42" height="18" rx="1"></rect>
+<rect class="thin" x="385" y="145" width="42" height="18" rx="1"></rect>
+<rect class="thin" x="429" y="145" width="42" height="18" rx="1"></rect>
+<rect class="thin" x="121" y="169" width="86" height="12" rx="1"></rect>
+<rect class="thin" x="209" y="169" width="86" height="12" rx="1"></rect>
+<rect class="thin" x="385" y="169" width="86" height="12" rx="1"></rect>
+<rect class="thin" x="121" y="187" width="174" height="8" rx="1"></rect>
+<rect class="sig" x="297" y="113" width="20" height="26" rx="1"></rect>
+<rect class="sig" x="297" y="145" width="42" height="18" rx="1"></rect>
+<rect class="sig" x="297" y="169" width="86" height="12" rx="1"></rect>
+<rect class="sig" x="297" y="187" width="174" height="8" rx="1"></rect>
+<path class="sig" d="M120 66L122 63.8L124 61.7L126 59.8L128 58.2L130 57L132 56.3L134 56L136 56.2L138 56.9L140 58L142 59.6L144 61.4L146 63.5L148 65.7L150 67.9L152 70L154 71.9L156 73.6L158 74.8L160 75.6L162 76L164 75.8L166 75.2L168 74.1L170 72.7L172 70.8L174 68.8L176 66.6L178 64.4L180 62.3L182 60.3L184 58.6L186 57.3L188 56.4L190 56L192 56.1L194 56.7L196 57.7L198 59.1L200 60.9L202 62.9L204 65.1L206 67.3L208 69.5L210 71.4L212 73.2L214 74.5L216 75.5L218 75.9L220 75.9L222 75.4L224 74.5L226 73.1L228 71.4L230 69.4L232 67.2L234 65L236 62.8L238 60.8L240 59.1L242 57.6L244 56.6L246 56.1L248 56L250 56.5L252 57.4L254 58.7L256 60.4L258 62.3L260 64.5L262 66.7L264 68.9L266 70.9L268 72.7L270 74.2L272 75.2L274 75.9L276 76L278 75.7L280 74.8L282 72.9L284 71.1L286 71.8L288 73.2L290 65.3L292 48.6L294 48.9L296 76.2L298 88.7L300 56.9L302 25.5L304 39.3L306 68.8L308 71.9L310 58.6L312 54.5L314 59.9L316 64.7L318 66.7L320 68.3L322 70.3L324 72.2L326 73.8L328 75L330 75.7L332 76L334 75.8L336 75.1L338 73.9L340 72.4L342 70.5L344 68.4L346 66.2L348 64L350 61.9L352 60L354 58.4L356 57.1L358 56.3L360 56L362 56.2L364 56.8L366 57.9L368 59.4L370 61.2L372 63.3L374 65.5L376 67.7L378 69.8L380 71.8L382 73.4L384 74.7L386 75.6L388 76L390 75.9L392 75.3L394 74.3L396 72.8L398 71L400 69L402 66.8L404 64.6L406 62.5L408 60.5L410 58.8L412 57.4L414 56.5L416 56L418 56.1L420 56.6L422 57.6L424 59L426 60.7L428 62.7L430 64.9L432 67.1L434 69.3L436 71.3L438 73L440 74.4L442 75.4L444 75.9L446 76L448 75.5L450 74.6L452 73.2L454 71.5L456 69.6L458 67.4L460 65.2L462 63L464 61L466 59.2L468 57.8L470 56.7L472 56.1"></path>
+<circle class="key" cx="300" cy="24" r="3"></circle></svg>

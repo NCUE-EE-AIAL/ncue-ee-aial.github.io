@@ -11,4 +11,4 @@ type: conference
 url: "https://www.iaeng.org/publication/IMECS2009/IMECS2009_pp1573-1577.pdf"
 verified: true
 source: "Opened https://www.iaeng.org/publication/IMECS2009/IMECS2009_pp1573-1577.pdf (publisher PDF) on 2026-10-17 in Chrome: proceedings header, title and authors match; pages from the file name. Found via OpenAlex W2293163438 (final-review finding)."
-areas: [smart-grid-energy]
+areas: [wavelet-signal-analysis, smart-grid-energy]

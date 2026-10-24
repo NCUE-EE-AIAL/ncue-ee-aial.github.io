@@ -2,7 +2,7 @@
 title: "Smart Grid and Energy Storage"
 summary: "AI and signal processing for the campus battery energy storage system, power quality and power electronics."
 icon: bolt
-order: 5
+order: 2
 keywords: ["battery energy storage", "smart grid", "power quality", "edge computing", "wavelet neural networks", "power electronics"]
 ---
 

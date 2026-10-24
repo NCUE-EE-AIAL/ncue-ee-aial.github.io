@@ -12,12 +12,12 @@ export const site = {
   orgShort: { en: 'NCUE EE', zh: '彰師大電機' },
   pi: { en: 'Prof. Wen-Ren Yang', zh: '指導教授 楊文然' },
   tagline: {
-    en: 'Applied AI for vision, robotics, biomedical signals and energy systems.',
-    zh: '視覺、機器人、生醫訊號與能源系統的人工智慧應用研究。',
+    en: 'Wavelet signal analysis and applied AI for energy systems, biomedical signals, vision and robotics.',
+    zh: '小波訊號分析，以及能源系統、生醫訊號、視覺與機器人的人工智慧應用研究。',
   },
   description: {
-    en: 'AI Application Laboratory at NCUE: stereo 3D vision, robotic arms, biomedical AI, biometrics, smart grids and energy storage, and TEEP / IIPP interns.',
-    zh: '彰師大人工智慧應用實驗室：雙鏡頭 3D 視覺、機械手臂、生醫 AI、生物辨識安全、智慧電網與儲能，以及 TEEP / IIPP 國際生研究。',
+    en: 'AI Application Laboratory at NCUE: wavelet signal analysis, smart grid and energy storage, biomedical AI, biometrics, 3D vision, robotics, TEEP / IIPP interns.',
+    zh: '彰師大人工智慧應用實驗室：小波轉換與訊號分析、智慧電網與儲能、生醫 AI、生物辨識安全、雙鏡頭 3D 視覺、機械手臂，以及 TEEP / IIPP 國際生研究。',
   },
   email: 'ncueaial@gmail.com',
   repo: 'https://github.com/NCUE-EE-AIAL/ncue-ee-aial.github.io',
@@ -30,7 +30,8 @@ export const site = {
   },
   directions: 'https://www.ncue.edu.tw/p/412-1000-870.php?Lang=zh-tw',
   map: 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('國立彰化師範大學 師大校區 彰化市師大路二號'),
-  room: { en: 'TODO: building / room', zh: 'TODO：館別／研究室房號' },
+  // Room from the lab's project name ("NCUE E604 AI application lab"), 2026-10-24: confirm with the lab.
+  room: { en: 'Room E604', zh: 'E604 研究室' },
   ogImageAlt: {
     en: 'AI Application Laboratory, NCUE Electrical Engineering: the lab name beside a line drawing of a stereo camera pair and a heartbeat trace.',
     zh: '彰師大電機 人工智慧應用實驗室：實驗室名稱，旁邊是雙鏡頭相機與心跳波形的線條圖。',
@@ -93,8 +94,8 @@ export const ui = {
 
   'research.title': { en: 'Research', zh: '研究方向' },
   'research.intro': {
-    en: 'Six directions, one lab: from biosignals, identity and energy to stereo 3D vision and robotic arms.',
-    zh: '六個方向，一個實驗室：從生理訊號、身分驗證與能源，到立體三維視覺與機械手臂。',
+    en: 'Seven directions, one lab: from wavelet signal analysis, energy, biosignals and identity to stereo 3D vision and robotic arms.',
+    zh: '七個方向，一個實驗室：從小波訊號分析、能源、生理訊號與身分驗證，到立體三維視覺與機械手臂。',
   },
   'research.keywords': { en: 'Keywords', zh: '關鍵詞' },
   'research.projects': { en: 'Related projects', zh: '相關專案' },

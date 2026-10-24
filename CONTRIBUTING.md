@@ -160,7 +160,7 @@
 
 - 檔案位置：`src/content/research/<slug>/en.md` 與 `zh.md`，各自有 front matter（`title`、`summary`、`icon`、`order`，其餘選填，見[欄位表](#研究方向-research)）。
 - 修改既有方向：直接改這兩個檔。
-- **新增一個全新的研究方向**，除了建立 `research/<新slug>/{en,zh}.md`，還必須把 slug 加進 `src/content.config.ts` 最上面的 `AREA_SLUGS`，否則論文 / 專案 / 成員的 `areas` 欄位不能使用它，build 會失敗。也要在 `.github/ISSUE_TEMPLATE/add-publication.yml` 的 `id: areas` 清單加一行 `- label: "<新slug> (<中文名>)"`，否則 `npm test` 會失敗（訊息 `add-publication.yml lists …`），部署停在測試這一步，網站不會更新。除了這兩個檔，方向名稱、首頁卡片與專案頁的篩選按鈕都會自動從 `en.md` / `zh.md` 的 front matter 產生，不需要改 `src/i18n/ui.ts`；`icon` 只能從 `camera` `arm` `heart` `shield` `globe` `chip` `bolt` 選一個。目前的 slug：`stereo-3d-vision` `robotic-arm` `biomedical-ai` `biometrics-security` `smart-grid-energy`（智慧電網與儲能）`international-programs`。
+- **新增一個全新的研究方向**，除了建立 `research/<新slug>/{en,zh}.md`，還必須把 slug 加進 `src/content.config.ts` 最上面的 `AREA_SLUGS`，否則論文 / 專案 / 成員的 `areas` 欄位不能使用它，build 會失敗。也要在 `.github/ISSUE_TEMPLATE/add-publication.yml` 的 `id: areas` 清單加一行 `- label: "<新slug> (<中文名>)"`，否則 `npm test` 會失敗（訊息 `add-publication.yml lists …`），部署停在測試這一步，網站不會更新。除了這兩個檔，方向名稱、首頁卡片與專案頁的篩選按鈕都會自動從 `en.md` / `zh.md` 的 front matter 產生，不需要改 `src/i18n/ui.ts`；`icon` 只能從 `camera` `arm` `heart` `shield` `globe` `chip` `bolt` `wave` 選一個。目前的 slug：`wavelet-signal-analysis`（小波轉換與訊號分析）`stereo-3d-vision` `robotic-arm` `biomedical-ai` `biometrics-security` `smart-grid-energy`（智慧電網與儲能）`international-programs`。
 - 內容規則：只描述問題與方法，不寫未發表的細節（見第 5 節）。
 - 有研究影片：把 YouTube 網址寫在 `video`；訪客點擊後才會載入，不會拖慢頁面。
 
@@ -403,7 +403,7 @@ title:
 |---|---|---|---|---|
 | `title` | 是 | 字串 | `"Robotic Arm Control"` | 這個檔的語言 |
 | `summary` | 是 | 字串 | | 一句話摘要 |
-| `icon` | 是 | `camera` `arm` `heart` `shield` `globe` `chip` `bolt` | `arm` | |
+| `icon` | 是 | `camera` `arm` `heart` `shield` `globe` `chip` `bolt` `wave` | `arm` | |
 | `order` | 是 | 整數 | `2` | 小的排前面 |
 | `keywords` | 否（`[]`） | 字串清單 | `["motion control"]` | |
 | `image` | 否 | 照片檔路徑（相對於 .md） | `./arm.jpg` | 照片放在 .md 旁邊，先跑 `npm run photos`；**有 `image` 就必須有 `imageAlt`** |

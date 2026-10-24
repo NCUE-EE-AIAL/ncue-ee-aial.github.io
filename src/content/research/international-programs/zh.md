@@ -2,7 +2,7 @@
 title: "國際交流計畫"
 summary: "TEEP 與 IIPP 國際學生參與的專題成果。"
 icon: globe
-order: 6
+order: 7
 keywords: ["TEEP", "IIPP", "國際學生", "嵌入式 AI"]
 ---
 

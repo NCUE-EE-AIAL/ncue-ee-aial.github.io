@@ -1,15 +1,13 @@
 ---
 title: "Stereo 3D Vision"
-summary: "Dual-camera stereo imaging that recovers 3D spatial information for computer vision applications."
+summary: "Dual-camera stereo imaging, image processing and graphics for recovering 3D information, from classical geometry to Transformer models."
 icon: camera
-order: 1
-keywords: ["stereo vision", "depth estimation", "3D imaging", "computer vision"]
+order: 5
+keywords: ["stereo vision", "depth estimation", "3D imaging", "image processing", "computer graphics", "Transformer"]
 ---
 
 Cameras see in two dimensions, but robots, inspection systems and interactive devices need to know how far away things are. Recovering depth reliably from ordinary cameras, under changing light and with limited computing power, remains an open engineering problem.
 
-We work with dual-camera stereo setups that capture the same scene from two viewpoints and compute 3D spatial information from the disparity between them. This includes camera calibration, image rectification, stereo matching and depth estimation, combined with deep-learning vision models. <!-- TODO: confirm with lab: specific cameras, boards and algorithms in use -->
+We work with dual-camera stereo setups that capture the same scene from two viewpoints and compute 3D information from the disparity between them. The pipeline covers camera calibration, image rectification, stereo matching and depth estimation, and computer-graphics methods are used to display and check the reconstructed 3D data. Classical image processing and geometry, prototyped in MATLAB, sit alongside deep-learning vision models, including Transformers.
 
-The resulting depth information supports other lab directions, such as vision-guided manipulation with a robotic arm and embedded recognition systems. <!-- TODO: confirm with lab: representative projects and publications; none are listed on GitHub yet -->
-
-Stereo vision is also a natural fit for the lab's embedded-systems tradition, where models are trimmed to run on small, affordable hardware rather than on large servers. See the projects page for current work.
+The lab's image-processing work goes back a long way: earlier papers measure wafer probe marks from images and detect wafer microcracks. Depth from this direction also supports [robotic arm](../robotic-arm/) manipulation, and the lab's embedded tradition pushes the models toward small, affordable hardware rather than large servers.

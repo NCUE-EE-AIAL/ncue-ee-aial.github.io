@@ -11,4 +11,4 @@ doi: "10.3390/en14185734"
 url: "https://www.mdpi.com/1996-1073/14/18/5734"
 verified: true
 source: "Opened https://www.mdpi.com/1996-1073/14/18/5734 on 2026-10-17 (Chrome): title, authors, Energies 14(18) 5734, 2021 match."
-areas: [smart-grid-energy]
+areas: [wavelet-signal-analysis, smart-grid-energy]

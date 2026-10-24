@@ -81,6 +81,7 @@ body:
       label: "Research areas / 研究方向"
       description: "Tick every area that fits. / 可複選。"
       options:
+        - label: "wavelet-signal-analysis (小波轉換與訊號分析)"
         - label: "stereo-3d-vision (立體視覺)"
         - label: "robotic-arm (機械手臂)"
         - label: "biomedical-ai (生醫 AI)"
