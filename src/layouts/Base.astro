@@ -31,7 +31,8 @@ const csp = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline'",
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data:",
+  // GoatCounter's page-view request is an image load, allowed only when site.goatcounter is set.
+  `img-src 'self' data:${site.goatcounter ? ` https://${site.goatcounter}.goatcounter.com` : ''}`,
   "font-src 'self'",
   "connect-src 'self'",
   'frame-src https://www.youtube-nocookie.com',

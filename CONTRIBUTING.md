@@ -858,7 +858,7 @@ student emails never go on the site (CONTRIBUTING §5 rule 4): write the lab ema
 **瀏覽統計（GoatCounter）**
 
 1. 到 https://www.goatcounter.com/signup 用實驗室信箱註冊，選一個代碼（例如 `ncue-aial`，網址會是 `ncue-aial.goatcounter.com`）。
-2. 把代碼填到 `site.goatcounter`，開 PR 合併。之後每次瀏覽會送出頁面路徑、標題與來源網址，不用 cookie、不記錄個人資料，所以不需要 cookie 同意視窗。
+2. 把代碼填到 `site.goatcounter`，開 PR 合併（`Base.astro` 的 CSP 會自動放行 `<代碼>.goatcounter.com` 的圖片請求）。之後每次瀏覽會送出頁面路徑、標題與來源網址，不用 cookie、不記錄個人資料，所以不需要 cookie 同意視窗。
 3. 要停用：把 `site.goatcounter` 改回 `''`。
 
 **自訂網域（例如 `aial.ncue.edu.tw`）**
