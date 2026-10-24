@@ -226,6 +226,7 @@ export const ui = {
     en: 'The lab takes NCUE master’s students, undergraduate project students, and international students through TEEP and IIPP.',
     zh: '實驗室招收彰師大碩士生、大學部專題生，以及經由 TEEP 與 IIPP 計畫來臺的國際學生。',
   },
+  'join.paths.title': { en: 'How to join', zh: '加入方式' },
   'join.students.title': { en: 'NCUE students', zh: '彰師大學生' },
   'join.students.body': {
     en: 'Email Prof. Yang with your CV, transcript, and one paragraph on which research area interests you and why. Undergraduates: mention the course or project you want to join.',
@@ -270,8 +271,8 @@ export const ui = {
   'join.faq.undergrad': { en: 'Undergraduate project students', zh: '大學部專題生' },
   'join.faq.intl': { en: 'International interns (TEEP / IIPP)', zh: '國際實習生（TEEP / IIPP）' },
   'join.faq.all': { en: 'Everyone', zh: '所有人' },
-  'join.room': { en: 'Lab', zh: '研究室' },
   'join.sign.alt': { en: 'The door sign of room E604: Dept. of Electrical Engineering, 人工智慧應用實驗室, Artificial Intelligence Applications Lab.', zh: 'E604 研究室門牌：電機系，人工智慧應用實驗室（Artificial Intelligence Applications Lab）。' },
+  'join.sign.caption': { en: 'The door sign of room E604', zh: 'E604 研究室門牌' },
   'join.links': { en: 'Links', zh: '連結' },
   'join.issue': { en: 'Suggest a fix to this site', zh: '回報網站問題' },
 
