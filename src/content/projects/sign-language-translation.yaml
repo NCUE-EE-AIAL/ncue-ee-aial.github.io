@@ -1,0 +1,11 @@
+# From the old lab site (international interns); no public repo. Kept at Brian's request, 2026-10-24.
+title:
+  en: "Sign Language Translation"
+  zh: "手語翻譯"
+summary:
+  en: "Recognizes signing from video and turns it into text or speech."
+  zh: "從影像辨識手語，轉換為文字或語音。"
+areas: [international-programs]
+members: []
+status: archived
+featured: false
