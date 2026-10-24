@@ -1,0 +1,53 @@
+name: Suggest new publications
+# Weekly: look up Wen-Ren Yang's papers on ORCID and Crossref (scripts/pubs-sync.mjs). Papers the site does not list
+# yet become unverified content files in one pull request, for a lab member to check against the publisher page.
+# Needs Settings → Actions → General → "Allow GitHub Actions to create and approve pull requests".
+on:
+  schedule:
+    - cron: '43 22 * * 0' # Mondays 06:43 Taipei
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+concurrency:
+  group: pubs-sync
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      BRANCH: bot/new-publications
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: Look for new papers
+        id: sync
+        run: |
+          node scripts/pubs-sync.mjs | tee sync.log
+          if [ -n "$(git status --porcelain src/content/publications)" ]; then echo "changed=true" >> "$GITHUB_OUTPUT"; fi
+      - name: Open or update the pull request
+        if: steps.sync.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -C "$BRANCH"
+          git add src/content/publications
+          git commit -m "Suggest new publications found on ORCID / Crossref"
+          git push --force origin "$BRANCH"
+          {
+            echo "Found by the weekly publication check (scripts/pubs-sync.mjs)."
+            echo
+            cat sync.log
+            echo
+            echo "For each file: open the publisher page, correct the details, add \`areas\`, then set \`verified: true\` and \`source\`."
+            echo "A paper that should not be listed: delete its file and add its DOI to \`scripts/pubs-sync-ignore.txt\` so it is not suggested again."
+            echo
+            echo "Pull requests opened by this workflow do not start the \"Check site\" run; the deploy run tests everything again after merge."
+          } > body.md
+          if [ -z "$(gh pr list --head "$BRANCH" --state open --json number --jq '.[].number')" ]; then
+            gh pr create --head "$BRANCH" --base main --title "New publications to check" --body-file body.md
+          else
+            gh pr edit "$BRANCH" --body-file body.md
+          fi

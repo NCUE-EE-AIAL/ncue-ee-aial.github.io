@@ -31,7 +31,8 @@ const csp = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline'",
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data:",
+  // GoatCounter's page-view request is an image load, allowed only when site.goatcounter is set.
+  `img-src 'self' data:${site.goatcounter ? ` https://${site.goatcounter}.goatcounter.com` : ''}`,
   "font-src 'self'",
   "connect-src 'self'",
   'frame-src https://www.youtube-nocookie.com',
@@ -82,6 +83,9 @@ const ld = bare ? '' : safeJsonLd(graph([
     <meta property="og:locale" content={lang === 'zh' ? 'zh_TW' : 'en_US'} />
     <meta property="og:locale:alternate" content={other === 'zh' ? 'zh_TW' : 'en_US'} />
     <meta name="twitter:card" content="summary_large_image" />
+    {site.verification.google && <meta name="google-site-verification" content={site.verification.google} />}
+    {site.verification.bing && <meta name="msvalidate.01" content={site.verification.bing} />}
+    <link rel="alternate" type="application/rss+xml" title={`${siteName} · ${lang === 'zh' ? '最新消息' : 'News'}`} href={localePath('/rss.xml', lang)} />
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f1117" />
@@ -108,7 +112,7 @@ const ld = bare ? '' : safeJsonLd(graph([
     <Art name="bench" class="art-bench" />
     <a class="skip-link" href="#main">{lang === 'zh' ? '跳至主內容' : 'Skip to content'}</a>
     <Nav lang={lang} path={path} />
-    <main id="main">
+    <main id="main" data-pagefind-body={bare ? undefined : true}>
       <slot />
     </main>
     <Footer lang={lang} />
@@ -129,5 +133,15 @@ const ld = bare ? '' : safeJsonLd(graph([
         els.forEach(function (el) { io.observe(el); });
       })();
     </script>
+    {site.goatcounter && !bare && (
+      <script is:inline define:vars={{ endpoint: `https://${site.goatcounter}.goatcounter.com/count` }}>
+        // One page view per load: path, referrer and title only, no cookies (GoatCounter's no-JS-library endpoint).
+        if (location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+          var q = '?p=' + encodeURIComponent(location.pathname) + '&t=' + encodeURIComponent(document.title)
+            + '&r=' + encodeURIComponent(document.referrer) + '&rnd=' + Math.random().toString(36).slice(2);
+          new Image().src = endpoint + q;
+        }
+      </script>
+    )}
   </body>
 </html>

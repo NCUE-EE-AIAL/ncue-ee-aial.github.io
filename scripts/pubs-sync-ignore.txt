@@ -1,0 +1,2 @@
+# DOIs that scripts/pubs-sync.mjs must not suggest again (one per line; text after # is a comment).
+# Add one here when you close a suggested paper instead of merging it.

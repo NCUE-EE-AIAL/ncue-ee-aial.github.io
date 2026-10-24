@@ -27,3 +27,16 @@ test('deploy rebuilds weekly so date-based content stays current', () => {
   assert.match(deploy, /schedule:\s*\n\s*- cron: '17 21 \* \* 0'/);
   assert.match(deploy, /workflow_dispatch:/);
 });
+
+test('the weekly paper sync and link check run on a schedule with only the permissions they need', () => {
+  const sync = readFileSync(join(ROOT, '.github/workflows/pubs-sync.yml'), 'utf8');
+  assert.match(sync, /node scripts\/pubs-sync\.mjs/);
+  assert.match(sync, /permissions:\n  contents: write\n  pull-requests: write\n/);
+  const links = readFileSync(join(ROOT, '.github/workflows/links-weekly.yml'), 'utf8');
+  assert.match(links, /node scripts\/check-links\.mjs dist >/, 'the weekly run must check outside links too (no --no-external)');
+  assert.match(links, /permissions:\n  contents: read\n  issues: write\n/);
+  for (const y of [sync, links]) {
+    assert.match(y, /schedule:\s*\n\s*- cron: /);
+    assert.match(y, /workflow_dispatch:/);
+  }
+});

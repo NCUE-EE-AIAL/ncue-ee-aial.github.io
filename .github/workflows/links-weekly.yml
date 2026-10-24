@@ -1,0 +1,42 @@
+name: Check external links
+# Pull requests and deploys check only links inside the site. Once a week this also checks DOI, GitHub and other
+# outside links, and keeps one open issue (label "broken-links") listing the ones that are gone.
+on:
+  schedule:
+    - cron: '29 23 * * 0' # Mondays 07:29 Taipei
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+jobs:
+  links:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check every link, outside ones included
+        id: check
+        run: |
+          set +e
+          node scripts/check-links.mjs dist > links.log 2>&1
+          echo "status=$?" >> "$GITHUB_OUTPUT"
+          cat links.log
+      - name: Report in an issue
+        run: |
+          open=$(gh issue list --label broken-links --state open --json number --jq '.[0].number')
+          if [ "${{ steps.check.outputs.status }}" = "0" ]; then
+            if [ -n "$open" ]; then gh issue close "$open" --comment "All links work again ($(date -u +%F))."; fi
+            exit 0
+          fi
+          { echo "The weekly link check ($(date -u +%F)) found broken links. Fix or remove them in \`src/content/\`."; echo; echo '```'; sed -n '/^ERRORS$/,/^WARNINGS$/p' links.log | grep -v '^WARNINGS$' | head -100; echo '```'; } > body.md
+          gh label create broken-links --color d73a4a --description "Found by the weekly link check" --force
+          if [ -n "$open" ]; then gh issue comment "$open" --body-file body.md; else gh issue create --title "Broken links on the website" --label broken-links --body-file body.md; fi

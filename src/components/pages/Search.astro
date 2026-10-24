@@ -1,0 +1,35 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../PageHead.astro';
+import { t, type Locale } from '../../i18n/utils';
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+---
+<!-- The index and the UI files in /pagefind/ are written by `pagefind --site dist` after `astro build` (npm run build). -->
+<Base lang={lang} title={t('search.title', lang)} path="/search/" description={t('search.meta', lang)}>
+  <link slot="head" rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+  <PageHead title={t('search.title', lang)} lede={t('search.intro', lang)} />
+  <div class="container search-page">
+    <div id="search" data-placeholder={t('search.placeholder', lang)}></div>
+    <noscript><p class="muted">{t('search.noscript', lang)}</p></noscript>
+  </div>
+  <script is:inline src="/pagefind/pagefind-ui.js"></script>
+  <script is:inline>
+    (function () {
+      var box = document.getElementById('search');
+      if (!box || typeof PagefindUI === 'undefined') return;
+      var ui = new PagefindUI({ element: '#search', showSubResults: true, showImages: false, resetStyles: false,
+        translations: { placeholder: box.dataset.placeholder } });
+      var q = new URLSearchParams(location.search).get('q');
+      if (q) ui.triggerSearch(q);
+    })();
+  </script>
+</Base>
+<style is:global>
+  .search-page { padding-bottom: 48px; }
+  .search-page .pagefind-ui {
+    --pagefind-ui-primary: var(--accent); --pagefind-ui-text: var(--text); --pagefind-ui-background: var(--bg);
+    --pagefind-ui-border: var(--border-2); --pagefind-ui-tag: var(--surface-2); --pagefind-ui-font: inherit;
+    --pagefind-ui-border-radius: 8px; max-width: 760px;
+  }
+</style>

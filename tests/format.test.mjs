@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';
-import { slugOf, langOf, pickLocalized, formatYm, normName, isAuthor, initials, youtubeId, toBibtex } from '../src/lib/format.ts';
+import { slugOf, langOf, pickLocalized, formatYm, normName, isAuthor, initials, youtubeId, toBibtex, toIeee } from '../src/lib/format.ts';
 
 test('slugOf / langOf split a localized entry id', () => {
   assert.equal(slugOf('biomedical-ai/en'), 'biomedical-ai');
@@ -95,4 +95,12 @@ test('formatYm writes a YYYY-MM month for each language', () => {
   assert.equal(formatYm('2026-08', 'en'), 'Aug 2026');
   assert.equal(formatYm('2027-07', 'zh'), '2027 年 7 月');
   assert.equal(formatYm('2014-03', 'en'), 'Mar 2014');
+});
+
+test('toIeee writes an IEEE-style reference with initials and the right joiners', () => {
+  const base = { title: 'Two-step Authentication', venue: 'ICETA 2024', year: 2024, type: 'conference', doi: '10.1049/icp.2024.4141' };
+  assert.equal(toIeee({ ...base, authors: ['Kuan Wei Chen', 'Ting-Yi Lin', 'Wen-Ren Yang'] }),
+    'K. W. Chen, T.-Y. Lin, and W.-R. Yang, "Two-step Authentication," in ICETA 2024, doi: 10.1049/icp.2024.4141.');
+  assert.equal(toIeee({ ...base, type: 'journal', venue: 'IEEE Access', doi: undefined, authors: ['Guan-June Chu', 'Wen-Ren Yang'] }),
+    'G.-J. Chu and W.-R. Yang, "Two-step Authentication," IEEE Access, 2024.');
 });

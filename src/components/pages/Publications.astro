@@ -4,6 +4,7 @@ import PageHead from '../PageHead.astro';
 import PubItem from '../PubItem.astro';
 import { t, pick, type Locale, type UiKey } from '../../i18n/utils';
 import { getPublications, getPeople, getHonors } from '../../lib/data';
+import { articleNode } from '../../lib/seo.mjs';
 interface Props { lang: Locale }
 const { lang } = Astro.props;
 const [pubs, people, honors] = await Promise.all([getPublications(), getPeople(), getHonors()]);
@@ -13,13 +14,14 @@ for (const h of honors) if (h.data.publication) awards.set(h.data.publication.id
 const members = people.map((p) => p.data.name.en);
 const TYPES = ['journal', 'conference', 'thesis', 'preprint', 'other'] as const;
 const types = TYPES.filter((ty) => pubs.some((p) => p.data.type === ty));
+const jsonLd = pubs.map((p) => articleNode({ title: p.data.title.en, authors: p.data.authors, venue: p.data.venue, year: p.data.year, doi: p.data.doi, url: p.data.url }));
 const years = [...new Set(pubs.map((p) => p.data.year))];
 // Pure-CSS filter: the checked radio hides the other types and any year left empty.
 const filterCss = types.map((ty) =>
   `.pubs:has(#pt-${ty}:checked) .pub:not([data-type="${ty}"]),` +
   `.pubs:has(#pt-${ty}:checked) .pub-group:not(:has(.pub[data-type="${ty}"])){display:none}`).join('');
 ---
-<Base lang={lang} title={t('pubs.title', lang)} path="/publications/" description={t('pubs.meta', lang)}>
+<Base lang={lang} title={t('pubs.title', lang)} path="/publications/" description={t('pubs.meta', lang)} jsonLd={jsonLd}>
   <style is:inline slot="head" set:html={filterCss}></style>
   <PageHead title={t('pubs.title', lang)} lede={t('pubs.intro', lang)} art="publications" />
   <div class="container pubs">

@@ -1,7 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import { pick, t, type Locale, type UiKey } from '../i18n/utils';
-import { isAuthor, toBibtex } from '../lib/format';
+import { isAuthor, toBibtex, toIeee } from '../lib/format';
 import type { Publication } from '../lib/data';
 interface Props {
   pub: Publication;
@@ -19,7 +19,9 @@ const d = pub.data;
 const title = pick(d.title, lang);
 const altTitle = lang === 'zh' && d.title.zh ? d.title.en : undefined;
 const href = d.url ?? (d.doi ? `https://doi.org/${d.doi}` : undefined);
-const bib = toBibtex({ title: d.title.en, authors: d.authors, venue: d.venue, year: d.year, type: d.type, doi: d.doi, url: d.url });
+const cite = { title: d.title.en, authors: d.authors, venue: d.venue, year: d.year, type: d.type, doi: d.doi, url: d.url };
+const bib = toBibtex(cite);
+const ieee = toIeee(cite);
 const isMember = (a: string) => members.some((m) => isAuthor(m, [a]));
 ---
 <li class="pub" data-type={d.type} data-verified={String(d.verified)} id={anchor ? pub.id : undefined}>
@@ -36,6 +38,9 @@ const isMember = (a: string) => members.some((m) => isAuthor(m, [a]));
     {d.code && <a href={d.code} rel="noopener">{t('pubs.code', lang)}</a>}
     <button type="button" class="bib-copy" data-bibtex={bib} data-copied={t('pubs.copied', lang)} data-failed={t('pubs.copyFailed', lang)}>
       <Icon name="copy" /><span class="bib-label" aria-live="polite">{t('pubs.bibtex', lang)}</span>
+    </button>
+    <button type="button" class="bib-copy" data-ieee={ieee} data-copied={t('pubs.copied', lang)} data-failed={t('pubs.copyFailed', lang)} title={t('pubs.ieeeHint', lang)}>
+      <Icon name="copy" /><span class="bib-label" aria-live="polite">{t('pubs.ieee', lang)}</span>
     </button>
   </div>
 </li>
@@ -54,9 +59,9 @@ const isMember = (a: string) => members.some((m) => isAuthor(m, [a]));
     return ok;
   }
   document.addEventListener('click', async (event) => {
-    const btn = (event.target as Element | null)?.closest<HTMLButtonElement>('button[data-bibtex]');
+    const btn = (event.target as Element | null)?.closest<HTMLButtonElement>('button[data-bibtex], button[data-ieee]');
     if (!btn) return;
-    const text = btn.dataset.bibtex ?? '';
+    const text = btn.dataset.bibtex ?? btn.dataset.ieee ?? '';
     let ok = false;
     try {
       await navigator.clipboard.writeText(text);

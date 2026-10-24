@@ -35,6 +35,12 @@ export const site = {
   map: 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('國立彰化師範大學 師大校區 彰化市師大路二號'),
   // Confirmed from the photo of the door sign (src/assets/photos/lab-sign.jpg), 2026-10-24.
   room: { en: 'Room E604', zh: 'E604 研究室' },
+  // Search engine ownership checks. Paste only the content="..." value from Google Search Console / Bing Webmaster
+  // Tools ("HTML tag" method); empty = no tag. CONTRIBUTING §10 has the steps.
+  verification: { google: '', bing: '' },
+  // GoatCounter site code (the "xxx" in xxx.goatcounter.com): counts page views without cookies or personal data.
+  // Empty = no counting. Sent as a plain request from a few lines of inline script, so no third-party script loads.
+  goatcounter: '',
   ogImageAlt: {
     en: 'AI Application Laboratory, NCUE Electrical Engineering: the lab name beside a line drawing of a stereo camera pair and a heartbeat trace.',
     zh: '彰師大電機 人工智慧應用實驗室：實驗室名稱，旁邊是雙鏡頭相機與心跳波形的線條圖。',
@@ -155,6 +161,8 @@ export const ui = {
   'pubs.link': { en: 'Link', zh: '連結' },
   'pubs.bibtex': { en: 'BibTeX', zh: 'BibTeX' },
   'pubs.copied': { en: 'Copied', zh: '已複製' },
+  'pubs.ieee': { en: 'IEEE', zh: 'IEEE 格式' },
+  'pubs.ieeeHint': { en: 'Copy an IEEE-style reference', zh: '複製 IEEE 格式的參考文獻' },
   'pubs.empty': { en: 'No publications listed yet.', zh: '尚未列出論文。' },
 
   'projects.title': { en: 'Projects', zh: '計畫與專案' },
@@ -220,6 +228,12 @@ export const ui = {
   'people.photoAlt': { en: 'Portrait of', zh: '照片：' },
 
   'news.title': { en: 'News', zh: '實驗室動態' },
+  'search.title': { en: 'Search', zh: '搜尋' },
+  'search.meta': { en: 'Search the AI Application Laboratory site: research, papers, projects, people and news.', zh: '搜尋人工智慧應用實驗室網站：研究方向、論文、專案、成員與動態。' },
+  'search.intro': { en: 'Find a paper, project, person or news post.', zh: '找論文、專案、成員或實驗室動態。' },
+  'search.placeholder': { en: 'Search papers, projects, people…', zh: '搜尋論文、專案、成員…' },
+  'search.noscript': { en: 'Search needs JavaScript. Every page is also listed in the menu above.', zh: '搜尋需要 JavaScript；所有頁面也都可以從上方選單進入。' },
+  'nav.search': { en: 'Search', zh: '搜尋' },
   'news.intro': { en: 'Announcements and updates from the lab.', zh: '實驗室的公告與近況。' },
   'news.meta': {
     en: 'News from the NCUE AI Application Laboratory: papers, awards, new members, events and international interns.',
