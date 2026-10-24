@@ -1,0 +1,11 @@
+# Source: Brian, 2026-10-24 (second-year master's, power electronics group). English name to confirm. Photo to come.
+name:
+  en: "Kuan-Chun Chu"
+  zh: "朱冠軍"
+role: master
+years: "2025–"
+areas: [smart-grid-energy]
+bio:
+  en: "Master’s student in the power electronics group, predicting harmonics of the campus battery energy storage system and building its data-acquisition module."
+  zh: "碩士生（電力電子組），研究校內大型儲能電池的諧波預測，並建置其資料擷取模組。"
+order: 10

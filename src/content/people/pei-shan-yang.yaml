@@ -1,0 +1,11 @@
+# Source: Brian, 2026-10-24 (second-year master's, biomedical muscle signals); English name from her 2026-10 seminar slides. Photo to come.
+name:
+  en: "Pei-Shan Yang"
+  zh: "楊佩珊"
+role: master
+years: "2025–"
+areas: [biomedical-ai]
+bio:
+  en: "Master’s student working on surface electromyography (sEMG): estimating muscle force and detecting muscle fatigue from muscle signals."
+  zh: "碩士生，研究表面肌電訊號（sEMG），從肌肉訊號估測肌力並偵測肌肉疲勞。"
+order: 10

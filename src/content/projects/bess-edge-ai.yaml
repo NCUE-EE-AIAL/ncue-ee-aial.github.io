@@ -8,6 +8,6 @@ summary:
   zh: "協助彰師大校內 1 MW 儲能系統運轉：邊緣裝置以離散小波轉換、短時傅立葉轉換與 Huffman 編碼處理量測資料，以 LSTM 類神經網路預測系統行為，並分析電力品質與太陽能整合，朝零耗能校園（SDG 7）邁進。"
 areas: [smart-grid-energy]
 year: 2023
-members: []
+members: [kuan-chun-chu]
 status: active
 featured: false
