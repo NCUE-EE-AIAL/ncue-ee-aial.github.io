@@ -42,6 +42,14 @@ const research = defineCollection({
     /** Optional figure: a photo next to this file, e.g. ./arm.jpg (run it through `npm run photos` first). Needs imageAlt. */
     image: image().optional(),
     imageAlt: z.string().optional(),
+    /** Optional wide figures for the area's flagship work, shown under the text; each links out (usually its GitHub repo). */
+    showcase: z.array(z.strictObject({
+      title: z.string(),
+      image: image(),
+      alt: z.string(),
+      text: z.string().optional(),
+      href: z.url().optional(),
+    })).default([]),
     /** Optional YouTube video; loads only when a visitor clicks it. */
     video: z.url().optional(),
   }).refine((r) => !r.image || !!r.imageAlt, {

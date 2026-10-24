@@ -108,6 +108,8 @@ export const ui = {
   },
   'research.keywords': { en: 'Keywords', zh: '關鍵詞' },
   'research.projects': { en: 'Related projects', zh: '相關專案' },
+  'research.showcase': { en: 'Featured work', zh: '代表性成果' },
+  'research.showcase.more': { en: 'Read more', zh: '了解更多' },
   'research.pubs': { en: 'Related publications', zh: '相關論文' },
   'research.people': { en: 'People in this area', zh: '參與成員' },
   'research.testimonials': { en: 'In our interns’ words', zh: '國際實習生心得' },

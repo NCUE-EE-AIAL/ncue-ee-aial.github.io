@@ -38,6 +38,26 @@ const memberNames = people.map((p) => p.data.name.en);
         ? <Photo src={area.data.image} alt={area.data.imageAlt ?? ''} width={300} sizes="(min-width: 600px) 300px, 100vw" class="area-figure area-figure-portrait" />
         : <Photo src={area.data.image} alt={area.data.imageAlt ?? ''} width={820} class="area-figure" />)}
       <div class="prose"><Content /></div>
+      {area.data.showcase.length > 0 && (
+        <section class="showcase" aria-labelledby="showcase-h">
+          <h2 id="showcase-h" class="showcase-h">{t('research.showcase', lang)}</h2>
+          {area.data.showcase.map((s, i) => {
+            const Tag = s.href ? 'a' : 'div';
+            return (
+              <Tag class="card showcase-item reveal" href={s.href} rel={s.href ? 'noopener' : undefined} style={`--i:${i}`}>
+                <Photo src={s.image} alt={s.alt} width={820} sizes="(min-width: 860px) 820px, 100vw" />
+                <div class="showcase-body">
+                  <h3 class="showcase-title">{s.title}</h3>
+                  {s.text && <p>{s.text}</p>}
+                  {s.href && (s.href.startsWith('https://github.com/')
+                    ? <span class="project-repo"><Icon name="github" /> {t('projects.repo', lang)}</span>
+                    : <span class="project-repo"><Icon name="external" /> {t('research.showcase.more', lang)}</span>)}
+                </div>
+              </Tag>
+            );
+          })}
+        </section>
+      )}
       {area.data.video && <VideoEmbed url={area.data.video} title={area.data.title} lang={lang} />}
     </div>
     <aside class="area-aside">

@@ -433,6 +433,7 @@ title:
 | `keywords` | 否（`[]`） | 字串清單 | `["motion control"]` | |
 | `image` | 否 | 照片檔路徑（相對於 .md） | `./arm.jpg` | 照片放在 .md 旁邊，先跑 `npm run photos`；**有 `image` 就必須有 `imageAlt`** |
 | `imageAlt` | 條件必填 | 字串 | `"A robotic arm picking a cube"` | 一句話描述圖片 |
+| `showcase` | 否 | 清單，每項 `title`、`image`、`alt`，選填 `text`、`href` | 見 `biomedical-ai/en.md` | 「代表性成果」：寬版代表圖放在內文下方，整張卡片可點，`href` 是 GitHub 時按鈕顯示「前往 GitHub」。圖一樣放在 .md 旁邊、先跑 `npm run photos` |
 | `video` | 否 | 完整網址（YouTube） | `"https://www.youtube.com/watch?v=..."` | 點擊才載入 |
 
 ### 設備 facilities
