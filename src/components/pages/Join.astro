@@ -37,7 +37,6 @@ const roomKnown = !room.startsWith('TODO');
       <span class="join-path-icon"><Icon name="globe" /></span>
       <h3 id="intl-h">{t('join.intl.title', lang)}</h3>
       <p>{t('join.intl.body', lang)}</p>
-      {showTodo && <p class="todo">{t('join.intl.todo', lang)}</p>}
       <div class="join-path-actions">
         <a class="btn" href={`mailto:${site.email}`}><Icon name="mail" /> {t('cta.lab', lang)}</a>
         {faq.length > 0 && <a class="join-path-more" href="#faq">{t('join.faq.title', lang)} <Icon name="arrow" /></a>}

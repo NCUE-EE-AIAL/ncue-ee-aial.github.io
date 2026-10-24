@@ -620,7 +620,6 @@ h2 .count { vertical-align: 0.3em; margin-left: 6px; }
 .join-path-icon .icon { width: 22px; height: 22px; }
 .join-path h3 { font-size: 1.2rem; margin-top: 4px; }
 .join-path p { max-width: 60ch; }
-.join-path .todo { display: inline-block; }
 .join-path-actions { margin-top: auto; padding-top: 8px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
 .join-path-more { display: inline-flex; align-items: center; gap: 6px; font-weight: 500; }
 .join-contact { background: var(--surface); border-block: 1px solid var(--border); padding-block: clamp(36px, 6vw, 56px); }
