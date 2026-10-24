@@ -4,11 +4,73 @@ name:
 role: pi
 photo: "/images/people/wen-ren-yang.webp"
 areas: [stereo-3d-vision, biomedical-ai, biometrics-security, smart-grid-energy, international-programs]
+# Sources (checked 2026-10-24): IIPP mentor page https://iipp.stpi.niar.org.tw/mentor/846 (iipp.tw/mentor/846) (degrees, years, service, projects);
+# NCUE EE IEET faculty table http://ee.ncue.edu.tw/IEETWeb/standard_5.html and IMPE faculty page
+# https://impeweb.ncue.edu.tw/p/404-1040-22640.php (title, expertise, courses); the papers in content/publications.
+# LinkedIn (tw.linkedin.com/in/wry87c) shows only the NCUE EE affiliation publicly.
+# Robotic arms were the previous advisor's field, so they are not listed as his expertise.
 bio:
-  en: "Associate Professor in the Department of Electrical Engineering, NCUE (faculty member since 2006), and director of the Artificial Intelligence Applications Center. PhD in electrical engineering from the University of Missouri-Columbia; research interests include wavelet transforms, digital signal processing and signal analysis, power electronics, neural networks and integrated optics."
-  zh: "國立彰化師範大學電機工程學系副教授（2006 年起任教），並擔任人工智慧應用中心主任。美國密蘇里大學哥倫比亞分校電機工程博士；研究專長包含小波轉換、數位訊號處理與訊號分析、電力電子、類神經網路與積體光學。"
+  en: "Associate Professor in the Department of Electrical Engineering, NCUE, since 2006. B.S. in electrical engineering from National Taiwan University of Science and Technology (1998); M.S. (2002) and Ph.D. (2006) in electrical engineering from the University of Missouri-Columbia. His work combines wavelet-based signal analysis, digital signal processing and power electronics with neural networks, applied to power quality, energy storage, industrial IoT and embedded recognition."
+  zh: "國立彰化師範大學電機工程學系副教授，2006 年起任教。國立臺灣科技大學電機工程學士（1998），美國密蘇里大學哥倫比亞分校電機工程碩士（2002）、博士（2006）。研究結合小波轉換訊號分析、數位訊號處理與電力電子，搭配類神經網路，應用於電力品質、儲能系統、工業物聯網與嵌入式辨識。"
+expertise:
+  - en: "Wavelet transforms and signal analysis"
+    zh: "小波轉換與訊號分析"
+  - en: "Digital signal processing"
+    zh: "數位訊號處理"
+  - en: "Power electronics and power quality"
+    zh: "電力電子與電力品質"
+  - en: "Neural networks and AI applications"
+    zh: "類神經網路與人工智慧應用"
+  - en: "Smart grids and battery energy storage"
+    zh: "智慧電網與電池儲能系統"
+  - en: "Integrated optics"
+    zh: "積體光學"
+experience:
+  - years: "2006–"
+    text:
+      en: "Associate Professor, Department of Electrical Engineering, National Changhua University of Education"
+      zh: "國立彰化師範大學電機工程學系副教授"
+  - years: "2024–"
+    text:
+      en: "Mentor, International Internship Pilot Program (IIPP), National Science and Technology Council"
+      zh: "國科會「外籍人才來臺實習試辦專案」（IIPP）指導教授"
+  - years: "2020–2021"
+    text:
+      en: "Associate Editor, American Journal of Neural Networks and Applications"
+      zh: "American Journal of Neural Networks and Applications 副編輯"
+  - years: "2018–2024"
+    text:
+      en: "Taiwan Experience Education Program (TEEP), Ministry of Education, Taiwan–India project: IoT for industry and agriculture"
+      zh: "教育部「優秀外國青年來臺蹲點計畫」（TEEP）臺印合作：工業與農業物聯網應用"
+  - years: "2018–2021"
+    text:
+      en: "University–industry consulting projects for small and medium enterprises, Ministry of Economic Affairs: industrial IoT and machine learning"
+      zh: "經濟部中小企業產學合作輔導計畫：工業物聯網與機器學習應用"
+  - years: "2016–2021"
+    text:
+      en: "Review committee member, Small Business Innovation Research (SBIR), Taichung"
+      zh: "小型企業創新研發計畫（SBIR）審查委員（臺中）"
+  - years: "2016–2018"
+    text:
+      en: "Machine-tool vibration monitoring and analysis, industry–academia project with Hartford (She-Hong Industrial Co.)"
+      zh: "工具機振動監測與分析，與協鴻工業（Hartford）產學合作"
+  - years: "2017"
+    text:
+      en: "Vice Chairman and Executive Committee Member, Symposium on Semiconductor Power Conversion, Changhua"
+      zh: "Symposium on Semiconductor Power Conversion 副主席暨執行委員（彰化）"
+  - years: "2016"
+    text:
+      en: "Vice Chairman and Executive Committee Member, Taiwan Power Electronics Conference & Exhibition, Changhua"
+      zh: "台灣電力電子研討會暨展覽會副主席暨執行委員（彰化）"
+  - text:
+      en: "Research projects funded by the Ministry of Science and Technology on power quality monitoring for smart grids, flywheel voltage-sag compensation for contactless power transmission, and optical diffraction in optical storage"
+      zh: "科技部研究計畫：智慧電網標準之電力品質監測、非接觸式電能傳輸系統之飛輪電壓驟降補償、光儲存系統光學繞射特性研究"
+  - text:
+      en: "Reviewer for IEEE Access, IEEE Transactions on Vehicular Technology, ASME Journal of Solar Energy Engineering and other journals; session chair at IEEE ISIE, ICIEA and ICSSE"
+      zh: "IEEE Access、IEEE Transactions on Vehicular Technology、ASME Journal of Solar Energy Engineering 等期刊審稿人；IEEE ISIE、ICIEA、ICSSE 研討會場次主持人"
 links:
   email: "wry87c@cc.ncue.edu.tw"
+  linkedin: "https://tw.linkedin.com/in/wry87c"
   # ORCID record lists no employer; both of its works are NCUE papers by Wen-Ren Yang (checked 2026-10-17).
   orcid: "https://orcid.org/0000-0003-0117-1912"
 order: 1
