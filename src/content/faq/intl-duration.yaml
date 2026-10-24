@@ -1,0 +1,9 @@
+audience: intl
+order: 5
+q:
+  en: "How long is an internship, and when can I apply?"
+  zh: "實習多長？什麼時候可以申請？"
+a:
+  en: "An internship lasts three to six months. Application periods follow the TEEP and IIPP program announcements; for anything else, email the lab."
+  zh: "實習期間為三個月到半年。申請時程依 TEEP 與 IIPP 計畫公告；其他細節請來信詢問。"
+source: "Brian Lin (lab member), 2026-10-24"

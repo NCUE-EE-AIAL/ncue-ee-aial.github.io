@@ -242,12 +242,8 @@ export const ui = {
   },
   'join.intl.title': { en: 'International students (TEEP / IIPP)', zh: '國際學生（TEEP / IIPP）' },
   'join.intl.body': {
-    en: 'TEEP (Taiwan Experience Education Program, Ministry of Education) and IIPP (International Internship Pilot Program, National Science and Technology Council) bring international students to the lab for short research internships (current terms are on the program websites). Write to us with your intended dates, background, and a topic from our research areas.',
-    zh: 'TEEP（教育部「優秀外國青年來臺蹲點計畫」）與 IIPP（國科會「外籍人才來臺實習試辦專案」）提供國際學生短期研究實習名額，辦法以兩項計畫官網公告為準。來信請附預計期間、學術背景，以及想參與的研究方向。',
-  },
-  'join.intl.todo': {
-    en: 'TODO: confirm program names, typical duration, and application windows with the lab.',
-    zh: 'TODO：請實驗室確認計畫名稱、期間與申請時程。',
+    en: 'TEEP (Taiwan Experience Education Program, Ministry of Education) and IIPP (International Internship Pilot Program, National Science and Technology Council) bring international students to the lab for research internships of three to six months (program rules are on the program websites). Write to us with your intended dates, background, and a topic from our research areas; we answer other questions by email.',
+    zh: 'TEEP（教育部「優秀外國青年來臺蹲點計畫」）與 IIPP（國科會「外籍人才來臺實習試辦專案」）提供國際學生三個月到半年的研究實習名額，辦法以兩項計畫官網公告為準。來信請附預計期間、學術背景，以及想參與的研究方向；其他細節歡迎來信詢問。',
   },
   'join.life.title': { en: 'Lab life', zh: '實驗室生活' },
   'join.life.body': {
