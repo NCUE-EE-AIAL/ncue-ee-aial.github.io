@@ -14,3 +14,7 @@ url: "https://ieeexplore.ieee.org/document/5542360"
 verified: true
 source: "Opened https://ieeexplore.ieee.org/document/5542360 on 2026-10-17 (Chrome): title, author list and Wen-Ren Yang (Dept. of EE, NCUE) match; pages from Crossref."
 areas: [smart-grid-energy]
+# summary: written from the abstract on the publisher page (url above), 2026-10-24
+summary:
+  en: "Proposes a current-shared photovoltaic power system whose converter tracks the panel's maximum power point and regulates the load at the same time, raising efficiency and keeping critical loads supplied; a 200 W prototype confirms it at lower circuit cost."
+  zh: "提出電流分享式太陽能供電系統，以同一轉換器同時追蹤最大功率點並調節負載，提高效率並穩定供電給重要負載；200 W 原型驗證可行，且降低電路成本。"

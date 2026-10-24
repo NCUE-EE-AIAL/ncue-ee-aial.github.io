@@ -15,3 +15,7 @@ url: "https://ieeexplore.ieee.org/document/5138829"
 verified: true
 source: "Opened https://ieeexplore.ieee.org/document/5138829 on 2026-10-17 (Chrome): title, author list and Wen-Ren Yang (Dept. of EE, NCUE) match; pages from Crossref."
 areas: [smart-grid-energy]
+# summary: written from the abstract on the publisher page (url above), 2026-10-24
+summary:
+  en: "Finds the best charging frequency for Li-ion batteries by AC impedance measurement: it is the frequency of minimum impedance, and charging there improves charging time and efficiency by about 30%."
+  zh: "以交流阻抗法找出鋰電池的最佳充電頻率，也就是阻抗最小的頻率點；以此頻率充電，充電時間與效率都改善約 30%。"

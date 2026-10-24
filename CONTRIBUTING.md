@@ -361,6 +361,7 @@ title:
 | `code` | 否 | 完整網址 | `"https://github.com/NCUE-EE-AIAL/..."` | 公開 repo |
 | `tags` | 否（`[]`） | 字串清單 | `[face recognition, VGG16]` | 自由關鍵字 |
 | `areas` | 否（`[]`） | 研究方向 slug 清單：`stereo-3d-vision` `robotic-arm` `biomedical-ai` `biometrics-security` `smart-grid-energy` `international-programs` | `[biometrics-security]` | 拼錯會 build 失敗 |
+| `summary` | 否 | bi | `{ en: "Recognizes …", zh: "以…辨識…" }` | 讀過摘要後寫的一兩句白話簡介，顯示在研究方向頁的論文下方（論文總表不顯示）；寫在 `areas` 有填的論文上才看得到 |
 | `featured` | 否（`false`） | true / false | `true` | 保留欄位，目前頁面未使用（首頁固定顯示最新 3 篇） |
 | `verified` | 否（`false`） | true / false | `true` | `false` 會顯示「待確認 / to verify」標記 |
 | `source` | 條件必填 | 字串（網址或說明） | `"https://digital-library.theiet.org/... (opened; title, authors match)"` | **`verified: true` 時必填** |

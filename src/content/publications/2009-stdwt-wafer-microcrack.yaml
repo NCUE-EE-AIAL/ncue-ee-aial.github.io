@@ -10,3 +10,7 @@ url: "https://ieeexplore.ieee.org/document/5213600"
 verified: true
 source: "Opened https://ieeexplore.ieee.org/document/5213600 on 2026-10-17 (Chrome): title, author list and Wen-Ren Yang (Dept. of EE, NCUE) match; pages from Crossref."
 areas: [wavelet-signal-analysis]
+# summary: written from the abstract on the publisher page (url above), 2026-10-24
+summary:
+  en: "Builds a real-time in-line microcrack detector for wafers that scans line by line instead of processing images, and develops a short-time discrete wavelet transform (STDWT) that picks out a crack's reflection with little computation."
+  zh: "設計即時線上晶圓微裂紋檢測系統，以線掃描取代影像處理檢查整片晶圓，並發展短時離散小波轉換（STDWT），以較低的運算量辨識裂紋的反射特徵。"

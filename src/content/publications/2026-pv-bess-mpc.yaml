@@ -15,3 +15,7 @@ url: "https://tj.uettaxila.edu.pk/index.php/technical-journal/article/view/2383"
 verified: true
 source: "Opened https://tj.uettaxila.edu.pk/index.php/technical-journal/article/view/2383 on 2026-10-17: citation_* metadata gives title, authors (Wen-Ren Yang, Dept. of EE, NCUE), 2026-05-15, vol. 31(1) pp. 43–52."
 areas: [smart-grid-energy]
+# summary: written from the abstract on the publisher page (url above), 2026-10-24
+summary:
+  en: "Schedules a solar-plus-battery system with model predictive control that raises self-consumption while limiting battery degradation and grid congestion. One-year simulations compare it with conventional rules and test how forecast errors affect it, with tightened constraints to absorb them."
+  zh: "以模型預測控制排程太陽能加儲能系統，在提高自發自用率的同時減少電池劣化與電網壅塞；以一年期模擬與傳統方法比較，並分析預測誤差的影響，以收緊限制條件因應。"

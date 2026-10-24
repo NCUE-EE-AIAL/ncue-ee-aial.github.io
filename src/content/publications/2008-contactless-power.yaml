@@ -14,3 +14,7 @@ url: "https://ieeexplore.ieee.org/document/4677016"
 verified: true
 source: "Opened https://ieeexplore.ieee.org/document/4677016 on 2026-10-17 (Chrome): title, author list and Wen-Ren Yang (Dept. of EE, NCUE) match; pages from Crossref."
 areas: [smart-grid-energy]
+# summary: written from the abstract on the publisher page (url above), 2026-10-24
+summary:
+  en: "Models the magnetic coupling of a contactless power transmission system, compares converter topologies and compensation circuits to choose the main circuit, and confirms a design that delivers 31 V at 11 A."
+  zh: "建立非接觸式電能傳輸的磁耦合模型，比較各種轉換器與補償電路以決定主電路架構，並驗證輸出 31 V、11 A 的系統。"

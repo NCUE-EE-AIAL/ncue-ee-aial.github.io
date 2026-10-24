@@ -14,3 +14,7 @@ areas: [biomedical-ai]
 featured: true
 verified: true
 source: "Re-checked https://arxiv.org/abs/2609.05755 on 2026-10-17: title, author order (Tingyi Lin, Wen-Ren Yang, Kuanwei Chen), 2026-09-04 date and the comment Submitted to Speech Communication match."
+# summary: written from the abstract on the publisher page (url above), 2026-10-24
+summary:
+  en: "Treats a speaker's emotion as a distribution: besides one of four classes, the model outputs a 9×9 probability map over valence and arousal. On IEMOCAP text and speech, evaluated across speakers, the dual-head model reaches 73.0% unweighted accuracy, 3 points above a Transformer fusion baseline, and 76.6% with frozen WavLM features."
+  zh: "把說話者的情緒看成分布：模型除了四類情緒判斷，也輸出 Valence-Arousal 平面上 9×9 的機率圖。在 IEMOCAP 文字與語音資料上以跨說話者方式評估，雙輸出模型的未加權準確率達 73.0%，比 Transformer 融合基準高 3 個百分點，改用凍結的 WavLM 特徵可達 76.6%。"

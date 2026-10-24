@@ -390,6 +390,7 @@ html:not(.js) .signal-strip { display: none; }
 .pub-authors { color: var(--text); font-size: 0.95rem; }
 .pub-authors .me { font-weight: 600; }
 .pub-venue { color: var(--muted); font-size: 0.92rem; }
+.pub-summary { color: var(--text); font-size: 0.92rem; line-height: 1.6; max-width: 760px; }
 .pub-links { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.88rem; align-items: center; }
 .pub-links button { background: none; border: 0; padding: 0; color: var(--accent); cursor: pointer; font-size: inherit; }
 .pub-links button:hover { text-decoration: underline; }

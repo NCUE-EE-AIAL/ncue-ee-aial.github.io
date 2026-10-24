@@ -11,3 +11,7 @@ url: "https://ieeexplore.ieee.org/document/11652670"
 verified: true
 source: "Opened https://ieeexplore.ieee.org/document/11652670 on 2026-10-17 (Chrome): title, author list and Wen-Ren Yang (Dept. of EE, NCUE) match; pages from Crossref. IEEE Xplore spells the second author \"Wen-Reng Yang\" (affiliation Dept. of EE, NCUE)."
 areas: [smart-grid-energy]
+# summary: written from the abstract on the publisher page (url above), 2026-10-24
+summary:
+  en: "Builds a physics-guided digital twin of a campus PV system with low-cost ESP32 and LoRa sensors: a physics model gives the theoretical output, an LSTM forecasts current harmonics (RMSE about 1.90), and the gap between the twin and the inverter flags faults such as thermal derating and cloud shading."
+  zh: "以低成本 ESP32 與 LoRa 感測器建構校園太陽能系統的物理導引數位孿生：物理模型算出理論發電量，LSTM 預測電流諧波（RMSE 約 1.90），再由孿生模型與實際換流器輸出的差距找出熱降載、雲遮等異常。"

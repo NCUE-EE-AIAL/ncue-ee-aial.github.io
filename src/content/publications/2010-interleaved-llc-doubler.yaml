@@ -14,3 +14,7 @@ url: "https://ieeexplore.ieee.org/document/5543842"
 verified: true
 source: "Opened https://ieeexplore.ieee.org/document/5543842 on 2026-10-17 (Chrome): title, author list and Wen-Ren Yang (Dept. of EE, NCUE) match; pages from Crossref."
 areas: [smart-grid-energy]
+# summary: written from the abstract on the publisher page (url above), 2026-10-24
+summary:
+  en: "Parallels two LLC series-resonant converters with interleaved PWM and a voltage-doubler output. This cuts ripple current and capacitor size, overcomes the high current stress of a single LLC stage, and keeps soft switching (ZVS and ZCS) for high-current, high-voltage outputs."
+  zh: "以交錯式 PWM 並聯兩組 LLC 串聯諧振轉換器，輸出端採倍壓架構，降低漣波電流與電容需求，克服單一 LLC 的高電流應力，並保有零電壓與零電流切換，適用於高電流、高電壓輸出。"

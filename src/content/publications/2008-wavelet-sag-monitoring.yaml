@@ -13,3 +13,7 @@ url: "https://ieeexplore.ieee.org/document/4608318"
 verified: true
 source: "Opened https://ieeexplore.ieee.org/document/4608318 on 2026-10-17 (Chrome): title, author list and Wen-Ren Yang (Dept. of EE, NCUE) match; pages from Crossref."
 areas: [wavelet-signal-analysis, smart-grid-energy]
+# summary: written from the abstract on the publisher page (url above), 2026-10-24
+summary:
+  en: "Designs a mixed-signal chip for voltage-sag monitoring at many points of a transmission system: an analog front end for data acquisition and a digital discrete-wavelet-transform core. In simulation on IEEE P1159.2 sag waveforms, the wavelet decides faster than an RMS calculation."
+  zh: "為輸電系統多點量測設計電壓驟降監測用的混合訊號晶片：類比電路負責資料擷取，數位電路實現離散小波轉換。以 IEEE P1159.2 驟降波形模擬，小波轉換的判斷速度比 RMS 計算更快。"

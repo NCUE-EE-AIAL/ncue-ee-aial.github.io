@@ -24,3 +24,5 @@ showcase:
 我們的研究涵蓋以生理訊號進行肌肉異常檢測，以及結合語音與文字的多模態情緒辨識。在情緒辨識方面，我們比較 Mamba 狀態空間模型與 Transformer 在文字與語音上的表現，並預測聯合的 Valence-Arousal 機率分布，而非單一標籤。較早期的工作則結合小波轉換與類神經網路，在低成本微控制器上分析心電圖心跳訊號。<!-- source: Brian 2026-10-17 與 2026-10-19（以肌電訊號進行肌肉異常檢測；碩論 114-yt5d6s） -->
 
 代表性成果包括 EchoMind Mamba-VA-SER 程式碼釋出（對應預印本 "Emotion as a Distribution"，arXiv:2609.05755），以及嵌入式小波類神經網路心電圖分析專案，皆可於專案頁面查閱：[EchoMind-Mamba-VA-SER](https://github.com/brian10420/EchoMind-Mamba-VA-SER)、[ECG 小波類神經網路](https://github.com/NCUE-EE-AIAL/Embedded-Wavelet-Neural-Network-for-ECG-Analysis)。
+
+**歷屆碩士論文**也把同樣的工具用在醫療照護上：[以小波類神經網路辨識嬰兒哭聲型態](https://hdl.handle.net/11296/emt2ye)、[醫療物聯網應用於產科病房新生兒室內定位](https://hdl.handle.net/11296/8c2423)、[以 YOLOv5 遷移式學習辨識人臉情緒](https://hdl.handle.net/11296/va2wfz)，以及[肌電訊號肌肉疲勞偵測的傳統與深度學習對照研究](https://hdl.handle.net/11296/yt5d6s)。

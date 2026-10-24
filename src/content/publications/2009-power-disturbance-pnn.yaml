@@ -12,3 +12,7 @@ url: "https://www.iaeng.org/publication/IMECS2009/IMECS2009_pp1573-1577.pdf"
 verified: true
 source: "Opened https://www.iaeng.org/publication/IMECS2009/IMECS2009_pp1573-1577.pdf (publisher PDF) on 2026-10-17 in Chrome: proceedings header, title and authors match; pages from the file name. Found via OpenAlex W2293163438 (final-review finding)."
 areas: [wavelet-signal-analysis, smart-grid-energy]
+# summary: written from the abstract on the publisher page (url above), 2026-10-24
+summary:
+  en: "Recognizes seven kinds of power disturbance (flicker, harmonics, interruption, dip, surge, swell and a clean sine) by decomposing each waveform with the DWT, reducing each level to its energy with Parseval's theorem, and classifying the energies with a probabilistic neural network; recognition rates are 86% or higher."
+  zh: "以離散小波轉換分解電力擾動波形，用 Parseval 定理把每一層係數化為能量特徵，再以機率類神經網路分類閃爍、諧波、中斷、驟降、突波、驟升與正常正弦波七類，辨識率在 86% 以上。"

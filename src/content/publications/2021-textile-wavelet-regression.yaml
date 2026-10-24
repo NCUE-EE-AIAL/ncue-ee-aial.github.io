@@ -14,3 +14,7 @@ url: "https://www.igi-global.com/gateway/article/281222"
 verified: true
 source: "Opened https://www.igi-global.com/gateway/article/281222 on 2026-10-17: title matches; authors, volume and pages from Crossref (published online 2021-10-08; year is the volume's, 2022, per Brian 2026-10-19). Listed on ORCID 0000-0003-0117-1912."
 areas: [wavelet-signal-analysis]
+# summary: written from the abstract on the publisher page (url above), 2026-10-24
+summary:
+  en: "Monitors a textile production line mapped to smart-grid standards: the DWT removes noise from the line's operating signals, and their energy distribution feeds a general regression neural network that forecasts the time series."
+  zh: "監測一條對應智慧電網標準的紡織產線：以離散小波轉換去除運轉訊號雜訊，再把各層能量分布輸入廣義迴歸類神經網路（GRNN）預測時間序列。"
