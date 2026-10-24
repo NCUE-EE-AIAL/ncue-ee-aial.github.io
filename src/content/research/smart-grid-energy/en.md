@@ -14,4 +14,10 @@ The work follows the whole chain: the battery modules (state of charge, balancin
 
 The monitoring system is organized in three layers. At the edge, smart sensors measure the devices and equipment; in the fog layer, an intelligent concentrator gathers their data over wired and wireless links; in the cloud, supervisory control and data acquisition (SCADA) handles demand response, distributed-resource management and operational information. A monitoring, information-exchange and control (MIC) module sits between the battery, the power conversion system and the grid, and runs the edge computing: data processing (DWT, STFT and Huffman coding) and data analysis (LSTM approximation and prediction). <!-- source: Prof. Yang's TEEP 2023 (SDG 7) and IIPP 2024 slides, provided by Brian on 2026-10-24 -->
 
+![Diagram of the NCUE 1-MW battery energy storage system in three layers: devices and smart sensors at the edge, an intelligent concentrator in the fog layer, and supervisory control and data acquisition in the cloud, beside the system's grid, substation, power conversion system and battery.](./bess-architecture.jpg)
+
+![Block diagram: the battery module, power conversion system, electric power system and SCADA each connect to the monitoring, information-exchange and control (MIC) module, which processes data with DWT, STFT and Huffman encoding and analyzes it with LSTM approximation and prediction.](./bess-monitoring-blocks.jpg)
+
+![Waveforms measured from the system, plotted in per unit against sample number.](./bess-waveform.jpg)
+
 The direction builds on Prof. Yang's earlier work in power electronics and power quality, listed below: wavelet-based voltage-sag monitoring, flicker measurement, power-disturbance recognition with neural networks, flywheel energy storage, battery charging and resonant converters.
