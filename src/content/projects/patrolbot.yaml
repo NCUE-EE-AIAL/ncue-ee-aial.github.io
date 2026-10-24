@@ -1,6 +1,9 @@
 title:
   en: "PatrolBot"
   zh: "PatrolBot 自主巡邏系統"
+tagline:
+  en: "A small robot car that patrols on its own, holding a straight course and measuring distances with a laser sensor."
+  zh: "會自己巡邏的機器小車，能維持直線行駛，並以雷射測距感測周遭距離。"
 summary:
   en: "Design and construction of an autonomous patrol robot vehicle, using an MPU-6050 IMU with PID control to hold a straight course, VL53L-series distance sensing on ESP32, and Blynk-based monitoring."
   zh: "設計並建置自主巡邏機器車，以 MPU-6050 慣性感測器搭配 PID 控制維持直線行駛，並使用 ESP32 搭配 VL53L 系列測距感測器與 Blynk 監控。"

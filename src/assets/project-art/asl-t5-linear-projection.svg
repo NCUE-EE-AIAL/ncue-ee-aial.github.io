@@ -1,0 +1,20 @@
+<!-- ASL translation: hand keypoints, one linear projection, the T5 encoder-decoder, English text. -->
+<svg viewBox="0 0 320 140" preserveAspectRatio="xMidYMid meet" focusable="false">
+<path class="ink draw" pathLength="1" d="M28 100V74H52V100M31 74l-3-20M37 74l-1-26M43 74l1-26M49 74l3-20M28 88l-9-12"></path>
+<circle class="key" cx="34" cy="92" r="2.4"></circle>
+<circle class="key" cx="31" cy="64" r="2.4"></circle>
+<circle class="key" cx="40" cy="58" r="2.4"></circle>
+<circle class="key" cx="48" cy="58" r="2.4"></circle>
+<circle class="key" cx="56" cy="62" r="2.4"></circle>
+<circle class="key" cx="26" cy="72" r="2.4"></circle>
+<path class="thin" d="M70 72H94m-5-4l5 4l-5 4"></path>
+<path class="ink paper draw" pathLength="1" d="M100 52L128 60V84L100 92Z"></path>
+<path class="thin" d="M108 62v20M116 64v16"></path>
+<path class="thin" d="M134 72H156m-5-4l5 4l-5 4"></path>
+<rect class="ink paper draw" pathLength="1" x="162" y="46" width="40" height="52" rx="4"></rect>
+<rect class="ink paper draw" pathLength="1" x="210" y="46" width="40" height="52" rx="4"></rect>
+<path class="sig draw" pathLength="1" d="M202 72H210"></path>
+<path class="thin" d="M168 58h28M168 68h22M168 78h26M168 88h18"></path>
+<path class="thin" d="M216 58h28M216 68h22M216 78h26M216 88h18"></path>
+<path class="thin" d="M256 72H274m-5-4l5 4l-5 4"></path>
+<path class="sig draw" pathLength="1" d="M280 64h30M280 74h24M280 84h28"></path></svg>

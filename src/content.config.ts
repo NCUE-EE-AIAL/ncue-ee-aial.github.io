@@ -82,6 +82,8 @@ const projects = defineCollection({
   loader: glob({ pattern: '**/*.{yaml,yml}', base: './src/content/projects' }),
   schema: z.strictObject({
     title: bi,
+    /** One plain-language sentence a visitor outside the field can follow; shown above the technical summary. */
+    tagline: bi.optional(),
     summary: bi,
     /** "owner/name" on GitHub. Optional for projects without a public repo. */
     repo: z.string().regex(/^[\w.-]+\/[\w.-]+$/).optional(),

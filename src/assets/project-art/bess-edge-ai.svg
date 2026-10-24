@@ -1,0 +1,19 @@
+<!-- Campus BESS: solar and a battery container, an edge device, an LSTM forecast. -->
+<svg viewBox="0 0 320 140" preserveAspectRatio="xMidYMid meet" focusable="false">
+<path class="ink draw" pathLength="1" d="M18 56L30 34H78L66 56Z"></path>
+<path class="thin" d="M24 45H72M42 34L36 56M54 34L48 56M66 34L60 56M42 56V70"></path>
+<rect class="ink paper draw" pathLength="1" x="14" y="72" width="70" height="40" rx="3"></rect>
+<rect class="thin" x="20" y="82" width="11" height="22" rx="1"></rect>
+<rect class="thin" x="35" y="82" width="11" height="22" rx="1"></rect>
+<rect class="thin" x="50" y="82" width="11" height="22" rx="1"></rect>
+<rect class="thin" x="65" y="82" width="11" height="22" rx="1"></rect>
+<path class="thin" d="M90 78H114m-5-4l5 4l-5 4"></path>
+<rect class="ink paper draw" pathLength="1" x="120" y="52" width="60" height="52" rx="6"></rect>
+<rect class="thin" x="136" y="64" width="28" height="28" rx="2"></rect>
+<path class="thin" d="M142 64v-6M150 64v-6M158 64v-6M142 98v-6M150 98v-6M158 98v-6"></path>
+<path class="sig draw" pathLength="1" d="M128 116h6l3-6 4 12 3-6h40"></path>
+<path class="thin" d="M186 78H208m-5-4l5 4l-5 4"></path>
+<path class="con" d="M214 110H306M214 40V110"></path>
+<path class="ink draw" pathLength="1" d="M214 82L216 78.9L218 76L220 73.4L222 71.3L224 69.6L226 68.5L228 68L230 68L232 68.6L234 69.7L236 71.2L238 73.2L240 75.4L242 77.8L244 80.2L246 82.7L248 85.1L250 87.2L252 89.1L254 90.7L256 91.8L258 92.6L260 92.8L262 92.7"></path>
+<path class="sig draw" pathLength="1" d="M262 92.7L264 92.1L266 91.2L268 89.9L270 88.3L272 86.6L274 84.7L276 82.8L278 80.9L280 79.1L282 77.5L284 76.1L286 75L288 74.2L290 73.8L292 73.7L294 73.9L296 74.4L298 75.2L300 76.3L302 77.5L304 78.9L306 80.3"></path>
+<circle class="key" cx="262" cy="92.7" r="3"></circle></svg>

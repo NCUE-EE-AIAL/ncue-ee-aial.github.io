@@ -1,6 +1,9 @@
 title:
   en: "NCUE BEES Energy Consumption Analysis and Prediction"
   zh: "彰師大 BEES 能源消耗分析與預測"
+tagline:
+  en: "Learns how two campus buildings use electricity and predicts what they will use next."
+  zh: "從兩棟校舍的電表資料看懂用電規律，並預測接下來的用電。"
 summary:
   en: "Analysis and prediction of campus electricity consumption from September 2022 smart-meter data of two NCUE buildings (HT5 and HT9), implemented in a Jupyter notebook."
   zh: "利用彰師大兩棟建築（HT5、HT9）2022 年 9 月的智慧電表資料，進行校園用電量的分析與預測。"

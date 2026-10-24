@@ -3,6 +3,9 @@
 title:
   en: "AI and Edge Computing for the Campus Battery Energy Storage System"
   zh: "校內儲能系統的 AI 與邊緣運算"
+tagline:
+  en: "Small computers beside the campus battery bank compress its measurements and forecast how it will behave."
+  zh: "在校內儲能系統旁的小型運算裝置上壓縮量測資料，並預測系統接下來的狀態。"
 summary:
   en: "Helping run the 1-MW battery energy storage system on the NCUE campus: edge devices process measurements with the discrete wavelet transform, short-time Fourier transform and Huffman coding, LSTM networks predict the system's behavior, and power quality is analyzed together with solar integration, toward a zero-energy campus (SDG 7)."
   zh: "協助彰師大校內 1 MW 儲能系統運轉：邊緣裝置以離散小波轉換、短時傅立葉轉換與 Huffman 編碼處理量測資料，以 LSTM 類神經網路預測系統行為，並分析電力品質與太陽能整合，朝零耗能校園（SDG 7）邁進。"

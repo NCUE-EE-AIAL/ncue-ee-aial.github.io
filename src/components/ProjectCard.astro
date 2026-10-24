@@ -1,6 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import VideoEmbed from './VideoEmbed.astro';
+import ProjectArt from './ProjectArt.astro';
 import { pick, t, localePath, formatDate, type Locale } from '../i18n/utils';
 import type { Project } from '../lib/data';
 import { repoLink, type RepoMeta, type MissingRepo } from '../lib/github';
@@ -26,10 +27,12 @@ const repoUrl = repoLink(meta, d.repo);
 const github = d.repo ? (meta === null ? 'unavailable' : 'missing' in meta ? 'missing' : 'ok') : undefined;
 ---
 <article class="card project reveal" id={project.id} data-areas={d.areas.join(' ')} data-github={github} style={`--i:${i}`}>
+  <ProjectArt id={project.id} />
   <div class="project-head">
     <H class="project-title">{repoUrl ? <a href={repoUrl} rel="noopener">{title}</a> : title}</H>
     {d.status === 'archived' && <span class="chip">{t('projects.archived', lang)}</span>}
   </div>
+  {d.tagline && <p class="project-tagline">{pick(d.tagline, lang)}</p>}
   <p class="project-summary">{pick(d.summary, lang)}</p>
   <ul class="chips">
     {d.areas.map((a) => <li><a class="chip chip-accent" href={localePath(`/research/${a}/`, lang)}>{areaTitles.get(a) ?? a}</a></li>)}
@@ -49,7 +52,7 @@ const github = d.repo ? (meta === null ? 'unavailable' : 'missing' in meta ? 'mi
   </div>
   {(repoUrl || d.links.demo || d.links.paper) && (
     <div class="project-links">
-      {repoUrl && <a href={repoUrl} rel="noopener"><Icon name="github" /> {t('projects.repo', lang)}</a>}
+      {repoUrl && <a class="project-repo" href={repoUrl} rel="noopener"><Icon name="github" /> {t('projects.repo', lang)}</a>}
       {d.links.demo && <a href={d.links.demo} rel="noopener"><Icon name="external" /> {t('projects.demo', lang)}</a>}
       {d.links.paper && <a href={d.links.paper}><Icon name="link" /> {t('projects.paper', lang)}</a>}
     </div>

@@ -124,6 +124,9 @@
    title:
      en: "PatrolBot"
      zh: "PatrolBot 自主巡邏系統"
+   tagline:                           # 選填：一句外行人也看得懂的白話說明，顯示在技術摘要上方
+     en: "A small robot car that patrols on its own ..."
+     zh: "會自己巡邏的機器小車 ..."
    summary:
      en: "Design and construction of an autonomous patrol robot vehicle ..."
      zh: "設計並建置自主巡邏機器車 ..."
@@ -134,6 +137,7 @@
    status: active                     # active | archived
    ```
 3. 沒有公開 repo 的專案可以省略 `repo`。`members` 裡的 id 必須真的存在於 `people/`；打錯時 build 會失敗，並指出是哪個專案檔、哪個 id。
+4. 專案卡最上方的示意圖（選填）見第 3 節「專案示意圖」；沒有圖的專案卡照常顯示，只是沒有圖。
 
 ### 2.4 新增動態
 
@@ -295,6 +299,13 @@
 - 新研究方向要有自己的插圖：在 script 裡新增一張並在 `NOTES` 補一行說明，輸出為 `src/assets/art/<slug>.svg`（`<slug>` 與 `research/` 資料夾同名）；沒有這個檔案時，研究頁會自動改用通用的 `research` 插圖。
 - 改完執行 `npm test`（檢查顏色、結尾標籤、檔案大小與 `npm run art` 的輸出是否與 SVG 一致；其餘規格要自己遵守）。
 
+### 專案示意圖
+
+- 專案卡最上方的小圖放在 `src/assets/project-art/<專案 slug>.svg`，由 `scripts/project-art-gen.mjs` **產生**：要新增或修改，改這支 script 再執行 `npm run project-art`；直接改 SVG 會被蓋掉。檔名必須和 `src/content/projects/` 的檔名相同。
+- 每張圖由左到右讀：輸入 → 方法 → 輸出（例如：臉 → 模型 → 打勾的點名表），`viewBox` 為 `0 0 320 140`，不寫文字。
+- `class` 只能用 `ink`（主線）`thin`（輔助線）`con`（虛線）`sig`（主色訊號，一張圖一到兩條）`key`（主色圓點）`mark`（灰點）`paper`（底色填滿）`draw`（卡片捲入畫面或滑鼠移上去時逐筆畫出）。顏色同樣由 `global.css` 決定，不能寫顏色，每個元素要有結尾標籤。
+- 改完執行 `npm run build` 與 `npm test`（`tests/project-art.test.mjs` 檢查 script 輸出、顏色、class、檔案大小與每張卡片都有圖）。
+
 ### 首頁動畫（hero）
 
 - 首頁右側的輪播插圖是 `src/components/HeroArt.astro`，由 `scripts/hero-gen.mjs` **產生**：要改圖，請改這支 script 再執行 `npm run hero`（會重寫整個元件；也可加輸出路徑：`node scripts/hero-gen.mjs <檔案>`）；直接改 `HeroArt.astro` 會在下次執行時被蓋掉，`npm test` 也會因為兩者不一致而失敗。
@@ -380,6 +391,7 @@ title:
 | 欄位 | 必填 | 型別 / 可用值 | 範例 | 說明 |
 |---|---|---|---|---|
 | `title` | 是 | bi | | |
+| `tagline` | 否 | bi | | 一句白話說明，給不是這個領域的人看；顯示在 `summary` 上方 |
 | `summary` | 是 | bi | | 一兩句話 |
 | `areas` | 是 | 研究方向 slug 清單，**至少 1 個** | `[international-programs]` | |
 | `repo` | 否 | `owner/name`（英數、`_`、`.`、`-`） | `"NCUE-EE-AIAL/PatrolBot"` | 不是完整網址；公開 repo；用來抓 stars / 語言 / 最後 push |
