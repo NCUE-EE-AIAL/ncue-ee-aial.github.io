@@ -13,3 +13,7 @@ url: "https://digital-library.theiet.org/doi/abs/10.1049/icp.2024.4147"
 verified: true
 source: "Opened https://digital-library.theiet.org/doi/abs/10.1049/icp.2024.4147 on 2026-10-17 (Chrome): title, authors and 2024-12-02 date match; volume, issue and pages from Crossref."
 areas: [smart-grid-energy]
+# summary: written from the abstract on the publisher page (url above), 2026-10-24
+summary:
+  en: "Uses a multi-input LSTM network to predict the current waveform and its harmonics in a solar power system, and shows in MATLAB that the predictions follow the variations across changing weather."
+  zh: "以多輸入 LSTM 類神經網路預測太陽能發電系統的電流波形與諧波，並在 MATLAB 中驗證預測能隨天候變化準確追蹤。"

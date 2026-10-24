@@ -11,3 +11,7 @@ url: "https://ieeexplore.ieee.org/document/5551794"
 verified: true
 source: "Opened https://ieeexplore.ieee.org/document/5551794 on 2026-10-17 (Chrome): title, author list and Wen-Ren Yang (Dept. of EE, NCUE) match; pages from Crossref."
 areas: [wavelet-signal-analysis, smart-grid-energy]
+# summary: written from the abstract on the publisher page (url above), 2026-10-24
+summary:
+  en: "Compares the discrete wavelet transform with the short-time Fourier transform on two industrial signals, wafer microcracks and voltage sags, through experiments and simulation."
+  zh: "以實驗與模擬比較離散小波轉換與短時傅立葉轉換在晶圓微裂紋與電壓驟降兩種工業訊號上的分析效果。"

@@ -18,3 +18,7 @@ url: "https://ieeexplore.ieee.org/document/5385831"
 verified: true
 source: "Opened https://ieeexplore.ieee.org/document/5385831 on 2026-10-17 (Chrome): title, author list and Wen-Ren Yang (Dept. of EE, NCUE) match; pages from Crossref."
 areas: [smart-grid-energy]
+# summary: written from the abstract on the publisher page (url above), 2026-10-24
+summary:
+  en: "Monitors voltage sags in real time with a discrete wavelet transform on an embedded chipset that marks where each sag starts and ends, and compensates them with a flywheel energy storage system, shown in a proof-of-principle experiment."
+  zh: "在嵌入式晶片上以離散小波轉換即時偵測電壓驟降的起點與終點，並以飛輪儲能系統補償驟降，完成原理驗證實驗。"

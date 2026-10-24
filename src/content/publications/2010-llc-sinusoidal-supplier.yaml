@@ -14,3 +14,7 @@ url: "https://ieeexplore.ieee.org/document/5515614"
 verified: true
 source: "Opened https://ieeexplore.ieee.org/document/5515614 on 2026-10-17 (Chrome): title, author list and Wen-Ren Yang (Dept. of EE, NCUE) match; pages from Crossref."
 areas: [smart-grid-energy]
+# summary: written from the abstract on the publisher page (url above), 2026-10-24
+summary:
+  en: "Builds a high-frequency sinusoidal supply for contactless power transfer from an LLC resonant tank that uses the coupled transformer's own inductances. A dsPIC tracks the resonant frequency across a 2 mm air gap, and a 1 kW prototype delivers maximum power to varying loads at about 95% efficiency."
+  zh: "利用非接觸式變壓器本身的激磁電感與漏感構成 LLC 諧振槽，製作高頻正弦波電源；以 dsPIC 追蹤 2 mm 氣隙下的諧振頻率，1 kW 原型對不同負載都能輸出最大功率，效率約 95%。"

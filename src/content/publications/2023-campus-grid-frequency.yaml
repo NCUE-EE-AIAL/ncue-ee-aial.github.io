@@ -10,3 +10,7 @@ url: "https://arxiv.org/abs/2310.16071"
 verified: true
 source: "Opened https://arxiv.org/abs/2310.16071 on 2026-10-17: title, authors (Aneesh Sathe, Wen Ren Yang) and 2023-10-24 date match. Also on DBLP under \"Wen Ren Yang\"."
 areas: [smart-grid-energy]
+# summary: written from the abstract on the publisher page (url above), 2026-10-24
+summary:
+  en: "Forecasts grid frequency from the power use of each campus building: one ConvLSTM model per building, trained separately so each building's data stays private, combined by an ensemble into a campus-wide forecast that beats traditional methods on MSE, MAE and MAPE."
+  zh: "以校園各棟建築的用電資料預測電網頻率：每棟建築各自訓練一個 ConvLSTM 模型以保護資料隱私，再以集成模型合併成全校預測，MSE、MAE 與 MAPE 均優於傳統方法。"

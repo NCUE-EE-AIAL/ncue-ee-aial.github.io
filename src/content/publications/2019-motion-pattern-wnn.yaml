@@ -12,3 +12,7 @@ url: "https://ieeexplore.ieee.org/document/8625510"
 verified: true
 source: "Opened https://ieeexplore.ieee.org/document/8625510 on 2026-10-17 (Chrome): title, author list and Wen-Ren Yang (Dept. of EE, NCUE) match; pages from Crossref."
 areas: [wavelet-signal-analysis]
+# summary: written from the abstract on the publisher page (url above), 2026-10-24
+summary:
+  en: "Recognizes human motion from a three-axis accelerometer for fitness assistance and elderly activity monitoring: the DWT extracts vibration features, their local energy feeds a multi-channel radial-basis neural network, and the wavelet step keeps the computation light."
+  zh: "以三軸加速度計辨識人體動作，應用於健身輔助與長者日常活動監測：以離散小波轉換擷取振動特徵，計算局部能量後輸入多通道徑向基類神經網路；小波前處理降低了運算負擔。"

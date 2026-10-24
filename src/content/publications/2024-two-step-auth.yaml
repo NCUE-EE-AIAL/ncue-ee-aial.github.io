@@ -18,3 +18,7 @@ areas: [biometrics-security, international-programs]
 featured: true
 verified: true
 source: "Re-checked https://digital-library.theiet.org/doi/abs/10.1049/icp.2024.4141 on 2026-10-17 (Chrome): title, author order and 2024-12-02 date match; volume, issue and pages from Crossref. Also arXiv 2601.06218."
+# summary: written from the abstract on the publisher page (url above), 2026-10-24
+summary:
+  en: "Combines face and voice recognition into a low-cost authentication system for a small group that needs only a camera and a microphone: a face model identifies the user, then a speaker model verifies the voice. Code and models are public."
+  zh: "結合人臉與聲音辨識，為小團體打造只需攝影機與麥克風的低成本身分驗證：人臉模型先辨識使用者，語者模型再驗證聲音。程式碼與模型皆公開。"

@@ -95,7 +95,7 @@ const memberNames = people.map((p) => p.data.name.en);
   {pubs.length > 0 && (
     <section class="section container" aria-labelledby="pubs-h">
       <div class="section-head"><h2 id="pubs-h">{t('research.pubs', lang)}</h2></div>
-      <ol class="pub-list">{pubs.map((p) => <PubItem pub={p} lang={lang} members={memberNames} showYear />)}</ol>
+      <ol class="pub-list">{pubs.map((p) => <PubItem pub={p} lang={lang} members={memberNames} showYear withSummary />)}</ol>
     </section>
   )}
   {testimonials.length > 0 && (

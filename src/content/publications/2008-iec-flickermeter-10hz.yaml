@@ -12,3 +12,7 @@ url: "https://ieeexplore.ieee.org/document/4608658"
 verified: true
 source: "Opened https://ieeexplore.ieee.org/document/4608658 on 2026-10-17 (Chrome): title, author list and Wen-Ren Yang (Dept. of EE, NCUE) match; pages from Crossref."
 areas: [wavelet-signal-analysis, smart-grid-energy]
+# summary: written from the abstract on the publisher page (url above), 2026-10-24
+summary:
+  en: "Examines the ΔV10 method, used for decades in several Asian countries to rate voltage flicker and unchanged since 1978, against the IEC flickermeter standard, and shows where its readings become unreliable."
+  zh: "以 IEC 閃爍計標準檢視亞洲多國沿用數十年、1978 年後未曾更新的 ΔV10 電壓閃爍量測法，指出其量測結果不可靠之處。"

@@ -75,6 +75,8 @@ const publications = defineCollection({
     code: z.url().optional(),
     tags: z.array(z.string()).default([]),
     areas: z.array(areaSlug).default([]),
+    /** One or two plain sentences on what the paper does, written from its abstract; shown under the paper on research-area pages. */
+    summary: bi.optional(),
     featured: z.boolean().default(false),
     /** false = details not yet checked against the publisher page; shown with a "to verify" mark. */
     verified: z.boolean().default(false),
