@@ -1,13 +1,14 @@
+# Source: Brian, 2026-10-24, his site brian10420.github.io and public repos.
 name:
   en: "Ting-Yi Lin"
   zh: "林庭毅"
 role: master
 photo: "/images/people/brian-lin.webp"
 years: "2025–"
-areas: [biomedical-ai]
+areas: [biomedical-ai, biometrics-security]
 bio:
-  en: "Master’s student working on speech and multimodal emotion recognition and AI for biomedical signals, with a focus on Mamba state-space models and edge deployment."
-  zh: "碩士生，研究語音與多模態情緒辨識及生醫訊號 AI，著重 Mamba 狀態空間模型與邊緣部署。"
+  en: "Master’s student working on multimodal emotion recognition from speech and text with Mamba state-space models and Transformers, alongside AI for biomedical signals, NLP and computer vision. He also deploys models at the edge, on the Grove Vision AI V2 and on FPGAs (PYNQ-Z2, Arty A7-100T)."
+  zh: "碩士生，以 Mamba 狀態空間模型與 Transformer 研究語音與文字的多模態情緒辨識，並涉及生醫訊號 AI、自然語言處理與電腦視覺；也將模型部署到邊緣裝置，包括 Grove Vision AI V2 與 FPGA（PYNQ-Z2、Arty A7-100T）。"
 links:
   github: "https://github.com/brian10420"
   website: "https://brian10420.github.io"

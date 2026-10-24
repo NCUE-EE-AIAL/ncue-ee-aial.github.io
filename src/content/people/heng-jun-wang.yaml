@@ -1,9 +1,10 @@
+# Source: Brian, 2026-10-24 (full-time PhD student; stereo 3D imaging). Photo to come.
 name:
   en: "Heng-Jun Wang"
   zh: "王衡均"
 role: phd
-areas: [robotic-arm]
+areas: [stereo-3d-vision]
 bio:
-  en: "PhD student; mentors students on the lab's robotic arms."
-  zh: "博士生，指導學弟妹進行機械手臂研究。"
+  en: "Full-time PhD student working on 3D imaging with stereo cameras, drawing on computer vision, computer graphics and image processing, with MATLAB and Transformer models."
+  zh: "全職博士生，研究雙攝影機 3D 成像，結合電腦視覺、電腦圖學與影像處理，使用 MATLAB 與 Transformer 模型。"
 order: 5
