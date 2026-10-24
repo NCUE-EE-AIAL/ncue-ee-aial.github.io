@@ -1,6 +1,9 @@
 title:
   en: "EchoMind: Mamba-VA-SER"
   zh: "EchoMind：Mamba-VA-SER 語音情緒辨識"
+tagline:
+  en: "Hears how someone feels from both what they say and how they say it, and answers with a spread of likely emotions instead of one label."
+  zh: "同時聽語氣和內容判斷情緒，給出各種情緒的可能性，而不是只貼一個標籤。"
 summary:
   en: "Bidirectional Mamba versus Transformer backbones for text-and-audio emotion recognition on IEMOCAP, with a joint valence-arousal probability head; code release for the arXiv preprint 2609.05755."
   zh: "比較雙向 Mamba 與 Transformer 骨幹於 IEMOCAP 文字加語音多模態情緒辨識的表現，並採用聯合 Valence-Arousal 機率輸出；為 arXiv 預印本 2609.05755 的程式碼釋出。"

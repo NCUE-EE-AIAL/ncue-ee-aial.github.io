@@ -1,0 +1,17 @@
+<!-- PatrolBot: the car settles onto a straight course beside a wall it measures. -->
+<svg viewBox="0 0 320 140" preserveAspectRatio="xMidYMid meet" focusable="false">
+<path class="ink" d="M8 22H312"></path>
+<path class="con" d="M8 30H312"></path>
+<path class="con" d="M18 92H300"></path>
+<path class="sig draw" pathLength="1" d="M18 102L20 101.4L22 100.6L24 99.6L26 98.4L28 97.2L30 96L32 94.8L34 93.6L36 92.5L38 91.4L40 90.5L42 89.7L44 89.1L46 88.6L48 88.2L50 88L52 87.9L54 88L56 88.1L58 88.4L60 88.7L62 89.1L64 89.6L66 90L68 90.5L70 91L72 91.5L74 91.9L76 92.3L78 92.6L80 92.9L82 93.2L84 93.4L86 93.5L88 93.6L90 93.6L92 93.6L94 93.5L96 93.4L98 93.3L100 93.1L102 92.9L104 92.7L106 92.6L108 92.4L110 92.2L112 92L114 91.9L116 91.7L118 91.6L120 91.5L122 91.5L124 91.4L126 91.4L128 91.4L130 91.4L132 91.4L134 91.5L136 91.5L138 91.6L140 91.7L142 91.7L144 91.8L146 91.9L148 91.9L150 92L152 92.1L154 92.1L156 92.2L158 92.2L160 92.2L162 92.2L164 92.2L166 92.2L168 92.2"></path>
+<rect class="ink paper draw" pathLength="1" x="176" y="72" width="62" height="40" rx="8"></rect>
+<rect class="ink paper" x="182" y="64" width="14" height="8" rx="2"></rect>
+<rect class="ink paper" x="218" y="64" width="14" height="8" rx="2"></rect>
+<rect class="ink paper" x="182" y="112" width="14" height="8" rx="2"></rect>
+<rect class="ink paper" x="218" y="112" width="14" height="8" rx="2"></rect>
+<rect class="thin" x="198" y="84" width="18" height="16" rx="2"></rect>
+<path class="thin" d="M238 92h10"></path>
+<path class="con" d="M207 72V36"></path>
+<path class="sig" d="M207 72l-10-40M207 72l10-40"></path>
+<circle class="key" cx="207" cy="30" r="2.6"></circle>
+<path class="ink" d="M252 92h40m-8-6l8 6l-8 6"></path></svg>

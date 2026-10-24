@@ -1,0 +1,66 @@
+---
+/**
+ * Home: a live signal under the hero. A steady carrier with one wavelet packet (a Morlet: a cosine under a Gaussian)
+ * that drifts across, or follows the pointer while it is over the hero; a faint second trace is its smoothed copy.
+ * Decorative and aria-hidden. Colours come from --accent and --border-2, read once per frame so the theme toggle applies.
+ * It stands still (one frame) under prefers-reduced-motion, stops off-screen or in a hidden tab, and follows the
+ * hero's pause button (WCAG 2.2.2). Without JS it is not shown.
+ */
+---
+<div class="signal-strip" aria-hidden="true"><canvas></canvas></div>
+<script>
+  const strip = document.querySelector<HTMLElement>('.signal-strip');
+  const canvas = strip?.querySelector('canvas');
+  const ctx = canvas?.getContext('2d');
+  if (strip && canvas && ctx) {
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const toggle = document.querySelector('.hero-toggle');
+    const hero = document.querySelector<HTMLElement>('.hero');
+    let visible = true, pointer: number | null = null, frame = 0, t = 0, last = 0, x = 0.3;
+    const paused = () => toggle?.getAttribute('aria-pressed') === 'true';
+    function draw() {
+      const w = canvas!.clientWidth, h = canvas!.clientHeight, d = Math.min(devicePixelRatio || 1, 2);
+      if (!w || !h) return;
+      if (canvas!.width !== Math.round(w * d)) { canvas!.width = Math.round(w * d); canvas!.height = Math.round(h * d); }
+      const css = getComputedStyle(strip!);
+      ctx!.setTransform(d, 0, 0, d, 0, 0);
+      ctx!.clearRect(0, 0, w, h);
+      // The packet eases toward the pointer, or drifts back and forth on its own.
+      const goal = pointer ?? 0.5 + 0.38 * Math.sin(t / 5200);
+      x += (goal - x) * 0.04;
+      const cx = x * w, mid = h / 2, sigma = Math.max(60, w / 14);
+      const trace = (color: string, width: number, amp: number, smooth: number) => {
+        ctx!.beginPath();
+        ctx!.strokeStyle = color;
+        ctx!.lineWidth = width;
+        for (let px = 0; px <= w; px += 2) {
+          const u = (px - cx) / sigma, env = Math.exp(-u * u);
+          const y = mid + 3 * Math.sin(px / 46 + t / 900) + amp * env * Math.cos(u * 5.5 * smooth - t / 240);
+          px ? ctx!.lineTo(px, y) : ctx!.moveTo(px, y);
+        }
+        ctx!.stroke();
+      };
+      trace(css.getPropertyValue('--strip-faint').trim(), 1.25, h * 0.3, 0.45);
+      trace(css.getPropertyValue('--strip-signal').trim(), 1.75, h * 0.36, 1);
+    }
+    function tick(now: number) {
+      frame = 0;
+      t += Math.min(now - last, 50);
+      last = now;
+      draw();
+      schedule();
+    }
+    function schedule() {
+      if (!frame && !still && visible && !paused() && !document.hidden) { last = performance.now(); frame = requestAnimationFrame(tick); }
+    }
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; schedule(); }).observe(strip);
+    document.addEventListener('visibilitychange', schedule);
+    toggle?.addEventListener('click', () => setTimeout(schedule));
+    hero?.addEventListener('pointermove', (e) => { pointer = (e.clientX - strip.getBoundingClientRect().left) / strip.clientWidth; });
+    hero?.addEventListener('pointerleave', () => { pointer = null; });
+    addEventListener('resize', () => { if (!frame) draw(); });
+    new MutationObserver(() => { if (!frame) draw(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    draw();
+    schedule();
+  }
+</script>

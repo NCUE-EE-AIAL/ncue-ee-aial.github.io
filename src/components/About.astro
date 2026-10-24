@@ -33,3 +33,30 @@ const paragraphs = [t('home.about.p1', lang), t('home.about.p2', lang)].filter((
     )}
   </section>
 )}
+<script>
+  // The numbers count up once as they scroll in. The built page holds the real numbers, so without JS, under reduced
+  // motion and for screen readers (a hidden copy of each number) nothing changes.
+  const stats = document.querySelector('.about .stats');
+  if (stats && !matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
+    const nums = [...stats.querySelectorAll<HTMLElement>('.stat-n')].map((el) => ({ el, n: Number(el.textContent) }))
+      .filter((s) => Number.isInteger(s.n) && s.n > 0);
+    nums.forEach(({ el, n }) => {
+      const copy = Object.assign(document.createElement('span'), { className: 'sr-only', textContent: String(n) });
+      el.after(copy);
+      el.setAttribute('aria-hidden', 'true');
+      el.textContent = '0';
+    });
+    const io = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return;
+      io.disconnect();
+      const start = performance.now();
+      const step = (now: number) => {
+        const p = Math.min(1, (now - start) / 1100), ease = 1 - (1 - p) ** 3;
+        nums.forEach(({ el, n }) => { el.textContent = String(Math.round(n * ease)); });
+        if (p < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }, { rootMargin: '0px 0px -10% 0px' });
+    io.observe(stats);
+  }
+</script>

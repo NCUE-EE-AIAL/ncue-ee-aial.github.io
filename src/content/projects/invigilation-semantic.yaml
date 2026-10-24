@@ -1,6 +1,9 @@
 title:
   en: "Invigilation Using Lightweight Semantic Analysis"
   zh: "輕量語意分析監考系統"
+tagline:
+  en: "A camera helps proctor exams: it recognizes each examinee's face and understands the scene, on hardware light enough for the classroom."
+  zh: "用攝影機協助監考：辨識考生身分並理解場景，運算量小到能在教室現場的裝置上執行。"
 summary:
   en: "Vision-based exam invigilation that combines Swin-T semantic segmentation (92.74% accuracy) with ShuffleNet V2 face identification (98.58%), fused at decision level for edge deployment."
   zh: "以視覺為基礎的監考系統，結合 Swin-T 語意分割（準確率 92.74%）與 ShuffleNet V2 人臉辨識（98.58%），於決策層融合，可部署於邊緣裝置。"

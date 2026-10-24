@@ -257,6 +257,10 @@ html:not(.js) #theme-toggle { display: none; } /* it needs a script */
 .hero-meta a { color: var(--muted); }
 .hero-meta a:hover { color: var(--accent); }
 @media (max-width: 860px) { .hero { grid-template-columns: 1fr; } .hero-art { max-width: 460px; } }
+/* Live signal under the hero (SignalStrip.astro): drawn by its script, so hidden without JS; fades out at both ends. */
+.signal-strip { --strip-signal: var(--accent); --strip-faint: var(--border-2); height: 76px; margin-block: -8px 8px; pointer-events: none; mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
+.signal-strip canvas { display: block; width: 100%; height: 100%; }
+html:not(.js) .signal-strip { display: none; }
 
 /* Hero illustration (HeroArt.astro): five research scenes drawn in turn on one 28 s cycle, 5.6 s (20 %) a scene.
    In a scene the construction lines fade in (.fade, 0.6 s), the ink draws (.draw, 1.2 s), the signal traces (.trace, 2 s)
@@ -496,12 +500,12 @@ fieldset.filters { border: 0; padding: 0; min-width: 0; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .js .reveal, .js .reveal.in { opacity: 1; animation: none; }
-  .hero-art *, .art * { animation: none !important; }
+  .hero-art *, .art *, .project-art * { animation: none !important; }
   .js .hero-toggle { display: none; }
   .card, .area-go, .video-play-icon { transition: none; }
-  a.card:hover { transform: none; }
+  a.card:hover, .project:hover { transform: none; }
 }
-@media print { .js .reveal { opacity: 1; } .hero-art, .art { display: none; } }
+@media print { .js .reveal { opacity: 1; } .hero-art, .art, .signal-strip { display: none; } .project-art .draw { animation: none; } }
 
 /* ───────── Area cards ───────── */
 .area-card { position: relative; display: flex; flex-direction: column; gap: 8px; padding: 22px 22px 20px; }
@@ -514,6 +518,11 @@ fieldset.filters { border: 0; padding: 0; min-width: 0; }
 .area-meta { color: var(--muted); font-size: 0.85rem; margin-top: auto; padding-top: 6px; }
 .area-go { position: absolute; top: 22px; right: 20px; color: var(--accent); opacity: 0; transform: translateX(-4px); transition: opacity 0.15s, transform 0.15s; }
 a.area-card:hover .area-go { opacity: 1; transform: none; }
+/* The area's drawing in the card's top band, beside the icon and clear of the text; its signal line lights on hover. */
+.area-card .art-card { --art-faint: var(--border); --art-ink: var(--border-2); position: absolute; top: 12px; right: 44px; left: 84px; height: 60px; }
+.area-card .art-card .sig, .area-card .art-card .key { transition: stroke 0.2s, fill 0.2s; }
+a.area-card:hover .art-card .sig { stroke: var(--accent); }
+a.area-card:hover .art-card .key { fill: var(--accent); }
 .facilities-line {
   margin-top: 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 14px 18px;
   border: 1px dashed var(--border-2); border-radius: var(--radius); color: var(--muted); font-size: 0.95rem;
@@ -557,6 +566,32 @@ a.area-card:hover .area-go { opacity: 1; transform: none; }
 .project .project-links { margin-top: 0; }
 .project-links a, .project-meta span { display: inline-flex; align-items: center; gap: 5px; }
 .stars .icon { width: 1em; height: 1em; }
+.project:hover { border-color: var(--border-2); box-shadow: var(--shadow); transform: translateY(-2px); }
+.project-tagline { font-weight: 500; color: var(--text); }
+.card .project-summary { font-size: 0.9rem; }
+.project-links .project-repo {
+  padding: 4px 12px; border: 1px solid var(--accent); border-radius: 999px; font-weight: 600;
+  transition: background-color 0.15s, color 0.15s;
+}
+.project-links .project-repo:hover { background: var(--accent-strong); border-color: var(--accent-strong); color: #fff; text-decoration: none; }
+
+/* Project diagrams (ProjectArt.astro, made by scripts/project-art-gen.mjs): the hero's grammar at full strength,
+   since a diagram is read, not sat behind text. Drawn as the card scrolls in, redrawn on hover; still under reduced motion. */
+.project-art { margin: -20px -20px 2px; padding: 10px 14px; background: var(--bg); border-bottom: 1px solid var(--border); border-radius: var(--radius) var(--radius) 0 0; }
+.project-art svg { display: block; width: 100%; height: auto; max-height: 150px; }
+.project-art * { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.project-art .ink { stroke: var(--text); stroke-width: 1.6; }
+.project-art .thin { stroke: var(--muted); stroke-width: 1.1; }
+.project-art .con { stroke: var(--border-2); stroke-width: 1.1; stroke-dasharray: 3 4; }
+.project-art .sig { stroke: var(--accent); stroke-width: 2; }
+.project-art .key { fill: var(--accent); stroke: none; }
+.project-art .mark { fill: var(--muted); stroke: none; }
+.project-art .paper { fill: var(--bg); }
+.project-art .draw { stroke-dasharray: 1 1; }
+.js .project.in:not(.drawn) .project-art .draw { animation: project-draw 1.4s cubic-bezier(0.4, 0, 0.2, 1) backwards; animation-delay: calc(var(--i, 0) * 70ms + 0.15s); }
+.js .project.drawn:hover .project-art .draw { animation: project-redraw 1s cubic-bezier(0.4, 0, 0.2, 1); }
+@keyframes project-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes project-redraw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
 
 /* ───────── People ───────── */
 .people-pi { padding-bottom: 8px; }

@@ -1,6 +1,9 @@
 title:
   en: "Face Recognition Attendance Management System"
   zh: "人臉辨識點名管理系統"
+tagline:
+  en: "Takes the roll by recognizing faces through a webcam."
+  zh: "用攝影機認臉，自動點名。"
 summary:
   en: "A Tkinter and OpenCV desktop app that captures face images, trains a recognizer, and logs attendance in real time to CSV files or a MySQL database, with manual entry as a fallback. Supported by TEEP."
   zh: "以 Tkinter 與 OpenCV 開發的桌面應用程式，可擷取人臉影像、訓練辨識模型並即時記錄出席，結果存入 CSV 或 MySQL 資料庫，亦可手動補登；由 TEEP 計畫支持。"

@@ -1,0 +1,17 @@
+<!-- ECG on a microcontroller: heartbeats, wavelet detail bands, a small network on the board, beat classes. -->
+<svg viewBox="0 0 320 140" preserveAspectRatio="xMidYMid meet" focusable="false">
+<path class="sig draw" pathLength="1" d="M10 70h8.3q2.3-4.1 4.6 0h3.7l1.4 4.1l1.8-34l1.8 40.8l1.4-10.9h5.5q3.7-9.5 7.4 0h5.5M56 70h8.3q2.3-4.1 4.6 0h3.7l1.4 4.1l1.8-34l1.8 40.8l1.4-10.9h5.5q3.7-9.5 7.4 0h5.5h4"></path>
+<path class="thin" d="M108 70H128m-5-4l5 4l-5 4"></path>
+<path class="thin" d="M134 46L135.5 46L137 46L138.5 46L140 46L141.5 46L143 46L144.5 46L146 46L147.5 46L149 46.1L150.5 46.2L152 46.4L153.5 46.4L155 45.8L156.5 44.6L158 43.2L159.5 42.9L161 44.6L162.5 48.1L164 51.2L165.5 51.9L167 49.7L168.5 46.1L170 43.5L171.5 43L173 44L174.5 45.4L176 46.2L177.5 46.4L179 46.3L180.5 46.1L182 46L183.5 46L185 46L186.5 46L188 46L189.5 46L191 46L192.5 46L194 46L195.5 46"></path>
+<path class="thin" d="M134 70L136 70L138 70.2L140 70.3L142 70.5L144 70.7L146 70.6L148 70.1L150 69L152 67.4L154 65.8L156 64.8L158 64.9L160 66.6L162 69.5L164 73L166 75.9L168 77.3L170 77L172 75.2L174 72.7L176 70.4L178 68.8L180 68.2L182 68.3L184 68.7L186 69.3L188 69.7L190 70L192 70.1L194 70.1L196 70.1"></path>
+<path class="thin" d="M134 94L136 95.5L138 97L140 98.3L142 99.4L144 100.3L146 100.8L148 101L150 100.9L152 100.4L154 99.6L156 98.5L158 97.2L160 95.8L162 94.2L164 92.7L166 91.2L168 89.8L170 88.7L172 87.8L174 87.2L176 87L178 87.1L180 87.5L182 88.3L184 89.3L186 90.6L188 92L190 93.6L192 95.1L194 96.6L196 98"></path>
+<path class="con" d="M165 34V106"></path>
+<path class="thin" d="M202 70H222m-5-4l5 4l-5 4"></path>
+<rect class="ink paper draw" pathLength="1" x="228" y="40" width="48" height="60" rx="4"></rect>
+<path class="thin" d="M228 52h-6M228 64h-6M228 76h-6M228 88h-6M276 52h6M276 64h6M276 76h6M276 88h6"></path>
+<circle class="thin" cx="242" cy="56" r="3"></circle>
+<circle class="thin" cx="242" cy="84" r="3"></circle>
+<circle class="thin" cx="262" cy="70" r="3"></circle>
+<path class="thin" d="M245 57l14 12M245 83l14-12"></path>
+<circle class="key" cx="300" cy="58" r="4"></circle>
+<circle class="ink" cx="300" cy="82" r="4"></circle></svg>

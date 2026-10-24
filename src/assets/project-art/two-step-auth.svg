@@ -1,0 +1,15 @@
+<!-- Two-step biometrics: face, then voice; both must agree. -->
+<svg viewBox="0 0 320 140" preserveAspectRatio="xMidYMid meet" focusable="false">
+<path class="con" d="M10 40V32H18M58 32H66V40M66 94V102H58M18 102H10V94"></path>
+<circle class="ink draw" pathLength="1" cx="38" cy="56" r="11"></circle>
+<path class="ink draw" pathLength="1" d="M20.4 87.9c3.3-13.2 9.9-18.7 17.6-18.7s14.3 5.5 17.6 18.7"></path>
+<path class="thin" d="M72 66H90m-5-4l5 4l-5 4"></path>
+<rect class="ink paper draw" pathLength="1" x="96" y="44" width="40" height="44" rx="5"></rect>
+<path class="thin" d="M104 56h24M104 64h18M104 72h22"></path>
+<path class="thin" d="M142 66H160m-5-4l5 4l-5 4"></path>
+<path class="sig draw" pathLength="1" d="M166 66L169 67.1L172 62.2L175 70.8L178 61.7L181 78.2L184 56.6L187 77.4L190 54.5L193 77.8L196 56.5L199 74.5L202 52.8L205 72.5L208 58.4L211 73.6L214 59.1L217 69L220 65.2"></path>
+<path class="thin" d="M228 66H246m-5-4l5 4l-5 4"></path>
+<rect class="ink paper draw" pathLength="1" x="252" y="48.5" width="9" height="35" rx="2"></rect>
+<rect class="ink paper draw" pathLength="1" x="266" y="48.5" width="9" height="35" rx="2"></rect>
+<circle class="ink draw" pathLength="1" cx="296" cy="66" r="15"></circle>
+<path class="sig draw" pathLength="1" d="M289 66l5 5l9-10"></path></svg>

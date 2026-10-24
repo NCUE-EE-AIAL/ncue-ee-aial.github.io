@@ -10,6 +10,7 @@
     "preview": "astro preview",
     "check": "astro check",
     "art": "node scripts/art-gen.mjs",
+    "project-art": "node scripts/project-art-gen.mjs",
     "hero": "node scripts/hero-gen.mjs",
     "icons": "node scripts/icons-gen.mjs",
     "links": "node scripts/check-links.mjs dist",

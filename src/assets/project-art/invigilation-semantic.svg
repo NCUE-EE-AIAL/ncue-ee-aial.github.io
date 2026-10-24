@@ -1,0 +1,21 @@
+<!-- Invigilation: a classroom from above, segmentation regions and a face box, one flag. -->
+<svg viewBox="0 0 320 140" preserveAspectRatio="xMidYMid meet" focusable="false">
+<path class="con" d="M12 30V22H20M96 22H104V30M104 114V122H96M20 122H12V114"></path>
+<rect class="thin" x="22" y="34" width="30" height="18" rx="2"></rect>
+<circle class="ink draw" pathLength="1" cx="37" cy="62" r="6"></circle>
+<rect class="thin" x="62" y="34" width="30" height="18" rx="2"></rect>
+<circle class="ink draw" pathLength="1" cx="77" cy="62" r="6"></circle>
+<rect class="thin" x="22" y="78" width="30" height="18" rx="2"></rect>
+<circle class="ink draw" pathLength="1" cx="37" cy="106" r="6"></circle>
+<rect class="thin" x="62" y="78" width="30" height="18" rx="2"></rect>
+<circle class="ink draw" pathLength="1" cx="77" cy="106" r="6"></circle>
+<path class="thin" d="M110 70H132m-5-4l5 4l-5 4"></path>
+<rect class="ink paper draw" pathLength="1" x="138" y="30" width="80" height="80" rx="4"></rect>
+<path class="con" d="M138 70C160 60 180 84 218 66M178 30C170 56 190 90 178 110"></path>
+<circle class="ink" cx="196" cy="52" r="8"></circle>
+<path class="ink" d="M183.2 75.2c2.4-9.6 7.2-13.6 12.8-13.6s10.4 4 12.8 13.6"></path>
+<path class="sig" d="M184 40h24v24h-24z"></path>
+<path class="thin" d="M224 70H246m-5-4l5 4l-5 4"></path>
+<path class="ink draw" pathLength="1" d="M262 92h40l-20-36z"></path>
+<path class="sig draw" pathLength="1" d="M282 70v10"></path>
+<circle class="key" cx="282" cy="86" r="2"></circle></svg>

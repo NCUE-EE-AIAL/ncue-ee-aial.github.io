@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import Art from './Art.astro';
 import { localePath, t, type Locale } from '../i18n/utils';
 import { slugOf } from '../lib/format';
 import type { Area } from '../lib/data';
@@ -21,6 +22,7 @@ const counts = [
 ].filter(Boolean);
 ---
 <a class="card area-card reveal" href={localePath(`/research/${slugOf(area.id)}/`, lang)} style={`--i:${i}`}>
+  <Art name={[slugOf(area.id), 'research']} class="art-card" />
   <span class="area-icon"><Icon name={area.data.icon} /></span>
   <H class="area-title">{area.data.title}</H>
   <p>{area.data.summary}</p>

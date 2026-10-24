@@ -1,0 +1,16 @@
+<!-- Face attendance: a face in the camera frame, a trained recognizer, the roll with ticks. -->
+<svg viewBox="0 0 320 140" preserveAspectRatio="xMidYMid meet" focusable="false">
+<path class="con" d="M18 38V30H26M82 30H90V38M90 102V110H82M26 110H18V102"></path>
+<circle class="ink draw" pathLength="1" cx="54" cy="60" r="13"></circle>
+<path class="ink draw" pathLength="1" d="M33.2 97.7c3.9-15.6 11.7-22.1 20.8-22.1s16.9 6.5 20.8 22.1"></path>
+<path class="sig" d="M38 46h32v30h-32z"></path>
+<path class="thin" d="M98 70H122m-5-4l5 4l-5 4"></path>
+<rect class="ink paper draw" pathLength="1" x="128" y="44" width="56" height="52" rx="6"></rect>
+<circle class="thin" cx="156" cy="64" r="9"></circle>
+<path class="thin" d="M140 86h32"></path>
+<path class="thin" d="M190 70H214m-5-4l5 4l-5 4"></path>
+<rect class="ink paper draw" pathLength="1" x="220" y="30" width="84" height="80" rx="4"></rect>
+<path class="thin" d="M230 48h44M230 66h44M230 84h44M230 102h44M220 48h84"></path>
+<path class="sig draw" pathLength="1" d="M285 66l4 4l7-8"></path>
+<path class="sig draw" pathLength="1" d="M285 84l4 4l7-8"></path>
+<circle class="thin" cx="290" cy="102" r="4"></circle></svg>
