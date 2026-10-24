@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import HeroArt from '../HeroArt.astro';
+import SignalStrip from '../SignalStrip.astro';
 import AreaCard from '../AreaCard.astro';
 import PubItem from '../PubItem.astro';
 import NewsItem from '../NewsItem.astro';
@@ -36,6 +37,7 @@ const recent = recentNews(news);
     </div>
     <HeroArt lang={lang} />
   </section>
+  <SignalStrip />
 
   <About lang={lang} stats={stats} group={groupPhotos[0]} />
 
