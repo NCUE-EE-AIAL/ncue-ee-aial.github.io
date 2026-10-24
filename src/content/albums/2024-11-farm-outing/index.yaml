@@ -1,0 +1,16 @@
+# Photo from the old lab website (International collaborations section). Place and date to confirm with Brian (2026-10-24):
+# the date comes from the file name (WhatsApp, 2024-11-24).
+title:
+  en: "Farm outing with the international interns"
+  zh: "與國際實習生的農場出遊"
+date: 2024-11-24
+summary:
+  en: "A day at a leisure farm in Dongshi with the TEEP and IIPP interns and Taiwanese students."
+  zh: "與 TEEP、IIPP 國際實習生和臺灣同學到東勢的休閒農場出遊。"
+consent: people-agreed
+consentBy: "Ting-Yi Lin (Brian), 2026-10-24: photo already public on the old lab website"
+photos:
+  - src: ./farm-group.jpg
+    alt:
+      en: "Group photo of about fifty students under trees at a farm, holding flowers and the farm's banner"
+      zh: "約五十位學生在農場樹下的大合照，手拿花束和農場布條"
