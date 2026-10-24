@@ -14,8 +14,8 @@ showcase:
     href: "https://github.com/brian10420/EchoMind-Mamba-VA-SER"
   - title: "Muscle fatigue from surface EMG"
     image: ./semg-fatigue.jpg
-    alt: "Schematic of muscle-fatigue detection. Surface EMG electrodes, a 20 to 450 Hz band-pass filter, then either RMS and median-frequency features with classical machine learning or a deep model on the raw windows, ending in fresh or fatigued. Beside it, a 30-second contraction whose RMS envelope slowly grows, and two power spectra whose median frequency moves lower from start to end."
-    text: "As a muscle tires during a sustained contraction, its EMG grows larger and its median frequency falls. We compare classical features with deep models for detecting fatigue. The figure is a schematic drawn from synthetic data."
+    alt: "Schematic of muscle-fatigue detection. A wearable sEMG sensor keeps the rectified and smoothed amplitude envelope at 100 Hz; then either RMS, MAV and activation features with classical machine learning, or a deep model on envelope windows, decides fresh or fatigued. Beside it, three contractions of raw sEMG with the envelope traced over them, and the envelope of a fatiguing task whose peaks climb from one contraction to the next."
+    text: "A wearable sensor records the amplitude envelope of the muscle signal, and fatigue shows up in how that amplitude changes over a task. We compare classical features with deep models for detecting it. The figure is a schematic drawn from synthetic data."
     href: "https://hdl.handle.net/11296/yt5d6s"
 ---
 
