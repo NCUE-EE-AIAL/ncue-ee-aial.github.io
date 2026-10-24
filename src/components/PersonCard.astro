@@ -36,7 +36,7 @@ const links: Link[] = [
     ? <img class="avatar" src={d.photo} alt={`${t('people.photoAlt', lang)}${lang === 'zh' ? '' : ' '}${name}`} width={pi ? 120 : 72} height={pi ? 120 : 72} loading={pi ? 'eager' : 'lazy'} decoding="async" />
     : <span class="avatar" aria-hidden="true">{initials(d.name.en)}</span>}
   <div class="person-body">
-    <H class="person-name">{name}{altName && <span class="name-alt" lang={lang === 'zh' ? 'en' : 'zh-Hant-TW'}>{altName}</span>}</H>
+    <H class="person-name">{name}{altName && <span class="name-alt" lang={lang === 'zh' ? 'en' : 'zh-Hant-TW'}>{altName}</span>}{d.nickname && <span class="name-alt" lang="en">({d.nickname})</span>}</H>
     <p class="role">
       <span>{t(`people.role.${d.role}` as UiKey, lang)}</span>
       {d.program && <span class="chip chip-accent">{d.program}</span>}
