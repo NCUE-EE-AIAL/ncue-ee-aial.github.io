@@ -104,6 +104,8 @@ const people = defineCollection({
   loader: glob({ pattern: '**/*.{yaml,yml}', base: './src/content/people' }),
   schema: z.strictObject({
     name: bi,
+    /** English nickname the person goes by, e.g. "Brian". Shown after the name in both languages. */
+    nickname: z.string().min(1).optional(),
     role: z.enum(['pi', 'phd', 'master', 'undergrad', 'intern', 'staff']),
     /** International program, if any. */
     program: z.enum(['TEEP', 'IIPP']).optional(),

@@ -349,6 +349,7 @@ title:
 | 欄位 | 必填 | 型別 / 可用值 | 範例 | 說明 |
 |---|---|---|---|---|
 | `name` | 是 | bi | `en: "Ting-Yi Lin"` `zh: "林庭毅"` | |
+| `nickname` | 否 | 字串 | `"Brian"` | 本人常用的英文暱稱，中英文頁都顯示在名字後的括號裡 |
 | `role` | 是 | `pi` `phd` `master` `undergrad` `intern` `staff` | `master` | |
 | `program` | 否 | `TEEP` `IIPP` | `TEEP` | 國際交流計畫（如有） |
 | `alumni` | 否（`false`） | true / false | `true` | 畢業或離開 |
