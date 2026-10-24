@@ -13,3 +13,7 @@ url: "https://ieeexplore.ieee.org/document/4608656"
 verified: true
 source: "Opened https://ieeexplore.ieee.org/document/4608656 on 2026-10-17 (Chrome): title, author list and Wen-Ren Yang (Dept. of EE, NCUE) match; pages from Crossref."
 areas: [smart-grid-energy]
+# summary: written from the abstract on the publisher page (url above), 2026-10-24
+summary:
+  en: "Adds reflex (pulse) charging with energy recovery to the bidirectional converter of a UPS, so the negative-pulse energy is recovered instead of wasted. A 400 W prototype charges the battery about 10% more efficiently and 8.8% faster than a typical converter."
+  zh: "在不斷電系統的雙向轉換器中加入具能量回收的反射式（脈衝）充電，回收負脈衝能量而不浪費。400 W 原型的充電效率比一般轉換器提高約 10%，充電速度提高 8.8%。"

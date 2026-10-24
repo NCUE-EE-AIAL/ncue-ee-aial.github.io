@@ -11,3 +11,7 @@ url: "https://ieeexplore.ieee.org/document/10461214"
 verified: true
 source: "Opened https://ieeexplore.ieee.org/document/10461214 on 2026-10-17 (Chrome): title, authors (W.-R. Yang, National Changhua University of Education) and ICETA 2023 match."
 areas: [wavelet-signal-analysis]
+# summary: written from the abstract on the publisher page (url above), 2026-10-24
+summary:
+  en: "Detects mynah birds in a vineyard from their calls with deep learning on an RP2040 microcontroller, estimates their distance with ultrasonic sensors, and can send a robot vehicle with red lasers to chase them away."
+  zh: "在 RP2040 微控制器上以深度學習從叫聲辨識葡萄園中的八哥，並以超音波感測器估計距離，再派出裝有紅色雷射的機器車驅趕。"

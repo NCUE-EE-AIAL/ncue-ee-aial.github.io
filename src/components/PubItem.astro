@@ -13,11 +13,14 @@ interface Props {
   anchor?: boolean;
   /** Titles of honours this paper won (src/content/honors/ with `publication`). */
   awards?: string[];
+  /** Show the paper's plain-language `summary` (research-area pages). */
+  withSummary?: boolean;
 }
-const { pub, lang, members, showYear = false, anchor = false, awards = [] } = Astro.props;
+const { pub, lang, members, showYear = false, anchor = false, awards = [], withSummary = false } = Astro.props;
 const d = pub.data;
 const title = pick(d.title, lang);
 const altTitle = lang === 'zh' && d.title.zh ? d.title.en : undefined;
+const summary = withSummary && d.summary ? pick(d.summary, lang) : undefined;
 const href = d.url ?? (d.doi ? `https://doi.org/${d.doi}` : undefined);
 const cite = { title: d.title.en, authors: d.authors, venue: d.venue, year: d.year, type: d.type, doi: d.doi, url: d.url };
 const bib = toBibtex(cite);
@@ -29,6 +32,7 @@ const isMember = (a: string) => members.some((m) => isAuthor(m, [a]));
   {altTitle && <p class="pub-title-alt" lang="en">{altTitle}</p>}
   <p class="pub-authors">{d.authors.map((a, i) => <>{i > 0 && ', '}{isMember(a) ? <strong class="me">{a}</strong> : a}</>)}</p>
   <p class="pub-venue">{d.venue}{showYear && !d.venue.includes(String(d.year)) && `, ${d.year}`}</p>
+  {summary && <p class="pub-summary" lang={lang === 'zh' && !d.summary!.zh ? 'en' : undefined}>{summary}</p>}
   <div class="pub-links">
     <span class="chip">{t(`pubs.type.${d.type}` as UiKey, lang)}</span>
     {awards.map((a) => <span class="chip chip-award"><Icon name="star" /> {a}</span>)}

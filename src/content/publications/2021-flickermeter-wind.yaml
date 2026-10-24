@@ -12,3 +12,7 @@ url: "https://www.mdpi.com/1996-1073/14/18/5734"
 verified: true
 source: "Opened https://www.mdpi.com/1996-1073/14/18/5734 on 2026-10-17 (Chrome): title, authors, Energies 14(18) 5734, 2021 match."
 areas: [wavelet-signal-analysis, smart-grid-energy]
+# summary: written from the abstract on the publisher page (url above), 2026-10-24
+summary:
+  en: "Extends the IEC 61400-21-1 flicker measurement for grid-connected wind turbines so it also gives ΔV10 values, as used in Japan and elsewhere; engineers can then estimate a turbine's flicker before installation and manufacturers can certify faster. Tested on a simulated doubly-fed induction generator turbine."
+  zh: "擴充併網風力機的 IEC 61400-21-1 閃爍量測方法，使其也能算出日本等國使用的 ΔV10 值，讓工程師在安裝前評估風機造成的閃爍，也加快製造商的認證；並以模擬的雙饋式感應發電機風機驗證。"

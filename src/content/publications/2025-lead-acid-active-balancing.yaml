@@ -14,3 +14,7 @@ url: "https://ieeexplore.ieee.org/document/11061541"
 verified: true
 source: "Opened https://ieeexplore.ieee.org/document/11061541 on 2026-10-17 (Chrome): title, author list and Wen-Ren Yang (Dept. of EE, NCUE) match; pages from Crossref."
 areas: [smart-grid-energy]
+# summary: written from the abstract on the publisher page (url above), 2026-10-24
+summary:
+  en: "Builds a battery management system for series-connected storage from cascaded half-bridge multilevel converters and a DSP. Sorting-based level-shifted PWM sets each module's current so the cells stay within 0.1 V of each other while charging, discharging or idle, with no extra balancing circuit, and a faulty module is detected and bypassed."
+  zh: "以串接半橋多階轉換器與 DSP 建構串聯儲能的電池管理系統：以排序式位準移位 PWM 調節每個模組的充放電電流，在充電、放電與靜置時都能把電壓差控制在 0.1 V 以內，不需額外平衡電路；偵測到故障模組時會自動旁路。"

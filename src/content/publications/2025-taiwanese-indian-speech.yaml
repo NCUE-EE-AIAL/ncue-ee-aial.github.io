@@ -11,3 +11,7 @@ url: "https://ieeexplore.ieee.org/document/11207988"
 areas: [wavelet-signal-analysis, biometrics-security]
 verified: true
 source: "Opened https://ieeexplore.ieee.org/document/11207988 on 2026-10-17 (Chrome): title, author list and Wen-Ren Yang (Dept. of EE, NCUE) match; pages from Crossref."
+# summary: written from the abstract on the publisher page (url above), 2026-10-24
+summary:
+  en: "Compares the speech of Taiwanese Mandarin–English bilinguals with Indian English speakers using MFCCs, pitch contours, spectrograms and wavelet analysis: Taiwanese speech shows more pitch variation and tonal shifts, Indian speech a steadier rhythm. The findings guide the choice of speech-recognition and speaker-verification models for diverse speakers."
+  zh: "以 MFCC、音高曲線、頻譜圖與小波分析比較台灣中英雙語者與印度英語使用者的語音：台灣語音的音高變化與聲調轉折較大，印度語音的節奏較穩定。結果可作為針對不同語者選擇語音辨識與語者驗證模型的依據。"

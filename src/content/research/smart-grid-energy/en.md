@@ -21,3 +21,5 @@ The monitoring system is organized in three layers. At the edge, smart sensors m
 ![Waveforms measured from the system, plotted in per unit against sample number.](./bess-waveform.jpg)
 
 The direction builds on Prof. Yang's earlier work in power electronics and power quality, listed below: wavelet-based voltage-sag monitoring, flicker measurement, power-disturbance recognition with neural networks, flywheel energy storage, battery charging and resonant converters.
+
+**Earlier master's theses.** On the storage side, students built a [battery balancing system](https://hdl.handle.net/11296/jy6862), a [fault-tolerant battery storage system](https://hdl.handle.net/11296/p993sg) and a [version with balancing for DC microgrids](https://hdl.handle.net/11296/a4c9a3), and [AI estimation of a battery's state of charge and internal temperature rise](https://hdl.handle.net/11296/e4s4a3). On power quality there are an [embedded voltage-flicker meter](https://hdl.handle.net/11296/pfb8t4), [LSTM prediction of current harmonics in solar power](https://hdl.handle.net/11296/eums9d) and [multimodal power-quality analysis of a PV system](https://hdl.handle.net/11296/5z3bjn).

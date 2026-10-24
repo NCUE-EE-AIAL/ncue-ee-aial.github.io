@@ -11,3 +11,7 @@ url: "https://ieeexplore.ieee.org/document/5515329"
 verified: true
 source: "Opened https://ieeexplore.ieee.org/document/5515329 on 2026-10-17 (Chrome): title, author list and Wen-Ren Yang (Dept. of EE, NCUE) match; pages from Crossref."
 areas: [wavelet-signal-analysis]
+# summary: written from the abstract on the publisher page (url above), 2026-10-24
+summary:
+  en: "Designs the optics of the wafer microcrack detector (a cylindrical lens with a solid immersion lens) and its signal processing: a probabilistic neural network separates vibration-induced deviations, and a short-time discrete wavelet transform identifies the cracks."
+  zh: "設計晶圓微裂紋檢測系統的光學模組（圓柱透鏡搭配固態浸沒透鏡）與後端訊號處理：以機率類神經網路排除振動造成的偏差，再以短時離散小波轉換辨識裂紋。"

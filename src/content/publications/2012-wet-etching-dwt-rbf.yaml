@@ -10,3 +10,7 @@ url: "https://ieeexplore.ieee.org/document/6125246"
 verified: true
 source: "Opened https://ieeexplore.ieee.org/document/6125246 on 2026-10-17 (Chrome): title, author list and Wen-Ren Yang (Dept. of EE, NCUE) match; pages from Crossref."
 areas: [wavelet-signal-analysis]
+# summary: written from the abstract on the publisher page (url above), 2026-10-24
+summary:
+  en: "Classifies the flow rate of a single-wafer wet-etching tool automatically: the flow meter's signal is decomposed with the DWT, the coefficient power goes into a radial-basis neural network, and a digital filter with a threshold refines the result, for in-situ monitoring in the fab."
+  zh: "自動分類單晶圓濕式蝕刻機台的流量：以離散小波轉換分解流量計訊號，將係數功率輸入徑向基類神經網路初步分類，再以數位濾波與門檻值做後處理，可用於製程現場即時監控。"

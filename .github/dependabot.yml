@@ -9,6 +9,10 @@ updates:
     groups:
       astro:
         patterns: ['astro', '@astrojs/*']
+    ignore:
+      # @astrojs/check (used by `npm run build`) supports TypeScript 5 and 6 only; drop this once it accepts 7.
+      - dependency-name: typescript
+        update-types: ['version-update:semver-major']
   - package-ecosystem: github-actions
     directory: /
     schedule:

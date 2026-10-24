@@ -13,3 +13,7 @@ url: "https://ieeexplore.ieee.org/document/5516928"
 verified: true
 source: "Opened https://ieeexplore.ieee.org/document/5516928 on 2026-10-17 (Chrome): title, author list and Wen-Ren Yang (Dept. of EE, NCUE) match; pages from Crossref."
 areas: [wavelet-signal-analysis, stereo-3d-vision]
+# summary: written from the abstract on the publisher page (url above), 2026-10-24
+summary:
+  en: "Measures the area of the marks that test needles leave on wafer pads from high-magnification microscope images, replacing the manual practice of drawing an oval around each mark; the method is faster, more accurate and does not vary from person to person."
+  zh: "以高倍率顯微影像計算探針測試後在晶圓銲墊上留下的針痕面積，取代人工畫橢圓估算的做法，速度更快、更準確，也不會因人而異。"
