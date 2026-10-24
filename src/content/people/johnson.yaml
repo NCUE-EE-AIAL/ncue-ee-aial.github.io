@@ -1,6 +1,10 @@
+# Listed as "Johnson" on the old lab site; 劉子旭 = Johnson (Brian, 2026-10-24). First author of the 2024 ICETA LSTM paper.
 name:
-  en: "Johnson"
+  en: "Zi-Xu Liu"
+  zh: "劉子旭"
 role: intern
+photo: "/images/people/johnson.webp"
 alumni: true
+areas: [smart-grid-energy]
 links: {}
 order: 50

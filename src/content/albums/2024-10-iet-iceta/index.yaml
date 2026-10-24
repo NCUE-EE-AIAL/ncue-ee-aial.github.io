@@ -1,0 +1,27 @@
+# Photos from the old lab website (Conference section). Date and captions to confirm with Brian (2026-10-24).
+title:
+  en: "2024 IET ICETA conference"
+  zh: "2024 IET ICETA 國際研討會"
+date: 2024-10-25
+summary:
+  en: "Two lab papers at the IET International Conference on Engineering Technologies and Applications, Chinese Culture University, Taipei, 25–27 October 2024: the two-step voice and face authentication poster, and an oral talk on LSTM current prediction and harmonic analysis in solar power systems."
+  zh: "2024 年 10 月 25–27 日於臺北中國文化大學舉行的 IET ICETA 國際研討會，實驗室發表兩篇論文：語音與人臉雙階段身分驗證的海報，以及太陽能發電系統 LSTM 電流預測與諧波分析的口頭報告。"
+consent: people-agreed
+consentBy: "Ting-Yi Lin (Brian), 2026-10-24: photos already public on the old lab website"
+photos:
+  - src: ./poster-ting-yi-lin.jpg
+    alt:
+      en: "Ting-Yi Lin in a suit pointing at the two-step authentication poster, board PA-01"
+      zh: "林庭毅穿西裝，指著編號 PA-01 的雙階段身分驗證海報"
+  - src: ./poster-kuan-wei-chen.jpg
+    alt:
+      en: "Kuan-Wei Chen standing beside the two-step authentication poster"
+      zh: "陳冠維站在雙階段身分驗證海報旁"
+  - src: ./venue.jpg
+    alt:
+      en: "Lab members beside the 2024 IET ICETA banner and the Conference Room 1 programme board"
+      zh: "成員站在 2024 IET ICETA 看板與第一會議室議程板旁"
+  - src: ./talk-lstm.jpg
+    alt:
+      en: "Five frames of Zi-Xu Liu (Johnson) presenting the LSTM solar harmonics paper on stage"
+      zh: "劉子旭上台報告 LSTM 太陽能諧波論文的五張連拍"

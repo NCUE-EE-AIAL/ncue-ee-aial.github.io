@@ -5,12 +5,12 @@ import Cta from '../Cta.astro';
 import Icon from '../Icon.astro';
 import Photo from '../Photo.astro';
 import labSign from '../../assets/photos/lab-sign.jpg';
-import { pick, s, t, type Locale, type UiKey } from '../../i18n/utils';
+import { formatDate, pick, s, t, type Locale, type UiKey } from '../../i18n/utils';
 import { site } from '../../i18n/ui';
-import { getFacilities, getPeople, getFaq } from '../../lib/data';
+import { getFacilities, getPeople, getFaq, getAlbums } from '../../lib/data';
 interface Props { lang: Locale }
 const { lang } = Astro.props;
-const [facilities, people, faq] = await Promise.all([getFacilities(), getPeople(), getFaq()]);
+const [facilities, people, faq, albums] = await Promise.all([getFacilities(), getPeople(), getFaq(), getAlbums()]);
 const audiences = (['master', 'undergrad', 'intl', 'all'] as const).filter((a) => faq.some((f) => f.data.audience === a));
 const piEmail = people.find((p) => p.data.role === 'pi')?.data.links.email;
 // TODO markers (unconfirmed facts) show in `npm run dev` only, never on the public site.
@@ -34,6 +34,19 @@ const roomKnown = !room.startsWith('TODO');
       <section class="join-block reveal" aria-labelledby="life-h">
         <h2 id="life-h">{t('join.life.title', lang)}</h2>
         <p>{t('join.life.body', lang)}</p>
+        {albums.map((a) => (
+          <article class="album" id={`album-${a.id}`}>
+            <h3 class="album-title">{pick(a.data.title, lang)}</h3>
+            <time class="album-date" datetime={a.data.date.toISOString().slice(0, 10)}>{formatDate(a.data.date, lang)}</time>
+            {a.data.summary && <p class="album-summary">{pick(a.data.summary, lang)}</p>}
+            <div class="album-photos">
+              {a.data.photos.map((p) => (
+                <Photo src={p.src} alt={pick(p.alt, lang)} width={480} sizes="(min-width: 860px) 300px, 50vw"
+                  caption={p.caption && pick(p.caption, lang)} />
+              ))}
+            </div>
+          </article>
+        ))}
       </section>
       {faq.length > 0 && (
         <section class="join-block" id="faq" aria-labelledby="faq-h">
