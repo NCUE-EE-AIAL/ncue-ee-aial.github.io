@@ -3,6 +3,8 @@ import Base from '../../layouts/Base.astro';
 import PageHead from '../PageHead.astro';
 import Cta from '../Cta.astro';
 import Icon from '../Icon.astro';
+import Photo from '../Photo.astro';
+import labSign from '../../assets/photos/lab-sign.jpg';
 import { pick, s, t, type Locale, type UiKey } from '../../i18n/utils';
 import { site } from '../../i18n/ui';
 import { getFacilities, getPeople, getFaq } from '../../lib/data';
@@ -91,6 +93,7 @@ const roomKnown = !room.startsWith('TODO');
           <div>
             <dt>{t('join.room', lang)}</dt>
             <dd class:list={[{ todo: !roomKnown }]}>{room}</dd>
+            {roomKnown && <dd><Photo src={labSign} alt={t('join.sign.alt', lang)} width={320} sizes="320px" class="lab-sign" /></dd>}
           </div>
         )}
         <div>

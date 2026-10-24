@@ -613,6 +613,7 @@ h2 .count { vertical-align: 0.3em; margin-left: 6px; }
 .join-block .todo { display: inline-block; margin-top: 10px; }
 .contact-card { position: sticky; top: 84px; }
 .contact-card h2 { font-size: 1.15rem; margin-bottom: 14px; }
+.contact-card .lab-sign { margin-top: 10px; max-width: 320px; }
 .contact-list { display: grid; gap: 14px; }
 .contact-list dt { color: var(--muted); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
 .contact-list dd { margin-top: 2px; overflow-wrap: anywhere; }
