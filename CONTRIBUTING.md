@@ -253,10 +253,10 @@
 - `src/content/faq/<對象>-<slug>.yaml`，一個問題一個檔，顯示在 `/join/`（加入與聯絡），依 `audience` 分組：`master`（碩士）、`undergrad`（大學部）、`intl`（國際生）、`all`（所有人）。
 - `order` 小的排前面。`source` 選填，但建議寫（答案的出處，之後才能核對）。可複製 `intl-skills.yaml` 修改。
 
-### 國際生心得 testimonials
+### 國際實習生 interns
 
-- `src/content/testimonials/<slug>.yaml`，一人一個檔，顯示在國際交流研究方向頁（`/research/international-programs/`）的「國際實習生心得」區，`order` 小的排前面。
-- 欄位：`name`、`program`（`TEEP` 或 `IIPP`）、`quote`（雙語物件，保留本人原文；只有 `en` 時中文站顯示英文原文）、`photo`（選填，用 `npm run photos -- <照片> --out public/images/people --headshot` 做成 `/images/people/<slug>.webp`）、`order`。
+- `src/content/interns/<slug>.yaml`，一位 TEEP／IIPP 實習生一個檔。全部列在成員頁（`/people/`）的「過往國際實習生」區，依 `year` 分組（新的在前），沒寫 `year` 的歸在「更早」；有寫 `quote` 的，心得也會出現在國際交流研究方向頁（`/research/international-programs/`）。
+- 欄位：`name`、`program`（`TEEP` 或 `IIPP`）、`year`（選填，實習年份，例如 `2026`；**從 2026 年起請填**）、`quote`（選填，雙語物件，保留本人原文；只有 `en` 時中文站顯示英文原文）、`photo`（選填，用 `npm run photos -- <照片> --out public/images/people --headshot` 做成 `/images/people/<slug>.webp`）、`order`（同一年內排序）。
 
 ### 照片
 

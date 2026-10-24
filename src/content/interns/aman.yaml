@@ -1,7 +1,8 @@
-# Copied as written from the old lab site's testimonials (TEEP/IIPP tab), with Brian's approval on 2026-10-24.
+# Testimonial copied as written from the old lab site (TEEP/IIPP tab), with Brian's approval on 2026-10-24.
 name: "Aman"
 program: TEEP
 photo: "/images/people/aman.webp"
+# year: unknown (old lab site, before 2026)
 quote:
   en: "This internship was an amazing opportunity to immerse myself in the field of AI. The supportive atmosphere and the focus on innovation under Professor Wen Ren Yang’s mentorship made the experience both enjoyable and educational."
 order: 6

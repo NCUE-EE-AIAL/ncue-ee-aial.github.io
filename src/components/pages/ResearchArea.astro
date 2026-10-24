@@ -11,12 +11,12 @@ import ArtFill from '../ArtFill.astro';
 import Photo from '../Photo.astro';
 import { pick, t, localePath, type Locale, type UiKey } from '../../i18n/utils';
 import { slugOf } from '../../lib/format';
-import { getAreas, getProjects, getPublications, getPeople, getTestimonials, inArea } from '../../lib/data';
+import { getAreas, getProjects, getPublications, getPeople, getInterns, inArea } from '../../lib/data';
 import { getRepoMeta } from '../../lib/github';
 interface Props { lang: Locale; slug: string }
 const { lang, slug } = Astro.props;
-const [areas, allProjects, allPubs, people, allTestimonials] = await Promise.all([getAreas(lang), getProjects(), getPublications(), getPeople(), getTestimonials()]);
-const testimonials = slug === 'international-programs' ? allTestimonials : [];
+const [areas, allProjects, allPubs, people, allTestimonials] = await Promise.all([getAreas(lang), getProjects(), getPublications(), getPeople(), getInterns()]);
+const testimonials = slug === 'international-programs' ? allTestimonials.filter((q) => q.data.quote) : [];
 const area = areas.find((a) => slugOf(a.id) === slug);
 if (!area) throw new Error(`No research area "${slug}" in src/content/research/`);
 const { Content } = await render(area);
@@ -90,7 +90,7 @@ const memberNames = people.map((p) => p.data.name.en);
                 <p class="muted testimonial-program">{q.data.program}</p>
               </div>
             </div>
-            <blockquote lang={lang === 'zh' && !q.data.quote.zh ? 'en' : undefined}><p>{pick(q.data.quote, lang)}</p></blockquote>
+            <blockquote lang={lang === 'zh' && !q.data.quote!.zh ? 'en' : undefined}><p>{pick(q.data.quote!, lang)}</p></blockquote>
           </li>
         ))}
       </ul>

@@ -16,7 +16,7 @@ export type Thesis = CollectionEntry<'theses'>;
 export type Grant = CollectionEntry<'grants'>;
 export type Album = CollectionEntry<'albums'>;
 export type GroupPhoto = CollectionEntry<'groupPhotos'>;
-export type Testimonial = CollectionEntry<'testimonials'>;
+export type Intern = CollectionEntry<'interns'>;
 export type Honor = CollectionEntry<'honors'>;
 export type Faq = CollectionEntry<'faq'>;
 
@@ -103,9 +103,10 @@ export async function getAlbums(): Promise<Album[]> {
   return (await getCollection('albums')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf() || a.id.localeCompare(b.id));
 }
 
-/** Lower `order` first. */
-export async function getTestimonials(): Promise<Testimonial[]> {
-  return (await getCollection('testimonials')).sort((a, b) => a.data.order - b.data.order || a.id.localeCompare(b.id));
+/** Newest year first, interns without a year last; then lower `order` first. */
+export async function getInterns(): Promise<Intern[]> {
+  return (await getCollection('interns')).sort((a, b) =>
+    (b.data.year ?? 0) - (a.data.year ?? 0) || a.data.order - b.data.order || a.id.localeCompare(b.id));
 }
 
 /** Newest year first. */

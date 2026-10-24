@@ -1,7 +1,8 @@
-# Copied as written from the old lab site's testimonials (TEEP/IIPP tab), with Brian's approval on 2026-10-24.
+# Testimonial copied as written from the old lab site (TEEP/IIPP tab), with Brian's approval on 2026-10-24.
 name: "Pradyumn"
 program: TEEP
 photo: "/images/people/pradyumn.webp"
+# year: unknown (old lab site, before 2026)
 quote:
   en: "Working in the lab was a transformative experience. I gained valuable insights into AI and learned the importance of teamwork and innovation. The mentorship and structured approach under Professor Wen Ren Yang made it an unforgettable learning journey."
 order: 2

@@ -8,10 +8,10 @@ import { t, pick, localePath, otherLocale, type Locale } from '../../i18n/utils'
 import { personNode } from '../../lib/seo.mjs';
 import { slugOf } from '../../lib/format';
 import { splitTheses } from '../../lib/theses.mjs';
-import { getPeople, getPublications, getProjects, getAreas, getTheses, getHonors, type Person } from '../../lib/data';
+import { getPeople, getPublications, getProjects, getAreas, getTheses, getHonors, getInterns, type Person, type Intern } from '../../lib/data';
 interface Props { lang: Locale }
 const { lang } = Astro.props;
-const [people, pubs, projects, areas, theses, honors] = await Promise.all([getPeople(), getPublications(), getProjects(), getAreas(lang), getTheses(), getHonors()]);
+const [people, pubs, projects, areas, theses, honors, interns] = await Promise.all([getPeople(), getPublications(), getProjects(), getAreas(lang), getTheses(), getHonors(), getInterns()]);
 const nameOf = new Map(people.map((p) => [p.id, pick(p.data.name, lang)]));
 const areaTitles = new Map(areas.map((a) => [slugOf(a.id), a.data.title]));
 const intl = (p: Person) => p.data.role === 'intern' || !!p.data.program;
@@ -28,6 +28,14 @@ const groups = [
   { id: 'international', title: t('people.international', lang), list: people.filter((p) => p.data.role !== 'pi' && !p.data.alumni && intl(p)) },
   { id: 'alumni', title: t('people.alumni', lang), list: people.filter((p) => p.data.role !== 'pi' && p.data.alumni) },
 ].filter((g) => g.list.length > 0);
+// Past TEEP/IIPP interns by year, newest first; those without a year (before 2026) under "Earlier".
+const internYears: { year?: number; list: Intern[] }[] = [];
+for (const it of interns) {
+  const last = internYears.at(-1);
+  if (last && last.year === it.data.year) last.list.push(it);
+  else internYears.push({ year: it.data.year, list: [it] });
+}
+const testimonialsHref = localePath('/research/international-programs/', lang);
 // Theses by degree, then by academic year, newest first; the three newest master's years stay open.
 const { master: thesisYears, phd: phdYears } = splitTheses(theses);
 const masterCount = thesisYears.reduce((n, y) => n + y.list.length, 0);
@@ -53,6 +61,29 @@ const olderCount = olderYears.reduce((n, y) => n + y.list.length, 0);
       </div>
     </section>
   ))}
+  {interns.length > 0 && (
+    <section class="section container" id="interns" aria-labelledby="interns-h">
+      <div class="section-head">
+        <h2 id="interns-h">{t('people.interns', lang)} <span class="count">{interns.length}</span></h2>
+      </div>
+      {internYears.map((g) => (
+        <div class="intern-year">
+          {internYears.length > 1 || g.year ? <h3 class="intern-year-title">{g.year ?? t('people.interns.earlier', lang)}</h3> : null}
+          <ul class="intern-list">
+            {g.list.map((it) => (
+              <li class="intern">
+                {it.data.photo && <img class="avatar" src={it.data.photo} alt="" width={44} height={44} loading="lazy" decoding="async" />}
+                <div>
+                  <p class="intern-name">{it.data.name}</p>
+                  <p class="muted intern-meta">{it.data.program}{it.data.quote && <> · <a href={`${testimonialsHref}#testimonial-${it.id}`}>{t('people.interns.quote', lang)}</a></>}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </section>
+  )}
   {honors.length > 0 && (
     <section class="section container" id="honors" aria-labelledby="honors-h">
       <div class="section-head">
