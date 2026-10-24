@@ -4,6 +4,8 @@ summary: "Face and voice authentication, automated attendance and exam invigilat
 icon: shield
 order: 4
 keywords: ["face recognition", "speaker verification", "authentication", "invigilation", "edge AI"]
+image: ../../albums/2024-10-iet-iceta/poster-ting-yi-lin.jpg
+imageAlt: "Ting-Yi Lin presenting the two-step voice and face authentication poster at the 2024 IET ICETA conference."
 ---
 
 Identity checks are needed everywhere from building access to examination halls, yet passwords are easily shared and single biometrics can be spoofed. We look for systems that are secure enough to trust and light enough to run on inexpensive hardware.

@@ -261,6 +261,7 @@ export const ui = {
     zh: 'TEEP（教育部「優秀外國青年來臺蹲點計畫」）與 IIPP（國科會「外籍人才來臺實習試辦專案」）提供國際學生三個月到半年的研究實習名額，辦法以兩項計畫官網公告為準。來信請附預計期間、學術背景，以及想參與的研究方向；其他細節歡迎來信詢問。',
   },
   'join.life.title': { en: 'Lab life', zh: '實驗室生活' },
+  'home.life.all': { en: 'All albums', zh: '所有相簿' },
   'join.life.body': {
     en: 'We meet every week to go over each other’s progress and new papers. Outside research, there is a year-end dinner (wei-ya) and the occasional pizza party.',
     zh: '每週固定開 lab meeting，報告彼此的進度並討論新論文。研究之外，年底有尾牙聚餐，也會不定時辦披薩派對。',

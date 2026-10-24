@@ -34,7 +34,9 @@ const memberNames = people.map((p) => p.data.name.en);
   </PageHead>
   <div class="container area-layout">
     <div class="area-main">
-      {area.data.image && <Photo src={area.data.image} alt={area.data.imageAlt ?? ''} width={820} class="area-figure" />}
+      {area.data.image && (area.data.image.height > area.data.image.width
+        ? <Photo src={area.data.image} alt={area.data.imageAlt ?? ''} width={300} sizes="(min-width: 600px) 300px, 100vw" class="area-figure area-figure-portrait" />
+        : <Photo src={area.data.image} alt={area.data.imageAlt ?? ''} width={820} class="area-figure" />)}
       <div class="prose"><Content /></div>
       {area.data.video && <VideoEmbed url={area.data.video} title={area.data.title} lang={lang} />}
     </div>

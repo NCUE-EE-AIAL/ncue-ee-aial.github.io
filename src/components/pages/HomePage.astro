@@ -8,13 +8,14 @@ import NewsItem from '../NewsItem.astro';
 import Icon from '../Icon.astro';
 import ArtFill from '../ArtFill.astro';
 import About from '../About.astro';
+import LifeStrip from '../LifeStrip.astro';
 import { t, s, localePath, type Locale } from '../../i18n/utils';
 import { site } from '../../i18n/ui';
-import { getAreas, getPublications, getNews, getPeople, getStats, getGroupPhotos } from '../../lib/data';
+import { getAreas, getPublications, getNews, getPeople, getStats, getGroupPhotos, getAlbums } from '../../lib/data';
 import { recentNews } from '../../lib/news.mjs';
 interface Props { lang: Locale }
 const { lang } = Astro.props;
-const [areas, pubs, news, people, stats, groupPhotos] = await Promise.all([getAreas(lang), getPublications(), getNews(lang), getPeople(), getStats(), getGroupPhotos()]);
+const [areas, pubs, news, people, stats, groupPhotos, albums] = await Promise.all([getAreas(lang), getPublications(), getNews(lang), getPeople(), getStats(), getGroupPhotos(), getAlbums()]);
 const members = people.map((p) => p.data.name.en);
 const recent = recentNews(news);
 ---
@@ -51,6 +52,8 @@ const recent = recentNews(news);
       <ArtFill name="opamp" count={areas.length} />
     </div>
   </section>
+
+  <LifeStrip lang={lang} albums={albums} />
 
   {(pubs.length > 0 || recent.length > 0) && (
     <section class="section container split">

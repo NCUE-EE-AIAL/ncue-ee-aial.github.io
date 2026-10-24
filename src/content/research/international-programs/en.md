@@ -4,6 +4,8 @@ summary: "Projects by international students in the TEEP and IIPP programs."
 icon: globe
 order: 7
 keywords: ["TEEP", "IIPP", "international students", "embedded AI"]
+image: ../../albums/2024-11-international-exchange/farm-group.jpg
+imageAlt: "Group photo of about fifty students outdoors under trees, holding flowers and banners, from an international exchange activity."
 ---
 
 Each year the lab hosts international students through two Taiwan government programs: [TEEP](https://teep.studyintaiwan.org/) (Taiwan Experience Education Program, Ministry of Education; the lab's Taiwan–India project since 2018) and [IIPP](https://iipp.stpi.niar.org.tw/) (International Internship Pilot Program, National Science and Technology Council; since 2024). <!-- source: Prof. Yang's IIPP mentor page https://iipp.stpi.niar.org.tw/mentor/846 (checked 2026-10-17) --> <!-- TODO: confirm with lab: partner universities --> These students arrive with different backgrounds, and the lab gives them a concrete project in which to apply AI to a real problem.

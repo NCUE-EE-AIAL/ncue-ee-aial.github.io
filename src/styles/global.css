@@ -394,6 +394,20 @@ html:not(.js) .signal-strip { display: none; }
 .pub-links button { background: none; border: 0; padding: 0; color: var(--accent); cursor: pointer; font-size: inherit; }
 .pub-links button:hover { text-decoration: underline; }
 
+/* Home lab-life strip (LifeStrip.astro): one large photo and up to four small ones, each opening its album on Join. */
+.life-grid { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: minmax(0, 1fr); }
+.life-5 > li:first-child, .life-3 > li:first-child { grid-column: span 2; grid-row: span 2; }
+.life-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.life-grid a { display: block; color: inherit; height: 100%; }
+.life-grid a:hover { text-decoration: none; }
+.life-grid .photo { height: 100%; display: grid; grid-template-rows: minmax(0, 1fr) auto; }
+.life-grid .photo img { height: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: 50% 30%; transition: transform 0.3s; }
+.life-grid .photo picture { display: block; overflow: hidden; border-radius: var(--radius); }
+.life-grid a:hover img { transform: scale(1.03); }
+.life-grid figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 6px; }
+.life-grid a:hover figcaption { color: var(--accent); }
+@media (max-width: 860px) { .life-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
 /* ───────── People ───────── */
 .person { display: flex; gap: 16px; align-items: flex-start; }
 .avatar {
@@ -507,7 +521,8 @@ fieldset.filters { border: 0; padding: 0; min-width: 0; }
   .hero-art *, .art *, .project-art * { animation: none !important; }
   .js .hero-toggle { display: none; }
   .card, .area-go, .video-play-icon { transition: none; }
-  a.card:hover, .project:hover { transform: none; }
+  a.card:hover, .project:hover, .life-grid a:hover img { transform: none; }
+  .life-grid img { transition: none; }
 }
 @media print { .js .reveal { opacity: 1; } .hero-art, .art, .signal-strip { display: none; } .project-art .draw { animation: none; } }
 
@@ -543,6 +558,10 @@ a.area-card:hover .art-card .key { fill: var(--accent); }
 .aside-people li { display: flex; flex-direction: column; line-height: 1.35; }
 .aside-people .muted { font-size: 0.82rem; }
 .area-figure { margin-bottom: 24px; }
+/* A portrait photo sits beside the text instead of filling the column above it. */
+.area-figure-portrait { float: right; width: min(38%, 300px); margin: 4px 0 16px 24px; }
+.area-main::after { content: ''; display: block; clear: both; }
+@media (max-width: 600px) { .area-figure-portrait { float: none; width: 100%; margin: 0 0 24px; } }
 @media (max-width: 860px) {
   .area-layout { grid-template-columns: 1fr; }
   .area-aside { position: static; }
