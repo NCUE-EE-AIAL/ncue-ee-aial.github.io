@@ -416,11 +416,15 @@ html:not(.js) #theme-toggle { display: none; } /* it needs a script */
 .grant-row:last-child { border-bottom: 1px solid var(--border); }
 @media (max-width: 560px) { .grant-row { grid-template-columns: 1fr; gap: 4px; } }
 .faq-group + .faq-group { margin-top: 20px; }
-.faq-audience { font-size: 1rem; color: var(--muted); font-weight: 600; margin: 16px 0 8px; }
-.faq { border-top: 1px solid var(--border); padding: 12px 0; }
-.faq:last-child { border-bottom: 1px solid var(--border); }
-.faq summary { cursor: pointer; font-weight: 600; min-height: 24px; }
-.faq p { margin: 8px 0 0; }
+.faq-audience { font-size: 0.95rem; color: var(--muted); font-weight: 600; margin: 16px 0 10px; }
+.faq { border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); }
+.faq + .faq { margin-top: 8px; }
+.faq summary { cursor: pointer; font-weight: 600; min-height: 24px; padding: 12px 16px; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: '+'; flex: none; color: var(--accent); font-size: 1.3rem; font-weight: 400; line-height: 1; }
+.faq[open] summary::after { content: '−'; }
+.faq summary:hover { color: var(--accent); }
+.faq p { margin: 0; padding: 0 16px 14px; color: var(--muted); }
 .honor-list { list-style: none; padding: 0; margin: 0; }
 .honor { display: grid; grid-template-columns: 64px 1fr; gap: 16px; padding: 14px 0; border-top: 1px solid var(--border); }
 .honor:last-child { border-bottom: 1px solid var(--border); }
@@ -606,33 +610,60 @@ h2 .count { vertical-align: 0.3em; margin-left: 6px; }
 .news-lang { margin: 4px 0 0; font-size: 0.85rem; color: var(--muted); }
 
 /* ───────── Join & contact ───────── */
-.join-layout { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: clamp(28px, 5vw, 56px); align-items: start; }
-.join-block + .join-block { margin-top: 40px; }
-.join-block h2 { font-size: 1.3rem; margin-bottom: 8px; }
-.join-block p { max-width: 65ch; }
-.join-block .todo { display: inline-block; margin-top: 10px; }
-.album { margin-top: 28px; }
-.album-title { font-size: 1.05rem; }
-.album-date { color: var(--muted); font-size: 0.85rem; }
-.album-summary { color: var(--muted); font-size: 0.92rem; margin-top: 4px; }
-.album-photos { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)); gap: 12px; margin-top: 12px; align-items: start; }
-.contact-card { position: sticky; top: 84px; }
-.contact-card h2 { font-size: 1.15rem; margin-bottom: 14px; }
-.contact-card .lab-sign { margin-top: 10px; max-width: 320px; }
-.contact-list { display: grid; gap: 14px; }
-.contact-list dt { color: var(--muted); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
-.contact-list dd { margin-top: 2px; overflow-wrap: anywhere; }
+/* Two ways in (cards), a full-width contact band, albums as text-beside-photos rows, then FAQ beside facilities. */
+.join-paths { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 20px; padding-bottom: clamp(36px, 6vw, 56px); }
+.join-path {
+  display: flex; flex-direction: column; gap: 10px; min-width: 0;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: clamp(20px, 3vw, 28px);
+}
+.join-path-icon { display: grid; place-items: center; width: 42px; height: 42px; border-radius: var(--radius-sm); background: var(--accent-soft); color: var(--accent); }
+.join-path-icon .icon { width: 22px; height: 22px; }
+.join-path h3 { font-size: 1.2rem; margin-top: 4px; }
+.join-path p { max-width: 60ch; }
+.join-path .todo { display: inline-block; }
+.join-path-actions { margin-top: auto; padding-top: 8px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+.join-path-more { display: inline-flex; align-items: center; gap: 6px; font-weight: 500; }
+.join-contact { background: var(--surface); border-block: 1px solid var(--border); padding-block: clamp(36px, 6vw, 56px); }
+.join-contact-inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 360px); gap: clamp(28px, 5vw, 56px); align-items: center; }
+.join-contact h2 { font-size: 1.3rem; margin-bottom: 20px; }
+.contact-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr)); gap: 22px 32px; }
+.contact-list dt { display: flex; align-items: center; gap: 6px; color: var(--muted); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+.contact-list dt .icon { width: 1.15rem; height: 1.15rem; color: var(--accent); }
+.contact-list dd { margin-top: 4px; overflow-wrap: anywhere; }
 .contact-links { list-style: none; padding: 0; display: grid; gap: 4px; }
 .contact-links a { display: inline-flex; align-items: center; gap: 6px; }
-.facility-list { list-style: none; padding: 0; margin-top: 16px; display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); }
-.facility { border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); display: grid; gap: 4px; align-content: start; }
-.facility-cat { color: var(--accent); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
-.facility-name { font-weight: 500; line-height: 1.45; }
+.contact-links .icon { width: 1.05em; height: 1.05em; }
+.join-contact .lab-sign img { box-shadow: var(--shadow); }
+.join-contact .lab-sign figcaption { text-align: center; }
+.join-section { padding-top: clamp(40px, 7vw, 64px); }
+.join-section h2 { font-size: 1.3rem; margin-bottom: 8px; }
+.join-section-head { margin-bottom: 28px; }
+.join-section-head p { color: var(--muted); max-width: 65ch; }
+.albums { display: grid; gap: clamp(28px, 5vw, 44px); }
+.album { display: grid; grid-template-columns: minmax(0, 280px) minmax(0, 1fr); gap: 16px clamp(20px, 4vw, 40px); align-items: start; border-top: 1px solid var(--border); padding-top: clamp(20px, 3vw, 28px); }
+.album-head { display: grid; gap: 6px; }
+.album-date { color: var(--accent); font-size: 0.85rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.album-title { font-size: 1.15rem; }
+.album-summary { color: var(--muted); font-size: 0.93rem; }
+.album-photos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.album-photos .photo img { aspect-ratio: 4 / 3; object-fit: cover; object-position: 50% 30%; }
+.album-photos-single { grid-template-columns: minmax(0, 1fr); }
+.album-photos-single .photo img { aspect-ratio: 16 / 9; }
+.join-split { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr)); gap: 40px clamp(32px, 6vw, 64px); align-items: start; }
+.join-split > section { min-width: 0; }
+.facility-list { list-style: none; padding: 0; margin-top: 16px; border: 1px solid var(--border); border-radius: var(--radius); }
+.facility { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: 2px 16px; padding: 14px 16px; align-items: baseline; }
+.facility + .facility { border-top: 1px solid var(--border); }
+.facility-cat { color: var(--accent); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+.facility-name { font-weight: 500; line-height: 1.5; }
 .facility-qty { color: var(--muted); font-weight: 400; white-space: nowrap; }
-.facility-note { color: var(--muted); font-size: 0.88rem; }
+.facility-note { grid-column: 2; color: var(--muted); font-size: 0.88rem; }
 @media (max-width: 860px) {
-  .join-layout { grid-template-columns: 1fr; }
-  .contact-card { position: static; }
+  .join-contact-inner { grid-template-columns: 1fr; }
+  .join-contact .lab-sign { max-width: 420px; }
+}
+@media (max-width: 680px) {
+  .album { grid-template-columns: 1fr; }
 }
 
 /* ───────── Call to action ───────── */

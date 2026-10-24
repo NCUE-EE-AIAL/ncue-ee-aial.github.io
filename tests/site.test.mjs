@@ -352,7 +352,7 @@ test('/join/ lists every FAQ file as a <details>, grouped by audience', () => {
   }
 });
 
-test('the contact card links a map of the campus and NCUE\'s own directions page', () => {
+test('the contact section links a map of the campus and NCUE\'s own directions page', () => {
   for (const r of ['/join/', zh('/join/')]) {
     const card = section(html(r), 'contact');
     assert.match(card, /href="https:\/\/www\.google\.com\/maps\/search\/\?api=1&amp;query=[^"]+"/, `${r}: no map link`);

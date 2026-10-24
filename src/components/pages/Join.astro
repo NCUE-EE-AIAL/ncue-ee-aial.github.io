@@ -20,36 +20,113 @@ const roomKnown = !room.startsWith('TODO');
 ---
 <Base lang={lang} title={t('join.title', lang)} path="/join/" description={t('join.intro', lang)}>
   <PageHead title={t('join.title', lang)} lede={t('join.intro', lang)} art="join" />
-  <div class="container join-layout">
-    <div class="join-main">
-      <section class="join-block reveal" aria-labelledby="students-h">
-        <h2 id="students-h">{t('join.students.title', lang)}</h2>
-        <p>{t('join.students.body', lang)}</p>
-      </section>
-      <section class="join-block reveal" aria-labelledby="intl-h">
-        <h2 id="intl-h">{t('join.intl.title', lang)}</h2>
-        <p>{t('join.intl.body', lang)}</p>
-        {showTodo && <p class="todo">{t('join.intl.todo', lang)}</p>}
-      </section>
-      <section class="join-block reveal" aria-labelledby="life-h">
+
+  <section class="container join-paths" aria-labelledby="paths-h">
+    <h2 id="paths-h" class="sr-only">{t('join.paths.title', lang)}</h2>
+    <article class="join-path reveal" aria-labelledby="students-h">
+      <span class="join-path-icon"><Icon name="scholar" /></span>
+      <h3 id="students-h">{t('join.students.title', lang)}</h3>
+      <p>{t('join.students.body', lang)}</p>
+      {piEmail && (
+        <div class="join-path-actions">
+          <a class="btn" href={`mailto:${piEmail}`}><Icon name="mail" /> {t('cta.pi', lang)}</a>
+        </div>
+      )}
+    </article>
+    <article class="join-path reveal" style="--i: 1" aria-labelledby="intl-h">
+      <span class="join-path-icon"><Icon name="globe" /></span>
+      <h3 id="intl-h">{t('join.intl.title', lang)}</h3>
+      <p>{t('join.intl.body', lang)}</p>
+      {showTodo && <p class="todo">{t('join.intl.todo', lang)}</p>}
+      <div class="join-path-actions">
+        <a class="btn" href={`mailto:${site.email}`}><Icon name="mail" /> {t('cta.lab', lang)}</a>
+        {faq.length > 0 && <a class="join-path-more" href="#faq">{t('join.faq.title', lang)} <Icon name="arrow" /></a>}
+      </div>
+    </article>
+  </section>
+
+  <section class="join-contact" id="contact" aria-labelledby="contact-h">
+    <div class="container join-contact-inner">
+      <div class="join-contact-main">
+        <h2 id="contact-h">{t('join.contact.title', lang)}</h2>
+        <dl class="contact-list">
+          <div>
+            <dt><Icon name="mail" /> {t('join.email.lab', lang)}</dt>
+            <dd><a href={`mailto:${site.email}`}>{site.email}</a></dd>
+          </div>
+          {piEmail && (
+            <div>
+              <dt><Icon name="mail" /> {t('join.email.pi', lang)}</dt>
+              <dd><a href={`mailto:${piEmail}`}>{piEmail}</a></dd>
+            </div>
+          )}
+          <div>
+            <dt><Icon name="phone" /> {t('join.phone', lang)}</dt>
+            <dd><a href={`tel:${site.tel}`}>{s('phone', lang)}</a></dd>
+          </div>
+          <div>
+            <dt><Icon name="building" /> {t('join.address', lang)}</dt>
+            <dd>{s('org', lang)}<br />{(roomKnown || showTodo) && <><span class:list={[{ todo: !roomKnown }]}>{room}</span><br /></>}{s('address', lang)}</dd>
+          </div>
+          <div>
+            <dt><Icon name="pin" /> {t('join.directions', lang)}</dt>
+            <dd>
+              <ul class="contact-links">
+                <li><a href={site.map} rel="noopener">{t('join.map', lang)} <Icon name="external" /></a></li>
+                <li><a href={site.directions} rel="noopener" hreflang={lang === 'en' ? 'zh-Hant-TW' : undefined}>{t('join.transport', lang)} <Icon name="external" /></a></li>
+              </ul>
+            </dd>
+          </div>
+          <div>
+            <dt><Icon name="link" /> {t('join.links', lang)}</dt>
+            <dd>
+              <ul class="contact-links">
+                <li><a href={site.github} rel="noopener"><Icon name="github" /> GitHub</a></li>
+                <li><a href={site.facebook} rel="noopener"><Icon name="facebook" /> Facebook</a></li>
+                <li><a href={`${site.repo}/issues/new/choose`} rel="noopener"><Icon name="external" /> {t('join.issue', lang)}</a></li>
+              </ul>
+            </dd>
+          </div>
+        </dl>
+      </div>
+      {roomKnown && (
+        <Photo src={labSign} alt={t('join.sign.alt', lang)} width={420} sizes="(min-width: 860px) 360px, 100vw"
+          caption={t('join.sign.caption', lang)} class="lab-sign" />
+      )}
+    </div>
+  </section>
+
+  {albums.length > 0 && (
+    <section class="container join-section" aria-labelledby="life-h">
+      <div class="join-section-head">
         <h2 id="life-h">{t('join.life.title', lang)}</h2>
         <p>{t('join.life.body', lang)}</p>
+      </div>
+      <div class="albums">
         {albums.map((a) => (
           <article class="album" id={`album-${a.id}`}>
-            <h3 class="album-title">{pick(a.data.title, lang)}</h3>
-            <time class="album-date" datetime={a.data.date.toISOString().slice(0, 10)}>{formatDate(a.data.date, lang)}</time>
-            {a.data.summary && <p class="album-summary">{pick(a.data.summary, lang)}</p>}
-            <div class="album-photos">
+            <header class="album-head">
+              <time class="album-date" datetime={a.data.date.toISOString().slice(0, 10)}>{formatDate(a.data.date, lang)}</time>
+              <h3 class="album-title">{pick(a.data.title, lang)}</h3>
+              {a.data.summary && <p class="album-summary">{pick(a.data.summary, lang)}</p>}
+            </header>
+            <div class:list={['album-photos', { 'album-photos-single': a.data.photos.length === 1 }]}>
               {a.data.photos.map((p) => (
-                <Photo src={p.src} alt={pick(p.alt, lang)} width={480} sizes="(min-width: 860px) 300px, 50vw"
+                <Photo src={p.src} alt={pick(p.alt, lang)} width={a.data.photos.length === 1 ? 960 : 480}
+                  sizes={a.data.photos.length === 1 ? '(min-width: 860px) 700px, 100vw' : '(min-width: 860px) 350px, 50vw'}
                   caption={p.caption && pick(p.caption, lang)} />
               ))}
             </div>
           </article>
         ))}
-      </section>
+      </div>
+    </section>
+  )}
+
+  {(faq.length > 0 || facilities.length > 0) && (
+    <div class="container join-section join-split">
       {faq.length > 0 && (
-        <section class="join-block" id="faq" aria-labelledby="faq-h">
+        <section id="faq" aria-labelledby="faq-h">
           <h2 id="faq-h">{t('join.faq.title', lang)}</h2>
           {audiences.map((a) => (
             <div class="faq-group">
@@ -65,7 +142,7 @@ const roomKnown = !room.startsWith('TODO');
         </section>
       )}
       {facilities.length > 0 && (
-        <section class="join-block" id="facilities" aria-labelledby="facilities-h">
+        <section id="facilities" aria-labelledby="facilities-h">
           <h2 id="facilities-h">{t('join.facilities.title', lang)}</h2>
           <p class="muted">{t('join.facilities.intro', lang)}</p>
           <ul class="facility-list">
@@ -80,55 +157,6 @@ const roomKnown = !room.startsWith('TODO');
         </section>
       )}
     </div>
-    <aside class="card contact-card" id="contact" aria-labelledby="contact-h">
-      <h2 id="contact-h">{t('join.contact.title', lang)}</h2>
-      <dl class="contact-list">
-        <div>
-          <dt>{t('join.email.lab', lang)}</dt>
-          <dd><a href={`mailto:${site.email}`}>{site.email}</a></dd>
-        </div>
-        {piEmail && (
-          <div>
-            <dt>{t('join.email.pi', lang)}</dt>
-            <dd><a href={`mailto:${piEmail}`}>{piEmail}</a></dd>
-          </div>
-        )}
-        <div>
-          <dt>{t('join.phone', lang)}</dt>
-          <dd><a href={`tel:${site.tel}`}>{s('phone', lang)}</a></dd>
-        </div>
-        <div>
-          <dt>{t('join.address', lang)}</dt>
-          <dd>{s('org', lang)}<br />{s('address', lang)}</dd>
-        </div>
-        <div>
-          <dt>{t('join.directions', lang)}</dt>
-          <dd>
-            <ul class="contact-links">
-              <li><a href={site.map} rel="noopener"><Icon name="pin" /> {t('join.map', lang)}</a></li>
-              <li><a href={site.directions} rel="noopener" hreflang={lang === 'en' ? 'zh-Hant-TW' : undefined}><Icon name="external" /> {t('join.transport', lang)}</a></li>
-            </ul>
-          </dd>
-        </div>
-        {(roomKnown || showTodo) && (
-          <div>
-            <dt>{t('join.room', lang)}</dt>
-            <dd class:list={[{ todo: !roomKnown }]}>{room}</dd>
-            {roomKnown && <dd><Photo src={labSign} alt={t('join.sign.alt', lang)} width={320} sizes="320px" class="lab-sign" /></dd>}
-          </div>
-        )}
-        <div>
-          <dt>{t('join.links', lang)}</dt>
-          <dd>
-            <ul class="contact-links">
-              <li><a href={site.github} rel="noopener"><Icon name="github" /> GitHub</a></li>
-              <li><a href={site.facebook} rel="noopener"><Icon name="facebook" /> Facebook</a></li>
-              <li><a href={`${site.repo}/issues/new/choose`} rel="noopener"><Icon name="external" /> {t('join.issue', lang)}</a></li>
-            </ul>
-          </dd>
-        </div>
-      </dl>
-    </aside>
-  </div>
+  )}
   <Cta lang={lang} showJoin={false} />
 </Base>
