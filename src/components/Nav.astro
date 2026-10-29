@@ -10,9 +10,12 @@ const items: { key: Parameters<typeof t>[0]; href: string }[] = [
   { key: 'nav.projects', href: '/projects/' },
   { key: 'nav.people', href: '/people/' },
   { key: 'nav.news', href: '/news/' },
+  { key: 'nav.intl', href: '/research/international-programs/' },
   { key: 'nav.join', href: '/join/' },
 ];
 const isCurrent = (href: string) => path === href || (href !== '/' && path.startsWith(href));
+// TEEP/IIPP lives under /research/, so only the longest matching item is marked current.
+const current = items.filter((it) => isCurrent(it.href)).sort((a, b) => b.href.length - a.href.length)[0]?.href;
 const other = otherLocale(lang);
 const name = s('name', lang);
 // The zh name breaks only here, as 人工智慧 / 應用實驗室, never as a lone 室 (see .brand in global.css).
@@ -40,7 +43,7 @@ const cut = lang === 'zh' && name.startsWith('人工智慧') ? '人工智慧'.le
     <nav class="nav-menu" aria-label={t('nav.label', lang)}>
       <ul class="nav-links" id="nav-links">
         {items.map((it) => (
-          <li><a href={localePath(it.href, lang)} aria-current={isCurrent(it.href) ? 'page' : undefined}>{t(it.key, lang)}</a></li>
+          <li><a href={localePath(it.href, lang)} aria-current={it.href === current ? 'page' : undefined}>{t(it.key, lang)}</a></li>
         ))}
       </ul>
     </nav>

@@ -54,6 +54,7 @@ export const ui = {
   'nav.projects': { en: 'Projects', zh: '計畫與專案' },
   'nav.people': { en: 'People', zh: '成員' },
   'nav.news': { en: 'News', zh: '動態' },
+  'nav.intl': { en: 'TEEP/IIPP', zh: 'TEEP/IIPP' },
   'nav.join': { en: 'Join & Contact', zh: '加入與聯絡' },
   'nav.menu': { en: 'Menu', zh: '選單' },
   'nav.label': { en: 'Main', zh: '主選單' },

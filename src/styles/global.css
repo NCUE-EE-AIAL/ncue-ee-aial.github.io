@@ -194,6 +194,7 @@ a.card:hover { text-decoration: none; border-color: var(--border-2); box-shadow:
 .nav-links { display: flex; align-items: center; gap: 2px; list-style: none; padding: 0; margin: 0; }
 .nav-links a {
   display: block; padding: 8px 11px; border-radius: var(--radius-sm); color: var(--muted); font-size: 0.95rem; font-weight: 500;
+  white-space: nowrap;
 }
 .nav-links a:hover { color: var(--text); background: var(--surface-2); text-decoration: none; }
 .nav-links a[aria-current='page'] { color: var(--accent); }
@@ -213,7 +214,8 @@ html:not(.js) #theme-toggle { display: none; } /* it needs a script */
   :root:not([data-theme='light']) #theme-toggle .sun { display: block; }
   :root:not([data-theme='light']) #theme-toggle .moon { display: none; }
 }
-@media (max-width: 860px) {
+/* Seven links plus the tools need about 1080px in English; below that the menu folds into the button. */
+@media (max-width: 1080px) {
   .nav-toggle { display: inline-flex; margin-left: auto; }
   .nav-links {
     display: none; position: absolute; left: 0; right: 0; top: 100%; flex-direction: column; align-items: stretch; gap: 0;
