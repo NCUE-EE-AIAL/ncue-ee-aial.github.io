@@ -158,6 +158,7 @@ function areas(form, lang) {
     .setTitle(zh ? '研究方向（可複選）' : 'Research areas (choose any)')
     .setHelpText(zh ? SHOWN : SHOWN_EN)
     .setChoiceValues(AREAS.map((a) => (zh ? `${a.zh} ${a.en}` : a.en)).concat(zh ? ['尚未決定'] : ['Not decided yet']))
+    .showOtherOption(true)
     .setRequired(true);
 }
 

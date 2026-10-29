@@ -290,7 +290,7 @@
 | 同上 | 英文暱稱／Name you go by | `nickname` |
 | 碩博士生 | 學位：碩士班／博士班 | `role: master`／`role: phd`（專題生 `undergrad`，IMPE `master`） |
 | 碩博士生、專題生、IMPE | 入學年／開始做專題的年份 | `years: "2026–"` |
-| 同上 | 研究方向 | `areas`：小波 `wavelet-signal-analysis`、智慧電網 `smart-grid-energy`、生醫 `biomedical-ai`、生物辨識 `biometrics-security`、立體視覺 `stereo-3d-vision`、機械手臂 `robotic-arm`；「尚未決定」就不寫 |
+| 同上 | 研究方向 | `areas`：小波 `wavelet-signal-analysis`、智慧電網 `smart-grid-energy`、生醫 `biomedical-ai`、生物辨識 `biometrics-security`、立體視覺 `stereo-3d-vision`、機械手臂 `robotic-arm`；「尚未決定」就不寫；「其他」填的方向沒有對應的 slug，寫進 `bio` |
 | 同上 | 研究簡介／Short bio（專題生：專題方向） | `bio.zh`、`bio.en`（沒寫英文就翻譯後請本人確認） |
 | 同上 | GitHub、LinkedIn、其他公開連結 | `links.github`、`links.linkedin`、`links.scholar`／`links.orcid`／`links.website` |
 | TEEP／IIPP | Name to show、Program、Internship year、Testimonial | `interns/<slug>.yaml` 的 `name`、`program`（`TEEP`／`IIPP`）、`year`、`quote.en`（照原文） |
