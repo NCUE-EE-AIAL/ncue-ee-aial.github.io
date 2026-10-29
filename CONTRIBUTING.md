@@ -7,6 +7,7 @@
 - Event albums (`albums/<YYYY-MM>-<slug>/index.yaml` plus the photos) and the yearly group photo (`group-photos/<year>.yaml` plus the photo) are folders/files too. **Every photo goes through `npm run photos -- <files or folders> --out <folder> [--group | --headshot]` before `git add`** (`--headshot` makes the 240×240 WebP for `public/images/people/`): the repository is public, and a phone original with GPS stays in the history for good. Photos of people need everyone's consent (`consent` field). The page that shows albums goes live with the first album.
 - English is the default (`/`), Traditional Chinese is at `/zh/`. Bilingual fields are `{ en, zh }`; a missing `zh` falls back to English.
 - The Zod schemas in `src/content.config.ts` are the single source of truth for every field. A wrong or missing field makes `npm run build` fail and names the file.
+- New members and alumni fill in one Google Form (one page per group: EE graduate students, undergraduate project students, TEEP / IIPP, IMPE, alumni). Link, owner account and the answer-to-YAML table are in §3 「新成員資料表」; `scripts/newcomer-form.gs` rebuilds the form.
 - No git? Edit a file on github.com (pencil icon, then "Create a new branch and start a pull request"), or use an issue form (publication, news post, member, project).
 - Weekly automation: a pull request with papers found on ORCID / Crossref (`scripts/pubs-sync.mjs`, check them before merging) and an issue when outside links break. Search Console, GoatCounter and a custom domain are set up once in `src/i18n/ui.ts` (section 10).
 - Local preview: `npm ci`, `npm run dev` (http://localhost:4321), `npm run build`, `npm test`, `npm run links`.
@@ -97,6 +98,8 @@
 **自動找新論文**：每週一，workflow「Suggest new publications」會用 `scripts/pubs-sync.mjs` 到老師的 ORCID 與 Crossref 找網站上還沒有的論文，替每篇建一個 `verified: false` 的檔案，開成一個 PR「New publications to check」。收到時逐篇打開出版社頁面核對、補上 `areas`，改成 `verified: true` 並填 `source` 後再合併。不該列出的論文：刪掉那個檔案，並把 DOI 加進 `scripts/pubs-sync-ignore.txt`，之後就不會再被找出來。本機想先看會找到什麼：`node scripts/pubs-sync.mjs --dry-run`。
 
 ### 2.2 新增成員
+
+新成員和畢業學長姐的資料先用 [新成員資料表（Google 表單）](#新成員資料表google-表單) 收，再依回覆建檔。
 
 1. 在 `src/content/people/` 新增 `<id>.yaml`。**檔名（不含 `.yaml`）就是這個人的 id**，專案的 `members` 欄位用的就是它，所以請用穩定的小寫英文，例如 `brian-lin.yaml`。id 不必等於英文姓名（`brian-lin.yaml` 的 `name.en` 是 Ting-Yi Lin）。之後不要隨便改檔名，否則要同步改所有專案裡的 `members`。
 2. 內容：
@@ -265,6 +268,34 @@
 
 - `src/content/interns/<slug>.yaml`，一位 TEEP／IIPP 實習生一個檔。全部列在成員頁（`/people/`）的「過往國際實習生」區，依 `year` 分組（新的在前），沒寫 `year` 的歸在「更早」；有寫 `quote` 的，心得也會出現在國際交流研究方向頁（`/research/international-programs/`）。
 - 欄位：`name`、`program`（`TEEP` 或 `IIPP`）、`year`（選填，實習年份，例如 `2026`；**從 2026 年起請填**）、`quote`（選填，雙語物件，保留本人原文；只有 `en` 時中文站顯示英文原文）、`photo`（選填，用 `npm run photos -- <照片> --out public/images/people --headshot` 做成 `/images/people/<slug>.webp`）、`video`（選填，見下方「影片」）、`order`（同一年內排序）。
+
+### 新成員資料表（Google 表單）
+
+- 新成員（電機系碩博士生、電機系專題生、TEEP／IIPP、國際工程碩士學位學程 IMPE）和畢業學長姐都填同一份表單：第 1 頁選身分，跳到自己的那一頁（國際生的兩頁是英文），最後都到「照片與同意」頁上傳大頭照。
+- 填寫連結（傳給新成員）：https://docs.google.com/forms/d/e/1FAIpQLSdvJida2zsDgzfYSYTZZhPARk_diSubv0qaHldEr56EA3zt5g/viewform
+- 擁有者是實驗室 Google 帳號 **wry87cncue@gmail.com**：編輯表單（https://docs.google.com/forms/d/1uf5k4qhwVMpKVVPj-K2wWPH8c3ifwAs4iO3W4ATKUlo/edit ）、回覆試算表「新成員資料表（回覆）」（在表單的「回覆」分頁開啟）和上傳的照片（雲端硬碟裡表單旁的資料夾）都在這個帳號。
+- 有上傳題的表單一定要登入 Google 才能填；Email 由登入帳號自動記錄，**不放上網站**。送出後填寫者會收到回覆副本，裡面有「編輯回覆」連結，TEEP／IIPP 實習生可以在實習結束時回來補心得。
+- 表單由 `scripts/newcomer-form.gs`（Google Apps Script）建立。要重建時，用實驗室帳號開 script.google.com → 新專案 → 貼上 → 執行 `createNewcomerForm`，再手動做腳本做不到的三件事：(1) 在第 7 頁最上面加「檔案上傳」題「大頭照（選填）/ Headshot (optional)」，只允許圖片、1 個檔案、10 MB、非必填；(2) 設定 → 回覆 →「傳送回覆副本」選「一律」；(3) 回覆 → 連結至試算表。最後把本節的兩個連結換成新的。
+
+把一筆回覆變成網站檔案：
+
+1. 先看「網站公開同意」：選「不同意」就不建檔，資料只留在試算表。
+2. 說明寫「不公開」的欄位（國家、學校、論文題目、在實驗室做什麼、Email）不進 repo。
+3. 照片從雲端硬碟下載，用 `npm run photos -- <照片> --out public/images/people --headshot` 處理後再 `git add`。
+4. 依下表填欄位，再照 [2.2 新增成員](#22-新增成員) 開 PR。
+
+| 表單頁 | 題目 | 寫進 |
+|---|---|---|
+| 碩博士生、專題生、IMPE | 中文姓名、英文姓名（IMPE：Full name、Chinese name） | `people/<id>.yaml` 的 `name.zh`、`name.en`（沒有中文名就不寫 `zh`） |
+| 同上 | 英文暱稱／Name you go by | `nickname` |
+| 碩博士生 | 學位：碩士班／博士班 | `role: master`／`role: phd`（專題生 `undergrad`，IMPE `master`） |
+| 碩博士生、專題生、IMPE | 入學年／開始做專題的年份 | `years: "2026–"` |
+| 同上 | 研究方向 | `areas`：小波 `wavelet-signal-analysis`、智慧電網 `smart-grid-energy`、生醫 `biomedical-ai`、生物辨識 `biometrics-security`、立體視覺 `stereo-3d-vision`、機械手臂 `robotic-arm`；「尚未決定」就不寫 |
+| 同上 | 研究簡介／Short bio（專題生：專題方向） | `bio.zh`、`bio.en`（沒寫英文就翻譯後請本人確認） |
+| 同上 | GitHub、LinkedIn、其他公開連結 | `links.github`、`links.linkedin`、`links.scholar`／`links.orcid`／`links.website` |
+| TEEP／IIPP | Name to show、Program、Internship year、Testimonial | `interns/<slug>.yaml` 的 `name`、`program`（`TEEP`／`IIPP`）、`year`、`quote.en`（照原文） |
+| 畢業學長姐 | 中英文姓名、在實驗室時的身分、期間 | 找到原本的 `people/<id>.yaml`（沒有就新增，`role` 依身分），加 `alumni: true`、`years: "2019–2021"` |
+| 畢業學長姐 | 公司、職稱、英文、公開方式 | `destination`：「公開公司與職稱」兩個都寫；「只公開公司」只寫公司；「只寫產業類別」寫成例如 `{ en: "Engineer, semiconductor industry", zh: "半導體業工程師" }`；「不公開」就不寫 `destination` |
 
 ### 影片 video
 
