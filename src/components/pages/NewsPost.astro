@@ -2,6 +2,7 @@
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import PageHead from '../PageHead.astro';
+import LocalVideo from '../LocalVideo.astro';
 import { t, localePath, formatDate, htmlLang, type Locale } from '../../i18n/utils';
 import { slugOf, langOf } from '../../lib/format';
 import { getNews } from '../../lib/data';
@@ -18,5 +19,5 @@ const foreign = postLang !== lang ? htmlLang[postLang] : undefined;
     <a slot="before" class="back" href={localePath('/news/', lang)}>← {t('news.back', lang)}</a>
     {foreign && <p class="news-lang">{t('news.onlyIn', lang)}</p>}
   </PageHead>
-  <article class="container news-body"><div class="prose" lang={foreign}><Content /></div></article>
+  <article class="container news-body"><div class="prose" lang={foreign}><Content /></div>{post.data.video && <LocalVideo video={post.data.video} lang={lang} />}</article>
 </Base>

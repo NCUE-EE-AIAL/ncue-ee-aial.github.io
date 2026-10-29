@@ -2,7 +2,18 @@
 name: "Muskan"
 program: IIPP
 photo: "/images/people/muskan.webp"
-# year: unknown (old lab site, before 2026)
+# At NCUE again in 2026 on a semester exchange from Presidency University Bangalore (Brian, 2026-10-29).
+year: 2026
 quote:
   en: "Being part of Professor Wen Ren Yang’s AI lab has offered me hands-on experience that goes far beyond what I’d learn in a classroom. We work in small, diverse teams to create and test AI applications, which has taught me the importance of adaptability and cross-cultural collaboration. One memorable project involved developing a smart health monitoring system, where our team included members from multiple countries. This project helped me grow my technical skills while learning how to communicate effectively across cultures. Our professor’s mentorship has been invaluable; he pushes us to think critically and refine our approaches, encouraging both independence and teamwork. Additionally, the lab arranges workshops with industry experts, which has broadened my understanding of real-world AI applications. This experience has built a strong foundation for my career, equipping me with both technical knowledge and a global perspective."
+video:
+  # From Presidency University's LinkedIn student spotlight; Brian confirmed it may be shown here (2026-10-29).
+  src: "/videos/muskan-ncue-exchange.mp4"
+  poster: "/videos/muskan-ncue-exchange.webp"
+  captions: "/videos/muskan-ncue-exchange.en.vtt"
+  title:
+    en: "Muskan talks about her exchange semester at NCUE"
+    zh: "Muskan 分享她在彰師大的交換學期"
+  credit: "Presidency University Bangalore"
+  source: "https://www.linkedin.com/posts/presidency-university-india_communicationskills-studentspotlight-presidencyuniversity-activity-7453335319992766464-HnhV"
 order: 19

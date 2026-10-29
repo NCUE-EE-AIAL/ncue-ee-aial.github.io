@@ -138,6 +138,10 @@ export const ui = {
   'video.play': { en: 'Play video', zh: '播放影片' },
   'video.watch': { en: 'Watch on YouTube', zh: '到 YouTube 觀看' },
   'video.note': { en: 'Loads from YouTube when you click', zh: '點擊後才會從 YouTube 載入' },
+  'video.credit': { en: 'Video: ', zh: '影片：' },
+  'video.download': { en: 'Download the video', zh: '下載影片' },
+  'video.captions.en': { en: 'English', zh: '英文' },
+  'video.captions.zh': { en: 'Chinese', zh: '中文' },
 
   'pubs.title': { en: 'Publications', zh: '論文發表' },
   'pubs.intro': {

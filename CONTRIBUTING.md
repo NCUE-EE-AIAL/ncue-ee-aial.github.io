@@ -264,7 +264,24 @@
 ### 國際實習生 interns
 
 - `src/content/interns/<slug>.yaml`，一位 TEEP／IIPP 實習生一個檔。全部列在成員頁（`/people/`）的「過往國際實習生」區，依 `year` 分組（新的在前），沒寫 `year` 的歸在「更早」；有寫 `quote` 的，心得也會出現在國際交流研究方向頁（`/research/international-programs/`）。
-- 欄位：`name`、`program`（`TEEP` 或 `IIPP`）、`year`（選填，實習年份，例如 `2026`；**從 2026 年起請填**）、`quote`（選填，雙語物件，保留本人原文；只有 `en` 時中文站顯示英文原文）、`photo`（選填，用 `npm run photos -- <照片> --out public/images/people --headshot` 做成 `/images/people/<slug>.webp`）、`order`（同一年內排序）。
+- 欄位：`name`、`program`（`TEEP` 或 `IIPP`）、`year`（選填，實習年份，例如 `2026`；**從 2026 年起請填**）、`quote`（選填，雙語物件，保留本人原文；只有 `en` 時中文站顯示英文原文）、`photo`（選填，用 `npm run photos -- <照片> --out public/images/people --headshot` 做成 `/images/people/<slug>.webp`）、`video`（選填，見下方「影片」）、`order`（同一年內排序）。
+
+### 影片 video
+
+- 動態（news）和國際實習生（interns）可以附一段短影片，直接放在網站上，不用 YouTube。影片、封面和字幕都放在 `public/videos/`：`<名稱>.mp4`（H.264，建議 10 MB 以內）、`<名稱>.webp`（封面，可用 `ffmpeg -ss 10 -i 影片.mp4 -frames:v 1 封面.webp` 截一張）、`<名稱>.en.vtt`（選填，WebVTT 字幕）。訪客按下播放前只會下載封面。
+- 欄位寫法：
+
+  ```yaml
+  video:
+    src: "/videos/muskan-ncue-exchange.mp4"
+    poster: "/videos/muskan-ncue-exchange.webp"
+    captions: "/videos/muskan-ncue-exchange.en.vtt"   # 選填
+    captionsLang: en                                 # 字幕語言，en 或 zh，預設 en
+    title: { en: "What the video shows", zh: "影片內容" }
+    credit: "Presidency University Bangalore"        # 影片出處，顯示在影片下方
+    source: "https://www.linkedin.com/posts/..."     # 選填，原始貼文
+  ```
+- 別人拍的影片，請先取得對方同意再放上來。
 
 ### 照片
 
@@ -420,6 +437,7 @@ title:
 | `title` | 是 | 字串 | `"Lab website relaunched"` | 有冒號請加引號 |
 | `date` | 是 | 日期 `YYYY-MM-DD` | `2026-10-17` | 其他寫法（例如 `2026/10/17`）會 build 失敗 |
 | `summary` | 是 | 字串（不可空白） | `"The lab has a new bilingual website."` | 一句話，顯示在動態列表，也是搜尋結果與分享預覽的描述 |
+| `video` | 否 | 物件 | 見第 3 節「影片 video」 | 放在內文下方的短影片 |
 
 ### 研究方向 research
 

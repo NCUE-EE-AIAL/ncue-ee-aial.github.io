@@ -5,6 +5,7 @@ import PageHead from '../PageHead.astro';
 import ProjectCard from '../ProjectCard.astro';
 import PubItem from '../PubItem.astro';
 import VideoEmbed from '../VideoEmbed.astro';
+import LocalVideo from '../LocalVideo.astro';
 import Cta from '../Cta.astro';
 import Icon from '../Icon.astro';
 import ArtFill from '../ArtFill.astro';
@@ -113,6 +114,7 @@ const memberNames = people.map((p) => p.data.name.en);
               </div>
             </div>
             <blockquote lang={lang === 'zh' && !q.data.quote!.zh ? 'en' : undefined}><p>{pick(q.data.quote!, lang)}</p></blockquote>
+            {q.data.video && <LocalVideo video={q.data.video} lang={lang} />}
           </li>
         ))}
       </ul>
