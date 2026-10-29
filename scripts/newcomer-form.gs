@@ -30,6 +30,7 @@ function createNewcomerForm() {
   ].join('\n'));
   form.setProgressBar(true);
   form.setAllowResponseEdits(true);
+  form.setShowLinkToRespondAgain(false);
   form.setLimitOneResponsePerUser(false);
   try {
     form.setEmailCollectionType(FormApp.EmailCollectionType.VERIFIED);
