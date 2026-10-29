@@ -36,8 +36,17 @@ function createNewcomerForm() {
   } catch (e) {
     form.setCollectEmail(true);
   }
-  form.setConfirmationMessage('謝謝！你的資料會用來建立實驗室網站上的成員卡片，想修改時可以用「編輯回覆」連結。\n'
-    + 'Thank you! Your answers will be used for your card on the lab website. Use "Edit your response" to change them later.');
+  form.setConfirmationMessage([
+    '謝謝你撥空填寫！新成員，歡迎加入人工智慧應用實驗室；畢業的學長姐，謝謝你們一直和實驗室保持聯絡。',
+    '我們會依照你的回覆更新實驗室網站，照片和公開內容都照你在最後一頁選的同意方式處理。'
+      + '之後想修改，用同一個 Google 帳號點本頁下方的編輯連結就可以。',
+    '',
+    'Thank you for taking the time to fill this in! New members: welcome to the AI Application Laboratory. '
+      + 'Alumni: thank you for staying in touch with the lab.',
+    'We will update the lab website from your answers, and your photo and public details follow the consent '
+      + 'you chose on the last page. To change anything later, sign in with the same Google account and use '
+      + '"Edit your response" below.',
+  ].join('\n'));
 
   // Page 1: identity. Its choices point at the page breaks made below.
   const who = form.addMultipleChoiceItem()
