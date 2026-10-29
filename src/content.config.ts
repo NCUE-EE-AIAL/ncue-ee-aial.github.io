@@ -1,7 +1,7 @@
 import { defineCollection, reference, type SchemaContext } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
-import { isLocalPhoto, DOI_RE, toDay, AY_MIN, ayMax, AGENCIES, sponsorEra, GRANT_NO, PARTNER_RE } from './lib/rules.mjs';
+import { isLocalPhoto, isLocalVideoFile, DOI_RE, toDay, AY_MIN, ayMax, AGENCIES, sponsorEra, GRANT_NO, PARTNER_RE } from './lib/rules.mjs';
 
 /**
  * Content model. Non-developers only touch files under src/content/.
@@ -12,6 +12,20 @@ import { isLocalPhoto, DOI_RE, toDay, AY_MIN, ayMax, AGENCIES, sponsorEra, GRANT
 const bi = z.strictObject({ en: z.string(), zh: z.string().optional() });
 /** Both languages required: every photo is described for screen readers on both sites. */
 const biBoth = z.strictObject({ en: z.string().min(1), zh: z.string().min(1) });
+/** A short video kept in public/videos/ (no YouTube needed). Nothing is downloaded until the visitor presses play. */
+const localVideo = z.strictObject({
+  src: z.string().refine((p) => isLocalVideoFile(p, 'mp4'), { error: 'video src must be a local file like /videos/name.mp4' }),
+  poster: z.string().refine((p) => isLocalVideoFile(p, 'webp|jpe?g'), { error: 'video poster must be a local file like /videos/name.webp' }),
+  /** WebVTT captions, in the language spoken in the video. */
+  captions: z.string().refine((p) => isLocalVideoFile(p, 'vtt'), { error: 'video captions must be a local file like /videos/name.en.vtt' }).optional(),
+  captionsLang: z.enum(['en', 'zh']).default('en'),
+  /** What the video shows, read by screen readers. */
+  title: bi,
+  /** Who made the video, e.g. "Presidency University", shown under it. */
+  credit: z.string().min(1),
+  /** The original post, linked from the credit. */
+  source: z.url().optional(),
+});
 /** A day: YYYY-MM-DD (see toDay in src/lib/rules.mjs). */
 const day = z.preprocess(toDay, z.date({ error: 'use YYYY-MM-DD, for example 2026-11-05' }));
 /** A month: YYYY-MM. */
@@ -164,6 +178,8 @@ const news = defineCollection({
     /** Shown in the news list and as the page's description in search results and link previews. */
     summary: z.string({ error: 'summary is required: one sentence for the news list and search results' })
       .min(1, { error: 'summary is required: one sentence for the news list and search results' }),
+    /** Optional local video, shown below the text. */
+    video: localVideo.optional(),
   }),
 });
 
@@ -310,6 +326,8 @@ const interns = defineCollection({
     }).optional(),
     /** Testimonial in the intern's own words: keep it as written. */
     quote: bi.optional(),
+    /** Optional local video, shown with the testimonial. */
+    video: localVideo.optional(),
     order: z.number().int().default(100),
   }),
 });

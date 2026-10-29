@@ -1,0 +1,21 @@
+---
+/** A short video kept in public/videos/. preload="none": only the poster loads until the visitor presses play. */
+import sharp from 'sharp';
+import { pick, t, type Locale } from '../i18n/utils';
+interface Video { src: string; poster: string; captions?: string; captionsLang: 'en' | 'zh'; title: { en: string; zh?: string }; credit: string; source?: string }
+interface Props { video: Video; lang: Locale; class?: string }
+const { video, lang, class: cls } = Astro.props;
+const title = pick(video.title, lang);
+// The poster's size gives the box its shape before anything else loads (no layout shift, no letterboxing).
+const { width, height } = await sharp(`public${video.poster}`).metadata();
+---
+<figure class:list={['local-video', cls]}>
+  <video controls playsinline preload="none" poster={video.poster} width={width} height={height} style={`aspect-ratio: ${width} / ${height}`} aria-label={title} title={title}>
+    <source src={video.src} type="video/mp4" />
+    {video.captions && <track kind="captions" src={video.captions} srclang={video.captionsLang} label={t(`video.captions.${video.captionsLang}`, lang)} default />}
+    <a href={video.src}>{t('video.download', lang)}: {title}</a>
+  </video>
+  <figcaption class="muted">
+    {t('video.credit', lang)}{video.source ? <a href={video.source} rel="noopener">{video.credit}</a> : video.credit}
+  </figcaption>
+</figure>

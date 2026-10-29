@@ -782,6 +782,13 @@ html:not(.js) .video-play { display: none; } /* without JavaScript the button do
 .video-play-text { font-weight: 600; }
 .video-note { font-size: 0.8rem; color: var(--muted); }
 
+/* ───────── Local video (LocalVideo.astro): poster only until played ───────── */
+.local-video { margin: 16px 0 0; }
+.local-video video { display: block; width: auto; height: auto; max-width: 100%; max-height: 70vh; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface-2); }
+.local-video figcaption { margin-top: 6px; font-size: 0.8rem; }
+.testimonial .local-video video { max-height: 480px; }
+.news-body .local-video { max-width: 420px; }
+
 /* ───────── 404 ───────── */
 .notfound { padding-block: clamp(56px, 10vw, 112px); display: grid; gap: 32px clamp(28px, 5vw, 56px); align-items: center; }
 @media (min-width: 860px) { .notfound { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); } }

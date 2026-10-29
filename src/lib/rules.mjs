@@ -6,6 +6,11 @@ export function isLocalPhoto(path) {
   return typeof path === 'string' && /^\/images\/people\/[\w.-]+\.(?:webp|jpe?g|png)$/i.test(path) && !path.includes('..');
 }
 
+/** A video, its poster or its caption file: one local file straight under /videos/ (MP4, WebP or JPEG poster, WebVTT). */
+export function isLocalVideoFile(path, ext) {
+  return typeof path === 'string' && new RegExp(`^/videos/[\\w.-]+\\.(?:${ext})$`, 'i').test(path) && !path.includes('..');
+}
+
 /** A bare DOI such as 10.1049/icp.2024.4141, without https://doi.org/ (the site adds it to every link). */
 export const DOI_RE = /^10\.\d{4,9}\/\S+$/;
 
