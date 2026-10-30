@@ -1,0 +1,14 @@
+# From the newcomer form (2026-10-30, consent: yes, with headshot). He answered on the current-student page (entered
+# 2015); his master's thesis is theses/105-emt2ye.yaml (academic year 105, graduated 2017). No current position given:
+# add `destination` only after he answers the alumni page.
+name:
+  en: "Ming-Tung Chiu"
+  zh: "邱明東"
+nickname: "Bill"
+role: master
+alumni: true
+years: "2015–2017"
+areas: [wavelet-signal-analysis, biometrics-security]
+photo: "/images/people/ming-tung-chiu.webp"
+links: {}
+order: 50

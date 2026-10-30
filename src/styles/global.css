@@ -715,8 +715,18 @@ h2 .count { vertical-align: 0.3em; margin-left: 6px; }
 .join-section-head { margin-bottom: 28px; }
 .join-section-head p { color: var(--muted); max-width: 65ch; }
 .albums { display: grid; gap: clamp(28px, 5vw, 44px); }
-.intern-year + .intern-year { margin-top: 20px; }
-.intern-year-title { font-size: 1rem; color: var(--muted); margin-bottom: 10px; }
+.people-grid + .intern-list { margin-top: 20px; }
+.alumni-update { margin-top: 18px; font-size: 0.95rem; }
+.alumni-year { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); gap: 4px 16px; padding: 10px 0; border-top: 1px solid var(--border); }
+.alumni-year:last-child { border-bottom: 1px solid var(--border); }
+.alumni-year-title { margin: 0; font-size: 1rem; color: var(--muted); font-weight: 600; font-variant-numeric: tabular-nums; }
+.alumni-names { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 0.95rem; line-height: 1.5; }
+.alumni-names li { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 0 6px; }
+.alumni-nick, .alumni-tag { color: var(--muted); font-size: 0.85rem; }
+.alumni-now { font-size: 0.85rem; }
+@media (max-width: 560px) {
+  .alumni-year { grid-template-columns: minmax(0, 1fr); }
+}
 .intern-list { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)); gap: 12px; }
 .intern { display: flex; align-items: center; gap: 10px; }
 .intern .avatar { width: 44px; height: 44px; }

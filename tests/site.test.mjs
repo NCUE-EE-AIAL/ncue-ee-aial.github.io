@@ -157,14 +157,53 @@ test('unverified publications carry a visible "to verify" mark', () => {
   }
 });
 
-test('Kuan-Wei Chen is listed under Alumni with his two papers', () => {
-  const alumni = section(html('/people/'), 'alumni');
+test('Kuan-Wei Chen is listed under where alumni are now, with his two papers', () => {
+  const alumni = section(html('/people/'), 'destinations');
   const card = section(alumni, 'kuan-wei-chen');
   const end = card.indexOf('</article>');
   const body = card.slice(0, end);
   assert.match(body, /Kuan-Wei Chen/);
   assert.match(body, /Two-step Authentication/);
   assert.match(body, /Emotion as a Distribution/);
+});
+
+// One People section, from its id to the next <section>.
+const only = (page, id) => { const s = section(page, id); const end = s.indexOf('<section', 1); return end > 0 ? s.slice(0, end) : s; };
+
+test('People: current TEEP/IIPP interns sit up top, alumni below by year, newest first', () => {
+  for (const r of ['/people/', zh('/people/')]) {
+    const page = html(r);
+    const order = ['current', 'international', 'destinations', 'alumni'].map((id) => page.indexOf(`id="${id}"`));
+    assert.ok(order.every((i, k) => i > 0 && (k === 0 || i > order[k - 1])), `${r}: sections out of order ${order}`);
+    const intl = only(page, 'international');
+    const alumni = only(page, 'alumni');
+    for (const id of ['sneha', 'vindhya', 'sreevidya', 'muskan']) {
+      assert.match(intl, new RegExp(`id="intern-${id}"`), `${r}: ${id} is not with the current interns`);
+      assert.doesNotMatch(alumni, new RegExp(`data-key="intern:${id}"`), `${r}: current intern ${id} listed as alumni`);
+    }
+    const years = [...alumni.matchAll(/class="alumni-year-title"[^>]*>(\d{4})</g)].map((m) => Number(m[1]));
+    assert.ok(years.length > 5 && years.every((y, k) => k === 0 || y < years[k - 1]), `${r}: alumni years not newest first`);
+  }
+});
+
+test('People: Erik is Kuan-Chun Chu, Johnson is 劉子緒, Suraj and Bill are listed once; Brian is a 2025 project-student alumnus', () => {
+  const page = html(zh('/people/'));
+  const alumni = only(page, 'alumni');
+  assert.doesNotMatch(page, /國際學生<\/span>/, 'nobody is labelled international student any more');
+  assert.match(only(page, 'current'), /朱冠軍[\s\S]*?\(Erik\)/);
+  for (const name of ['劉子緒', '邱明東', 'Suraj Muccu']) {
+    assert.equal(alumni.split(name).length - 1, 1, `${name} should appear once among the alumni`);
+  }
+  assert.doesNotMatch(page, /劉子旭/);
+  const y2025 = alumni.slice(alumni.indexOf('>2025<'), alumni.indexOf('alumni-year-title', alumni.indexOf('>2025<')));
+  assert.match(y2025, /data-key="earlier:brian-lin:0"[\s\S]*?林庭毅[\s\S]*?大學部專題生[\s\S]*?本實驗室碩士生/);
+  assert.match(only(page, 'destinations'), /id="brian-lin-undergrad"/);
+});
+
+test('People: the alumni section links the member form so alumni can tell us where they are', () => {
+  for (const r of ['/people/', zh('/people/')]) {
+    assert.match(only(html(r), 'destinations'), /href="https:\/\/docs\.google\.com\/forms\/d\/e\/[\w-]+\/viewform"/, r);
+  }
 });
 
 test('the PI email is on the People and Join pages; students show no email', () => {

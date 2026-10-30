@@ -4,11 +4,13 @@ import PageHead from '../PageHead.astro';
 import PersonCard from '../PersonCard.astro';
 import ArtFill from '../ArtFill.astro';
 import ThesisGroups from '../ThesisGroups.astro';
-import { t, pick, localePath, otherLocale, type Locale } from '../../i18n/utils';
+import AlumniYears from '../AlumniYears.astro';
+import { t, s, pick, localePath, otherLocale, type Locale } from '../../i18n/utils';
 import { personNode } from '../../lib/seo.mjs';
 import { slugOf } from '../../lib/format';
 import { splitTheses } from '../../lib/theses.mjs';
-import { getPeople, getPublications, getProjects, getAreas, getTheses, getHonors, getInterns, type Person, type Intern } from '../../lib/data';
+import { alumniYears, isCurrentIntern, endYear } from '../../lib/alumni.mjs';
+import { getPeople, getPublications, getProjects, getAreas, getTheses, getHonors, getInterns, type Person } from '../../lib/data';
 interface Props { lang: Locale }
 const { lang } = Astro.props;
 const [people, pubs, projects, areas, theses, honors, interns] = await Promise.all([getPeople(), getPublications(), getProjects(), getAreas(lang), getTheses(), getHonors(), getInterns()]);
@@ -23,18 +25,26 @@ const piLd = pis.map((p) => personNode({
   sameAs: [p.data.links?.orcid].filter((u): u is string => !!u),
   image: p.data.photo ? new URL(p.data.photo, home).href : undefined, url: new URL(localePath('/people/', lang), home).href,
 }));
+const today = new Date();
 const groups = [
   { id: 'current', title: t('people.current', lang), list: people.filter((p) => p.data.role !== 'pi' && !p.data.alumni && !intl(p)) },
-  { id: 'international', title: t('people.international', lang), list: people.filter((p) => p.data.role !== 'pi' && !p.data.alumni && intl(p)) },
-  { id: 'alumni', title: t('people.alumni', lang), list: people.filter((p) => p.data.role !== 'pi' && p.data.alumni) },
 ].filter((g) => g.list.length > 0);
-// Past TEEP/IIPP interns by year, newest first; those without a year (before 2026) under "Earlier".
-const internYears: { year?: number; list: Intern[] }[] = [];
-for (const it of interns) {
-  const last = internYears.at(-1);
-  if (last && last.year === it.data.year) last.list.push(it);
-  else internYears.push({ year: it.data.year, list: [it] });
-}
+// Current TEEP/IIPP: people files with a program (none at the moment) and interns whose time here has not ended.
+const intlPeople = people.filter((p) => p.data.role !== 'pi' && !p.data.alumni && intl(p));
+const currentInterns = interns.filter((it) => isCurrentIntern(it.data, today));
+// Where alumni are now: alumni who gave their position, and current members who were here before in another role
+// (a project student who stayed on for a master's). Newest end year first.
+const destinations = [
+  ...people.filter((p) => p.data.alumni && p.data.destination).map((p) => ({ person: p, year: endYear(p.data.years), stage: undefined })),
+  ...people.filter((p) => !p.data.alumni).flatMap((p) => p.data.earlier.map((st) => ({ person: p, year: endYear(st.years), stage: st }))),
+].sort((a, b) => (b.year ?? 0) - (a.year ?? 0));
+// Everyone who has left, by year: alumni files, earlier stages, past interns and thesis authors.
+const alumni = alumniYears({ people, interns, theses, today });
+const alumniCount = alumni.reduce((n, g) => n + g.list.length, 0);
+const OPEN_ALUMNI_YEARS = 5;
+const openAlumni = alumni.slice(0, OPEN_ALUMNI_YEARS);
+const olderAlumni = alumni.slice(OPEN_ALUMNI_YEARS);
+const olderAlumniCount = olderAlumni.reduce((n, g) => n + g.list.length, 0);
 const testimonialsHref = localePath('/research/international-programs/', lang);
 // Theses by degree, then by academic year, newest first; the three newest master's years stay open.
 const { master: thesisYears, phd: phdYears } = splitTheses(theses);
@@ -57,31 +67,60 @@ const olderCount = olderYears.reduce((n, y) => n + y.list.length, 0);
       </div>
       <div class="grid grid-2 people-grid">
         {g.list.map((p, i) => <PersonCard person={p} lang={lang} pubs={pubs} projects={projects} i={i % 4} />)}
-        <ArtFill name={g.id === 'alumni' ? 'chip' : 'opamp'} count={g.list.length} />
+        <ArtFill name="opamp" count={g.list.length} />
       </div>
     </section>
   ))}
-  {interns.length > 0 && (
-    <section class="section container" id="interns" aria-labelledby="interns-h">
+  {intlPeople.length + currentInterns.length > 0 && (
+    <section class="section container" id="international" aria-labelledby="international-h">
       <div class="section-head">
-        <h2 id="interns-h">{t('people.interns', lang)} <span class="count">{interns.length}</span></h2>
+        <h2 id="international-h">{t('people.international', lang)} <span class="count">{intlPeople.length + currentInterns.length}</span></h2>
       </div>
-      {internYears.map((g) => (
-        <div class="intern-year">
-          {internYears.length > 1 || g.year ? <h3 class="intern-year-title">{g.year ?? t('people.interns.earlier', lang)}</h3> : null}
-          <ul class="intern-list">
-            {g.list.map((it) => (
-              <li class="intern">
-                {it.data.photo && <img class="avatar" src={it.data.photo} alt="" width={44} height={44} loading="lazy" decoding="async" />}
-                <div>
-                  <p class="intern-name">{it.data.name}</p>
-                  <p class="muted intern-meta">{it.data.program}{it.data.quote && <> · <a href={`${testimonialsHref}#testimonial-${it.id}`}>{t('people.interns.quote', lang)}</a></>}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
+      {intlPeople.length > 0 && (
+        <div class="grid grid-2 people-grid">
+          {intlPeople.map((p, i) => <PersonCard person={p} lang={lang} pubs={pubs} projects={projects} i={i % 4} />)}
         </div>
-      ))}
+      )}
+      {currentInterns.length > 0 && (
+        <ul class="intern-list">
+          {currentInterns.map((it) => (
+            <li class="intern" id={`intern-${it.id}`}>
+              {it.data.photo && <img class="avatar" src={it.data.photo} alt="" width={44} height={44} loading="lazy" decoding="async" />}
+              <div>
+                <p class="intern-name">{it.data.name}</p>
+                <p class="muted intern-meta">{it.data.program}{it.data.year && <> {it.data.year}</>}{it.data.quote && <> · <a href={`${testimonialsHref}#testimonial-${it.id}`}>{t('people.interns.quote', lang)}</a></>}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+  )}
+  <section class="section container" id="destinations" aria-labelledby="destinations-h">
+    <div class="section-head">
+      <h2 id="destinations-h">{t('people.destinations', lang)} {destinations.length > 0 && <span class="count">{destinations.length}</span>}</h2>
+    </div>
+    {destinations.length > 0 && (
+      <div class="grid grid-2 people-grid">
+        {destinations.map((x, i) => <PersonCard person={x.person} lang={lang} pubs={pubs} projects={projects} i={i % 4} stage={x.stage} />)}
+        <ArtFill name="chip" count={destinations.length} />
+      </div>
+    )}
+    <p class="alumni-update"><a href={s('memberForm', lang)} rel="noopener">{t('people.destinations.update', lang)}</a></p>
+  </section>
+  {alumniCount > 0 && (
+    <section class="section container" id="alumni" aria-labelledby="alumni-h">
+      <div class="section-head">
+        <h2 id="alumni-h">{t('people.alumni', lang)} <span class="count">{alumniCount}</span></h2>
+        <p class="muted">{t('people.alumni.lede', lang)}</p>
+      </div>
+      <AlumniYears lang={lang} years={openAlumni} pubs={pubs} />
+      {olderAlumni.length > 0 && (
+        <details class="thesis-more">
+          <summary>{t('people.alumni.more', lang).replace('{n}', String(olderAlumniCount))}</summary>
+          <AlumniYears lang={lang} years={olderAlumni} pubs={pubs} />
+        </details>
+      )}
     </section>
   )}
   {honors.length > 0 && (

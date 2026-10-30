@@ -1,9 +1,15 @@
-# Source: Brian, 2026-10-24 (second-year master's, power electronics group). Photo to come.
+# Source: Brian, 2026-10-24 (second-year master's, power electronics group). "Erik" on the old lab site, where he was
+# listed as an international student by mistake: an NCUE EE project student who went straight on to the master's
+# (Brian, 2026-10-31). Photo from the old lab site.
 name:
   en: "Kuan-Chun Chu"
   zh: "朱冠軍"
+nickname: "Erik"
 role: master
 years: "2025–"
+earlier:
+  - { role: undergrad, years: "2023–2025" }
+photo: "/images/people/kuan-chun-chu.webp"
 areas: [smart-grid-energy]
 bio:
   en: "Master’s student in the power electronics group, predicting harmonics of the campus battery energy storage system and building its data-acquisition module."

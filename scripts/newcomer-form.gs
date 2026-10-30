@@ -137,11 +137,11 @@ function createNewcomerForm() {
   para(form, '備註 / Anything else? (optional)', '', false);
 
   who.setChoices([
-    who.createChoice('電機系碩博士生 / EE graduate student (Master\'s or PhD)', pbGrad),
+    who.createChoice('電機系碩博士生（在學中）/ Current EE graduate student (Master\'s or PhD)', pbGrad),
     who.createChoice('電機系專題生（大學部）/ EE undergraduate project student', pbUndergrad),
     who.createChoice('TEEP / IIPP intern', pbIntern),
     who.createChoice('國際工程碩士學位學程 / International Master Program in Engineering (IMPE)', pbImpe),
-    who.createChoice('畢業學長姐 / Alumni', pbAlumni),
+    who.createChoice('畢業學長姐（已畢業／已離開）/ Alumni (graduated or left)', pbAlumni),
   ]);
   // A page break's go-to applies to the page before it: pages 2–5 jump to page 7; page 6 flows into it.
   [pbUndergrad, pbIntern, pbImpe, pbAlumni].forEach((pb) => pb.setGoToPage(pbEnd));

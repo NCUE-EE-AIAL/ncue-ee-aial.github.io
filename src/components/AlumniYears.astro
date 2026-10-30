@@ -1,0 +1,38 @@
+---
+/** Alumni grouped by the year they left (from alumniYears in src/lib/alumni.mjs): one line of names per year. */
+import { t, pick, localePath, type Locale, type UiKey } from '../i18n/utils';
+import { isAuthor } from '../lib/format';
+import { studentName, langOfText } from '../lib/theses.mjs';
+import type { Publication } from '../lib/data';
+interface Props { lang: Locale; years: { year?: number; list: any[] }[]; pubs: Publication[] }
+const { lang, years, pubs } = Astro.props;
+// Text in another language than the page gets its own lang (WCAG 3.1.2), as in ThesisGroups.
+const pageLang = lang === 'zh' ? 'zh-Hant-TW' : 'en';
+const langFor = (text: string) => { const l = langOfText(text); return l === pageLang ? undefined : l; };
+const pubsHref = localePath('/publications/', lang);
+const role = (r: string) => t(`people.role.${r}` as UiKey, lang);
+const nameOf = (e: any): string =>
+  e.kind === 'thesis' ? studentName(e.thesis.data.student, lang) : e.kind === 'intern' ? e.intern.data.name : pick(e.person.data.name, lang);
+// Papers of an alumnus with a people file, newest first, so the list can point at them.
+const papersOf = (e: any): Publication[] => e.kind === 'person' ? pubs.filter((p) => isAuthor(e.person.data.name.en, p.data.authors)) : [];
+---
+{years.map((g) => (
+  <div class="alumni-year">
+    <h3 class="alumni-year-title">{g.year ?? t('people.alumni.unknown', lang)}</h3>
+    <ul class="alumni-names">
+      {g.list.map((e) => {
+        const name = nameOf(e);
+        const papers = papersOf(e);
+        return (
+          <li data-key={e.key}>
+            <span class="alumni-name" lang={langFor(name)}>{name}</span>
+            {e.kind === 'person' && e.person.data.nickname && <span class="alumni-nick" lang="en">({e.person.data.nickname})</span>}
+            <span class="alumni-tag">{e.kind === 'intern' ? e.intern.data.program : role(e.role)}</span>
+            {e.kind === 'earlier' && <a class="alumni-now" href={`#${e.person.id}`}>{t('people.alumni.inLab', lang).replace('{role}', role(e.nowRole))}</a>}
+            {papers.length > 0 && <a class="alumni-now" href={`${pubsHref}#${papers[0].id}`}>{t('people.alumni.papers', lang)}{papers.length > 1 ? ` ×${papers.length}` : ''}</a>}
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+))}

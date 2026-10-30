@@ -138,6 +138,9 @@ const people = defineCollection({
     alumni: z.boolean().default(false),
     /** e.g. "2024–" or "2022–2024" */
     years: z.string().optional(),
+    /** Earlier stages in the lab of a current member, e.g. [{ role: undergrad, years: "2023–2025" }] for a project
+     *  student who stayed on for a master's. Listed under the alumni years with "now a master's student in the lab". */
+    earlier: z.array(z.strictObject({ role: z.enum(['undergrad', 'master', 'phd', 'intern']), years: z.string() })).default([]),
     areas: z.array(areaSlug).default([]),
     bio: bi.optional(),
     /** PI or staff: areas of expertise, one short phrase each. */
@@ -320,6 +323,9 @@ const interns = defineCollection({
     program: z.enum(['TEEP', 'IIPP']),
     /** Year of the internship, e.g. 2026. Leave it out when unknown: the intern is listed under "Earlier". */
     year: z.number().int().min(2018).max(new Date().getFullYear() + 1).optional(),
+    /** Last day in the lab, e.g. 2026-08-31. Until then the intern is listed with the current members; without it,
+     *  until the end of `year`. Afterwards they move to the alumni years by themselves (at the next build). */
+    until: z.coerce.date().optional(),
     /** Local file under public/images/people/, made with `npm run photos -- <photo> --out public/images/people --headshot`. */
     photo: z.string().refine(isLocalPhoto, {
       error: 'photo must be a local file like /images/people/name.webp, not a URL',
