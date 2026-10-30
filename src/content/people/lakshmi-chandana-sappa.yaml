@@ -1,0 +1,13 @@
+# From the newcomer form (2026-10-30, IMPE, entered 2025); Brian confirmed she is a lab member the same day.
+# She chose "Other: Thyroid Nodule Detection using YOLOv8" as her area; filed under biomedical-ai. Bio is her own answer in the third person.
+name:
+  en: "Lakshmi Chandana Sappa"
+nickname: "Chandana"
+role: master
+photo: "/images/people/lakshmi-chandana-sappa.webp"
+years: "2025–"
+areas: [biomedical-ai]
+bio:
+  en: "Master’s student in the International Master Program in Engineering (IMPE), detecting thyroid nodules in ultrasound images with YOLOv8: deep learning and computer vision for accurate, efficient AI-assisted diagnosis."
+  zh: "國際工程碩士學位學程（IMPE）碩士生，以 YOLOv8 從超音波影像偵測甲狀腺結節，運用深度學習與電腦視覺，發展準確又有效率的 AI 輔助判讀。"
+order: 10
