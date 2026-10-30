@@ -42,8 +42,10 @@ const headcount = (gs: { list: unknown[] }[]) => gs.reduce((n, g) => n + g.list.
 const alumniCount = headcount(alumni.years) + alumni.undatedInterns.length + alumni.undated.length;
 const OPEN_ALUMNI_YEARS = 5;
 const openAlumni = alumni.years.slice(0, OPEN_ALUMNI_YEARS);
+// The old-site interns have no year; the block is titled "before" the first year we did record (2026), not the build year.
+const firstInternYear = Math.min(...interns.map((it) => it.data.year).filter((y): y is number => y !== undefined), today.getUTCFullYear());
 const internsBefore = alumni.undatedInterns.length > 0
-  ? [{ label: t('people.alumni.internsBefore', lang).replace('{year}', String(today.getUTCFullYear())), block: 'alumni-interns', list: alumni.undatedInterns }]
+  ? [{ label: t('people.alumni.internsBefore', lang).replace('{year}', String(firstInternYear)), block: 'alumni-interns', list: alumni.undatedInterns }]
   : [];
 const olderAlumni = [
   ...alumni.years.slice(OPEN_ALUMNI_YEARS),

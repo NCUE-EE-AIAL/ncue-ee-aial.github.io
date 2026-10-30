@@ -268,7 +268,7 @@
 
 ### 國際實習生 interns
 
-- `src/content/interns/<slug>.yaml`，一位 TEEP／IIPP 實習生一個檔。還在實驗室的列在成員頁（`/people/`）上方的「國際實習生」區；結束後自動移到「歷屆成員」，排在 `year` 那一年，有照片的放照片；沒寫 `year` 的（舊網站上的實習生）集中在「2026 年以前的國際實習生」區塊（年份是網站建置當年），接在最近幾年之後。「還在」的意思是：有寫 `until`（最後一天，例如 `2026-08-31`）就到那天為止，沒寫就到 `year` 那年年底；網站每週一重建，過了日期會自己移下去，不用改檔。有寫 `quote` 的，心得也會出現在國際交流研究方向頁（`/research/international-programs/`）。
+- `src/content/interns/<slug>.yaml`，一位 TEEP／IIPP 實習生一個檔。還在實驗室的列在成員頁（`/people/`）上方的「國際實習生」區；結束後自動移到「歷屆成員」，排在 `year` 那一年，有照片的放照片；沒寫 `year` 的（舊網站上的實習生）集中在「2026 年以前的國際實習生」區塊（年份是最早有寫 `year` 的實習生那一年，目前是 2026），接在最近幾年之後。「還在」的意思是：有寫 `until`（最後一天，例如 `2026-08-31`）就到那天為止，沒寫就到 `year` 那年年底；網站每週一重建，過了日期會自己移下去，不用改檔。有寫 `quote` 的，心得也會出現在國際交流研究方向頁（`/research/international-programs/`）。
 - 欄位：`name`、`program`（`TEEP` 或 `IIPP`）、`year`（選填，實習年份，例如 `2026`；**從 2026 年起請填**）、`quote`（選填，雙語物件，保留本人原文；只有 `en` 時中文站顯示英文原文）、`photo`（選填，用 `npm run photos -- <照片> --out public/images/people --headshot` 做成 `/images/people/<slug>.webp`）、`until`（選填，最後一天，例如 `2026-08-31`）、`video`（選填，見下方「影片」）、`order`（同一年內排序）。
 
 ### 新成員資料表（Google 表單）
