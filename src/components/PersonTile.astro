@@ -1,0 +1,29 @@
+---
+/**
+ * One person in a compact list (the alumni yearbook, the current interns): a round 44 px avatar (the photo, or
+ * `fallback` text such as a surname or initials), the name with an optional link and nickname, and one line of
+ * details from the default slot. Goes inside <ul class="tile-list">.
+ */
+interface Props {
+  id?: string;
+  /** Stable key of the entry (`person:<id>`, `earlier:<id>:<i>`, `thesis:<id>`, `intern:<id>`), as data-key. */
+  dataKey?: string;
+  photo?: string;
+  fallback: string;
+  name: string;
+  /** lang of the name when it is not in the page language (WCAG 3.1.2). */
+  nameLang?: string;
+  nick?: string;
+  href?: string;
+}
+const { id, dataKey, photo, fallback, name, nameLang, nick, href } = Astro.props;
+---
+<li class="tile" id={id} data-key={dataKey}>
+  {photo
+    ? <img class="avatar" src={photo} alt="" width={44} height={44} loading="lazy" decoding="async" />
+    : <span class="avatar" aria-hidden="true">{fallback}</span>}
+  <div class="tile-body">
+    <p class="tile-name">{href ? <a href={href} lang={nameLang}>{name}</a> : nameLang ? <span lang={nameLang}>{name}</span> : name}{nick && <> <span class="alumni-nick" lang="en">({nick})</span></>}</p>
+    {Astro.slots.has('default') && <p class="tile-meta muted"><slot /></p>}
+  </div>
+</li>

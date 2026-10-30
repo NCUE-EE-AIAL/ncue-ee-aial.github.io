@@ -1,4 +1,5 @@
 /** Alumni list helpers in plain JS, so the People page and node:test can both import them. */
+import { hasCjk } from './theses.mjs';
 
 /** Last year of a closed span such as "2023–2025" (or a single "2024"); undefined for an open span ("2025–") or none. */
 export function endYear(years) {
@@ -13,9 +14,14 @@ export function isCurrentIntern(intern, today) {
 }
 
 const RANK = { phd: 0, master: 1, undergrad: 2, intern: 3 };
+const byRank = (a, b) => (RANK[a.role] ?? 9) - (RANK[b.role] ?? 9);
 
 /**
- * Everyone who has left the lab, grouped by the year they left, newest first; unknown years last.
+ * Everyone who has left the lab, grouped by the year they left. Returns
+ * - `years`: `{ year, list }` newest first;
+ * - `undatedInterns`: past interns without a `year` (from the old lab site), in intern order;
+ * - `undated`: everyone else without a year;
+ * - `counts`: `{ phd, master, undergrad, intern }` over all of them; `from`: the earliest year (undefined when none).
  * Sources: alumni people files (end of `years`), earlier stages of current members (`earlier`), interns who are no
  * longer current (`year`), and thesis authors (graduation year = ROC academic year + 1912). A thesis author with a
  * people file of the same Chinese name is listed once, through the people file, which takes the thesis year when it
@@ -44,9 +50,31 @@ export function alumniYears({ people, interns, theses, today }) {
     if (isCurrentIntern(it.data, today)) continue;
     entries.push({ key: `intern:${it.id}`, kind: 'intern', intern: it, role: 'intern', year: it.data.year });
   }
-  const years = [...new Set(entries.map((e) => e.year))].sort((a, b) => (b ?? -Infinity) - (a ?? -Infinity));
-  return years.map((year) => ({
-    year,
-    list: entries.filter((e) => e.year === year).sort((a, b) => (RANK[a.role] ?? 9) - (RANK[b.role] ?? 9)),
-  }));
+  const dated = entries.filter((e) => e.year !== undefined);
+  const years = [...new Set(dated.map((e) => e.year))].sort((a, b) => b - a)
+    .map((year) => ({ year, list: dated.filter((e) => e.year === year).sort(byRank) }));
+  const counts = { phd: 0, master: 0, undergrad: 0, intern: 0 };
+  for (const e of entries) if (e.role in counts) counts[e.role] += 1;
+  return {
+    years,
+    undatedInterns: entries.filter((e) => e.year === undefined && e.kind === 'intern'),
+    undated: entries.filter((e) => e.year === undefined && e.kind !== 'intern').sort(byRank),
+    counts,
+    from: years.at(-1)?.year,
+  };
+}
+
+const initialsOf = (s) => { const w = s.trim().split(/\s+/).filter(Boolean); return w.length ? ((w[0][0] ?? '') + (w.length > 1 ? w.at(-1)[0] : '')).toUpperCase() : ''; };
+
+/**
+ * Text for a round avatar without a photo, from a name `{ en?, zh? }`: on the zh page the first character of the
+ * Chinese name (the surname) when it is a Chinese character, otherwise initials (first and last word); on the en page
+ * initials of the English name, falling back to the first Chinese character.
+ */
+export function avatarText(name, lang) {
+  const en = name?.en?.trim() ?? '';
+  const zh = name?.zh?.trim() ?? '';
+  const han = zh && hasCjk([...zh][0]) ? [...zh][0] : '';
+  if (lang === 'zh') return han || initialsOf(en || zh);
+  return initialsOf(en) || han || initialsOf(zh);
 }

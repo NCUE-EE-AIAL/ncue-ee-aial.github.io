@@ -19,7 +19,7 @@ const coNames = (x: Thesis) => x.data.coAdvisors.join(zh ? '、' : ', ');
         const name = studentName(x.data.student, lang);
         const title = zh ? x.data.title.zh : (x.data.title.en ?? x.data.title.zh);
         return (
-          <li>
+          <li id={`thesis-${x.id}`}>
             <span class="thesis-student" lang={langFor(name)}>{name}</span>
             <span class="thesis-body">
               <a href={x.data.url} rel="noopener" lang={langFor(title)}>{title}</a>

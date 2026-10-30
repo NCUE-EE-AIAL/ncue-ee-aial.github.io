@@ -1,36 +1,62 @@
 ---
-/** Alumni grouped by the year they left (from alumniYears in src/lib/alumni.mjs): one line of names per year. */
+/**
+ * Alumni yearbook rows (groups from alumniYears in src/lib/alumni.mjs): one row per year, or per titled block such as
+ * the past interns without a year, with one tile per person: avatar, name, role, and the position when it is known.
+ */
+import PersonTile from './PersonTile.astro';
 import { t, pick, localePath, type Locale, type UiKey } from '../i18n/utils';
 import { isAuthor } from '../lib/format';
 import { studentName, langOfText } from '../lib/theses.mjs';
+import { avatarText } from '../lib/alumni.mjs';
 import type { Publication } from '../lib/data';
-interface Props { lang: Locale; years: { year?: number; list: any[] }[]; pubs: Publication[] }
+interface Props {
+  lang: Locale;
+  /** A row is a year (`year`) or a titled block (`label`); `block` gives the title the full row width. */
+  years: { year?: number; label?: string; block?: string; list: any[] }[];
+  pubs: Publication[];
+}
 const { lang, years, pubs } = Astro.props;
+const zh = lang === 'zh';
 // Text in another language than the page gets its own lang (WCAG 3.1.2), as in ThesisGroups.
-const pageLang = lang === 'zh' ? 'zh-Hant-TW' : 'en';
+const pageLang = zh ? 'zh-Hant-TW' : 'en';
 const langFor = (text: string) => { const l = langOfText(text); return l === pageLang ? undefined : l; };
 const pubsHref = localePath('/publications/', lang);
+const testimonialsHref = localePath('/research/international-programs/', lang);
 const role = (r: string) => t(`people.role.${r}` as UiKey, lang);
-const nameOf = (e: any): string =>
-  e.kind === 'thesis' ? studentName(e.thesis.data.student, lang) : e.kind === 'intern' ? e.intern.data.name : pick(e.person.data.name, lang);
-// Papers of an alumnus with a people file, newest first, so the list can point at them.
+const nowLabel = t('people.destination', lang) + (zh ? '' : ' ');
+// Papers of an alumnus with a people file, newest first, so the tile can point at them.
 const papersOf = (e: any): Publication[] => e.kind === 'person' ? pubs.filter((p) => isAuthor(e.person.data.name.en, p.data.authors)) : [];
+// Avatar, name, link and nickname of one entry, by kind.
+const tileOf = (e: any) => {
+  if (e.kind === 'thesis') {
+    const name = studentName(e.thesis.data.student, lang);
+    return { fallback: avatarText(e.thesis.data.student, lang), name, href: `#thesis-${e.thesis.id}` };
+  }
+  if (e.kind === 'intern') return { photo: e.intern.data.photo, fallback: avatarText({ en: e.intern.data.name }, lang), name: e.intern.data.name };
+  const d = e.person.data;
+  return {
+    id: e.kind === 'person' ? e.person.id : `${e.person.id}-${e.role}`,
+    photo: d.photo, fallback: avatarText(d.name, lang), name: pick(d.name, lang), nick: d.nickname,
+  };
+};
 ---
 {years.map((g) => (
-  <div class="alumni-year">
-    <h3 class="alumni-year-title">{g.year ?? t('people.alumni.unknown', lang)}</h3>
-    <ul class="alumni-names">
+  <div class:list={['alumni-year', g.block]}>
+    <h3 class="alumni-year-title">{g.label ?? g.year}</h3>
+    <ul class="tile-list">
       {g.list.map((e) => {
-        const name = nameOf(e);
+        const x = tileOf(e);
         const papers = papersOf(e);
+        const dest = e.kind === 'person' && e.person.data.destination ? pick(e.person.data.destination, lang) : undefined;
         return (
-          <li data-key={e.key}>
-            <span class="alumni-name" lang={langFor(name)}>{name}</span>
-            {e.kind === 'person' && e.person.data.nickname && <span class="alumni-nick" lang="en">({e.person.data.nickname})</span>}
-            <span class="alumni-tag">{e.kind === 'intern' ? e.intern.data.program : role(e.role)}</span>
-            {e.kind === 'earlier' && <a class="alumni-now" href={`#${e.person.id}`}>{t('people.alumni.inLab', lang).replace('{role}', role(e.nowRole))}</a>}
-            {papers.length > 0 && <a class="alumni-now" href={`${pubsHref}#${papers[0].id}`}>{t('people.alumni.papers', lang)}{papers.length > 1 ? ` ×${papers.length}` : ''}</a>}
-          </li>
+          <PersonTile id={x.id} dataKey={e.key} photo={x.photo} fallback={x.fallback} name={x.name} nameLang={langFor(x.name)} nick={x.nick} href={x.href}>
+            {e.kind === 'intern'
+              ? <>{e.intern.data.program}{e.intern.data.quote && <> · <a href={`${testimonialsHref}#testimonial-${e.intern.id}`}>{t('people.interns.quote', lang)}</a></>}</>
+              : <span class="alumni-tag">{role(e.role)}</span>}
+            {e.kind === 'earlier' && <> · <span class="destination"><span class="destination-label">{nowLabel}</span><a href={`#${e.person.id}`}>{t('people.alumni.inLab', lang).replace('{role}', role(e.nowRole))}</a></span></>}
+            {dest && <> · <span class="destination"><span class="destination-label">{nowLabel}</span><span lang={langFor(dest)}>{dest}</span></span></>}
+            {papers.length > 0 && <> · <a href={`${pubsHref}#${papers[0].id}`}>{t('people.alumni.papers', lang)}{papers.length > 1 ? ` ×${papers.length}` : ''}</a></>}
+          </PersonTile>
         );
       })}
     </ul>

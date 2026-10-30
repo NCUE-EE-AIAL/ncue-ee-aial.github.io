@@ -640,6 +640,7 @@ h2 .count { vertical-align: 0.3em; margin-left: 6px; }
 .thesis-list { list-style: none; padding: 0; margin: 0; }
 .thesis-list li { display: grid; grid-template-columns: minmax(0, 11rem) minmax(0, 1fr); gap: 2px 16px; padding: 8px 0; border-top: 1px solid var(--border); font-size: 0.95rem; line-height: 1.45; }
 .thesis-list li:last-child { border-bottom: 1px solid var(--border); }
+.thesis-list li:target { background: var(--accent-soft); margin-inline: -8px; padding-inline: 8px; border-radius: var(--radius-sm); }
 .thesis-student { font-weight: 600; overflow-wrap: anywhere; }
 .thesis-body { min-width: 0; }
 .thesis-body a { color: var(--text); overflow-wrap: anywhere; }
@@ -715,23 +716,45 @@ h2 .count { vertical-align: 0.3em; margin-left: 6px; }
 .join-section-head { margin-bottom: 28px; }
 .join-section-head p { color: var(--muted); max-width: 65ch; }
 .albums { display: grid; gap: clamp(28px, 5vw, 44px); }
-.people-grid + .intern-list { margin-top: 20px; }
+.people-grid + .tile-list { margin-top: 20px; }
 .alumni-update { margin-top: 18px; font-size: 0.95rem; }
-.alumni-year { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); gap: 4px 16px; padding: 10px 0; border-top: 1px solid var(--border); }
+/* Compact person tiles (PersonTile.astro): current interns and the alumni yearbook. */
+.tile-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)); gap: 12px; }
+.tile { display: flex; align-items: flex-start; gap: 10px; min-width: 0; border-radius: var(--radius-sm); }
+.tile .avatar { width: 44px; height: 44px; }
+.tile span.avatar { font-size: 1rem; }
+.tile-body { min-width: 0; padding-top: 2px; }
+.tile-name { margin: 0; font-size: 0.95rem; font-weight: 600; line-height: 1.35; overflow-wrap: anywhere; }
+.tile-name a { color: var(--text); }
+.tile-name a:hover { color: var(--accent); }
+.tile-meta { margin: 2px 0 0; font-size: 0.82rem; line-height: 1.4; overflow-wrap: anywhere; }
+.tile-meta .destination { color: var(--text); }
+.tile-meta .alumni-tag { font-size: inherit; }
+.tile:target { background: var(--accent-soft); box-shadow: 0 0 0 6px var(--accent-soft); }
+/* Alumni yearbook: the year in a narrow column, its tiles beside it; a titled block puts its title above the tiles. */
+.alumni-summary { margin-top: 6px; font-weight: 600; }
+.alumni-year { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); gap: 10px 16px; padding: 14px 0; border-top: 1px solid var(--border); }
 .alumni-year:last-child { border-bottom: 1px solid var(--border); }
-.alumni-year-title { margin: 0; font-size: 1rem; color: var(--muted); font-weight: 600; font-variant-numeric: tabular-nums; }
-.alumni-names { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 0.95rem; line-height: 1.5; }
-.alumni-names li { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 0 6px; }
+.alumni-year-title { margin: 0; font-size: 1rem; color: var(--muted); font-weight: 600; font-variant-numeric: tabular-nums; line-height: 22px; padding-top: 11px; }
+.alumni-year > .tile-list { grid-column: 2; }
+.alumni-interns .alumni-year-title { grid-column: 1 / -1; padding-top: 0; }
 .alumni-nick, .alumni-tag { color: var(--muted); font-size: 0.85rem; }
-.alumni-now { font-size: 0.85rem; }
+.tile-name .alumni-nick { font-weight: 400; }
+/* Where alumni are now: year · name and role · position, one row each. */
+.dest-list { list-style: none; padding: 0; margin: 0; }
+.dest-row { display: grid; grid-template-columns: 4.5rem minmax(0, 15rem) minmax(0, 1fr); gap: 2px 16px; padding: 10px 0; border-top: 1px solid var(--border); font-size: 0.95rem; line-height: 1.5; align-items: baseline; }
+.dest-row:last-child { border-bottom: 1px solid var(--border); }
+.dest-year { color: var(--muted); font-weight: 600; font-variant-numeric: tabular-nums; }
+.dest-who { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 6px; min-width: 0; }
+.dest-who a { font-weight: 600; overflow-wrap: anywhere; }
+.dest-row .destination { min-width: 0; overflow-wrap: anywhere; }
 @media (max-width: 560px) {
   .alumni-year { grid-template-columns: minmax(0, 1fr); }
+  .alumni-year > .tile-list { grid-column: 1; }
+  .alumni-year-title { padding-top: 0; }
+  .dest-row { grid-template-columns: 4.5rem minmax(0, 1fr); }
+  .dest-row .destination { grid-column: 2; }
 }
-.intern-list { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)); gap: 12px; }
-.intern { display: flex; align-items: center; gap: 10px; }
-.intern .avatar { width: 44px; height: 44px; }
-.intern-name { margin: 0; font-weight: 600; }
-.intern-meta { margin: 0; font-size: 0.85rem; }
 .testimonials { list-style: none; padding: 0; margin-top: 16px; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 16px; align-items: start; }
 .testimonial-head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
 .testimonial-head .avatar { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; }
