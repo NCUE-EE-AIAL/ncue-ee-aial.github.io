@@ -12,15 +12,18 @@ interface Props {
   /** Larger layout with department line and research-area chips. */
   pi?: boolean;
   areaTitles?: Map<string, string>;
+  /** An earlier stage of a current member (e.g. undergraduate project 2023–2025), shown among the alumni: that role and
+   *  those years, "Now: master's student in this lab" linking to the member's own card, and nothing else. */
+  stage?: { role: string; years: string };
 }
-const { person, lang, pubs, projects, i = 0, pi = false, areaTitles } = Astro.props;
+const { person, lang, pubs, projects, i = 0, pi = false, areaTitles, stage } = Astro.props;
 const d = person.data;
 const name = pick(d.name, lang);
 const other = lang === 'zh' ? d.name.en : d.name.zh;
 const altName = other && other !== name ? other : undefined;
 const H = pi ? 'h2' : 'h3';
-const myPubs = pi ? [] : pubs.filter((p) => isAuthor(d.name.en, p.data.authors));
-const myProjects = pi ? [] : projects.filter((p) => p.data.members.some((m) => m.id === person.id));
+const myPubs = pi || stage ? [] : pubs.filter((p) => isAuthor(d.name.en, p.data.authors));
+const myProjects = pi || stage ? [] : projects.filter((p) => p.data.members.some((m) => m.id === person.id));
 type Link = { href: string; icon: IconName; label: string; text?: string };
 const links: Link[] = [
   d.links.email ? { href: `mailto:${d.links.email}`, icon: 'mail', label: d.links.email, text: d.links.email } : null,
@@ -29,21 +32,24 @@ const links: Link[] = [
   d.links.scholar ? { href: d.links.scholar, icon: 'scholar', label: 'Google Scholar' } : null,
   d.links.orcid ? { href: d.links.orcid, icon: 'orcid', label: t('people.orcid', lang), text: t('people.orcid', lang) } : null,
   d.links.linkedin ? { href: d.links.linkedin, icon: 'linkedin', label: 'LinkedIn' } : null,
-].filter((l): l is Link => l !== null);
+].filter((l): l is Link => !stage && l !== null);
+const role = stage?.role ?? d.role;
+const years = stage ? stage.years : d.years;
 ---
-<article class:list={['card', 'person', 'reveal', { 'pi-card': pi }]} id={person.id} style={`--i:${i}`}>
+<article class:list={['card', 'person', 'reveal', { 'pi-card': pi }]} id={stage ? `${person.id}-${stage.role}` : person.id} style={`--i:${i}`}>
   {d.photo
     ? <img class="avatar" src={d.photo} alt={`${t('people.photoAlt', lang)}${lang === 'zh' ? '' : ' '}${name}`} width={pi ? 120 : 72} height={pi ? 120 : 72} loading={pi ? 'eager' : 'lazy'} decoding="async" />
     : <span class="avatar" aria-hidden="true">{initials(d.name.en)}</span>}
   <div class="person-body">
     <H class="person-name">{name}{altName && <span class="name-alt" lang={lang === 'zh' ? 'en' : 'zh-Hant-TW'}>{altName}</span>}{d.nickname && <span class="name-alt" lang="en">({d.nickname})</span>}</H>
     <p class="role">
-      <span>{t(`people.role.${d.role}` as UiKey, lang)}</span>
-      {d.program && <span class="chip chip-accent">{d.program}</span>}
-      {d.years && <span class="years">{d.years}</span>}
+      <span>{t(`people.role.${role}` as UiKey, lang)}</span>
+      {!stage && d.program && <span class="chip chip-accent">{d.program}</span>}
+      {years && <span class="years">{years}</span>}
     </p>
     {pi && <p class="org">{s('org', lang)}</p>}
-    {d.bio && <p class="bio">{pick(d.bio, lang)}</p>}
+    {!stage && d.bio && <p class="bio">{pick(d.bio, lang)}</p>}
+    {stage && <p class="destination"><span class="destination-label">{t('people.destination', lang)}</span> <a href={`#${person.id}`}>{t('people.alumni.inLab', lang).replace('{role}', t(`people.role.${d.role}` as UiKey, lang))}</a></p>}
     {d.alumni && d.destination && <p class="destination"><span class="destination-label">{t('people.destination', lang)}</span> {pick(d.destination, lang)}</p>}
     {(d.expertise.length > 0 || d.experience.length > 0) && (
       <dl class="works cv">

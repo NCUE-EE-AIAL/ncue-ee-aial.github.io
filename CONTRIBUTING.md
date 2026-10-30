@@ -51,7 +51,7 @@
 | `src/content/publications/<年>-<key>.yaml` | 一篇論文 | `/publications/` | `/zh/publications/` |
 | `src/content/projects/<slug>.yaml` | 一個專案（程式 / 系統） | `/projects/`（頁名「計畫與專案」，在研究計畫之下） | `/zh/projects/` |
 | `src/content/grants/<YYYY-MM>-<slug>.yaml` | 一個研究計畫（有經費補助的） | `/projects/`（進行中的卡片，之後是已結束的清單） | `/zh/projects/` |
-| `src/content/people/<id>.yaml` | 一位成員 | `/people/`（指導教授、現任成員、國際學生、歷屆成員分組） | `/zh/people/` |
+| `src/content/people/<id>.yaml` | 一位成員 | `/people/`（指導教授、現任成員、國際實習生、校友去向、歷屆成員依年份） | `/zh/people/` |
 | `src/content/news/<YYYY-MM-DD>-<slug>/{en,zh}.md` | 一則動態（每種語言一個檔） | `/news/`（列表）與 `/news/<slug>/` | `/zh/news/`、`/zh/news/<slug>/` |
 | `src/content/facilities/<id>.yaml` | 一項（或一類）設備 | `/join/#facilities`（加入我們頁的「設備」區） | `/zh/join/#facilities` |
 | `src/content/theses/<學年度>-<handle>.yaml` | 一篇指導的碩士論文 | `/people/#theses`（成員頁最後一區，依學年度分組） | `/zh/people/#theses` |
@@ -118,7 +118,9 @@
      github: "https://github.com/your-name"
    order: 10                 # 數字小的排前面
    ```
-3. 畢業或離開：加上 `alumni: true`，並把 `years` 改成 `"2022–2024"` 的形式。校友若同意公開現況，可加 `destination`（`en` / `zh` 兩種語言，例如「某公司工程師」），成員卡片上會顯示「現況：」；`destination` 只能用在校友（沒有 `alumni: true` 會 build 失敗），而且**一定要本人同意**。
+3. 畢業或離開：加上 `alumni: true`，並把 `years` 改成 `"2022–2024"` 的形式。校友若同意公開現況，可加 `destination`（`en` / `zh` 兩種語言，例如「某公司工程師」），成員卡片上會顯示「現況：」；`destination` 只能用在校友（沒有 `alumni: true` 會 build 失敗），而且**一定要本人同意**。有 `destination` 的校友出現在「校友去向」卡片區；所有校友都依 `years` 的結尾年列在「歷屆成員」（沒寫 `years` 的放「年份不詳」）。
+   - 在實驗室換了身分（例如大學部專題生直升碩士）：卡片照現在的身分寫，以前的身分寫在 `earlier`，例如 `earlier: [{ role: undergrad, years: "2023–2025" }]`。他會出現在「校友去向」（現況：本實驗室碩士生）和歷屆成員的 2025 年。
+   - 碩博士畢業生不必另外建檔：「指導碩士論文」裡的每位作者都會自動列進歷屆成員（畢業年 = 學年 + 1912，例如 113 學年 → 2025）。若同一人也有 `people/<id>.yaml`，以中文姓名比對，只列一次，所以兩邊的中文名要一致。
 4. **學生不要填 `links.email`**（schema 會直接擋下）。聯絡方式一律是實驗室信箱 ncueaial@gmail.com 或指導教授。
 5. 要放照片請先讀[第 3 節的照片說明](#照片)與[內容規則](#5-實驗室內容規則)（需本人同意）。
 
@@ -266,8 +268,8 @@
 
 ### 國際實習生 interns
 
-- `src/content/interns/<slug>.yaml`，一位 TEEP／IIPP 實習生一個檔。全部列在成員頁（`/people/`）的「過往國際實習生」區，依 `year` 分組（新的在前），沒寫 `year` 的歸在「更早」；有寫 `quote` 的，心得也會出現在國際交流研究方向頁（`/research/international-programs/`）。
-- 欄位：`name`、`program`（`TEEP` 或 `IIPP`）、`year`（選填，實習年份，例如 `2026`；**從 2026 年起請填**）、`quote`（選填，雙語物件，保留本人原文；只有 `en` 時中文站顯示英文原文）、`photo`（選填，用 `npm run photos -- <照片> --out public/images/people --headshot` 做成 `/images/people/<slug>.webp`）、`video`（選填，見下方「影片」）、`order`（同一年內排序）。
+- `src/content/interns/<slug>.yaml`，一位 TEEP／IIPP 實習生一個檔。還在實驗室的列在成員頁（`/people/`）上方的「國際實習生」區；結束後自動移到「歷屆成員」，依 `year` 分組（沒寫 `year` 的歸在「年份不詳」）。「還在」的意思是：有寫 `until`（最後一天，例如 `2026-08-31`）就到那天為止，沒寫就到 `year` 那年年底；網站每週一重建，過了日期會自己移下去，不用改檔。有寫 `quote` 的，心得也會出現在國際交流研究方向頁（`/research/international-programs/`）。
+- 欄位：`name`、`program`（`TEEP` 或 `IIPP`）、`year`（選填，實習年份，例如 `2026`；**從 2026 年起請填**）、`quote`（選填，雙語物件，保留本人原文；只有 `en` 時中文站顯示英文原文）、`photo`（選填，用 `npm run photos -- <照片> --out public/images/people --headshot` 做成 `/images/people/<slug>.webp`）、`until`（選填，最後一天，例如 `2026-08-31`）、`video`（選填，見下方「影片」）、`order`（同一年內排序）。
 
 ### 新成員資料表（Google 表單）
 
@@ -280,6 +282,7 @@
 把一筆回覆變成網站檔案：
 
 1. 先看「網站公開同意」：選「不同意」就不建檔，資料只留在試算表。
+   - 已畢業的人若填了「在學」的那一頁（入學年很早、而且「指導碩士論文」裡有他）：當成校友處理，加 `alumni: true`，`years` 寫入學年到畢業年（例如 `"2015–2017"`）；他沒填公司職稱，就先不寫 `destination`，請他再填一次表單的「畢業學長姐」頁。
 2. 說明寫「不公開」的欄位（國家、學校、論文題目、在實驗室做什麼、Email）不進 repo。
 3. 照片從雲端硬碟下載，用 `npm run photos -- <照片> --out public/images/people --headshot` 處理後再 `git add`。
 4. 依下表填欄位，再照 [2.2 新增成員](#22-新增成員) 開 PR。
@@ -425,7 +428,8 @@ title:
 | `role` | 是 | `pi` `phd` `master` `undergrad` `intern` `staff` | `master` | |
 | `program` | 否 | `TEEP` `IIPP` | `TEEP` | 國際交流計畫（如有） |
 | `alumni` | 否（`false`） | true / false | `true` | 畢業或離開 |
-| `years` | 否 | 字串 | `"2025–"`、`"2022–2024"` | 含 `–` 請加引號 |
+| `years` | 否 | 字串 | `"2025–"`、`"2022–2024"` | 含 `–` 請加引號；校友依結尾年列在歷屆成員 |
+| `earlier` | 否 | 清單 | `[{ role: undergrad, years: "2023–2025" }]` | 現任成員在實驗室以前的身分（例如專題生直升碩士）；列在校友去向與歷屆成員 |
 | `areas` | 否（`[]`） | 研究方向 slug 清單 | `[biomedical-ai]` | |
 | `bio` | 否 | bi | `en: "Master’s student ..."` | 簡短、僅寫公開資訊 |
 | `expertise` | 否（`[]`） | bi 清單 | `- en: "Digital signal processing"` `zh: "數位訊號處理"` | 專長，每項一個短語；卡片上顯示為「專長」，用在老師或職員 |
