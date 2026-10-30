@@ -95,7 +95,7 @@
 3. `verified: true` 只在你**真的打開了出版社頁面並核對標題、作者、年份**之後才寫，且必須同時填 `source`（那個頁面的網址）。`verified: false` 的論文會在頁面上顯示「待確認 / to verify」標記，這是正常的。
 4. 在本機執行 `npm run build`（見[第 7 節](#7-本機預覽與檢查)），再開 PR。
 
-**自動找新論文**：每週一，workflow「Suggest new publications」會用 `scripts/pubs-sync.mjs` 到老師的 ORCID 與 Crossref 找網站上還沒有的論文，替每篇建一個 `verified: false` 的檔案，開成一個 PR「New publications to check」。收到時逐篇打開出版社頁面核對、補上 `areas`，改成 `verified: true` 並填 `source` 後再合併。不該列出的論文：刪掉那個檔案，並把 DOI 加進 `scripts/pubs-sync-ignore.txt`，之後就不會再被找出來。本機想先看會找到什麼：`node scripts/pubs-sync.mjs --dry-run`。
+**自動找新論文**：每週一，workflow「Suggest new publications」會用 `scripts/pubs-sync.mjs` 到老師的 ORCID 與 Crossref 找網站上還沒有的論文，替每篇建一個 `verified: false` 的檔案，開成一個 PR「New publications to check」。收到時逐篇打開出版社頁面核對、補上 `areas`，改成 `verified: true` 並填 `source` 後再合併。不該列出的論文：刪掉那個檔案，並把 DOI 加進 `scripts/pubs-sync-ignore.txt`，之後就不會再被找出來。本機想先看會找到什麼：`node scripts/pubs-sync.mjs --dry-run`。開 PR 需要兩個設定都打開：組織 NCUE-EE-AIAL 的 Settings → Actions → General → Workflow permissions 勾選「Allow GitHub Actions to create and approve pull requests」（只有組織 owner 能改），repo 的同一個位置也要勾選；沒打開時 workflow 會在「Open or update the pull request」這一步失敗，論文只會留在 `bot/new-publications` 分支上。
 
 ### 2.2 新增成員
 
@@ -277,7 +277,9 @@
 - 填寫連結（傳給新成員）：https://docs.google.com/forms/d/e/1FAIpQLSdvJida2zsDgzfYSYTZZhPARk_diSubv0qaHldEr56EA3zt5g/viewform
 - 擁有者是實驗室 Google 帳號 **wry87cncue@gmail.com**：編輯表單（https://docs.google.com/forms/d/1uf5k4qhwVMpKVVPj-K2wWPH8c3ifwAs4iO3W4ATKUlo/edit ）、回覆試算表「新成員資料表（回覆）」（在表單的「回覆」分頁開啟）和上傳的照片（雲端硬碟裡表單旁的資料夾）都在這個帳號。
 - 有上傳題的表單一定要登入 Google 才能填；Email 由登入帳號自動記錄，**不放上網站**。送出後填寫者會收到回覆副本，裡面有「編輯回覆」連結，TEEP／IIPP 實習生可以在實習結束時回來補心得。
-- 表單由 `scripts/newcomer-form.gs`（Google Apps Script）建立。要重建時，用實驗室帳號開 script.google.com → 新專案 → 貼上 → 執行 `createNewcomerForm`，再手動做腳本做不到的三件事：(1) 在第 7 頁最上面加「檔案上傳」題「大頭照（選填）/ Headshot (optional)」，只允許圖片、1 個檔案、10 MB、非必填；(2) 設定 → 回覆 →「傳送回覆副本」選「一律」；(3) 回覆 → 連結至試算表。最後把本節的兩個連結換成新的。
+- 表單由 `scripts/newcomer-form.gs`（Google Apps Script）建立。要重建時，用實驗室帳號開 script.google.com → 新專案 → 貼上 → 執行 `createNewcomerForm`，再手動做腳本做不到的四件事：(1) 在第 7 頁最上面加「檔案上傳」題「大頭照（選填）/ Headshot (optional)」，只允許圖片、1 個檔案、10 MB、非必填；(2) 設定 → 回覆 →「傳送回覆副本」選「一律」；(3) 回覆 → 連結至試算表；(4) 回覆 → ⋮ → 勾選「收到新回覆時傳送電子郵件通知」，有人送出時實驗室信箱會收到一封通知（不含照片，照片在雲端硬碟的「(File responses)」資料夾）。最後把本節的兩個連結換成新的。
+- **先查證才上網站。** 回覆試算表最右邊有兩欄是人工填的：「已查證」與「查證備註」。跟楊老師確認過這個人真的是實驗室成員之後，才在「已查證」填「是」，並在「查證備註」寫怎麼確認的。沒有填「是」的人，不要替他建檔。重建試算表時，記得把這兩欄加回去。
+- **每週檢查（2026-10 起）。** Brian 的 claude.ai 帳號上有一個雲端排程「Lab website: weekly newcomer-form check」，每週一 09:00 執行。它會讀回覆試算表，檢查有沒有可疑的填寫（短時間內大量送出、重複送出、內容裡有程式碼或連結），把週報寫進 Brian 的 Claude 文件，並只替「已查證」且同意公開的人開 PR，合併仍由人來按。Brian 畢業後這個排程就會停止，接手的人照本節的步驟手動處理即可。
 
 把一筆回覆變成網站檔案：
 
