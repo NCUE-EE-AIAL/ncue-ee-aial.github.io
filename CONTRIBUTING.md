@@ -274,7 +274,7 @@
 
 ### 新成員資料表（Google 表單）
 
-- 新成員（電機系碩博士生、電機系專題生、TEEP／IIPP、國際工程碩士學位學程 IMPE）和畢業學長姐都填同一份表單：第 1 頁選身分，跳到自己的那一頁（國際生的兩頁是英文），最後都到「照片與同意」頁上傳大頭照。
+- 新成員（電機系碩博士生、電機系專題生、TEEP／IIPP、國際工程碩士學位學程 IMPE）和畢業學長姐都填同一份表單：第 1 頁選身分（「畢業學長姐」排第一個，題目下有提示「已經畢業或離開實驗室，請選第一項」，因為曾有三位畢業生選成在學生），跳到自己的那一頁（國際生的兩頁是英文），最後都到「照片與同意」頁上傳大頭照。
 - 填寫連結（傳給新成員）：https://docs.google.com/forms/d/e/1FAIpQLSdvJida2zsDgzfYSYTZZhPARk_diSubv0qaHldEr56EA3zt5g/viewform
 - 擁有者是實驗室 Google 帳號 **wry87cncue@gmail.com**：編輯表單（https://docs.google.com/forms/d/1uf5k4qhwVMpKVVPj-K2wWPH8c3ifwAs4iO3W4ATKUlo/edit ）、回覆試算表「新成員資料表（回覆）」（在表單的「回覆」分頁開啟）和上傳的照片（雲端硬碟裡表單旁的資料夾）都在這個帳號。
 - 有上傳題的表單一定要登入 Google 才能填；Email 由登入帳號自動記錄，**不放上網站**。送出後填寫者會收到回覆副本，裡面有「編輯回覆」連結，TEEP／IIPP 實習生可以在實習結束時回來補心得。

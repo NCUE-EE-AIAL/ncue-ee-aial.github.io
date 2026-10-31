@@ -16,6 +16,7 @@ const SHOWN = '網站公開';
 const PRIVATE = '不公開，只給實驗室紀錄';
 const SHOWN_EN = 'Shown on the website.';
 const PRIVATE_EN = 'Lab records only, not on the website.';
+const WHO_HINT = '已經畢業或離開實驗室，請選第一項「畢業學長姐」。/ Graduated or left the lab? Choose the first option, Alumni.';
 
 function createNewcomerForm() {
   const form = FormApp.create('人工智慧應用實驗室 新成員資料表 / AI Application Laboratory — Member Information');
@@ -50,8 +51,10 @@ function createNewcomerForm() {
   ].join('\n'));
 
   // Page 1: identity. Its choices point at the page breaks made below.
+  // Alumni come first with a hint: on 2026-10-30/31 three graduates picked 電機系碩博士生 and never saw the alumni page.
   const who = form.addMultipleChoiceItem()
     .setTitle('你的身分 / Who are you?')
+    .setHelpText(WHO_HINT)
     .setRequired(true);
 
   // Page 2: EE master's and PhD students (Chinese).
@@ -138,11 +141,11 @@ function createNewcomerForm() {
   para(form, '備註 / Anything else? (optional)', '', false);
 
   who.setChoices([
+    who.createChoice('畢業學長姐（已畢業／已離開）/ Alumni (graduated or left)', pbAlumni),
     who.createChoice('電機系碩博士生（在學中）/ Current EE graduate student (Master\'s or PhD)', pbGrad),
     who.createChoice('電機系專題生（大學部）/ EE undergraduate project student', pbUndergrad),
     who.createChoice('TEEP / IIPP intern', pbIntern),
     who.createChoice('國際工程碩士學位學程 / International Master Program in Engineering (IMPE)', pbImpe),
-    who.createChoice('畢業學長姐（已畢業／已離開）/ Alumni (graduated or left)', pbAlumni),
   ]);
   // A page break's go-to applies to the page before it: pages 2–5 jump to page 7; page 6 flows into it.
   [pbUndergrad, pbIntern, pbImpe, pbAlumni].forEach((pb) => pb.setGoToPage(pbEnd));
