@@ -326,6 +326,9 @@ const interns = defineCollection({
     /** Last day in the lab, e.g. 2026-08-31. Until then the intern is listed with the current members; without it,
      *  until the end of `year`. Afterwards they move to the alumni years by themselves (at the next build). */
     until: z.coerce.date().optional(),
+    /** Thesis id (src/content/theses/<id>.yaml) when the intern stayed for a degree here: the alumni yearbook then
+     *  lists them once, as that thesis author, with this photo and testimonial. */
+    thesis: reference('theses').optional(),
     /** Local file under public/images/people/, made with `npm run photos -- <photo> --out public/images/people --headshot`. */
     photo: z.string().refine(isLocalPhoto, {
       error: 'photo must be a local file like /images/people/name.webp, not a URL',

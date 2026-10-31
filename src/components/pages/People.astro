@@ -5,11 +5,12 @@ import PersonCard from '../PersonCard.astro';
 import ArtFill from '../ArtFill.astro';
 import ThesisGroups from '../ThesisGroups.astro';
 import AlumniYears from '../AlumniYears.astro';
-import { t, s, pick, localePath, otherLocale, type Locale } from '../../i18n/utils';
+import PersonTile from '../PersonTile.astro';
+import { t, s, pick, localePath, otherLocale, type Locale, type UiKey } from '../../i18n/utils';
 import { personNode } from '../../lib/seo.mjs';
 import { slugOf } from '../../lib/format';
-import { splitTheses } from '../../lib/theses.mjs';
-import { alumniYears, isCurrentIntern, endYear } from '../../lib/alumni.mjs';
+import { splitTheses, langOfText } from '../../lib/theses.mjs';
+import { alumniYears, isCurrentIntern, avatarText, alumniRoleKey } from '../../lib/alumni.mjs';
 import { getPeople, getPublications, getProjects, getAreas, getTheses, getHonors, getInterns, type Person } from '../../lib/data';
 interface Props { lang: Locale }
 const { lang } = Astro.props;
@@ -26,25 +27,39 @@ const piLd = pis.map((p) => personNode({
   image: p.data.photo ? new URL(p.data.photo, home).href : undefined, url: new URL(localePath('/people/', lang), home).href,
 }));
 const today = new Date();
+// Text in another language than the page gets its own lang (WCAG 3.1.2), as in ThesisGroups.
+const langFor = (text: string) => { const l = langOfText(text); return l === (lang === 'zh' ? 'zh-Hant-TW' : 'en') ? undefined : l; };
 const groups = [
   { id: 'current', title: t('people.current', lang), list: people.filter((p) => p.data.role !== 'pi' && !p.data.alumni && !intl(p)) },
 ].filter((g) => g.list.length > 0);
 // Current TEEP/IIPP: people files with a program (none at the moment) and interns whose time here has not ended.
 const intlPeople = people.filter((p) => p.data.role !== 'pi' && !p.data.alumni && intl(p));
 const currentInterns = interns.filter((it) => isCurrentIntern(it.data, today));
-// Where alumni are now: alumni who gave their position, and current members who were here before in another role
-// (a project student who stayed on for a master's). Newest end year first.
-const destinations = [
-  ...people.filter((p) => p.data.alumni && p.data.destination).map((p) => ({ person: p, year: endYear(p.data.years), stage: undefined })),
-  ...people.filter((p) => !p.data.alumni).flatMap((p) => p.data.earlier.map((st) => ({ person: p, year: endYear(st.years), stage: st }))),
-].sort((a, b) => (b.year ?? 0) - (a.year ?? 0));
-// Everyone who has left, by year: alumni files, earlier stages, past interns and thesis authors.
+// Everyone who has left, as a yearbook: alumni files, earlier stages, past interns and thesis authors, by the year
+// they left; past interns from the old lab site (no year) in their own block; anyone else without a year comes last.
 const alumni = alumniYears({ people, interns, theses, today });
-const alumniCount = alumni.reduce((n, g) => n + g.list.length, 0);
+const headcount = (gs: { list: unknown[] }[]) => gs.reduce((n, g) => n + g.list.length, 0);
+const alumniCount = headcount(alumni.years) + alumni.undatedInterns.length + alumni.undated.length;
 const OPEN_ALUMNI_YEARS = 5;
-const openAlumni = alumni.slice(0, OPEN_ALUMNI_YEARS);
-const olderAlumni = alumni.slice(OPEN_ALUMNI_YEARS);
-const olderAlumniCount = olderAlumni.reduce((n, g) => n + g.list.length, 0);
+const openAlumni = alumni.years.slice(0, OPEN_ALUMNI_YEARS);
+// The old-site interns have no year; the block is titled "before" the first year we did record (2026), not the build year.
+const firstInternYear = Math.min(...interns.map((it) => it.data.year).filter((y): y is number => y !== undefined), today.getUTCFullYear());
+const internsBefore = alumni.undatedInterns.length > 0
+  ? [{ label: t('people.alumni.internsBefore', lang).replace('{year}', String(firstInternYear)), block: 'alumni-interns', list: alumni.undatedInterns }]
+  : [];
+const olderAlumni = [
+  ...alumni.years.slice(OPEN_ALUMNI_YEARS),
+  ...(alumni.undated.length > 0 ? [{ label: t('people.alumni.unknown', lang), list: alumni.undated }] : []),
+];
+const olderAlumniCount = headcount(olderAlumni);
+const alumniSummary = t('people.alumni.summary', lang).replace('{from}', String(alumni.from)).replace('{parts}',
+  (['phd', 'master', 'undergrad', 'intern'] as const).filter((k) => alumni.counts[k] > 0)
+    .map((k) => t(`people.alumni.n.${k}` as UiKey, lang).replace('{n}', String(alumni.counts[k]))).join(lang === 'zh' ? '・' : ' · '));
+// Where alumni are now: alumni who gave their position (only with their consent), in the year they left, newest first.
+const yearOf = new Map([...alumni.years.flatMap((g) => g.list), ...alumni.undated].map((e) => [e.key, e.year]));
+const destinations = people.filter((p) => p.data.alumni && p.data.destination)
+  .map((p) => ({ person: p, year: yearOf.get(`person:${p.id}`) as number | undefined }))
+  .sort((a, b) => (b.year ?? -Infinity) - (a.year ?? -Infinity));
 const testimonialsHref = localePath('/research/international-programs/', lang);
 // Theses by degree, then by academic year, newest first; the three newest master's years stay open.
 const { master: thesisYears, phd: phdYears } = splitTheses(theses);
@@ -82,15 +97,11 @@ const olderCount = olderYears.reduce((n, y) => n + y.list.length, 0);
         </div>
       )}
       {currentInterns.length > 0 && (
-        <ul class="intern-list">
+        <ul class="tile-list">
           {currentInterns.map((it) => (
-            <li class="intern" id={`intern-${it.id}`}>
-              {it.data.photo && <img class="avatar" src={it.data.photo} alt="" width={44} height={44} loading="lazy" decoding="async" />}
-              <div>
-                <p class="intern-name">{it.data.name}</p>
-                <p class="muted intern-meta">{it.data.program}{it.data.year && <> {it.data.year}</>}{it.data.quote && <> · <a href={`${testimonialsHref}#testimonial-${it.id}`}>{t('people.interns.quote', lang)}</a></>}</p>
-              </div>
-            </li>
+            <PersonTile id={`intern-${it.id}`} photo={it.data.photo} fallback={avatarText({ en: it.data.name }, lang)} name={it.data.name} nameLang={lang === 'zh' ? 'en' : undefined}>
+              {it.data.program}{it.data.year && <> {it.data.year}</>}{it.data.quote && <> · <a href={`${testimonialsHref}#testimonial-${it.id}`}>{t('people.interns.quote', lang)}</a></>}
+            </PersonTile>
           ))}
         </ul>
       )}
@@ -99,12 +110,26 @@ const olderCount = olderYears.reduce((n, y) => n + y.list.length, 0);
   <section class="section container" id="destinations" aria-labelledby="destinations-h">
     <div class="section-head">
       <h2 id="destinations-h">{t('people.destinations', lang)} {destinations.length > 0 && <span class="count">{destinations.length}</span>}</h2>
+      <p class="muted">{t('people.destinations.lede', lang)}</p>
     </div>
     {destinations.length > 0 && (
-      <div class="grid grid-2 people-grid">
-        {destinations.map((x, i) => <PersonCard person={x.person} lang={lang} pubs={pubs} projects={projects} i={i % 4} stage={x.stage} />)}
-        <ArtFill name="chip" count={destinations.length} />
-      </div>
+      <ul class="dest-list">
+        {destinations.map(({ person: p, year }) => {
+          const name = pick(p.data.name, lang);
+          const dest = pick(p.data.destination!, lang);
+          return (
+            <li class="dest-row" id={`dest-${p.id}`}>
+              <span class="dest-year">{year ?? '—'}</span>
+              <span class="dest-who">
+                <a href={`#${p.id}`} lang={langFor(name)}>{name}</a>
+                {p.data.nickname && <span class="alumni-nick" lang="en">({p.data.nickname})</span>}
+                <span class="alumni-tag">{t(alumniRoleKey(p.data.role) as UiKey, lang)}</span>
+              </span>
+              <span class="destination" lang={langFor(dest)}>{dest}</span>
+            </li>
+          );
+        })}
+      </ul>
     )}
     <p class="alumni-update"><a href={s('memberForm', lang)} rel="noopener">{t('people.destinations.update', lang)}</a></p>
   </section>
@@ -113,8 +138,9 @@ const olderCount = olderYears.reduce((n, y) => n + y.list.length, 0);
       <div class="section-head">
         <h2 id="alumni-h">{t('people.alumni', lang)} <span class="count">{alumniCount}</span></h2>
         <p class="muted">{t('people.alumni.lede', lang)}</p>
+        {alumni.from && <p class="alumni-summary">{alumniSummary}</p>}
       </div>
-      <AlumniYears lang={lang} years={openAlumni} pubs={pubs} />
+      <AlumniYears lang={lang} years={[...openAlumni, ...internsBefore]} pubs={pubs} />
       {olderAlumni.length > 0 && (
         <details class="thesis-more">
           <summary>{t('people.alumni.more', lang).replace('{n}', String(olderAlumniCount))}</summary>
@@ -166,4 +192,19 @@ const olderCount = olderYears.reduce((n, y) => n + y.list.length, 0);
       <ThesisGroups lang={lang} years={phdYears} />
     </section>
   )}
+  <script is:inline>
+    // A link to a person or thesis inside a closed "earlier years" list opens that list first (browsers that do not
+    // open <details> for a #fragment on their own).
+    (function () {
+      function reveal() {
+        var el = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1)));
+        var d = el && el.closest('details:not([open])');
+        if (!d) return;
+        for (; d; d = d.parentElement && d.parentElement.closest('details:not([open])')) d.open = true;
+        el.scrollIntoView();
+      }
+      reveal();
+      window.addEventListener('hashchange', reveal);
+    })();
+  </script>
 </Base>
