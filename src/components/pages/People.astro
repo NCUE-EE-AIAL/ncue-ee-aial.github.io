@@ -10,7 +10,7 @@ import { t, s, pick, localePath, otherLocale, type Locale, type UiKey } from '..
 import { personNode } from '../../lib/seo.mjs';
 import { slugOf } from '../../lib/format';
 import { splitTheses, langOfText } from '../../lib/theses.mjs';
-import { alumniYears, isCurrentIntern, avatarText } from '../../lib/alumni.mjs';
+import { alumniYears, isCurrentIntern, avatarText, alumniRoleKey } from '../../lib/alumni.mjs';
 import { getPeople, getPublications, getProjects, getAreas, getTheses, getHonors, getInterns, type Person } from '../../lib/data';
 interface Props { lang: Locale }
 const { lang } = Astro.props;
@@ -123,7 +123,7 @@ const olderCount = olderYears.reduce((n, y) => n + y.list.length, 0);
               <span class="dest-who">
                 <a href={`#${p.id}`} lang={langFor(name)}>{name}</a>
                 {p.data.nickname && <span class="alumni-nick" lang="en">({p.data.nickname})</span>}
-                <span class="alumni-tag">{t(`people.role.${p.data.role}` as UiKey, lang)}</span>
+                <span class="alumni-tag">{t(alumniRoleKey(p.data.role) as UiKey, lang)}</span>
               </span>
               <span class="destination" lang={langFor(dest)}>{dest}</span>
             </li>

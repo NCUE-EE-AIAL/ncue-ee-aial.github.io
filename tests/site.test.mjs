@@ -203,7 +203,11 @@ test('People: current TEEP/IIPP interns sit up top, alumni below by year, newest
     for (const f of readdirSync(join(ROOT, 'src/content/interns'))) {
       const id = f.replace(/\.ya?ml$/, '');
       const y = parseYaml(readFileSync(join(ROOT, 'src/content/interns', f), 'utf8'));
-      if (y.year === undefined) assert.match(interns, new RegExp(`data-key="intern:${id}"`), `${r}: ${id} (no year) not in the past-interns block`);
+      // An intern who stayed for a degree (`thesis`) is listed once, as that thesis author. Astro only logs a broken
+      // reference and still builds, so the file name is checked here.
+      if (y.thesis) assert.ok(existsSync(join(ROOT, 'src/content/theses', `${y.thesis}.yaml`)), `${f}: thesis "${y.thesis}" has no file in src/content/theses/`);
+      if (y.thesis) assert.doesNotMatch(alumni, new RegExp(`data-key="intern:${id}"`), `${r}: ${id} listed twice`);
+      else if (y.year === undefined) assert.match(interns, new RegExp(`data-key="intern:${id}"`), `${r}: ${id} (no year) not in the past-interns block`);
       else assert.doesNotMatch(interns, new RegExp(`data-key="intern:${id}"`), `${r}: ${id} has a year`);
     }
     assert.match(interns, /data-key="intern:aman"/);
@@ -227,6 +231,30 @@ test('People: Erik is Kuan-Chun Chu, Johnson is 劉子緒, Suraj and Bill are li
   assert.match(y2025, /data-key="earlier:brian-lin:0"[\s\S]*?林庭毅[\s\S]*?大學部專題生[\s\S]*?href="#brian-lin"[\s\S]*?本實驗室碩士生/);
   assert.match(y2025, /id="brian-lin-undergrad"/);
   assert.doesNotMatch(only(page, 'destinations'), /brian-lin/, 'an earlier stage is not a destination');
+});
+
+test('People: Monica, a TEEP intern who stayed for her master’s, is one tile in 2026 with her photo and testimonial', () => {
+  for (const [r, tag] of [['/people/', 'Master’s graduate'], [zh('/people/'), '碩士畢業生']]) {
+    const alumni = only(html(r), 'alumni');
+    assert.equal(alumni.split('data-key="thesis:114-yt5d6s"').length - 1, 1, `${r}: Monica's thesis tile`);
+    assert.doesNotMatch(alumni, /data-key="intern:monica"/, `${r}: Monica is also listed as an intern`);
+    const y2026 = alumni.slice(alumni.indexOf('>2026<'), alumni.indexOf('alumni-year-title', alumni.indexOf('>2026<')));
+    const tile = y2026.slice(y2026.indexOf('data-key="thesis:114-yt5d6s"')).split('</li>')[0];
+    assert.match(tile, /<img class="avatar" src="\/images\/people\/monica\.webp"/, `${r}: no photo`);
+    assert.match(tile, new RegExp(`class="alumni-tag">${tag}<`), `${r}: tag`);
+    assert.match(tile, /TEEP/, `${r}: no TEEP note`);
+    assert.match(tile, /href="(\/zh)?\/research\/international-programs\/#testimonial-monica"/, `${r}: no testimonial link`);
+  }
+});
+
+test('People: alumni read as graduates (碩士畢業生), current members as students (碩士生)', () => {
+  for (const [r, grad, student] of [['/people/', 'Master’s graduate', 'Master’s student'], [zh('/people/'), '碩士畢業生', '碩士生']]) {
+    const page = html(r);
+    const alumni = only(page, 'alumni');
+    assert.ok(alumni.split(`class="alumni-tag">${grad}<`).length > 50, `${r}: few ${grad} tags`);
+    assert.doesNotMatch(alumni, new RegExp(`class="alumni-tag">${student}<`), `${r}: an alumnus tagged ${student}`);
+    assert.doesNotMatch(only(page, 'destinations'), new RegExp(`class="alumni-tag">${student}<`), `${r}: a destination tagged ${student}`);
+  }
 });
 
 test('People: every yearbook tile has an avatar (photo, else surname or initials), thesis authors link to their thesis', () => {

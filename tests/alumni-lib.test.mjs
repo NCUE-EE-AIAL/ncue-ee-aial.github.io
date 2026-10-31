@@ -2,7 +2,7 @@
 // the text of a fallback avatar.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { endYear, isCurrentIntern, alumniYears, avatarText } from '../src/lib/alumni.mjs';
+import { endYear, isCurrentIntern, alumniYears, avatarText, alumniRoleKey } from '../src/lib/alumni.mjs';
 
 const person = (id, data) => ({ id, data: { role: 'master', alumni: false, earlier: [], ...data } });
 const intern = (id, data) => ({ id, data: { name: id, program: 'TEEP', ...data } });
@@ -100,6 +100,20 @@ test('alumniYears: a thesis author with a people file is listed once; a person w
   assert.deepEqual(keys, ['2025:person:johnson', '2017:person:bill']);
 });
 
+test('alumniYears: an intern who stayed for a degree is listed once, as the thesis author, carrying the intern record', () => {
+  const groups = alumniYears({
+    people: [],
+    interns: [intern('monica', { thesis: { collection: 'theses', id: 't114' } }), intern('aman', {})],
+    theses: [thesis('t114', 'MONICA', 114), thesis('t113', '劉某某', 113)],
+    today: OCT_2026,
+  });
+  assert.deepEqual(groups.years.map((g) => [g.year, g.list.map((e) => e.key)]), [[2026, ['thesis:t114']], [2025, ['thesis:t113']]]);
+  assert.equal(groups.years[0].list[0].intern.id, 'monica');
+  assert.equal(groups.years[1].list[0].intern, undefined);
+  assert.deepEqual(groups.undatedInterns.map((e) => e.key), ['intern:aman']);
+  assert.deepEqual(groups.counts, { phd: 0, master: 2, undergrad: 0, intern: 1 });
+});
+
 test('alumniYears: nothing in, nothing out', () => {
   assert.deepEqual(alumniYears({ people: [], interns: [], theses: [], today: OCT_2026 }), {
     years: [], undatedInterns: [], undated: [], counts: { phd: 0, master: 0, undergrad: 0, intern: 0 }, from: undefined,
@@ -119,4 +133,11 @@ test('avatarText: the surname on the zh page, initials on the en page, each fall
   assert.equal(avatarText({ en: 'KUEIY-YO' }, 'zh'), 'K');
   assert.equal(avatarText({ en: '  ting-yi  lin ' }, 'en'), 'TL');
   assert.equal(avatarText({}, 'en'), '');
+});
+
+test('alumniRoleKey: PhD and master’s alumni read as graduates; other roles keep their usual label', () => {
+  assert.equal(alumniRoleKey('phd'), 'people.alumni.role.phd');
+  assert.equal(alumniRoleKey('master'), 'people.alumni.role.master');
+  assert.equal(alumniRoleKey('undergrad'), 'people.role.undergrad');
+  assert.equal(alumniRoleKey('intern'), 'people.role.intern');
 });

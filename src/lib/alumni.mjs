@@ -13,6 +13,11 @@ export function isCurrentIntern(intern, today) {
   return intern.year === today.getUTCFullYear();
 }
 
+/** ui key of the role tag on an alumnus: PhD and master's alumni are graduates (碩士畢業生); other roles keep their label. */
+export function alumniRoleKey(role) {
+  return role === 'phd' || role === 'master' ? `people.alumni.role.${role}` : `people.role.${role}`;
+}
+
 const RANK = { phd: 0, master: 1, undergrad: 2, intern: 3 };
 const byRank = (a, b) => (RANK[a.role] ?? 9) - (RANK[b.role] ?? 9);
 
@@ -25,11 +30,15 @@ const byRank = (a, b) => (RANK[a.role] ?? 9) - (RANK[b.role] ?? 9);
  * Sources: alumni people files (end of `years`), earlier stages of current members (`earlier`), interns who are no
  * longer current (`year`), and thesis authors (graduation year = ROC academic year + 1912). A thesis author with a
  * people file of the same Chinese name is listed once, through the people file, which takes the thesis year when it
- * has no `years`. Inside a year: PhD, master's, undergraduates, then interns; people files before thesis records.
+ * has no `years`. An intern whose `thesis` names one of the theses (a TEEP/IIPP intern who stayed for a degree) is
+ * listed once, as that thesis author, with the intern record as `intern`. Inside a year: PhD, master's,
+ * undergraduates, then interns; people files before thesis records.
  */
 export function alumniYears({ people, interns, theses, today }) {
   const thesisYear = new Map(theses.map((t) => [t.data.student.zh, t.data.ay + 1912]));
   const zhNames = new Set(people.map((p) => p.data.name?.zh).filter(Boolean));
+  const thesisIds = new Set(theses.map((t) => t.id));
+  const stayedOn = new Map(interns.filter((it) => thesisIds.has(it.data.thesis?.id)).map((it) => [it.data.thesis.id, it]));
   const entries = [];
   for (const p of people) {
     if (p.data.role === 'pi') continue;
@@ -44,10 +53,10 @@ export function alumniYears({ people, interns, theses, today }) {
   }
   for (const t of theses) {
     if (zhNames.has(t.data.student.zh)) continue;
-    entries.push({ key: `thesis:${t.id}`, kind: 'thesis', thesis: t, role: t.data.degree, year: t.data.ay + 1912 });
+    entries.push({ key: `thesis:${t.id}`, kind: 'thesis', thesis: t, role: t.data.degree, year: t.data.ay + 1912, intern: stayedOn.get(t.id) });
   }
   for (const it of interns) {
-    if (isCurrentIntern(it.data, today)) continue;
+    if (isCurrentIntern(it.data, today) || stayedOn.get(it.data.thesis?.id) === it) continue;
     entries.push({ key: `intern:${it.id}`, kind: 'intern', intern: it, role: 'intern', year: it.data.year });
   }
   const dated = entries.filter((e) => e.year !== undefined);
