@@ -13,7 +13,7 @@ if (!existsSync(join(DIST, 'index.html'))) throw new Error('dist/ is missing: ru
 const subdirs = (rel) => readdirSync(join(ROOT, rel)).filter((d) => statSync(join(ROOT, rel, d)).isDirectory());
 const ROUTES = [
   '/', '/research/', ...subdirs('src/content/research').map((a) => `/research/${a}/`), '/publications/', '/projects/',
-  '/people/', '/news/', ...subdirs('src/content/news').map((n) => `/news/${n}/`), '/join/',
+  '/people/', '/alumni/', '/news/', ...subdirs('src/content/news').map((n) => `/news/${n}/`), '/join/',
 ];
 const POSTS = new Set(subdirs('src/content/news').map((n) => `/news/${n}/`));
 const zh = (p) => `/zh${p}`;

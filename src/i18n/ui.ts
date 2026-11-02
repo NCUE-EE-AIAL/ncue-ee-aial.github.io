@@ -55,6 +55,7 @@ export const ui = {
   'nav.publications': { en: 'Publications', zh: '論文發表' },
   'nav.projects': { en: 'Projects', zh: '計畫與專案' },
   'nav.people': { en: 'People', zh: '成員' },
+  'nav.alumni': { en: 'Alumni', zh: '校友' },
   'nav.news': { en: 'News', zh: '動態' },
   'nav.intl': { en: 'TEEP/IIPP', zh: 'TEEP/IIPP' },
   'nav.join': { en: 'Join & Contact', zh: '加入與聯絡' },
@@ -221,6 +222,16 @@ export const ui = {
   'people.pi': { en: 'Principal Investigator', zh: '指導教授' },
   'people.current': { en: 'Current members', zh: '現任成員' },
   'people.international': { en: 'International interns (TEEP / IIPP)', zh: '國際實習生（TEEP／IIPP）' },
+  'alumni.title': { en: 'Alumni', zh: '校友' },
+  'alumni.intro': {
+    en: 'Where our graduates went after the lab. Positions come from the alumni themselves through our form and are shown only with their consent; so are their photos.',
+    zh: '學長姐畢業後去了哪裡。公司與職稱由校友本人透過表單提供，經本人同意才公開；要不要放照片也由本人決定。',
+  },
+  'people.alumniLink.lede': {
+    en: 'Where our graduates work or study now, and everyone who has been in the lab, year by year.',
+    zh: '畢業學長姐現在在哪裡工作或進修，以及歷屆成員，都在「校友」頁。',
+  },
+  'people.alumniLink': { en: 'Go to the Alumni page', zh: '前往校友頁' },
   'people.destinations': { en: 'Where our alumni are now', zh: '校友去向' },
   'people.destinations.lede': {
     en: 'Alumni who have shared where they work or study now, newest first.',

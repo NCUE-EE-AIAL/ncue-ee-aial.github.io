@@ -1,0 +1,111 @@
+---
+/**
+ * Alumni: where graduates are now (only positions they chose to share), then everyone who has left, by year. The
+ * yearbook used to sit on People; People keeps the PI, current members, interns, honors and theses.
+ */
+import Base from '../../layouts/Base.astro';
+import PageHead from '../PageHead.astro';
+import AlumniYears from '../AlumniYears.astro';
+import { t, s, pick, type Locale, type UiKey } from '../../i18n/utils';
+import { langOfText } from '../../lib/theses.mjs';
+import { alumniYears, avatarText, alumniRoleKey } from '../../lib/alumni.mjs';
+import { getPeople, getPublications, getTheses, getInterns } from '../../lib/data';
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const [people, pubs, theses, interns] = await Promise.all([getPeople(), getPublications(), getTheses(), getInterns()]);
+const today = new Date();
+// Text in another language than the page gets its own lang (WCAG 3.1.2), as in ThesisGroups.
+const langFor = (text: string) => { const l = langOfText(text); return l === (lang === 'zh' ? 'zh-Hant-TW' : 'en') ? undefined : l; };
+// Everyone who has left, as a yearbook: alumni files, earlier stages, past interns and thesis authors, by the year
+// they left; past interns from the old lab site (no year) in their own block; anyone else without a year comes last.
+const alumni = alumniYears({ people, interns, theses, today });
+const headcount = (gs: { list: unknown[] }[]) => gs.reduce((n, g) => n + g.list.length, 0);
+const alumniCount = headcount(alumni.years) + alumni.undatedInterns.length + alumni.undated.length;
+const OPEN_ALUMNI_YEARS = 5;
+const openAlumni = alumni.years.slice(0, OPEN_ALUMNI_YEARS);
+// The old-site interns have no year; the block is titled "before" the first year we did record (2026), not the build year.
+const firstInternYear = Math.min(...interns.map((it) => it.data.year).filter((y): y is number => y !== undefined), today.getUTCFullYear());
+const internsBefore = alumni.undatedInterns.length > 0
+  ? [{ label: t('people.alumni.internsBefore', lang).replace('{year}', String(firstInternYear)), block: 'alumni-interns', list: alumni.undatedInterns }]
+  : [];
+const olderAlumni = [
+  ...alumni.years.slice(OPEN_ALUMNI_YEARS),
+  ...(alumni.undated.length > 0 ? [{ label: t('people.alumni.unknown', lang), list: alumni.undated }] : []),
+];
+const olderAlumniCount = headcount(olderAlumni);
+const alumniSummary = t('people.alumni.summary', lang).replace('{from}', String(alumni.from)).replace('{parts}',
+  (['phd', 'master', 'undergrad', 'intern'] as const).filter((k) => alumni.counts[k] > 0)
+    .map((k) => t(`people.alumni.n.${k}` as UiKey, lang).replace('{n}', String(alumni.counts[k]))).join(lang === 'zh' ? '・' : ' · '));
+// Where alumni are now: alumni who gave their position (only with their consent), in the year they left, newest first.
+const yearOf = new Map([...alumni.years.flatMap((g) => g.list), ...alumni.undated].map((e) => [e.key, e.year]));
+const destinations = people.filter((p) => p.data.alumni && p.data.destination)
+  .map((p) => ({ person: p, year: yearOf.get(`person:${p.id}`) as number | undefined }))
+  .sort((a, b) => (b.year ?? -Infinity) - (a.year ?? -Infinity));
+---
+<Base lang={lang} title={t('alumni.title', lang)} path="/alumni/" description={t('alumni.intro', lang)}>
+  <PageHead title={t('alumni.title', lang)} lede={t('alumni.intro', lang)} art="people" />
+  <section class="section container" id="destinations" aria-labelledby="destinations-h">
+    <div class="section-head">
+      <h2 id="destinations-h">{t('people.destinations', lang)} {destinations.length > 0 && <span class="count">{destinations.length}</span>}</h2>
+      <p class="muted">{t('people.destinations.lede', lang)}</p>
+    </div>
+    {destinations.length > 0 && (
+      <ul class="dest-cards">
+        {destinations.map(({ person: p, year }) => {
+          const name = pick(p.data.name, lang);
+          const dest = pick(p.data.destination!, lang);
+          return (
+            <li class="dest-card" id={`dest-${p.id}`}>
+              {p.data.photo
+                ? <img class="avatar" src={p.data.photo} alt="" width={56} height={56} loading="lazy" decoding="async" />
+                : <span class="avatar" aria-hidden="true">{avatarText(p.data.name, lang)}</span>}
+              <div class="dest-body">
+                <p class="dest-who">
+                  <a href={`#${p.id}`} lang={langFor(name)}>{name}</a>
+                  {p.data.nickname && <> <span class="alumni-nick" lang="en">({p.data.nickname})</span></>}
+                </p>
+                <p class="dest-position" lang={langFor(dest)}>{dest}</p>
+                <p class="dest-meta muted">
+                  <span class="alumni-tag">{t(alumniRoleKey(p.data.role) as UiKey, lang)}</span>{year !== undefined && <> · {year}</>}
+                  {p.data.links.linkedin && <> · <a href={p.data.links.linkedin} rel="noopener" lang="en">LinkedIn</a></>}
+                </p>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    )}
+    <p class="alumni-update"><a href={s('memberForm', lang)} rel="noopener">{t('people.destinations.update', lang)}</a></p>
+  </section>
+  {alumniCount > 0 && (
+    <section class="section container" id="alumni" aria-labelledby="alumni-h">
+      <div class="section-head">
+        <h2 id="alumni-h">{t('people.alumni', lang)} <span class="count">{alumniCount}</span></h2>
+        <p class="muted">{t('people.alumni.lede', lang)}</p>
+        {alumni.from && <p class="alumni-summary">{alumniSummary}</p>}
+      </div>
+      <AlumniYears lang={lang} years={[...openAlumni, ...internsBefore]} pubs={pubs} />
+      {olderAlumni.length > 0 && (
+        <details class="thesis-more">
+          <summary>{t('people.alumni.more', lang).replace('{n}', String(olderAlumniCount))}</summary>
+          <AlumniYears lang={lang} years={olderAlumni} pubs={pubs} />
+        </details>
+      )}
+    </section>
+  )}
+  <script is:inline>
+    // A link to a person inside a closed "earlier years" list opens that list first (browsers that do not open
+    // <details> for a #fragment on their own).
+    (function () {
+      function reveal() {
+        var el = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1)));
+        var d = el && el.closest('details:not([open])');
+        if (!d) return;
+        for (; d; d = d.parentElement && d.parentElement.closest('details:not([open])')) d.open = true;
+        el.scrollIntoView();
+      }
+      reveal();
+      window.addEventListener('hashchange', reveal);
+    })();
+  </script>
+</Base>

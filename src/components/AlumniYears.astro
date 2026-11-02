@@ -22,6 +22,8 @@ const pageLang = zh ? 'zh-Hant-TW' : 'en';
 const langFor = (text: string) => { const l = langOfText(text); return l === pageLang ? undefined : l; };
 const pubsHref = localePath('/publications/', lang);
 const testimonialsHref = localePath('/research/international-programs/', lang);
+// The yearbook is on the Alumni page; theses and current members' cards are on People.
+const peopleHref = localePath('/people/', lang);
 const role = (r: string) => t(`people.role.${r}` as UiKey, lang);
 const alumniRole = (r: string) => t(alumniRoleKey(r) as UiKey, lang);
 const nowLabel = t('people.destination', lang) + (zh ? '' : ' ');
@@ -31,7 +33,7 @@ const papersOf = (e: any): Publication[] => e.kind === 'person' ? pubs.filter((p
 const tileOf = (e: any) => {
   if (e.kind === 'thesis') {
     const name = studentName(e.thesis.data.student, lang);
-    return { photo: e.intern?.data.photo, fallback: avatarText(e.thesis.data.student, lang), name, href: `#thesis-${e.thesis.id}` };
+    return { photo: e.intern?.data.photo, fallback: avatarText(e.thesis.data.student, lang), name, href: `${peopleHref}#thesis-${e.thesis.id}` };
   }
   if (e.kind === 'intern') return { photo: e.intern.data.photo, fallback: avatarText({ en: e.intern.data.name }, lang), name: e.intern.data.name };
   const d = e.person.data;
@@ -55,7 +57,7 @@ const tileOf = (e: any) => {
               ? <>{e.intern.data.program}{e.intern.data.quote && <> · <a href={`${testimonialsHref}#testimonial-${e.intern.id}`}>{t('people.interns.quote', lang)}</a></>}</>
               : <span class="alumni-tag">{alumniRole(e.role)}</span>}
             {e.kind === 'thesis' && e.intern && <> · {t('people.alumni.wasIntern', lang).replace('{program}', e.intern.data.program)}{e.intern.data.quote && <> · <a href={`${testimonialsHref}#testimonial-${e.intern.id}`}>{t('people.interns.quote', lang)}</a></>}</>}
-            {e.kind === 'earlier' && <> · <span class="destination"><span class="destination-label">{nowLabel}</span><a href={`#${e.person.id}`}>{t('people.alumni.inLab', lang).replace('{role}', role(e.nowRole))}</a></span></>}
+            {e.kind === 'earlier' && <> · <span class="destination"><span class="destination-label">{nowLabel}</span><a href={`${peopleHref}#${e.person.id}`}>{t('people.alumni.inLab', lang).replace('{role}', role(e.nowRole))}</a></span></>}
             {dest && <> · <span class="destination"><span class="destination-label">{nowLabel}</span><span lang={langFor(dest)}>{dest}</span></span></>}
             {papers.length > 0 && <> · <a href={`${pubsHref}#${papers[0].id}`}>{t('people.alumni.papers', lang)}{papers.length > 1 ? ` ×${papers.length}` : ''}</a></>}
           </PersonTile>

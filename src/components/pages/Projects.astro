@@ -4,7 +4,7 @@ import PageHead from '../PageHead.astro';
 import ProjectCard from '../ProjectCard.astro';
 import GrantCard from '../GrantCard.astro';
 import ArtFill from '../ArtFill.astro';
-import { pick, t, type Locale } from '../../i18n/utils';
+import { pick, t, personHref, type Locale } from '../../i18n/utils';
 import { slugOf } from '../../lib/format';
 import { getProjects, getAreas, getPeople, getGrants, inArea } from '../../lib/data';
 import { isOngoing } from '../../lib/rules.mjs';
@@ -18,6 +18,7 @@ const completed = grants.filter((g) => !isOngoing(g.data.end));
 const metas = await Promise.all(projects.map((p) => (p.data.repo ? getRepoMeta(p.data.repo) : Promise.resolve(null))));
 const areaTitles = new Map(areas.map((a) => [slugOf(a.id), a.data.title]));
 const names = new Map(people.map((p) => [p.id, pick(p.data.name, lang)]));
+const hrefs = new Map(people.map((p) => [p.id, personHref(p, lang)]));
 const used = areas.map((a) => slugOf(a.id)).filter((slug) => projects.some(inArea(slug)));
 // Pure-CSS filter: the checked radio hides cards outside that research area.
 const filterCss = used.map((a) => `.projects:has(#pf-${a}:checked) .project:not([data-areas~="${a}"]){display:none}`).join('');
@@ -65,7 +66,7 @@ const filterCss = used.map((a) => `.projects:has(#pf-${a}:checked) .project:not(
       ? <p class="muted">{t('projects.empty', lang)}</p>
       : (
         <div class="grid grid-2">
-          {projects.map((p, i) => <ProjectCard project={p} lang={lang} meta={metas[i]} areaTitles={areaTitles} names={names} i={i % 4} level={3} />)}
+          {projects.map((p, i) => <ProjectCard project={p} lang={lang} meta={metas[i]} areaTitles={areaTitles} names={names} hrefs={hrefs} i={i % 4} level={3} />)}
           <ArtFill name="opamp" count={projects.length} />
         </div>
       )}
