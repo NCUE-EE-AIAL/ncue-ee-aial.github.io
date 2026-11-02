@@ -1,0 +1,6 @@
+---
+import Alumni from '../../components/pages/Alumni.astro';
+import { asLocale } from '../../i18n/utils';
+const lang = asLocale(Astro.currentLocale);
+---
+<Alumni lang={lang} />

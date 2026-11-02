@@ -112,7 +112,7 @@ function createNewcomerForm() {
   // Page 6: alumni (Chinese, English optional). Current job becomes `destination`, only as far as they allow.
   const pbAlumni = form.addPageBreakItem()
     .setTitle('畢業學長姐')
-    .setHelpText('你的資料會放在「成員」頁的歷屆成員區。公司與職稱公開到什麼程度，由你在這頁最後一題決定。');
+    .setHelpText('你的資料會放在網站的「校友」頁：願意公開的現況列在最上面的「校友去向」，名字列在「歷屆成員」。公司與職稱公開到什麼程度，由你在這頁最後一題決定。');
   text(form, '中文姓名', SHOWN, true);
   text(form, '英文姓名', `名在前、姓在後，例如 Kuan-Wei Chen。${SHOWN}`, true);
   form.addCheckboxItem().setTitle('在實驗室時的身分（可複選）')

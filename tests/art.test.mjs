@@ -22,7 +22,7 @@ const rel = (f) => f.slice(DIST.length);
 const subdirs = (p) => readdirSync(join(ROOT, p)).filter((d) => statSync(join(ROOT, p, d)).isDirectory());
 const INNER = [
   '/research/', ...subdirs('src/content/research').map((a) => `/research/${a}/`), '/publications/', '/projects/',
-  '/people/', '/news/', ...subdirs('src/content/news').map((n) => `/news/${n}/`), '/join/',
+  '/people/', '/alumni/', '/news/', ...subdirs('src/content/news').map((n) => `/news/${n}/`), '/join/',
 ];
 
 /** The body of the `{ ... }` block whose opening brace is the first one at or after index `at` (handles nesting). */

@@ -10,7 +10,7 @@ import Cta from '../Cta.astro';
 import Icon from '../Icon.astro';
 import ArtFill from '../ArtFill.astro';
 import Photo from '../Photo.astro';
-import { pick, t, localePath, type Locale, type UiKey } from '../../i18n/utils';
+import { pick, t, localePath, personHref, type Locale, type UiKey } from '../../i18n/utils';
 import { slugOf } from '../../lib/format';
 import { getAreas, getProjects, getPublications, getPeople, getInterns, inArea } from '../../lib/data';
 import { getRepoMeta } from '../../lib/github';
@@ -27,6 +27,7 @@ const team = people.filter(inArea(slug));
 const metas = await Promise.all(projects.map((p) => (p.data.repo ? getRepoMeta(p.data.repo) : Promise.resolve(null))));
 const areaTitles = new Map(areas.map((a) => [slugOf(a.id), a.data.title]));
 const names = new Map(people.map((p) => [p.id, pick(p.data.name, lang)]));
+const hrefs = new Map(people.map((p) => [p.id, personHref(p, lang)]));
 const memberNames = people.map((p) => p.data.name.en);
 ---
 <Base lang={lang} title={area.data.title} description={area.data.summary} path={`/research/${slug}/`}>
@@ -75,7 +76,7 @@ const memberNames = people.map((p) => p.data.name.en);
           <ul class="aside-people">
             {team.map((p) => (
               <li>
-                <a href={`${localePath('/people/', lang)}#${p.id}`}>{pick(p.data.name, lang)}</a>
+                <a href={personHref(p, lang)}>{pick(p.data.name, lang)}</a>
                 <span class="muted">{p.data.alumni ? t('people.alumni', lang) : t(`people.role.${p.data.role}` as UiKey, lang)}</span>
               </li>
             ))}
@@ -88,7 +89,7 @@ const memberNames = people.map((p) => p.data.name.en);
     <section class="section container" aria-labelledby="projects-h">
       <div class="section-head"><h2 id="projects-h">{t('research.projects', lang)}</h2></div>
       <div class="grid grid-2">
-        {projects.map((p, i) => <ProjectCard project={p} lang={lang} meta={metas[i]} areaTitles={areaTitles} names={names} i={i % 4} />)}
+        {projects.map((p, i) => <ProjectCard project={p} lang={lang} meta={metas[i]} areaTitles={areaTitles} names={names} hrefs={hrefs} i={i % 4} />)}
         <ArtFill name="opamp" count={projects.length} />
       </div>
     </section>

@@ -18,7 +18,7 @@ const AREAS = subdirs('src/content/research');
 const NEWS = subdirs('src/content/news');
 const ROUTES = [
   '/', '/research/', ...AREAS.map((a) => `/research/${a}/`), '/publications/', '/projects/',
-  '/people/', '/news/', ...NEWS.map((n) => `/news/${n}/`), '/join/',
+  '/people/', '/alumni/', '/news/', ...NEWS.map((n) => `/news/${n}/`), '/join/',
 ];
 const zh = (p) => `/zh${p}`;
 const file = (route) => join(DIST, route, 'index.html');
@@ -168,7 +168,7 @@ test('unverified publications carry a visible "to verify" mark', () => {
 });
 
 test('Kuan-Wei Chen: a row under where alumni are now, and a yearbook tile with his position and his two papers', () => {
-  const page = html('/people/');
+  const page = html('/alumni/');
   const row = element(only(page, 'destinations'), 'dest-kuan-wei-chen');
   assert.match(row, /Kuan-Wei Chen/);
   assert.match(row, /National Central University/);
@@ -178,12 +178,16 @@ test('Kuan-Wei Chen: a row under where alumni are now, and a yearbook tile with 
   assert.match(tile, /href="\/publications\/#[^"]+"[^>]*>papers ×2</);
 });
 
-test('People: current TEEP/IIPP interns sit up top, alumni below by year, newest first', () => {
-  for (const r of ['/people/', zh('/people/')]) {
+test('People: current TEEP/IIPP interns sit up top; Alumni: where they are now first, then by year, newest first', () => {
+  for (const [p, r] of [['/people/', '/alumni/'], [zh('/people/'), zh('/alumni/')]]) {
+    const people = html(p);
+    const order = ['current', 'international'].map((id) => people.indexOf(`id="${id}"`));
+    assert.ok(order.every((i, k) => i > 0 && (k === 0 || i > order[k - 1])), `${p}: sections out of order ${order}`);
+    for (const id of ['destinations', 'alumni']) assert.ok(!people.includes(` id="${id}"`), `${p}: #${id} belongs on ${r}`);
+    const intl = only(people, 'international');
     const page = html(r);
-    const order = ['current', 'international', 'destinations', 'alumni'].map((id) => page.indexOf(`id="${id}"`));
-    assert.ok(order.every((i, k) => i > 0 && (k === 0 || i > order[k - 1])), `${r}: sections out of order ${order}`);
-    const intl = only(page, 'international');
+    const [d, a] = ['destinations', 'alumni'].map((id) => page.indexOf(` id="${id}"`));
+    assert.ok(d > 0 && a > d, `${r}: where alumni are now must come before the yearbook`);
     const alumni = only(page, 'alumni');
     for (const id of ['sneha', 'vindhya', 'sreevidya', 'muskan']) {
       assert.match(intl, new RegExp(`<li class="tile" id="intern-${id}"`), `${r}: ${id} is not a tile with the current interns`);
@@ -220,21 +224,22 @@ test('People: current TEEP/IIPP interns sit up top, alumni below by year, newest
 
 test('People: Erik is Kuan-Chun Chu, Johnson is 劉子緒, Suraj and Bill are listed once; Brian is a 2025 project-student alumnus', () => {
   const page = html(zh('/people/'));
-  const alumni = only(page, 'alumni');
-  assert.doesNotMatch(page, /國際學生<\/span>/, 'nobody is labelled international student any more');
+  const apage = html(zh('/alumni/'));
+  const alumni = only(apage, 'alumni');
+  for (const pg of [page, apage]) assert.doesNotMatch(pg, /國際學生<\/span>/, 'nobody is labelled international student any more');
   assert.match(only(page, 'current'), /朱冠軍[\s\S]*?\(Erik\)/);
   for (const name of ['劉子緒', '邱明東', 'Suraj Muccu']) {
     assert.equal(alumni.split(name).length - 1, 1, `${name} should appear once among the alumni`);
   }
-  assert.doesNotMatch(page, /劉子旭/);
+  for (const pg of [page, apage]) assert.doesNotMatch(pg, /劉子旭/);
   const y2025 = alumni.slice(alumni.indexOf('>2025<'), alumni.indexOf('alumni-year-title', alumni.indexOf('>2025<')));
-  assert.match(y2025, /data-key="earlier:brian-lin:0"[\s\S]*?林庭毅[\s\S]*?大學部專題生[\s\S]*?href="#brian-lin"[\s\S]*?本實驗室碩士生/);
+  assert.match(y2025, /data-key="earlier:brian-lin:0"[\s\S]*?林庭毅[\s\S]*?大學部專題生[\s\S]*?href="\/zh\/people\/#brian-lin"[\s\S]*?本實驗室碩士生/);
   assert.match(y2025, /id="brian-lin-undergrad"/);
-  assert.doesNotMatch(only(page, 'destinations'), /brian-lin/, 'an earlier stage is not a destination');
+  assert.doesNotMatch(only(apage, 'destinations'), /brian-lin/, 'an earlier stage is not a destination');
 });
 
 test('People: Monica, a TEEP intern who stayed for her master’s, is one tile in 2026 with her photo and testimonial', () => {
-  for (const [r, tag] of [['/people/', 'Master’s graduate'], [zh('/people/'), '碩士畢業生']]) {
+  for (const [r, tag] of [['/alumni/', 'Master’s graduate'], [zh('/alumni/'), '碩士畢業生']]) {
     const alumni = only(html(r), 'alumni');
     assert.equal(alumni.split('data-key="thesis:114-yt5d6s"').length - 1, 1, `${r}: Monica's thesis tile`);
     assert.doesNotMatch(alumni, /data-key="intern:monica"/, `${r}: Monica is also listed as an intern`);
@@ -248,7 +253,7 @@ test('People: Monica, a TEEP intern who stayed for her master’s, is one tile i
 });
 
 test('People: alumni read as graduates (碩士畢業生), current members as students (碩士生)', () => {
-  for (const [r, grad, student] of [['/people/', 'Master’s graduate', 'Master’s student'], [zh('/people/'), '碩士畢業生', '碩士生']]) {
+  for (const [r, grad, student] of [['/alumni/', 'Master’s graduate', 'Master’s student'], [zh('/alumni/'), '碩士畢業生', '碩士生']]) {
     const page = html(r);
     const alumni = only(page, 'alumni');
     assert.ok(alumni.split(`class="alumni-tag">${grad}<`).length > 50, `${r}: few ${grad} tags`);
@@ -257,19 +262,18 @@ test('People: alumni read as graduates (碩士畢業生), current members as stu
   }
 });
 
-test('People: every yearbook tile has an avatar (photo, else surname or initials), thesis authors link to their thesis', () => {
-  for (const r of ['/people/', zh('/people/')]) {
-    const page = html(r);
-    const alumni = only(page, 'alumni');
+test('Alumni: every yearbook tile has an avatar (photo, else surname or initials), thesis authors link to their thesis on People', () => {
+  for (const [r, p] of [['/alumni/', '/people/'], [zh('/alumni/'), zh('/people/')]]) {
+    const alumni = only(html(r), 'alumni');
     const tiles = alumni.split('<li class="tile"').slice(1);
     assert.ok(tiles.length > 90, `${r}: only ${tiles.length} tiles`);
     for (const tile of tiles) assert.match(tile, /^[^>]*>\s*<(img|span) class="avatar"/, `${r}: tile without avatar: ${tile.slice(0, 80)}`);
-    const links = [...alumni.matchAll(/href="#(thesis-[^"]+)"/g)].map((m) => m[1]);
-    assert.ok(links.length > 50, `${r}: only ${links.length} thesis links`);
-    for (const id of links) assert.match(section(page, 'theses'), new RegExp(`<li id="${escape(id)}"`), `${r}: #${id} has no thesis entry`);
+    const links = [...alumni.matchAll(new RegExp(`href="${escape(p)}#(thesis-[^"]+)"`, 'g'))].map((m) => m[1]);
+    assert.ok(links.length > 50, `${r}: only ${links.length} thesis links into ${p}`);
+    for (const id of links) assert.match(section(html(p), 'theses'), new RegExp(`<li id="${escape(id)}"`), `${r}: ${p}#${id} has no thesis entry`);
   }
-  const zhAlumni = only(html(zh('/people/')), 'alumni');
-  const fallbacks = [...zhAlumni.matchAll(/<span class="avatar" aria-hidden="true">([^<]*)<\/span>\s*<div class="tile-body">\s*<p class="tile-name">\s*<a href="#thesis-[^"]+"[^>]*>([^<]+)</g)];
+  const zhAlumni = only(html(zh('/alumni/')), 'alumni');
+  const fallbacks = [...zhAlumni.matchAll(/<span class="avatar" aria-hidden="true">([^<]*)<\/span>\s*<div class="tile-body">\s*<p class="tile-name">\s*<a href="\/zh\/people\/#thesis-[^"]+"[^>]*>([^<]+)</g)];
   assert.ok(fallbacks.length >= 70, `zh: only ${fallbacks.length} fallback avatars`);
   for (const [, text, name] of fallbacks) {
     assert.equal(text, /\p{Script=Han}/u.test(name) ? [...name][0] : text.toUpperCase(), `zh: avatar "${text}" for ${name}`);
@@ -278,24 +282,74 @@ test('People: every yearbook tile has an avatar (photo, else surname or initials
   assert.match(zhAlumni, /class="alumni-summary"[^>]*>[^<]*國際實習生 \d+ 位/);
 });
 
-test('every link into People, and every #link on People, has a target there', () => {
+test('every link into People or Alumni, and every #link on them, has a target there', () => {
   const ids = (r) => new Set([...html(r).matchAll(/ id="([^"]+)"/g)].map((m) => m[1]));
-  const targets = { en: ids('/people/'), zh: ids(zh('/people/')) };
-  let n = 0;
+  const pages = ['/people/', '/alumni/'].flatMap((p) => [p, zh(p)]);
+  const targets = Object.fromEntries(pages.map((r) => [r, ids(r)]));
+  const n = { '/people/': 0, '/alumni/': 0 };
   for (const f of allHtml()) {
     const page = readFileSync(f, 'utf8');
-    const self = f === file('/people/') ? 'en' : f === file(zh('/people/')) ? 'zh' : undefined;
-    for (const m of page.matchAll(/href="(\/zh)?\/people\/#([^"]+)"/g)) {
-      n += 1;
-      assert.ok(targets[m[1] ? 'zh' : 'en'].has(m[2]), `${f}: ${m[0]} has no target`);
+    for (const m of page.matchAll(/href="((?:\/zh)?(\/(?:people|alumni)\/))#([^"]+)"/g)) {
+      n[m[2]] += 1;
+      assert.ok(targets[m[1]].has(m[3]), `${f}: ${m[0]} has no target`);
     }
+    const self = pages.find((r) => f === file(r));
     if (self) for (const m of page.matchAll(/href="#([^"]+)"/g)) assert.ok(targets[self].has(m[1]), `${f}: ${m[0]} has no target`);
   }
-  assert.ok(n > 0, 'no links into People found');
+  assert.ok(n['/people/'] > 0 && n['/alumni/'] > 0, `links found: ${JSON.stringify(n)}`);
 });
 
-test('People: the alumni section links the member form so alumni can tell us where they are', () => {
-  for (const r of ['/people/', zh('/people/')]) {
+test('links to a person lead alumni to the Alumni page and everyone else to People', () => {
+  const alumniIds = new Set(readdirSync(join(ROOT, 'src/content/people'))
+    .filter((f) => /^alumni: true/m.test(readFileSync(join(ROOT, 'src/content/people', f), 'utf8'))).map((f) => f.replace(/\.ya?ml$/, '')));
+  const personIds = new Set(readdirSync(join(ROOT, 'src/content/people')).map((f) => f.replace(/\.ya?ml$/, '')));
+  for (const f of allHtml()) {
+    const page = readFileSync(f, 'utf8');
+    for (const m of page.matchAll(/href="(?:\/zh)?\/(people|alumni)\/#([^"]+)"/g)) {
+      if (!personIds.has(m[2])) continue;
+      assert.equal(m[1], alumniIds.has(m[2]) ? 'alumni' : 'people', `${f}: ${m[0]}`);
+    }
+  }
+  for (const r of ['/projects/', zh('/projects/'), '/research/biometrics-security/']) {
+    assert.match(html(r), new RegExp(`href="${r.startsWith('/zh') ? '/zh' : ''}/alumni/#kuan-wei-chen"`), `${r}: Kuan-Wei Chen not linked to Alumni`);
+  }
+});
+
+test('the main menu has Alumni right after People, marked current on the Alumni page', () => {
+  for (const [r, pre, label] of [['/', '', 'Alumni'], [zh('/'), '/zh', '校友']]) {
+    const nav = html(r).match(/<ul class="nav-links"[\s\S]*?<\/ul>/)[0];
+    const hrefs = [...nav.matchAll(/href="([^"]+)"/g)].map((m) => m[1]);
+    assert.equal(hrefs[hrefs.indexOf(`${pre}/people/`) + 1], `${pre}/alumni/`, `${r}: menu order ${hrefs}`);
+    assert.match(nav, new RegExp(`href="${pre}/alumni/"[^>]*>${label}</a>`), `${r}: label`);
+  }
+  for (const r of ['/alumni/', zh('/alumni/')]) {
+    assert.match(html(r).match(/<ul class="nav-links"[\s\S]*?<\/ul>/)[0], /href="(?:\/zh)?\/alumni\/" aria-current="page"/, r);
+  }
+});
+
+test('People links the Alumni page and forwards old alumni anchors there', () => {
+  for (const [r, a] of [['/people/', '/alumni/'], [zh('/people/'), '/zh/alumni/']]) {
+    const page = html(r);
+    assert.match(page, new RegExp(`<a href="${escape(a)}"`), `${r}: no link to ${a}`);
+    const script = [...page.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)].map((m) => m[1]).find((s) => s.includes('location.replace'));
+    assert.ok(script, `${r}: no forwarding script`);
+    for (const id of ['destinations', 'alumni', 'kuan-wei-chen', 'johnson']) assert.ok(script.includes(`"${id}"`), `${r}: ${id} not forwarded`);
+    assert.ok(script.includes(a), `${r}: script does not point at ${a}`);
+  }
+});
+
+test('Alumni: Johnson shares his position, his photo and his LinkedIn', () => {
+  for (const [r, place] of [['/alumni/', 'AUO Corporation'], [zh('/alumni/'), '友達光電']]) {
+    const card = element(only(html(r), 'destinations'), 'dest-johnson');
+    assert.match(card, new RegExp(place), r);
+    assert.match(card, /<img class="avatar" src="\/images\/people\/johnson\.webp"/, `${r}: photo`);
+    assert.match(card, /href="https:\/\/www\.linkedin\.com\/in\/[^"]+"/, `${r}: LinkedIn`);
+    assert.match(card, /href="#johnson"/, `${r}: link to his yearbook tile`);
+  }
+});
+
+test('Alumni: the page links the member form so alumni can tell us where they are', () => {
+  for (const r of ['/alumni/', zh('/alumni/')]) {
     assert.match(only(html(r), 'destinations'), /href="https:\/\/docs\.google\.com\/forms\/d\/e\/[\w-]+\/viewform"/, r);
   }
 });
@@ -304,8 +358,7 @@ test('the PI email is on the People and Join pages; students show no email', () 
   for (const r of ['/people/', '/join/', zh('/people/'), zh('/join/')]) {
     assert.match(html(r), /mailto:wry87c@cc\.ncue\.edu\.tw/, r);
   }
-  const people = html('/people/');
-  const mails = [...people.matchAll(/mailto:([^"?]+)/g)].map((m) => m[1]);
+  const mails = ['/people/', '/alumni/'].flatMap((r) => [...html(r).matchAll(/mailto:([^"?]+)/g)].map((m) => m[1]));
   for (const m of mails) assert.ok(['wry87c@cc.ncue.edu.tw', 'ncueaial@gmail.com'].includes(m), `unexpected ${m}`);
 });
 
@@ -408,10 +461,11 @@ test('a post written in one language appears on both sites, tagged with its lang
 
 test('alumni cards show where the person went; other cards never do', () => {
   const people = html('/people/');
+  const alumni = html('/alumni/');
   for (const f of readdirSync(join(ROOT, 'src/content/people'))) {
     const y = readFileSync(join(ROOT, 'src/content/people', f), 'utf8');
     const id = f.replace(/\.ya?ml$/, '');
-    const body = element(people, id);
+    const body = element(people.includes(` id="${id}"`) ? people : alumni, id);
     if (/^destination:/m.test(y)) {
       assert.match(y, /^alumni: true/m, `${f}: destination without alumni: true`);
       assert.match(body, /class="destination"/, `${id}: destination not shown`);

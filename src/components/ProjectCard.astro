@@ -14,10 +14,12 @@ interface Props {
   areaTitles: Map<string, string>;
   /** person id → display name in this language */
   names: Map<string, string>;
+  /** Where each member's card is (personHref): alumni on the Alumni page, everyone else on People. */
+  hrefs?: Map<string, string>;
   i?: number;
   level?: 2 | 3;
 }
-const { project, lang, meta, areaTitles, names, i = 0, level = 3 } = Astro.props;
+const { project, lang, meta, areaTitles, names, hrefs, i = 0, level = 3 } = Astro.props;
 const H = level === 2 ? 'h2' : 'h3';
 const d = project.data;
 const title = pick(d.title, lang);
@@ -41,7 +43,7 @@ const github = d.repo ? (meta === null ? 'unavailable' : 'missing' in meta ? 'mi
   {d.members.length > 0 && (
     <p class="project-people">
       <span class="muted">{t('projects.members', lang)}</span>
-      {d.members.map((m, k) => <>{k > 0 && ', '}<a href={`${localePath('/people/', lang)}#${m.id}`}>{names.get(m.id) ?? m.id}</a></>)}
+      {d.members.map((m, k) => <>{k > 0 && ', '}<a href={hrefs?.get(m.id) ?? `${localePath('/people/', lang)}#${m.id}`}>{names.get(m.id) ?? m.id}</a></>)}
     </p>
   )}
   <div class="project-meta">

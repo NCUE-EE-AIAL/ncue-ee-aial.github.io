@@ -35,6 +35,11 @@ export function localePath(path: string, lang: Locale): string {
   return lang === DEFAULT_LOCALE ? clean : `/${lang}${clean === '/' ? '/' : clean}`;
 }
 
+/** Where a person's card or tile is: alumni on the Alumni page, everyone else on People. */
+export function personHref(person: { id: string; data: { alumni?: boolean } }, lang: Locale): string {
+  return `${localePath(person.data.alumni ? '/alumni/' : '/people/', lang)}#${person.id}`;
+}
+
 /** Strip a locale prefix from a pathname, returning the locale-less path. */
 export function stripLocale(pathname: string): { lang: Locale; path: string } {
   for (const l of LOCALES) {

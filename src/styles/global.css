@@ -214,8 +214,9 @@ html:not(.js) #theme-toggle { display: none; } /* it needs a script */
   :root:not([data-theme='light']) #theme-toggle .sun { display: block; }
   :root:not([data-theme='light']) #theme-toggle .moon { display: none; }
 }
-/* Seven links plus the tools need about 1080px in English; below that the menu folds into the button. */
-@media (max-width: 1080px) {
+/* Eight links plus the tools need about 1160px in English (1176 with a scrollbar); below that the menu folds
+   into the button. Adding a ninth link means measuring again. */
+@media (max-width: 1180px) {
   .nav-toggle { display: inline-flex; margin-left: auto; }
   .nav-links {
     display: none; position: absolute; left: 0; right: 0; top: 100%; flex-direction: column; align-items: stretch; gap: 0;
@@ -741,19 +742,20 @@ h2 .count { vertical-align: 0.3em; margin-left: 6px; }
 .alumni-nick, .alumni-tag { color: var(--muted); font-size: 0.85rem; }
 .tile-name .alumni-nick { font-weight: 400; }
 /* Where alumni are now: year · name and role · position, one row each. */
-.dest-list { list-style: none; padding: 0; margin: 0; }
-.dest-row { display: grid; grid-template-columns: 4.5rem minmax(0, 15rem) minmax(0, 1fr); gap: 2px 16px; padding: 10px 0; border-top: 1px solid var(--border); font-size: 0.95rem; line-height: 1.5; align-items: baseline; }
-.dest-row:last-child { border-bottom: 1px solid var(--border); }
-.dest-year { color: var(--muted); font-weight: 600; font-variant-numeric: tabular-nums; }
-.dest-who { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 6px; min-width: 0; }
-.dest-who a { font-weight: 600; overflow-wrap: anywhere; }
-.dest-row .destination { min-width: 0; overflow-wrap: anywhere; }
+.dest-cards { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 14px; }
+.dest-card { display: flex; align-items: flex-start; gap: 14px; min-width: 0; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+.dest-card .avatar { width: 56px; height: 56px; font-size: 1.1rem; }
+.dest-body { min-width: 0; }
+.dest-who { margin: 0; font-weight: 600; line-height: 1.35; overflow-wrap: anywhere; }
+.dest-who a { color: var(--text); }
+.dest-who a:hover { color: var(--accent); }
+.dest-position { margin: 4px 0 0; font-size: 1.02rem; line-height: 1.45; overflow-wrap: anywhere; }
+.dest-meta { margin: 6px 0 0; font-size: 0.85rem; line-height: 1.4; }
+.dest-card:target { box-shadow: 0 0 0 3px var(--accent-soft); }
 @media (max-width: 560px) {
   .alumni-year { grid-template-columns: minmax(0, 1fr); }
   .alumni-year > .tile-list { grid-column: 1; }
   .alumni-year-title { padding-top: 0; }
-  .dest-row { grid-template-columns: 4.5rem minmax(0, 1fr); }
-  .dest-row .destination { grid-column: 2; }
 }
 .testimonials { list-style: none; padding: 0; margin-top: 16px; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 16px; align-items: start; }
 .testimonial-head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }

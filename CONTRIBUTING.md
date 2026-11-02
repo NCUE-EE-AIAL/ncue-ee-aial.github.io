@@ -51,7 +51,7 @@
 | `src/content/publications/<年>-<key>.yaml` | 一篇論文 | `/publications/` | `/zh/publications/` |
 | `src/content/projects/<slug>.yaml` | 一個專案（程式 / 系統） | `/projects/`（頁名「計畫與專案」，在研究計畫之下） | `/zh/projects/` |
 | `src/content/grants/<YYYY-MM>-<slug>.yaml` | 一個研究計畫（有經費補助的） | `/projects/`（進行中的卡片，之後是已結束的清單） | `/zh/projects/` |
-| `src/content/people/<id>.yaml` | 一位成員 | `/people/`（指導教授、現任成員、國際實習生、校友去向、歷屆成員紀念冊） | `/zh/people/` |
+| `src/content/people/<id>.yaml` | 一位成員 | `/people/`（指導教授、現任成員、國際實習生）；校友在 `/alumni/`（主選單「校友」：校友去向、歷屆成員紀念冊） | `/zh/people/`、`/zh/alumni/` |
 | `src/content/news/<YYYY-MM-DD>-<slug>/{en,zh}.md` | 一則動態（每種語言一個檔） | `/news/`（列表）與 `/news/<slug>/` | `/zh/news/`、`/zh/news/<slug>/` |
 | `src/content/facilities/<id>.yaml` | 一項（或一類）設備 | `/join/#facilities`（加入我們頁的「設備」區） | `/zh/join/#facilities` |
 | `src/content/theses/<學年度>-<handle>.yaml` | 一篇指導的碩士論文 | `/people/#theses`（成員頁最後一區，依學年度分組） | `/zh/people/#theses` |
@@ -118,9 +118,9 @@
      github: "https://github.com/your-name"
    order: 10                 # 數字小的排前面
    ```
-3. 畢業或離開：加上 `alumni: true`，並把 `years` 改成 `"2022–2024"` 的形式。「歷屆成員」像一本畢業紀念冊：每位校友依 `years` 的結尾年排成一格，有 `photo` 就放照片，沒有就顯示姓氏（中文頁）或英文縮寫（英文頁），旁邊是名字和在實驗室時的身分（碩博士校友寫「碩士畢業生」「博士畢業生」，現任成員才寫「碩士生」）；沒寫 `years`、也對不到論文年份的，放在最後的「年份不詳」。校友若同意公開現況，可加 `destination`（`en` / `zh` 兩種語言，例如「某公司工程師」），他的格子上會顯示「現況：」，他也會列進「校友去向」清單（依離開年份由近到遠，一人一行）；`destination` 只能用在校友（沒有 `alumni: true` 會 build 失敗），而且**一定要本人同意**。
+3. 畢業或離開：加上 `alumni: true`，並把 `years` 改成 `"2022–2024"` 的形式，他就從成員頁移到「校友」頁（`/alumni/`），網站其他地方連到他的連結也會自動指向校友頁。校友頁最上面是「校友去向」，下面是「歷屆成員」。「歷屆成員」像一本畢業紀念冊：每位校友依 `years` 的結尾年排成一格，有 `photo` 就放照片，沒有就顯示姓氏（中文頁）或英文縮寫（英文頁），旁邊是名字和在實驗室時的身分（碩博士校友寫「碩士畢業生」「博士畢業生」，現任成員才寫「碩士生」）；沒寫 `years`、也對不到論文年份的，放在最後的「年份不詳」。校友若同意公開現況，可加 `destination`（`en` / `zh` 兩種語言，例如「某公司工程師」），他的格子上會顯示「現況：」，他也會列進校友頁最上面的「校友去向」（一人一張卡片，依離開年份由近到遠；有 `photo` 放照片，有 `links.linkedin` 放 LinkedIn 連結）；`destination` 只能用在校友（沒有 `alumni: true` 會 build 失敗），而且**一定要本人同意**。
    - 在實驗室換了身分（例如大學部專題生直升碩士）：卡片照現在的身分寫，以前的身分寫在 `earlier`，例如 `earlier: [{ role: undergrad, years: "2023–2025" }]`。以前的身分只出現在歷屆成員的結尾年（這裡是 2025），格子上寫「現況：本實驗室碩士生」並連到他現在的卡片；不會列進「校友去向」。
-   - 碩博士畢業生不必另外建檔：「指導碩士論文」裡的每位作者都會自動列進歷屆成員（畢業年 = 學年 + 1912，例如 113 學年 → 2025），名字連到下方那篇論文。若同一人也有 `people/<id>.yaml`，以中文姓名比對，只列一次，所以兩邊的中文名要一致。
+   - 碩博士畢業生不必另外建檔：「指導碩士論文」裡的每位作者都會自動列進歷屆成員（畢業年 = 學年 + 1912，例如 113 學年 → 2025），名字連到成員頁「指導碩士論文」裡的那篇論文。若同一人也有 `people/<id>.yaml`，以中文姓名比對，只列一次，所以兩邊的中文名要一致。
 4. **學生不要填 `links.email`**（schema 會直接擋下）。聯絡方式一律是實驗室信箱 ncueaial@gmail.com 或指導教授。
 5. 要放照片請先讀[第 3 節的照片說明](#照片)與[內容規則](#5-實驗室內容規則)（需本人同意）。
 
@@ -268,7 +268,7 @@
 
 ### 國際實習生 interns
 
-- `src/content/interns/<slug>.yaml`，一位 TEEP／IIPP 實習生一個檔。還在實驗室的列在成員頁（`/people/`）上方的「國際實習生」區；結束後自動移到「歷屆成員」，排在 `year` 那一年，有照片的放照片；沒寫 `year` 的（舊網站上的實習生）集中在「2026 年以前的國際實習生」區塊（年份是最早有寫 `year` 的實習生那一年，目前是 2026），接在最近幾年之後。「還在」的意思是：有寫 `until`（最後一天，例如 `2026-08-31`）就到那天為止，沒寫就到 `year` 那年年底；網站每週一重建，過了日期會自己移下去，不用改檔。有寫 `quote` 的，心得也會出現在國際交流研究方向頁（`/research/international-programs/`）。
+- `src/content/interns/<slug>.yaml`，一位 TEEP／IIPP 實習生一個檔。還在實驗室的列在成員頁（`/people/`）上方的「國際實習生」區；結束後自動移到校友頁（`/alumni/`）的「歷屆成員」，排在 `year` 那一年，有照片的放照片；沒寫 `year` 的（舊網站上的實習生）集中在「2026 年以前的國際實習生」區塊（年份是最早有寫 `year` 的實習生那一年，目前是 2026），接在最近幾年之後。「還在」的意思是：有寫 `until`（最後一天，例如 `2026-08-31`）就到那天為止，沒寫就到 `year` 那年年底；網站每週一重建，過了日期會自己移下去，不用改檔。有寫 `quote` 的，心得也會出現在國際交流研究方向頁（`/research/international-programs/`）。
 - 欄位：`name`、`program`（`TEEP` 或 `IIPP`）、`year`（選填，實習年份，例如 `2026`；**從 2026 年起請填**）、`quote`（選填，雙語物件，保留本人原文；只有 `en` 時中文站顯示英文原文）、`photo`（選填，用 `npm run photos -- <照片> --out public/images/people --headshot` 做成 `/images/people/<slug>.webp`）、`until`（選填，最後一天，例如 `2026-08-31`）、`thesis`（選填，見下一點）、`video`（選填，見下方「影片」）、`order`（同一年內排序）。
 - 實習後留下來讀學位的（例如 Monica：先來 TEEP，之後在國際工程碩士學位學程讀碩士）：在實習生檔加 `thesis: "<論文檔名>"`（`src/content/theses/` 裡那篇論文的檔名，不含 `.yaml`，例如 `"114-yt5d6s"`）。歷屆成員只列一格，排在論文的畢業年，用實習生檔的照片，格子上寫「原為 TEEP 實習生」並連到心得；她不會再出現在實習生區塊。檔名打錯時 `npm test` 會失敗，部署停在測試這一步。
 
@@ -444,7 +444,7 @@ title:
 | `links.website` | 否 | 完整網址 | | 個人網站 |
 | `links.orcid` | 否 | 必須符合 `https://orcid.org/0000-0000-0000-0000` | `"https://orcid.org/0000-0002-1825-0097"` | 四組各 4 碼，最後一碼可為 `X`；不是只寫數字 |
 | `links.email` | 否 | email | `"wry87c@cc.ncue.edu.tw"` | **僅限 `role: pi` 或 `staff`**，學生填了會 build 失敗 |
-| `destination` | 否 | bi | `en: "Engineer, ..."` `zh: "...工程師"` | **僅限校友**（要有 `alumni: true`）；一定要本人同意；在歷屆成員的格子上顯示為「現況：」，並列進「校友去向」 |
+| `destination` | 否 | bi | `en: "Engineer, ..."` `zh: "...工程師"` | **僅限校友**（要有 `alumni: true`）；一定要本人同意；在歷屆成員的格子上顯示為「現況：」，並列進校友頁的「校友去向」 |
 | `order` | 否（`100`） | 整數 | `10` | 小的排前面（PI 是 1） |
 
 ### 專案 projects
