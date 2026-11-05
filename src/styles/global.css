@@ -225,6 +225,10 @@ html:not(.js) #theme-toggle { display: none; } /* it needs a script */
   .nav-links a { padding: 12px 8px; font-size: 1.05rem; }
   .nav.open .nav-links { display: flex; }
   .nav-menu { margin-left: 0; }
+  /* With the list folded away the menu box is 0px wide but still takes two 16px flex gaps (.nav-inner).
+     Taking back 28px leaves the menu button 4px from the tools (their own spacing) and gives the brand the
+     room to wrap at spaces, so "Application" no longer splits mid-word at 360px. */
+  html.js .nav-menu { margin-inline: -14px; }
   .nav-tools { margin-left: 0; }
   /* Without JavaScript the menu button cannot open the list, so the links sit in a second row. */
   html:not(.js) .nav-toggle { display: none; }
